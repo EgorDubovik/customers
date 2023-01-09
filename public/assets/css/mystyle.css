@@ -1,0 +1,40 @@
+.address-card{
+    color: var(--primary-bg-color);
+    font-weight: bold;
+}
+.created-card{
+    text-align: right;
+    color: #9d9d9d;
+    font-size: 16px;
+}
+.category-navigation{
+    margin-bottom: 20px;
+}
+.subtitle-creat-category{
+    text-align: center;
+    padding-bottom: 20px;
+
+}
+.category-create .control-label{
+    font-size: 13px;
+}
+.category-create-address{
+    border-top: 1px solid #e7e7e7;margin-bottom: 10px;font-weight: bold
+}
+.sign-btn{
+    margin-right: 10px;
+    border: 1px solid #7c7c7c;
+    background: #ccc;
+    padding: 7px 20px;
+    font-size: 12px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px #ccc;
+}
+.category-status-card{
+    margin-right: 30px;
+    margin-top:5px;
+    z-index: 1;
+    font-size: 20px;
+    color: #6c5ffc
+}
