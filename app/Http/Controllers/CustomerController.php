@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Addresses;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -15,7 +16,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view('customer.index');
+
+        $customers = Customer::where('company_id',Auth::user()->company_id)->get();
+
+        return view('customer.index', ['customers'=>$customers]);
     }
 
     /**
@@ -50,6 +54,7 @@ class CustomerController extends Controller
             'name' => $request->customer_name,
             'phone' => $request->customer_phone,
             'address_id' => $address->id,
+            'company_id' => Auth::user()->company_id,
         ]);
 
         return redirect()->route('customer.list')->with('success','Added successful');

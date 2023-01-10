@@ -18,7 +18,7 @@ class Addresses extends Model
     ];
 
     public function full(){
-        return $this->street.", ".$this->city." ".$this->state.", ".$this->zip;
+        return $this->line1." ".$this->line2.", ".$this->city." ".$this->state.", ".$this->zip;
     }
 
 }

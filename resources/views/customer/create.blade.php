@@ -11,7 +11,7 @@
         <!-- CONTENT -->
         <div class="row">
             <div class="col-12">
-                <div class="card col-6 m-auto">
+                <div class="card col-md-6 m-auto">
                     <form method="post" action="{{route('customer.store')}}">
                         @csrf
                         <div class="card-header">
