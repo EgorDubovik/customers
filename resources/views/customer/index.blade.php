@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="row" style="padding-top: 5px;">
                                         <div class="col-8">
-                                            <small class="text-muted"> Last update: {{$customer->updated_at}}</small>
+                                            <small class="text-muted"> Last update: {{$customer->updated_at->diffForHumans()}}</small>
                                         </div>
                                         <div class="col-4 text-end">
                                             <small class="text-muted"> 2 notes </small>
