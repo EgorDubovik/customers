@@ -19,9 +19,9 @@
                 </svg></div>
             <ul class="side-menu">
                 <li class="slide">
-                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="/"><i
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('customer.list')}}"><i
                             class="side-menu__icon fe fe-home"></i><span
-                            class="side-menu__label">Dashboard</span></a>
+                            class="side-menu__label">Customers</span></a>
                 </li>
                 @can('view-users-list')
                 <li class="slide">
@@ -30,11 +30,7 @@
                             class="side-menu__label">Employees</span></a>
                 </li>
                 @endcan
-                <li class="slide">
-                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('categories')}}"><i
-                            class="side-menu__icon fe fe-list"></i><span
-                            class="side-menu__label">Inventory list</span></a>
-                </li>
+
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                                                            width="24" height="24" viewBox="0 0 24 24">

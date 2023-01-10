@@ -17,7 +17,7 @@ class LoginController extends Controller
     public function login(LoginRequest $request){
 
         if (Auth::attempt(['email'=>$request->email,'password'=>$request->password,'active' => 1], $request->remember)){
-            return redirect('/');
+            return redirect()->route('customer.list');
         } else {
             return back()->withErrors("User wasn`t found");
         }

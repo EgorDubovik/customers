@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryCategoryController;
+use \App\Http\Controllers\CustomerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +30,7 @@ Route::prefix("auth")->group(function(){
 
 Route::group(['middleware' => ['auth','active']],function (){
    Route::get('/',function(){
+       //return "success";
        return view('dashboard');
    });
 
@@ -46,4 +48,11 @@ Route::group(['middleware' => ['auth','active']],function (){
        Route::post('/update/{user}', [UserController::class, 'update']);
        Route::delete('/deactivate/{user}', [UserController::class,'destroy']);
    });
+
+   Route::prefix('customer')->group(function(){
+        Route::get('/' , [CustomerController::class, 'index'])->name('customer.list');
+        Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
+        Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
+   });
+
 });

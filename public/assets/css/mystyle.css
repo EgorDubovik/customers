@@ -2,25 +2,7 @@
     color: var(--primary-bg-color);
     font-weight: bold;
 }
-.created-card{
-    text-align: right;
-    color: #9d9d9d;
-    font-size: 16px;
-}
-.category-navigation{
-    margin-bottom: 20px;
-}
-.subtitle-creat-category{
-    text-align: center;
-    padding-bottom: 20px;
 
-}
-.category-create .control-label{
-    font-size: 13px;
-}
-.category-create-address{
-    border-top: 1px solid #e7e7e7;margin-bottom: 10px;font-weight: bold
-}
 .sign-btn{
     margin-right: 10px;
     border: 1px solid #7c7c7c;
@@ -31,10 +13,36 @@
     border-radius: 3px;
     box-shadow: 1px 1px 5px #ccc;
 }
-.category-status-card{
-    margin-right: 30px;
-    margin-top:5px;
-    z-index: 1;
-    font-size: 20px;
-    color: #6c5ffc
+.add_new_cont{
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    top: 100px;
+    right: 100px;
+}
+.add_new_customer{
+    display: block;
+    background: #28a745 !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 44px;
+    font-size: 50px;
+    color: #fff;
+    box-shadow: 1px 1px 5px #000;
+}
+.add_new_customer:hover{
+    color: #fff;
+    box-shadow: none;
+}
+.category-create-address{
+    border-top: 1px solid #e7e7e7;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.parse_btn{
+    text-decoration: underline;
+    margin-left: 10px;
+    font-size: 13px;
 }

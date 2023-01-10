@@ -30,8 +30,6 @@ class RegisterRequest extends FormRequest
             'email' => 'required|email:rfc,dns|unique:users,email',
             'password' => 'required',
             'password2' => 'required|same:password',
-            'mc' => 'required',
-            'dot' => 'required',
 
         ];
     }
@@ -43,9 +41,6 @@ class RegisterRequest extends FormRequest
             'user_name.required' => 'The User name field is required.',
             'password.required' => 'The Password field is required.',
             'password2.required' => 'The Re-enter password field is required.',
-            'mc.required' => 'The MC is required.',
-            'dot.required' => 'The DOT is required.'
-
         ];
     }
 }

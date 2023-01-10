@@ -84,25 +84,6 @@
                             <input class="input100 border-start-0 ms-0 form-control" type="email" name="email" placeholder="Email" value="{{old('email')}}">
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6 mb-0">
-                                <div class="wrap-input100 validate-input input-group">
-                                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                        <i class="fa fa-wpforms" ></i>
-                                    </a>
-                                    <input class="input100 border-start-0 ms-0 form-control" type="text" name="dot" placeholder="DOT" value="{{old('dot')}}">
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6 mb-0">
-                                <div class="wrap-input100 validate-input input-group">
-                                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                        <i class="fa fa-wpforms" ></i>
-                                    </a>
-                                    <input class="input100 border-start-0 ms-0 form-control" type="text" name="mc" placeholder="MC" value="{{old('mc')}}">
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="wrap-input100 validate-input input-group" id="Password-toggle">
                             <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                 <i class="zmdi zmdi-eye" aria-hidden="true"></i>

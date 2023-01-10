@@ -21,8 +21,6 @@ class RegisterController extends Controller
         // Create company
         $company = Company::create([
             'name' => $request->company_name,
-            'mc' => $request->mc,
-            'dot' => $request->dot,
         ]);
 
         // Create first user for company
