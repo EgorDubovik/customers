@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Addresses;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,23 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+        $address = Addresses::create([
+            'line1' => $request->line1,
+            'line2' => $request->line2,
+            'city' => $request->city,
+            'state' => $request->state,
+            'zip' => $request->zip,
+        ]);
+
+        $customer = Customer::create([
+            'name' => $request->customer_name,
+            'phone' => $request->customer_phone,
+            'address_id' => $address->id,
+        ]);
+
+        return redirect()->route('customer.list')->with('success','Added successful');
     }
 
     /**
