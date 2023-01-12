@@ -53,6 +53,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('/' , [CustomerController::class, 'index'])->name('customer.list');
         Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
         Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
+        Route::get('/show/{customer}', [CustomerController::class, 'show'])->name('customer.show');
    });
 
 });

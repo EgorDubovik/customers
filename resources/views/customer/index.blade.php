@@ -20,7 +20,7 @@
                                     <div class="media m-0 mt-0">
                                         <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../assets/images/users/18.jpg">
                                         <div class="media-body">
-                                            <a href="javascript:void(0)" class="text-default fw-semibold">{{$customer->name}}</a>
+                                            <a href="{{route('customer.show',['customer'=>$customer->id])}}" class="text-default fw-semibold">{{$customer->name}}</a>
                                             <p class="text-muted ">
                                                 {{$customer->phone}}
                                                 <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
