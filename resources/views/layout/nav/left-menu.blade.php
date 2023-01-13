@@ -30,6 +30,12 @@
                             class="side-menu__label">Employees</span></a>
                 </li>
                 @endcan
+                <li class="slide">
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="/settings"><i
+                            class="side-menu__icon fe fe-settings"></i><span
+                            class="side-menu__label">Settings</span></a>
+                </li>
+
 
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"

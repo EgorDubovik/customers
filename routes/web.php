@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use \App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\SettingsConstroller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,7 +60,8 @@ Route::group(['middleware' => ['auth','active']],function (){
 
    Route::prefix('tag')->group(function (){
        Route::post('store', [TagController::class,'store'])->name('tag.store');
-       Route::post('assing/{customer}', [TagController::class,'assing_tag'])->name('tag.assign');
+       Route::post('assign/{customer}', [TagController::class,'assign_tag'])->name('tag.assign');
    });
 
+   Route::get('settings',[SettingsConstroller::class, 'show']);
 });

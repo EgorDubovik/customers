@@ -209,10 +209,6 @@
                                     <a class="dropdown-item" href="/profile">
                                         <i class="dropdown-icon fe fe-user"></i> Profile
                                     </a>
-                                    <a class="dropdown-item" href="email-inbox.html">
-                                        <i class="dropdown-icon fe fe-mail"></i> Inbox
-                                        <span class="badge bg-danger rounded-pill float-end">5</span>
-                                    </a>
                                     <a class="dropdown-item" href="/auth/logout">
                                         <i class="dropdown-icon fe fe-alert-circle"></i> Sign out
                                     </a>

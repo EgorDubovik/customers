@@ -52,14 +52,15 @@
                         </div>
                         <div class="row">
                             <form method="post" action="{{route('tag.assign',['customer' => $customer])}}">
+                                @csrf
                                 <div class="input-group">
-                                    <select class="form-control form-select">
+                                    <select class="form-control form-select" name="tag_id">
                                         @foreach(\Illuminate\Support\Facades\Auth::user()->company_tags as $tag)
-                                            <option>{{$tag->title}}</option>
+                                            <option value="{{$tag->id}}">{{$tag->title}}</option>
                                         @endforeach
                                     </select>
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-primary" type="button" id="button-addon2">Assign</button>
+                                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Assign</button>
                                     </div>
                                 </div>
 

@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\InventoryCategory;
+use App\Models\Customer;
+use App\Models\Tag;
 use App\Models\Role;
 use App\Models\User;
-use App\Policies\InventoryCategoryPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -44,28 +44,15 @@ class AuthServiceProvider extends ServiceProvider
             return in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()); // Only admin can view users list
         });
 
-        // category
-        Gate::define('view-category', function (User $user, InventoryCategory $category){
-            return in_array(Role::ADMIN,$user->roles->pluck('role')->toArray()) || $user->id == $category->user_id || $category->accesses->contains('user_id',$user->id) ;
-        });
-
-        // list
-        Gate::define('create-inventory', function (User $user, InventoryCategory $category){
-            $roles = Auth::user()->roles->pluck('role')->toArray();
-            if ((in_array(Role::ADMIN, $roles) && $category->company_id == $user->company_id) || (in_array(Role::FORMAN, $roles) && $user->id == $category->user_id))
+        // Tag
+        Gate::define('assign-tag',function (User $user,$customer_id, $tag_id){
+            $customer = Customer::where('id',$customer_id)
+                ->where('company_id',$user->company_id)->first();
+            $tag = Tag::where('id',$tag_id)
+                ->where('company_id',$user->company_id)->first();
+            if ($customer && $tag)
                 return true;
             return false;
-        });
-        Gate::define('update-inventory', function (User $user, InventoryCategory $category){
-            $roles = Auth::user()->roles->pluck('role')->toArray();
-            if ((in_array(Role::ADMIN, $roles) && $category->company_id == $user->company_id) || (in_array(Role::FORMAN, $roles) && $user->id == $category->user_id))
-                return true;
-            return false;
-        });
-
-        // Acceess to category
-        Gate::define('access-create-update',function (User $user, InventoryCategory $category){
-            return (in_array(Role::ADMIN,$user->roles->pluck('role')->toArray()) && $user->company_id == $category->company_id );
         });
 
     }
