@@ -51,11 +51,19 @@
                             @endforeach
                         </div>
                         <div class="row">
-                            <select class="form-control form-select">
-                                @foreach(\Illuminate\Support\Facades\Auth::user()->company_tags as $tags)
-                                    <option>{{$tag->title}}</option>
-                                @endforeach
-                            </select>
+                            <form method="post" action="{{route('tag.assign',['customer' => $customer])}}">
+                                <div class="input-group">
+                                    <select class="form-control form-select">
+                                        @foreach(\Illuminate\Support\Facades\Auth::user()->company_tags as $tag)
+                                            <option>{{$tag->title}}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-primary" type="button" id="button-addon2">Assign</button>
+                                    </div>
+                                </div>
+
+                            </form>
                         </div>
                     </div>
                 </div>

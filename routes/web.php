@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth','active']],function (){
 
    Route::prefix('tag')->group(function (){
        Route::post('store', [TagController::class,'store'])->name('tag.store');
+       Route::post('assing/{customer}', [TagController::class,'assing_tag'])->name('tag.assign');
    });
 
 });

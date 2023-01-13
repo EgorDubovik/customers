@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\CustomerTags;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -23,6 +24,15 @@ class TagController extends Controller
                 'tag_id' => $tag->id,
             ]);
         }
+
+        return redirect()->back();
+    }
+
+    public function assing_tag(Customer $customer, Request $request){
+        CustomerTags::updateOrCreate([
+            'customer_id' => $customer->id,
+            'tag_id' => $request->tag_id,
+        ]);
 
         return redirect()->back();
     }
