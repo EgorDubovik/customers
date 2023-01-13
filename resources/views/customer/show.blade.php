@@ -29,7 +29,7 @@
                             <a href="#"> <i class="fe fe-phone-call pull-right" style="margin-right: 10px;"></i></a>
                         </p>
                         <p>
-                            <span class="fs-14 text-muted">{{$customer->email}}</span>
+                            <span class="fs-14 text-black">{{$customer->email}}</span>
                             <i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i>
                         </p>
                     </div>

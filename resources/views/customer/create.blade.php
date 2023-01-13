@@ -32,6 +32,12 @@
                                         <input type="text" class="form-control customer_phone" placeholder="Phone number" name="customer_phone" value="">
                                     </div>
                                 </div>
+                                <div class="row mb-4">
+                                    <label class="col-md-2 control-label">Email</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control customer_phone" placeholder="Email address" name="email" value="">
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="category-create-address">Address  <a href="#" class="parse_btn" onclick="$('.parse_address').show(); return false;">parse</a></div>
