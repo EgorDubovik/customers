@@ -65,6 +65,11 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        Gate::define('delete-tag',function (User $user, Tag $tag){
+            if ($tag->company_id == $user->company_id)
+                return true;
+            return false;
+        });
 
         // Customers
         Gate::define('update-customer', function (User $user, Customer $customer){

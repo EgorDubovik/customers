@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth','active']],function (){
        Route::post('store', [TagController::class,'store'])->name('tag.store');
        Route::post('assign/{customer}', [TagController::class,'assign_tag'])->name('tag.assign');
        Route::get('untie/{customer}/{tag}', [TagController::class, 'untie_tag'])->name('tag.untie');
+       Route::get('delete/{tag}', [TagController::class, 'delete'])->name('tag.delete');
    });
 
    Route::get('settings',[SettingsConstroller::class, 'show']);

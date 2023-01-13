@@ -50,4 +50,10 @@ class TagController extends Controller
         return back();
 
     }
+
+    public function delete(Tag $tag){
+        Gate::authorize('delete-tag',$tag);
+        $tag->delete();
+        return back();
+    }
 }

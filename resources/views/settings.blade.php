@@ -19,7 +19,7 @@
                     <div class="card-header">Tags <a class="fs-16 text-orange" style="margin-left: 20px;" data-bs-toggle="modal" href="#add_new_tag_model"><i class="fe fe-plus-circle"></i> </a></div>
                     <div class="card-body">
                         @foreach(\Illuminate\Support\Facades\Auth::user()->company_tags as $tag)
-                            <span class="tag tag-rounded tag-icon tag-orange">{{$tag->title}} <a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
+                            <span class="tag tag-rounded tag-icon tag-orange">{{$tag->title}} <a href="{{route('tag.delete',['tag'=>$tag])}}" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
                         @endforeach
                     </div>
                 </div>
