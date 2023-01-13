@@ -92,7 +92,21 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $customer->address->update([
+            'line1' => $request->line1,
+            'line2' => $request->line2,
+            'city' => $request->city,
+            'state' => $request->state,
+            'zip' => $request->zip,
+        ]);
+
+        $customer->update([
+            'name' => $request->customer_name,
+            'phone' => $request->customer_phone,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->route('customer.show', ['customer' => $customer]);
     }
 
     /**
