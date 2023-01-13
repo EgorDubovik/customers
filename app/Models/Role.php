@@ -14,13 +14,12 @@ class Role extends Model
     protected $table = 'roles';
 
     public const ADMIN = 1;
-    public const FORMAN = 2;
-    public const DRIVER = 3;
-    public const HELPER = 4;
+    public const TECH = 2;
+    public const DISP = 3;
 
-    public const ROLES = ['', 'Admin','Forman', 'Driver', 'Helper'];
-    public const ROLES_ID = [1, 2, 3, 4];
-    public const TAGS = ['', 'green', 'blue', 'orange', 'yellow'];
+    public const ROLES = ['', 'Admin','Technician', 'Dispatcher'];
+    public const ROLES_ID = [1, 2, 3];
+    public const TAGS = ['', 'green', 'blue', 'orange'];
 
     protected $fillable = [
         'user_id',

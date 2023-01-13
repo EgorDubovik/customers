@@ -3,13 +3,8 @@
 @section('content')
 
     <div class="main-container container-fluid">
-        <!-- PAGE-HEADER -->
-        <div class="page-header">
-            <h1 class="page-title">Customers</h1>
-        </div>
-        <!-- PAGE-HEADER END -->
         <!-- CONTENT -->
-        <div class="row">
+        <div class="row" style="padding-top: 20px;">
             <div class="col-md-6">
                 @include('layout/success-message',['status' => 'success'])
                 <div class="card">
