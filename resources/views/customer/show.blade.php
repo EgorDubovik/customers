@@ -28,6 +28,10 @@
                             <i class="fe fe-copy pull-right text-secondary" onclick="copy_to({{$customer->phone}})" style="cursor: pointer"></i>
                             <a href="#"> <i class="fe fe-phone-call pull-right" style="margin-right: 10px;"></i></a>
                         </p>
+                        <p>
+                            <span class="fs-14 text-muted">{{$customer->email}}</span>
+                            <i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i>
+                        </p>
                     </div>
 
                 </div>

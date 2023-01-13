@@ -30,8 +30,8 @@ Route::prefix("auth")->group(function(){
 
 Route::group(['middleware' => ['auth','active']],function (){
    Route::get('/',function(){
-       //return "success";
-       return view('dashboard');
+       //return view('dashboard');
+       return redirect()->route('customer.list');
    });
 
    Route::prefix('profile')->group(function (){
