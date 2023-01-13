@@ -21,4 +21,8 @@ class Customer extends Model
         return $this->hasOne(Addresses::class,'id','address_id');
     }
 
+    public function tags(){
+        return $this->belongsToMany(Tag::class,'customer_tags');
+    }
+
 }

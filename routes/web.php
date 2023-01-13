@@ -6,9 +6,8 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\InventoryController;
-use App\Http\Controllers\InventoryCategoryController;
 use \App\Http\Controllers\CustomerController;
+use App\Http\Controllers\TagController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,12 +49,16 @@ Route::group(['middleware' => ['auth','active']],function (){
    });
 
    Route::prefix('customer')->group(function(){
-        Route::get('/' , [CustomerController::class, 'index'])->name('customer.list');
-        Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
-        Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
-        Route::get('/show/{customer}', [CustomerController::class, 'show'])->name('customer.show');
-        Route::get('/edit/{customer}' , [CustomerController::class, 'edit'])->name('customer.edit');
-        Route::post('/update/{customer}', [ CustomerController::class, 'update'])->name('customer.update');
+       Route::get('/' , [CustomerController::class, 'index'])->name('customer.list');
+       Route::get('/create', [CustomerController::class, 'create'])->name('customer.create');
+       Route::post('/store', [CustomerController::class, 'store'])->name('customer.store');
+       Route::get('/show/{customer}', [CustomerController::class, 'show'])->name('customer.show');
+       Route::get('/edit/{customer}' , [CustomerController::class, 'edit'])->name('customer.edit');
+       Route::post('/update/{customer}', [ CustomerController::class, 'update'])->name('customer.update');
+   });
+
+   Route::prefix('tag')->group(function (){
+       Route::post('store', [TagController::class,'store'])->name('tag.store');
    });
 
 });

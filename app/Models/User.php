@@ -57,4 +57,8 @@ class User extends Authenticatable
         $quary = User::where(['company_id'=>$company_id,'active' => 1])->get();
         return $quary;
     }
+
+    public function company_tags(){
+        return $this->hasMany(Tag::class,'company_id','company_id');
+    }
 }

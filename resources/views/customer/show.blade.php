@@ -41,7 +41,23 @@
                             <i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i>
                         </p>
                     </div>
-
+                </div>
+                <div class="card">
+                    <div class="card-header">Customer Tags <a class="fs-16 text-orange" style="margin-left: 20px;" data-bs-toggle="modal" href="#add_new_tag_model"><i class="fe fe-plus-circle"></i> </a></div>
+                    <div class="card-body">
+                        <div class="tags-row mb-3">
+                            @foreach($customer->tags as $tag)
+                                <span class="tag tag-rounded tag-icon tag-orange">{{$tag->title}} <a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
+                            @endforeach
+                        </div>
+                        <div class="row">
+                            <select class="form-control form-select">
+                                @foreach(\Illuminate\Support\Facades\Auth::user()->company_tags as $tags)
+                                    <option>{{$tag->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -74,6 +90,27 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    {{--Add new tag model--}}
+    <div class="modal fade" id="add_new_tag_model" aria-hidden="true">
+        <div class="modal-dialog modal-sm text-center" role="document">
+            <div class="modal-content modal-content-demo">
+                <form method="post" action="{{route('tag.store')}}">
+                    @csrf
+                    <div class="modal-header">
+                        <h6 class="modal-title">Add new tag</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="customer_id" value="{{$customer->id}}">
+                        <input class="form-control mb-4" placeholder="Tag title" name="title" type="text">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit">Add</button> <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
