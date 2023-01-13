@@ -55,5 +55,23 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        Gate::define('untie-tag', function (User $user, $customer_id, $tag_id){
+            $customer = Customer::where('id',$customer_id)
+                ->where('company_id',$user->company_id)->first();
+            $tag = Tag::where('id',$tag_id)
+                ->where('company_id',$user->company_id)->first();
+            if ($customer && $tag)
+                return true;
+            return false;
+        });
+
+
+        // Customers
+        Gate::define('update-customer', function (User $user, Customer $customer){
+           if ($user->company_id == $customer->company_id)
+               return true;
+           return false;
+        });
+
     }
 }

@@ -47,7 +47,7 @@
                     <div class="card-body">
                         <div class="tags-row mb-3">
                             @foreach($customer->tags as $tag)
-                                <span class="tag tag-rounded tag-icon tag-orange">{{$tag->title}} <a href="javascript:void(0)" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
+                                <span class="tag tag-rounded tag-icon tag-orange">{{$tag->title}} <a href="{{route('tag.untie',[$customer,$tag])}}" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
                             @endforeach
                         </div>
                         <div class="row">

@@ -41,4 +41,13 @@ class TagController extends Controller
             abort(403);
         }
     }
+
+    public function untie_tag(Request $request, Customer $customer,Tag $tag){
+        Gate::authorize('untie-tag',[$customer->id, $tag->id]);
+        CustomerTags::where('customer_id',$customer->id)->
+            where('tag_id',$tag->id)->
+            delete();
+        return back();
+
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\CustomerTags;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller
 {
@@ -42,7 +43,6 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-
 
         $address = Addresses::create([
             'line1' => $request->line1,
@@ -82,6 +82,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
+        Gate::authorize('update-customer', $customer);
         return view('customer.edit', ['customer' => $customer]);
     }
 
@@ -94,6 +95,7 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
+        Gate::authorize('update-customer', $customer);
         $customer->address->update([
             'line1' => $request->line1,
             'line2' => $request->line2,
