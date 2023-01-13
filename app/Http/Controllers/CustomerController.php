@@ -80,7 +80,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('customer.edit', ['customer' => $customer]);
     }
 
     /**

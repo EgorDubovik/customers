@@ -12,7 +12,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Customer information</div>
+                    <div class="card-header">
+                        <h3 class="card-title">Customer information</h3>
+                        <div class="card-options">
+                            <a href="{{route('customer.edit',['customer' => $customer])}}">
+                                <i class="fe fe-edit text-success"></i>
+                            </a>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <p>
                             <span class="text-muted">Customer name:</span>

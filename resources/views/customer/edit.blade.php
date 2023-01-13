@@ -5,14 +5,14 @@
     <div class="main-container container-fluid">
         <!-- PAGE-HEADER -->
         <div class="page-header">
-            <h1 class="page-title">Create Customer</h1>
+            <h1 class="page-title">Edit customer</h1>
         </div>
         <!-- PAGE-HEADER END -->
         <!-- CONTENT -->
         <div class="row">
             <div class="col-12">
                 <div class="card col-md-6 m-auto">
-                    <form method="post" action="{{route('customer.store')}}">
+                    <form method="post" action="{{route('customer.update', ['customer' => $customer])}}">
                         @csrf
                         <div class="card-header">
 
@@ -23,39 +23,37 @@
                                 <div class="row mb-4">
                                     <label class="col-md-2 control-label">Full Name</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control customer_name" placeholder="Customer Full Name" name="customer_name" value="">
+                                        <input type="text" class="form-control customer_name" placeholder="Customer Full Name" name="customer_name" value="{{$customer->name}}">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label class="col-md-2 control-label">Phone</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control customer_phone" placeholder="Phone number" name="customer_phone" value="">
+                                        <input type="text" class="form-control customer_phone" placeholder="Phone number" name="customer_phone" value="{{$customer->phone}}">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label class="col-md-2 control-label">Email</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control customer_phone" placeholder="Email address" name="email" value="">
+                                        <input type="text" class="form-control customer_phone" placeholder="Email address" name="email" value="{{$customer->email}}">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="category-create-address">Address  <a href="#" class="parse_btn" onclick="$('.parse_address').show(); return false;">parse</a></div>
 
-                            <textarea name="parse_address" style="display: none" class="parse_address form-control mb-2" onblur="parse_my_address(this)">
-
-                            </textarea>
+                            <textarea name="parse_address" style="display: none" class="parse_address form-control mb-2" onblur="parse_my_address(this)"></textarea>
                             <div style="margin-left: 20px;">
                                 <div class="row mb-4">
                                     <label class="col-sm-2 control-label" for="textinput">Line 1</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="House number, street" class="form-control line1" name="line1">
+                                        <input type="text" placeholder="House number, street" class="form-control line1" name="line1" value="{{$customer->address->line1}}">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <label class="col-sm-2 control-label" for="textinput">Line 2</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="apt. number" class="form-control line2" name="line2">
+                                        <input type="text" placeholder="apt. number" class="form-control line2" name="line2" value="{{$customer->address->line2}}">
                                     </div>
                                 </div>
 
@@ -63,7 +61,7 @@
                                 <div class="row mb-4">
                                     <label class="col-sm-2 control-label" for="textinput">City</label>
                                     <div class="col-sm-10">
-                                        <input type="text" placeholder="City" class="form-control city" name="city">
+                                        <input type="text" placeholder="City" class="form-control city" name="city" value="{{$customer->address->city}}">
                                     </div>
                                 </div>
 
@@ -71,20 +69,19 @@
                                 <div class="row mb-4">
                                     <label class="col-sm-2 control-label" for="textinput">State</label>
                                     <div class="col-sm-4">
-                                        <input type="text" placeholder="State" class="form-control state" name="state">
+                                        <input type="text" placeholder="State" class="form-control state" name="state" value="{{$customer->address->state}}">
                                     </div>
 
                                     <label class="col-sm-2 control-label" for="textinput">Zip</label>
                                     <div class="col-sm-4">
-                                        <input type="text" placeholder="Post Code" class="form-control zip" name="zip">
+                                        <input type="text" placeholder="Post Code" class="form-control zip" name="zip" value="{{$customer->address->zip}}">
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                         <div class="card-footer">
-                            <button class="btn btn-success" type="submit">Create new customer</button>
-
+                            <button class="btn btn-success" type="submit">Update</button>
                         </div>
                     </form>
                 </div>
