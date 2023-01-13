@@ -11,6 +11,7 @@
         <!-- CONTENT -->
         <div class="row">
             <div class="col-md-6">
+                @include('layout/success-message',['status' => 'success'])
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Customer information</h3>

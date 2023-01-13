@@ -82,6 +82,7 @@
                         </div>
                         <div class="card-footer">
                             <button class="btn btn-success" type="submit">Update</button>
+                            <a href="{{route('customer.show',['customer' => $customer])}}" class="btn btn-warning">Cancel</a>
                         </div>
                     </form>
                 </div>
