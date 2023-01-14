@@ -4,7 +4,7 @@
 
     <div class="main-container container-fluid">
         <!-- PAGE-HEADER -->
-        <div class="page-header">
+        <div class="page-header" style="margin-top: 10px; margin-bottom: 10px;">
             <h1 class="page-title">Customers</h1>
         </div>
         <!-- PAGE-HEADER END -->
@@ -56,7 +56,7 @@
                                             <small class="text-muted"> Last update: {{$customer->updated_at->diffForHumans()}}</small>
                                         </div>
                                         <div class="col-4 text-end">
-                                            <small class="text-muted"> 2 notes </small>
+                                            <small class="text-muted"> {{count($customer->notes)}} notes </small>
                                         </div>
                                     </div>
                                 </div>

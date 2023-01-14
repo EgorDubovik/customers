@@ -77,5 +77,12 @@ class AuthServiceProvider extends ServiceProvider
            return false;
         });
 
+        //Notes
+        Gate::define('store-note',function (User $user,Customer $customer){
+            if ($user->company_id == $customer->company_id)
+                return true;
+            return false;
+        });
+
     }
 }
