@@ -17,7 +17,9 @@ class Addresses extends Model
         'zip'
     ];
 
-    public function full(){
+    protected $appends = ['full'];
+
+    public function getFullAttribute(){
         return $this->line1." ".$this->line2.", ".$this->city." ".$this->state.", ".$this->zip;
     }
 

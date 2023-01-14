@@ -19,7 +19,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-        InventoryCategory::class => InventoryCategoryPolicy::class,
     ];
 
     /**
