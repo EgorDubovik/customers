@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\Models\Image as NewImage;
 
 class UploadController extends Controller
 {
@@ -27,6 +29,11 @@ class UploadController extends Controller
                     $constraint->aspectRatio();
                 });
             $image->save(storage_path('app/public/images/'.$fileName));
+            NewImage::create([
+                'customer_id' => $customer->id,
+                'path' => 'storage/images/' . $fileName,
+                'owner_id' => Auth::user()->id,
+            ]);
         }
 
         return redirect()->back()->with('status', 'Pictures uploaded successfully!');
