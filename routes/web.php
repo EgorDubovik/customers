@@ -10,6 +10,7 @@ use \App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\SettingsConstroller;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\UploadController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,6 +70,7 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::get('settings',[SettingsConstroller::class, 'show']);
     // Notes
     Route::post('note/store/{customer}', [NoteController::class, 'store'])->name('note.store');
-
+    // Images
+    Route::post('/images/upload/{customer}', [UploadController::class,'store'])->name('image.store');
 
 });

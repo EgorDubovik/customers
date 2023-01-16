@@ -84,5 +84,12 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        // Upload images
+        Gate::define('upload-images', function (User $user, Customer $customer){
+            if ($user->company_id == $customer->company_id)
+                return true;
+            return false;
+        });
+
     }
 }

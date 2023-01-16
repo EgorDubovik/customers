@@ -36,7 +36,27 @@
                             <i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i>
                         </p>
                     </div>
+
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Images</h3>
+                    </div>
+                    @include('layout/error-message')
+                    <div class="card-body">
+                        <form method="post" action="{{route('image.store',['customer' => $customer])}}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="input-group mb-3">
+                                <input class="form-control form-control-sm" name="images[]" type="file" multiple>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary btn-sm" type="submit">Upload</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="card-header">Customer Tags <a class="fs-16 text-orange" style="margin-left: 20px;" data-bs-toggle="modal" href="#add_new_tag_model"><i class="fe fe-plus-circle"></i> </a></div>
                     <div class="card-body">
@@ -72,7 +92,7 @@
                             @csrf
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" id="search_bar" class="form-control" placeholder="Add new note to customer" name="text">
+                                    <textarea type="text" id="search_bar" class="form-control" placeholder="Add new note to customer" name="text"></textarea>
                                     <button class="btn btn-secondary" type="send">
                                         <i class="fa fa-save"></i>
                                     </button>

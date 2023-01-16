@@ -46,3 +46,10 @@
     margin-left: 10px;
     font-size: 13px;
 }
+#search_bar{
+    height: 35px;
+    transition:height 0.25s;
+}
+#search_bar:focus {
+    height: 70px;
+}
