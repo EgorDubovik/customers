@@ -38,4 +38,8 @@ class Customer extends Model
         return $this->hasMany(Note::class)->orderByDesc('created_at');
     }
 
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
+
 }

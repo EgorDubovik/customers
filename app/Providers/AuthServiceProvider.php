@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Customer;
+use App\Models\Image;
 use App\Models\Tag;
 use App\Models\Role;
 use App\Models\User;
@@ -90,6 +91,15 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             return false;
         });
-
+        Gate::define('delete-images', function (User $user, Image $image){
+            if ($user->company_id == $image->owner->company_id)
+                return true;
+            return false;
+        });
+        Gate::define('show-images', function (User $user, Image $image){
+            if ($user->company_id == $image->owner->company_id)
+                return true;
+            return false;
+        });
     }
 }

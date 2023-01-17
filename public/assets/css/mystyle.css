@@ -53,3 +53,15 @@
 #search_bar:focus {
     height: 70px;
 }
+.customer-img-bl{
+    position: relative;
+}
+.customer-img-bl .close {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    color: red;
+    z-index: 100;
+    font-size: 18px;
+    cursor: pointer;
+}

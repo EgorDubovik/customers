@@ -72,5 +72,6 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::post('note/store/{customer}', [NoteController::class, 'store'])->name('note.store');
     // Images
     Route::post('/images/upload/{customer}', [UploadController::class,'store'])->name('image.store');
-
+    Route::get('{image}/storage/images/{filename}', [UploadController::class,'view'])->name('image.view');
+    Route::get('/images/delete/{image}', [UploadController::class, 'delete'])->name('image.delete');
 });

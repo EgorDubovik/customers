@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,4 +15,15 @@ class Image extends Model
         'path',
         'owner_id',
     ];
+    protected $appends = [
+        'file_name',
+    ];
+
+    public function getFileNameAttribute(){
+        return substr($this->path,strrpos($this->path,'/')+1);
+    }
+
+    public function owner(){
+        return $this->hasOne(User::class,'id','owner_id');
+    }
 }
