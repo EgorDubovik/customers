@@ -46,11 +46,11 @@
     margin-left: 10px;
     font-size: 13px;
 }
-#search_bar{
+#add-new-note{
     height: 35px;
     transition:height 0.25s;
 }
-#search_bar:focus {
+#add-new-note:focus {
     height: 70px;
 }
 .customer-img-bl{

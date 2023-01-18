@@ -100,7 +100,7 @@
                             @csrf
                             <div class="form-group">
                                 <div class="input-group">
-                                    <textarea type="text" id="search_bar" class="form-control" placeholder="Add new note to customer" name="text"></textarea>
+                                    <textarea type="text" id="add-new-note" class="form-control" placeholder="Add new note to customer" name="text"></textarea>
                                     <button class="btn btn-secondary" type="send">
                                         <i class="fa fa-save"></i>
                                     </button>
