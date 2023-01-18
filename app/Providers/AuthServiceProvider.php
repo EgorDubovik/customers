@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Image;
 use App\Models\Tag;
@@ -100,6 +101,11 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->company_id == $image->owner->company_id)
                 return true;
             return false;
+        });
+
+        // Company
+        Gate::define('edit-company',function (User $user, Company $company){
+            return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $company->id );
         });
     }
 }

@@ -23,10 +23,14 @@
         <div class="col-xl-4">
             <div class="card panel-theme">
                 <div class="card-header">
-                    <div class="float-start">
-                        <h3 class="card-title">Company information</h3>
+                    <h3 class="card-title">Company information</h3>
+                    <div class="card-options">
+                        @can('edit-company',['company'=>Auth::user()->company])
+                        <a href="{{route('company.edit',[Auth::user()->company])}}">
+                            <i class="fe fe-edit text-success"></i>
+                        </a>
+                        @endcan
                     </div>
-                    <div class="clearfix"></div>
                 </div>
                 <div class="card-body no-padding">
                     <ul class="list-group no-margin">
@@ -41,13 +45,19 @@
                             <div class="social social-profile-buttons me-2">
                                 <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-mail"></i></a>
                             </div>
-                            <span class="my-auto">{{Auth::user()->email}}</span>
+                            <span class="my-auto">{!! Auth::user()->company->email ? Auth::user()->company->email : ((Gate::check('edit-company',['company'=>Auth::user()->company])) ? "<a href='".route('company.edit',[Auth::user()->company])."' class='text-muted fs-14' style='margin-left:20px;'>edit</a>" : "") !!}</span>
                         </li>
                         <li class="list-group-item d-flex ps-3">
                             <div class="social social-profile-buttons me-2">
                                 <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-phone"></i></a>
                             </div>
-                            <span class="my-auto">{{Auth::user()->phone}}</span>
+                            <span class="my-auto">{!! Auth::user()->company->phone ? Auth::user()->company->phone : ((Gate::check('edit-company',['company'=>Auth::user()->company])) ? "<a href='".route('company.edit',[Auth::user()->company])."' class='text-muted fs-14' style='margin-left:20px;'>edit</a>" : "") !!}</span>
+                        </li>
+                        <li class="list-group-item d-flex ps-3">
+                            <div class="social social-profile-buttons me-2">
+                                <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-map"></i></a>
+                            </div>
+                            <span class="my-auto">{{Auth::user()->company->address->full}}</span>
                         </li>
                     </ul>
                 </div>

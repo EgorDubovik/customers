@@ -11,6 +11,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\SettingsConstroller;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\CompanyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -74,4 +75,8 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::post('/images/upload/{customer}', [UploadController::class,'store'])->name('image.store');
     Route::get('{image}/storage/images/{filename}', [UploadController::class,'view'])->name('image.view');
     Route::get('/images/delete/{image}', [UploadController::class, 'delete'])->name('image.delete');
+
+    // Company
+    Route::get('company/edit/{company}' , [CompanyController::class, 'edit'])->name('company.edit');
+    Route::post('company/update/{company}', [CompanyController::class,'update'])->name('company.update');
 });
