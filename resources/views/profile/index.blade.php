@@ -24,7 +24,7 @@
             <div class="card panel-theme">
                 <div class="card-header">
                     <div class="float-start">
-                        <h3 class="card-title">Contact</h3>
+                        <h3 class="card-title">Company information</h3>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -32,24 +32,23 @@
                     <ul class="list-group no-margin">
                         <li class="list-group-item d-flex ps-3">
                             <div class="social social-profile-buttons me-2">
+                                <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-monitor"></i></a>
+                            </div>
+                            <span class="my-auto">{{Auth::user()->company->name}}</span>
+                        </li>
+
+                        <li class="list-group-item d-flex ps-3">
+                            <div class="social social-profile-buttons me-2">
                                 <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-mail"></i></a>
                             </div>
                             <span class="my-auto">{{Auth::user()->email}}</span>
                         </li>
-
                         <li class="list-group-item d-flex ps-3">
                             <div class="social social-profile-buttons me-2">
                                 <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-phone"></i></a>
                             </div>
                             <span class="my-auto">{{Auth::user()->phone}}</span>
                         </li>
-                        <li class="list-group-item d-flex ps-3">
-                            <div class="social social-profile-buttons me-2">
-                                <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-monitor"></i></a>
-                            </div>
-                            <span class="my-auto">{{Auth::user()->company->name}}</span>
-                        </li>
-
                     </ul>
                 </div>
             </div>

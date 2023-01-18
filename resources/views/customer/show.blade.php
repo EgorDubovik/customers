@@ -112,8 +112,8 @@
                             <li class="d-sm-flex">
                                 <div>
                                     <i class="task-icon bg-primary"></i>
-                                    <h6 class="fw-semibold"><span class="fs-14 mx-2 fw-normal text-muted">{{$note->updated_at->diffForHumans()}}</span></h6>
-                                    <p class=" fs-15">{{$note->text}}</p>
+                                    <h6 class="fw-semibold"><span class="fs-14 mx-2 fw-normal ">{{$note->text}}</span></h6>
+                                    <p class="text-muted fs-11">{{$note->updated_at->diffForHumans()}}</p>
                                 </div>
                             </li>
                             @endforeach
