@@ -12,16 +12,7 @@ use App\Http\Controllers\SettingsConstroller;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\CompanyController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use  App\Http\Controllers\ServiceController;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -79,4 +70,9 @@ Route::group(['middleware' => ['auth','active']],function (){
     // Company
     Route::get('company/edit/{company}' , [CompanyController::class, 'edit'])->name('company.edit');
     Route::post('company/update/{company}', [CompanyController::class,'update'])->name('company.update');
+
+    // Items
+    Route::prefix('services')->group(function (){
+        Route::get('index', [ServiceController::class, 'index'])->name('service.index');
+    });
 });

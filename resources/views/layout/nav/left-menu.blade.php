@@ -23,6 +23,11 @@
                             class="side-menu__icon fe fe-users"></i><span
                             class="side-menu__label">Customers</span></a>
                 </li>
+                <li class="slide">
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('service.index')}}"><i
+                            class="side-menu__icon fe fe-list"></i><span
+                            class="side-menu__label">Services</span></a>
+                </li>
                 @can('view-users-list')
                 <li class="slide">
                     <a class="side-menu__item has-link" data-bs-toggle="slide" href="/users"><i
