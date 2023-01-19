@@ -74,5 +74,10 @@ Route::group(['middleware' => ['auth','active']],function (){
     // Items
     Route::prefix('services')->group(function (){
         Route::get('index', [ServiceController::class, 'index'])->name('service.index');
+        Route::get('create',[ServiceController::class, 'create'])->name('service.create');
+        Route::delete('delete/{service}', [ServiceController::class, 'destroy'])->name('service.delete');
+        Route::post('update/{service}', [ServiceController::class, 'update'])->name('service.update');
+        Route::post('store', [ServiceController::class, 'store'])->name('service.store');
+        Route::get('edit/{service}', [ServiceController::class , 'edit'])->name('service.edit');
     });
 });

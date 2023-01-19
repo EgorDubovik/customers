@@ -14,6 +14,7 @@ class Service extends Model
         'title',
         'description',
         'price',
+        'company_id',
     ];
 
     public function price(): Attribute

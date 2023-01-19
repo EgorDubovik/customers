@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Image;
+use App\Models\Service;
 use App\Models\Tag;
 use App\Models\Role;
 use App\Models\User;
@@ -106,6 +107,11 @@ class AuthServiceProvider extends ServiceProvider
         // Company
         Gate::define('edit-company',function (User $user, Company $company){
             return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $company->id );
+        });
+
+        //Services
+        Gate::define('update-service', function (User $user, Service $service){
+            return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $service->company_id );
         });
     }
 }
