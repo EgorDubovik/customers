@@ -86,10 +86,13 @@
         $('#search_bar').keyup(function (){
             var search = $(this).val();
             if(search.length>=3){
+                search = search.replace('(','\\(');
+                search = search.replace(')','\\)');
+                console.log(search);
                 var regex = new RegExp(search, "i");
                 var count = [];
                 $.each(customers, function(key, val) {
-                    if ((val.name.search(regex) != -1) || (val.address.full.search(regex) != -1)){
+                    if ((val.name.search(regex) != -1) || (val.address.full.search(regex) != -1) || (val.phone.search(regex) !=-1)){
                         count.push(val);
                     }
                 });
@@ -105,7 +108,6 @@
                 s = "Empty";
             else s = "";
             for(var i = 0; i < list.length; i++){
-                console.log(i);
                 s+= getCustomerHTML(list[i]);
             }
             $('#customer-list').html(s);

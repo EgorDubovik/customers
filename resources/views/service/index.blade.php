@@ -5,13 +5,8 @@
     <div class="main-container container-fluid">
         <!-- PAGE-HEADER -->
         <div class="page-header">
-            <h1 class="page-title">Users list</h1>
-            <div>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Apps</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Users list</li>
-                </ol>
-            </div>
+            <h1 class="page-title">Services</h1>
+
         </div>
         <!-- PAGE-HEADER END -->
         <!-- CONTENT -->
@@ -20,7 +15,7 @@
                 @include('layout/success-message',['status' => 'successful'])
                 <div class="card col-md-8">
                     <div class="card-header">
-                        Services list <a href="{{route('service.create')}}" class="btn btn-success" style="margin-left: 20px;"><i class="fa fa-plus"></i> Add new user</a>
+                        Services list <a href="{{route('service.create')}}" class="btn btn-success" style="margin-left: 20px;"><i class="fa fa-plus"></i> Add new service</a>
                     </div>
                     <div class="card-body">
                         <table class="table border table-striped mb-0">
