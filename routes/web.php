@@ -13,6 +13,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\CompanyController;
 use  App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SchedulerController;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -80,4 +81,10 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::post('store', [ServiceController::class, 'store'])->name('service.store');
         Route::get('edit/{service}', [ServiceController::class , 'edit'])->name('service.edit');
     });
+
+    //Schedule
+    Route::prefix('schedule')->group(function (){
+        Route::get('create', [SchedulerController::class, 'create'])->name('schedule.create');
+    });
+
 });
