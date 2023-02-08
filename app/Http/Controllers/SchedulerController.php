@@ -27,11 +27,24 @@ class SchedulerController extends Controller
      */
     public function create(Request $request)
     {
-        $customers = Customer::where('company_id',Auth::user()->company_id)
+        $data = [];
+        $services = Service::where('company_id',Auth::user()->company_id)
             ->get();
-        $services = Service::where('company_id', Auth::user()->compnany_id)
-            ->get();
-        return view('schedule.create',['customers' => $customers, 'services' => $services]);
+        $data['services'] = $services;
+        if ($request->has("customer")){
+            $customer = Customer::where(['id' => $request->customer, 'company_id' => Auth::user()->company_id])->first();
+            if ($customer)
+                $data['customer'] = $customer;
+            else
+                $data['customers'] = Customer::where('company_id',Auth::user()->company_id)->get();
+        }else{
+            $customers = Customer::where('company_id',Auth::user()->company_id)
+                ->get();
+            $data['customers'] = $customers;
+        }
+
+
+        return view('schedule.create',$data);
     }
 
     /**

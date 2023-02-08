@@ -38,7 +38,23 @@
                     </div>
 
                 </div>
+                {{-- Scheduling                --}}
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Scheduling</h3>
+                        <div class="card-options">
+                            <a href="{{route('schedule.create',['customer' => $customer->id])}}">
+                                <i class="fe fe-plus-circle text-success"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
 
+                    </div>
+                </div>
+
+
+                {{-- Images                --}}
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Images</h3>
