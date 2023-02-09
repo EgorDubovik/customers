@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('content')
-
+    <link href="{{ URL::asset('assets/css/drum.css')}}" rel="stylesheet" />
     <div class="main-container container-fluid">
         <!-- PAGE-HEADER -->
         <div class="page-header">
@@ -34,11 +34,37 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <label  class="col-md-3 form-label">DateTime</label>
+                                    <div class="date_wrapper outside">
+{{--                                        <form name="date">--}}
+{{--                                            <select class="date" id="month" name="month">--}}
+{{--                                                <option value="0">January</option>--}}
+{{--                                                <option value="1">February</option>--}}
+{{--                                                <option value="2">March</option>--}}
+{{--                                                <option value="3">April</option>--}}
+{{--                                                <option value="4">May</option>--}}
+{{--                                                <option value="5">June</option>--}}
+{{--                                                <option value="6">July</option>--}}
+{{--                                                <option value="7">August</option>--}}
+{{--                                                <option value="8">September</option>--}}
+{{--                                                <option value="9">October</option>--}}
+{{--                                                <option value="10">November</option>--}}
+{{--                                                <option value="11">December</option>--}}
+{{--                                            </select>--}}
 
+{{--                                        </form>--}}
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <p class="text-muted">Service info</p>
+                                </div>
                                 <div class="row mb-2">
                                     <label  class="col-md-3 form-label">Title</label>
                                     <div class="col-md-9">
-                                        <select class="form-control form-select" name="service_id">
+                                        <select class="form-control form-select" id="select_service" name="service_id" onchange="change_service()">
+                                            <option value="0">Chose service...</option>
                                             @foreach($services as $service)
                                                 <option value="{{$service->id}}">{{$service->title}}</option>
                                             @endforeach
@@ -70,4 +96,16 @@
 
 
 @stop
-
+@section('scripts')
+    <script src="{{ URL::asset('assets/js/Drum.js')}}"></script>
+    <script>
+        function change_service(){
+            var select = $("#select_service");
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".date_wrapper").drum();
+        });
+    </script>
+@endsection
