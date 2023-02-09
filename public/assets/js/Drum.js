@@ -127,6 +127,16 @@
             for (var i = yerNow-10; i <= yerNow+10; i++) r.push(i);
             return r;
         }
+        var getHours = function (){
+            var r = [];
+            for(var i = 1; i<=12; i++) r.push(i);
+            return r;
+        }
+
+        var viewAndSetDate = function (date){
+            var d = (date.getMonth() > 0 ? date.getMonth() : 12)+"-"+date.getDate()+"-"+date.getFullYear()
+            $('.view_selected_date_time .date').html((d));
+        }
 
         var last_selected_day = null;
         var HTMLselect = ($(element))[0];
@@ -146,23 +156,46 @@
         $(yersConteiner).attr('id', "drum_fullYear");
         $(HTMLselect).append(yersConteiner);
 
+        var timeFromConteiner = document.createElement( "div" );
+        $(timeFromConteiner).addClass("data_picker");
+        $(timeFromConteiner).attr('id', "drum_hours");
+        $(HTMLselect).append(timeFromConteiner);
+
         var now = new Date();
+
         var month =  ["January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         new Drum(monthConteiner, {
             onChange : function (month){
-
+                month = (month == 12) ? 0 : month;
+                now = new Date(now.getFullYear(),month,now.getDate());
+                viewAndSetDate(now);
                 var days = getDays(month, now.getFullYear());
                 new Drum(daysConteiner, {
                     onChange : function (day){
-                        console.log(day)
+                        now = new Date(now.getFullYear(),now.getMonth(),day);
+                        viewAndSetDate(now);
                         last_selected_day = day-1;
+
                     }
                 }, transformProp, days, (last_selected_day!=null) ? last_selected_day : now.getDate());
             }
         }, transformProp, month, now.getMonth());
 
         var yers = getYers();
-        new Drum(yersConteiner, {}, transformProp, yers, 10);
+        new Drum(yersConteiner, {
+            onChange : function (yer){
+                now = new Date(yers[yer-1],now.getMonth(),now.getDate());
+                viewAndSetDate(now);
+            }
+        }, transformProp, yers, 10);
+
+        var hours = getHours()
+        var hour = new Date().getHours();
+        hour = hour % 12;
+        hour = hour ? hour : 12;
+        console.log(hour)
+        new Drum(timeFromConteiner, {}, transformProp, hours,hour);
+
 
     };
 

@@ -36,9 +36,14 @@
                                 </div>
                                 <div class="row mb-2" style="position: relative">
                                     <label  class="col-md-3 form-label">DateTime</label>
-                                    <div class="lines">
-
+                                    <div class="view_selected_date_time">
+                                        <span class="date" style="margin-left: 30px;">{{date('d-m-Y')}}</span>
+                                        <span class="text-muted" style="margin-left: 114px;"> From:</span>
+                                        <span class="time">9:00 AM</span>
+                                        <span class="text-muted" style="margin-left: 20px;"> To:</span>
+                                        <span class="time">11:00 AM</span>
                                     </div>
+                                    <div class="lines"></div>
                                     <div class="date_wrapper outside">
 
                                     </div>

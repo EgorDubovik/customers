@@ -81,4 +81,13 @@
     padding: 2px 5px 0 2px;
     color: #ccc;
 }
+.view_selected_date_time .time{
+    margin-left: 15px;
+}
+.view_selected_date_time{
+    margin-bottom: 20px;
+    border:1px solid #e9edf4;
+    padding: 5px;
+    border-radius: 10px;
+}
 
