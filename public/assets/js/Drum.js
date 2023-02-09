@@ -91,7 +91,7 @@
 
             this.angle = settings.theta * index;
             this.elem = document.createElement('figure');
-
+            $(this.elem).addClass('a' + this.angle*100);
             $(this.elem).css('opacity', '0.5');
             $(this.elem).css(
                 settings.transformProp,
@@ -111,21 +111,62 @@
     };
 
     var DataPicker = function (element, options, transformProp){
+
+        var getDays = function (month, yer){
+            var r = [];
+            var date = new Date(yer,month,0);
+            var days = date.getDate();
+            for (var i = 1; i<=days; i++) r.push(i);
+            return r;
+        };
+
+        var getYers = function (){
+            var now = new Date();
+            var yerNow = now.getFullYear();
+            var r = [];
+            for (var i = yerNow-10; i <= yerNow+10; i++) r.push(i);
+            return r;
+        }
+
+        var last_selected_day = null;
         var HTMLselect = ($(element))[0];
 
         var monthConteiner = document.createElement( "div" );
-        $(monthConteiner).addClass("month");
+        $(monthConteiner).addClass("data_picker");
         $(monthConteiner).attr('id', "drum_month");
-
         $(HTMLselect).html(monthConteiner);
 
-        var month =  ["January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var daysConteiner = document.createElement( "div" );
+        $(daysConteiner).addClass("data_picker");
+        $(daysConteiner).attr('id', "drum_date");
+        $(HTMLselect).append(daysConteiner);
 
-        new Drum(monthConteiner, options, transformProp, month);
+        var yersConteiner = document.createElement( "div" );
+        $(yersConteiner).addClass("data_picker");
+        $(yersConteiner).attr('id', "drum_fullYear");
+        $(HTMLselect).append(yersConteiner);
+
+        var now = new Date();
+        var month =  ["January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        new Drum(monthConteiner, {
+            onChange : function (month){
+
+                var days = getDays(month, now.getFullYear());
+                new Drum(daysConteiner, {
+                    onChange : function (day){
+                        console.log(day)
+                        last_selected_day = day-1;
+                    }
+                }, transformProp, days, (last_selected_day!=null) ? last_selected_day : now.getDate());
+            }
+        }, transformProp, month, now.getMonth());
+
+        var yers = getYers();
+        new Drum(yersConteiner, {}, transformProp, yers, 10);
 
     };
 
-    var Drum = function(element, options, transformProp, data)
+    var Drum = function(element, options, transformProp, data, selectIndex)
     {
         var HTMLselect = element;
         var obj = this;
@@ -146,25 +187,17 @@
         settings.last_angle = 0;
         settings.theta = 360 / settings.panelCount;
 
-        settings.initselect = HTMLselect.selectedIndex;
+        settings.initselect = selectIndex;
 
-        // settings.data = [];
-        // for (var i=0; i<HTMLselect.children.length; i++) {
-        //     settings.data.push($(HTMLselect.children[i]).text());
-        // }
-
-        // $(element).hide();
         var wrapper = document.createElement( "div" );
         $(wrapper).addClass("drum-wrapper");
 
-        // if (settings.id)
-        //     $(wrapper).attr('id', settings.id);
-        // else if (HTMLselect.id)
-        //     $(wrapper).attr('id', 'drum_' + HTMLselect.id);
-        // else if ($(HTMLselect).attr('name'))
-        //     $(wrapper).attr('id', 'drum_' + $(HTMLselect).attr('name'));
 
         $(HTMLselect).html(wrapper);
+        $(wrapper).scroll(function (){
+            console.log('scrol')
+        })
+
 
         var inner = document.createElement("div");
         $(inner).addClass("inner");
@@ -178,21 +211,21 @@
         $(drum).addClass("drum");
         $(drum).appendTo(container);
 
-        // if (settings.interactive === true) {
-        //     var dialUp = DrumIcon.up(settings);
-        //     $(wrapper).append(dialUp);
-        //
-        //     var dialDown = DrumIcon.down(settings);
-        //     $(wrapper).append(dialDown);
-        //
-        //     $(wrapper).hover(function () {
-        //         $(this).find(".up").show();
-        //         $(this).find(".down").show();
-        //     }, function () {
-        //         $(this).find(".up").hide();
-        //         $(this).find(".down").hide();
-        //     });
-        // }
+        if (settings.interactive === true) {
+            var dialUp = DrumIcon.up(settings);
+            $(wrapper).append(dialUp);
+
+            var dialDown = DrumIcon.down(settings);
+            $(wrapper).append(dialDown);
+
+            $(wrapper).hover(function () {
+                $(this).find(".up").show();
+                $(this).find(".down").show();
+            }, function () {
+                $(this).find(".up").hide();
+                $(this).find(".down").hide();
+            });
+        }
 
         settings.radius = Math.round( ( $(drum).height() / 2 ) / Math.tan( Math.PI / settings.panelCount ) );
         settings.mapping = [];
@@ -249,20 +282,24 @@
                 settings.mapping[i].update(list[i]);
             }
         };
+
+        var canEventChange = true;
         var transform = function() {
             $(drum).css(settings.transformProp, 'translateZ(-' + settings.radius + 'px) ' + settings.rotateFn + '(' + settings.rotation + 'deg)');
 
             var selected = getSelected();
+
             if (selected) {
                 var data = selected.dataModel;
 
-                var last_index = HTMLselect.selectedIndex;
-                HTMLselect.selectedIndex = data.index;
+                // var last_index = HTMLselect.selectedIndex;
+                // HTMLselect.selectedIndex = data.index;
 
-                if (last_index != data.index && settings.onChange)
-                    settings.onChange(HTMLselect);
+                if (settings.onChange && canEventChange)
+                    settings.onChange(data.index+1);
 
                 $(selected.elem).css("opacity", 1);
+
                 $("figure:not(.a" + (selected.angle*100) + ", .hidden)", drum).css("opacity", "0.5");
                 if (selected.angle != settings.last_angle && [0,90,180,270].indexOf(selected.angle) >= 0) {
                     settings.last_angle = selected.angle;
@@ -279,49 +316,51 @@
             transform();
         };
 
-        // this.setIndex(settings.initselect);
+        this.setIndex(settings.initselect);
 
         this.getIndex = function () {
             return getSelected().dataModel.index;
         };
 
-        // if (typeof(Hammer) != "undefined") {
-        //     settings.touch = new Hammer(wrapper, {
-        //         prevent_default: true,
-        //         no_mouseevents: true
-        //     });
-        //
-        //     settings.touch.on("dragstart", function (e) {
-        //         settings.distance = 0;
-        //     });
-        //
-        //     settings.touch.on("drag", function (e) {
-        //         var evt = ["up", "down"];
-        //         if (evt.indexOf(e.gesture.direction)>=0) {
-        //             settings.rotation += Math.round(e.gesture.deltaY - settings.distance) * -1;
-        //             transform();
-        //             settings.distance = e.gesture.deltaY;
-        //         }
-        //     });
-        //
-        //     settings.touch.on("dragend", function (e) {
-        //         settings.rotation = getNearest();
-        //         transform();
-        //     });
-        // }
-        //
-        // if (settings.interactive) {
-        //     $(dialUp).click(function (e) {
-        //         var deg = settings.rotation + settings.theta + 1;
-        //         settings.rotation = getNearest(deg);
-        //         transform();
-        //     });
-        //     $(dialDown).click(function (e) {
-        //         var deg = settings.rotation - settings.theta - 1;
-        //         settings.rotation = getNearest(deg);
-        //         transform();
-        //     });
-        // }
+        if (typeof(Hammer) != "undefined") {
+            settings.touch = new Hammer(wrapper, {
+                prevent_default: true,
+                no_mouseevents: true
+            });
+
+            settings.touch.on("dragstart", function (e) {
+                settings.distance = 0;
+                canEventChange = false;
+            });
+
+            settings.touch.on("drag", function (e) {
+                var evt = ["up", "down"];
+                if (evt.indexOf(e.gesture.direction)>=0) {
+                    settings.rotation += Math.round(e.gesture.deltaY - settings.distance) * -1;
+                    transform();
+                    settings.distance = e.gesture.deltaY;
+                }
+            });
+
+            settings.touch.on("dragend", function (e) {
+                settings.rotation = getNearest();
+                canEventChange = true;
+                transform();
+            });
+        }
+
+        if (settings.interactive) {
+            $(dialUp).click(function (e) {
+                var deg = settings.rotation + settings.theta + 1;
+                settings.rotation = getNearest(deg);
+                transform();
+            });
+            $(dialDown).click(function (e) {
+                var deg = settings.rotation - settings.theta - 1;
+                settings.rotation = getNearest(deg);
+                transform();
+            });
+        }
     };
 
     var methods = {

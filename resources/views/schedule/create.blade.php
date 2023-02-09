@@ -34,26 +34,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mb-2">
+                                <div class="row mb-2" style="position: relative">
                                     <label  class="col-md-3 form-label">DateTime</label>
-                                    <div class="date_wrapper outside">
-{{--                                        <form name="date">--}}
-{{--                                            <select class="date" id="month" name="month">--}}
-{{--                                                <option value="0">January</option>--}}
-{{--                                                <option value="1">February</option>--}}
-{{--                                                <option value="2">March</option>--}}
-{{--                                                <option value="3">April</option>--}}
-{{--                                                <option value="4">May</option>--}}
-{{--                                                <option value="5">June</option>--}}
-{{--                                                <option value="6">July</option>--}}
-{{--                                                <option value="7">August</option>--}}
-{{--                                                <option value="8">September</option>--}}
-{{--                                                <option value="9">October</option>--}}
-{{--                                                <option value="10">November</option>--}}
-{{--                                                <option value="11">December</option>--}}
-{{--                                            </select>--}}
+                                    <div class="lines">
 
-{{--                                        </form>--}}
+                                    </div>
+                                    <div class="date_wrapper outside">
+
                                     </div>
                                 </div>
                                 <hr/>
@@ -98,6 +85,7 @@
 @stop
 @section('scripts')
     <script src="{{ URL::asset('assets/js/Drum.js')}}"></script>
+    <script src="{{ URL::asset('assets/js/hammer.mini.js')}}"></script>
     <script>
         function change_service(){
             var select = $("#select_service");
