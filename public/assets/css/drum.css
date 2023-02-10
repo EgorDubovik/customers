@@ -125,7 +125,7 @@ div.drum-wrapper div.container, div.drum-wrapper figure {
     width: 30px;
 }
 #drum_hours {
-    margin-left: 70px;
+    margin-left: 8px;
 }
 #drum_minutes {
     margin-left: 4px;
@@ -147,7 +147,12 @@ div.drum-wrapper div.container, div.drum-wrapper figure {
     width: 30px;
 }
 
-
+#drum_text{
+    width: 50px;
+    padding-top: 59px;
+    margin-left: 50px;
+    height: 140px;
+}
 .data_picker{
     float: left;
 }

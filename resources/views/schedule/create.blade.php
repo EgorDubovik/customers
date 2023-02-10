@@ -38,17 +38,17 @@
                                     <label  class="col-md-3 form-label">DateTime</label>
                                     <div class="view_selected_date_time">
                                         <div class="row">
-                                            <div class="col-5">
+                                            <div class="col-4">
                                                 <span class="date" style="margin-left: 30px;">{{date('d-m-Y')}}</span>
                                             </div>
-                                            <div class="col-7" style="text-align: right">
+                                            <div class="col-8" style="text-align: right">
                                                 <span class="time_cont_nav active">
                                                     <span class="text-muted"> From:</span>
-                                                    <span class="time">9:00 AM</span>
+                                                    <span class="time_from">9:00 AM</span>
                                                 </span>
                                                 <spn class="time_cont_nav">
-                                                    <span class="text-muted" style="margin-left: 20px;"> To:</span>
-                                                    <span class="time">11:00 AM</span>
+                                                    <span class="text-muted" style="margin-left: 10px;"> To:</span>
+                                                    <span class="time_to">11:00 AM</span>
                                                 </spn>
                                             </div>
                                         </div>

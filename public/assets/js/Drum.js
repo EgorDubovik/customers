@@ -147,9 +147,13 @@
             $('.view_selected_date_time .date').html((d));
         }
 
-        var viewAndSetTime = function (hour, minute, ampm){
+        var viewAndSetFromTime = function (hour, minute, ampm){
             var t = hour+":"+minute+" "+ampm;
-            $(".view_selected_date_time .time").html(t);
+            $(".view_selected_date_time .time_from").html(t);
+        }
+        var viewAndSetToTime = function (hour, minute, ampm){
+            var t = hour+":"+minute+" "+ampm;
+            $(".view_selected_date_time .time_to").html(t);
         }
 
         var last_selected_day = null;
@@ -169,6 +173,14 @@
         $(yersConteiner).addClass("data_picker");
         $(yersConteiner).attr('id', "drum_fullYear");
         $(HTMLselect).append(yersConteiner);
+
+        // Timer Pickek
+
+        var textFromConteiner = document.createElement( "div" );
+        $(textFromConteiner).addClass("data_picker");
+        $(textFromConteiner).attr('id', "drum_text");
+        $(textFromConteiner).html("From: ");
+        $(HTMLselect).append(textFromConteiner);
 
         var timeFromConteiner = document.createElement( "div" );
         $(timeFromConteiner).addClass("data_picker");
@@ -221,7 +233,7 @@
         var drumHourFrom = new Drum(timeFromConteiner, {
             onChange : function (hour){
                 if (drumMinuteFrom && drumAmpmFrom)
-                    viewAndSetTime(hour,minutes[drumMinuteFrom.getIndex()], ampmList[drumAmpmFrom.getIndex()]);
+                    viewAndSetFromTime(hour,minutes[drumMinuteFrom.getIndex()], ampmList[drumAmpmFrom.getIndex()]);
             }
         }, transformProp, hours,hour);
 
@@ -230,7 +242,7 @@
             onChange : function (minuteIndex){
                 minuteIndex --;
                 if (drumHourFrom && drumAmpmFrom)
-                    viewAndSetTime(drumHourFrom.getIndex()+1,minutes[minuteIndex], ampmList[drumAmpmFrom.getIndex()]);
+                    viewAndSetFromTime(drumHourFrom.getIndex()+1,minutes[minuteIndex], ampmList[drumAmpmFrom.getIndex()]);
             }
         }, transformProp, minutes, 0);
         var ampmList = ["AM", "PM"];
@@ -238,7 +250,7 @@
             onChange : function (ampmIndex){
                 ampmIndex--;
                 if (drumMinuteFrom && drumHourFrom)
-                    viewAndSetTime(drumHourFrom.getIndex()+1,minutes[drumMinuteFrom.getIndex()], ampmList[ampmIndex]);
+                    viewAndSetFromTime(drumHourFrom.getIndex()+1,minutes[drumMinuteFrom.getIndex()], ampmList[ampmIndex]);
             }
         }, transformProp, ampmList, ampm);
 
