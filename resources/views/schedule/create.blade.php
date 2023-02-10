@@ -10,8 +10,8 @@
         <!-- PAGE-HEADER END -->
         <!-- CONTENT -->
         <div class="row">
-            <div class="col-12">
-                <div class="col-md-4 m-auto">
+            <div class="col-md-4 m-auto">
+                <div >
                     <div class="card">
                         <form method="post" >
                             @csrf
@@ -34,18 +34,28 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mb-2" style="position: relative">
+                                <div class="row mb-2">
                                     <label  class="col-md-3 form-label">DateTime</label>
                                     <div class="view_selected_date_time">
-                                        <span class="date" style="margin-left: 30px;">{{date('d-m-Y')}}</span>
-                                        <span class="text-muted" style="margin-left: 114px;"> From:</span>
-                                        <span class="time">9:00 AM</span>
-                                        <span class="text-muted" style="margin-left: 20px;"> To:</span>
-                                        <span class="time">11:00 AM</span>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <span class="date" style="margin-left: 30px;">{{date('d-m-Y')}}</span>
+                                            </div>
+                                            <div class="col-7" style="text-align: right">
+                                                <span class="time_cont_nav active">
+                                                    <span class="text-muted"> From:</span>
+                                                    <span class="time">9:00 AM</span>
+                                                </span>
+                                                <spn class="time_cont_nav">
+                                                    <span class="text-muted" style="margin-left: 20px;"> To:</span>
+                                                    <span class="time">11:00 AM</span>
+                                                </spn>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="lines"></div>
-                                    <div class="date_wrapper outside">
 
+                                    <div class="date_wrapper outside">
+                                        <div class="lines"></div>
                                     </div>
                                 </div>
                                 <hr/>
@@ -99,6 +109,11 @@
     <script>
         $(document).ready(function () {
             $(".date_wrapper").drum();
+            $('.time_cont_nav').click(function (){
+                $('.time_cont_nav').removeClass('active');
+                $(this).addClass('active');
+            });
+
         });
     </script>
 @endsection

@@ -132,10 +132,24 @@
             for(var i = 1; i<=12; i++) r.push(i);
             return r;
         }
+        var getMinutas = function (){
+            var r = [];
+            for (var i = 0;i<=45; i+=15){
+                if (i==0) r.push('00');
+                else
+                    r.push(i);
+            }
+            return r;
+        }
 
         var viewAndSetDate = function (date){
             var d = (date.getMonth() > 0 ? date.getMonth() : 12)+"-"+date.getDate()+"-"+date.getFullYear()
             $('.view_selected_date_time .date').html((d));
+        }
+
+        var viewAndSetTime = function (hour, minute, ampm){
+            var t = hour+":"+minute+" "+ampm;
+            $(".view_selected_date_time .time").html(t);
         }
 
         var last_selected_day = null;
@@ -144,7 +158,7 @@
         var monthConteiner = document.createElement( "div" );
         $(monthConteiner).addClass("data_picker");
         $(monthConteiner).attr('id', "drum_month");
-        $(HTMLselect).html(monthConteiner);
+        $(HTMLselect).append(monthConteiner);
 
         var daysConteiner = document.createElement( "div" );
         $(daysConteiner).addClass("data_picker");
@@ -160,6 +174,16 @@
         $(timeFromConteiner).addClass("data_picker");
         $(timeFromConteiner).attr('id', "drum_hours");
         $(HTMLselect).append(timeFromConteiner);
+
+        var minuteFromConteiner = document.createElement( "div" );
+        $(minuteFromConteiner).addClass("data_picker");
+        $(minuteFromConteiner).attr('id', "drum_minutes");
+        $(HTMLselect).append(minuteFromConteiner);
+
+        var ampmFromConteiner = document.createElement( "div" );
+        $(ampmFromConteiner).addClass("data_picker");
+        $(ampmFromConteiner).attr('id', "drum_ampms");
+        $(HTMLselect).append(ampmFromConteiner);
 
         var now = new Date();
 
@@ -191,10 +215,32 @@
 
         var hours = getHours()
         var hour = new Date().getHours();
+        var ampm = (hour > 12) ? 1 : 0;
         hour = hour % 12;
         hour = hour ? hour : 12;
-        console.log(hour)
-        new Drum(timeFromConteiner, {}, transformProp, hours,hour);
+        var drumHourFrom = new Drum(timeFromConteiner, {
+            onChange : function (hour){
+                if (drumMinuteFrom && drumAmpmFrom)
+                    viewAndSetTime(hour,minutes[drumMinuteFrom.getIndex()], ampmList[drumAmpmFrom.getIndex()]);
+            }
+        }, transformProp, hours,hour);
+
+        var minutes = getMinutas();
+        var drumMinuteFrom = new Drum(minuteFromConteiner, {
+            onChange : function (minuteIndex){
+                minuteIndex --;
+                if (drumHourFrom && drumAmpmFrom)
+                    viewAndSetTime(drumHourFrom.getIndex()+1,minutes[minuteIndex], ampmList[drumAmpmFrom.getIndex()]);
+            }
+        }, transformProp, minutes, 0);
+        var ampmList = ["AM", "PM"];
+        var drumAmpmFrom = new Drum(ampmFromConteiner, {
+            onChange : function (ampmIndex){
+                ampmIndex--;
+                if (drumMinuteFrom && drumHourFrom)
+                    viewAndSetTime(drumHourFrom.getIndex()+1,minutes[drumMinuteFrom.getIndex()], ampmList[ampmIndex]);
+            }
+        }, transformProp, ampmList, ampm);
 
 
     };
