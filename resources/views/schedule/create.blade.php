@@ -36,10 +36,9 @@
                                 </div>
                                 <div class="row mb-2">
                                     <label  class="col-md-3 form-label">DateTime</label>
-                                    <div class="cont_time_from">
+                                    <div class="cont_time_from container-datepicker active">
                                         <input type="hidden" class="input_time_from" name="time_from" value="">
-                                        <div class="view_selected_date_time active">
-
+                                        <div class="view_selected_date_time">
                                             <div class="row">
                                                 <div class="col-6">
                                                     <span class="text-muted"> From:</span>
@@ -55,7 +54,8 @@
                                             <div class="lines"></div>
                                         </div>
                                     </div>
-                                    <div class="cont_time_to">
+                                    <div class="cont_time_to container-datepicker active" style="margin-top: 15px;">
+                                        <input type="hidden" class="input_time_to" name="time_to" value="">
                                         <div class="view_selected_date_time">
                                             <div class="row">
                                                 <div class="col-6">
@@ -67,6 +67,9 @@
                                                     <span class="time_from">9:00 AM</span>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="date_wrapper outside">
+                                            <div class="lines"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -120,17 +123,28 @@
     </script>
     <script>
         $(document).ready(function () {
-            $(".cont_time_from").drum();
-            // $('.time_cont_nav').click(function (){
-            //     $('.time_cont_nav').removeClass('active');
-            //     $(this).addClass('active');
-            //     $('.conteiner_time_c').removeClass('active');
-            //     if($(this).attr('data-r')=="to"){
-            //         $('.conteinerTimeTo').addClass('active');
-            //     } else {
-            //         $('.conteinerTimeFrom').addClass('active');
-            //     }
-            // });
+            var dataPickerTo = null;
+            var dataPickerFrom = $(".cont_time_from").DataPicker({
+                onChange : function (dateTime){
+                    if(dataPickerTo){
+                        let newDate = new Date(dateTime.getTime() + 2*60*60*1000)
+                        dataPickerTo.setDateTime(newDate);
+                    }
+                    $('.input_time_from').val(dateTime.toLocaleString());
+                }
+            });
+            var dataPickerTo = $(".cont_time_to").DataPicker({
+                onChange : function (dateTime){
+                    $('.input_time_to').val(dateTime.toLocaleString());
+                }
+            });
+            dataPickerTo.setDateTime(new Date(new Date().getTime() + 2*60*60*1000))
+
+            $('.cont_time_to').removeClass('active');
+            $('.view_selected_date_time').click(function (){
+                $('.container-datepicker').removeClass('active');
+                $(this).parent().addClass('active');
+            });
 
         });
     </script>

@@ -111,12 +111,15 @@
     };
 
     var DataPicker = function (element, options, transformProp){
+        var settings = $.extend({
+
+        }, options || {});
         var month =  ["January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         var minutes = ['00', '15','30','45'];
         var last_selected_day = null;
         var HTMLselect = element;
-
+        let drumMonth, drumDay, drumYer, drumHour, drumMinute, drumAmPM;
         var getDays = function (month, yer){
             var r = [];
             var days = new Date(yer,month+1,0).getDate();
@@ -132,13 +135,16 @@
             return r;
         }
         var viewAndSetDate = function (date){
-            var d = month[date.getMonth()]+" "+date.getDate()+" "+(date.getFullYear()+1)
+            var d = month[date.getMonth()]+" "+date.getDate()+" "+date.getFullYear();
             HTMLselect.find('.view_selected_date_time .date').html((d));
 
-            var t = now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+            var t = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
             HTMLselect.find(".view_selected_date_time .time_from").html(t);
 
-            HTMLselect.find('.input_time_from').val(d+" "+t);
+            //HTMLselect.find('.input_time_from').val(d +" "+date.getHours()+":"+date.getMinutes());
+            if (settings.onChange) {
+                settings.onChange(date);
+            }
         }
 
         var createConteiner = function (cssClass){
@@ -161,12 +167,13 @@
         var ampmFromConteiner = createConteiner("drum_ampms");
 
         var now = new Date();
-        console.log(now.toString())
-        new Drum(monthConteiner, {
+        now.setSeconds(0);
+
+        drumMonth = new Drum(monthConteiner, {
             onChange : function (month){
                 now.setMonth(month);
                 var days = getDays(month, now.getFullYear());
-                new Drum(daysConteiner, {
+                drumDay = new Drum(daysConteiner, {
                     onChange : function (day){
                         now.setDate(day+1);
                         viewAndSetDate(now);
@@ -177,9 +184,9 @@
         }, transformProp, month, now.getMonth());
 
         var yers = getYers();
-        new Drum(yersConteiner, {
+        drumYer = new Drum(yersConteiner, {
             onChange : function (yer){
-                now.setFullYear(yers[yer-1]);
+                now.setFullYear(yers[yer]);
                 viewAndSetDate(now);
             }
         }, transformProp, yers, 10);
@@ -188,7 +195,7 @@
         var ampm = (sethour >= 12) ? 1 : 0;
         sethour = sethour % 12;
         sethour = sethour ? sethour : 12;
-        new Drum(timeFromConteiner, {
+        drumHour = new Drum(timeFromConteiner, {
             onChange : function (hour){
                 var dhour = (ampm == 1 && hour != 11) ? 12 : 0;
                 if (ampm == 0 && hour == 11) dhour = -12;
@@ -198,22 +205,40 @@
         }, transformProp, hours,sethour-1);
 
         now.setMinutes(0);
-        new Drum(minuteFromConteiner, {
+        drumMinute = new Drum(minuteFromConteiner, {
             onChange : function (minuteIndex){
                 now.setMinutes(minutes[minuteIndex]);
                 viewAndSetDate(now);
             }
         }, transformProp, minutes, 0);
         var ampmList = ["AM", "PM"];
-        var ampmDrum = new Drum(ampmFromConteiner, {
+        drumAmPM = new Drum(ampmFromConteiner, {
             onChange : function (ampmIndex){
-                if (ampmIndex==0 && now.getHours()>=12) now.setHours(now.getHours() - 12);
-                if (ampmIndex==1 && now.getHours()<=12) now.setHours(now.getHours() + 12);
-                ampm = ampmIndex;
-                viewAndSetDate(now);
+                if (ampm != ampmIndex) {
+                    if (ampmIndex == 0 && now.getHours() >= 12) now.setHours(now.getHours() - 12);
+                    if (ampmIndex == 1 && now.getHours() <= 12) now.setHours(now.getHours() + 12);
+                    ampm = ampmIndex;
+                    viewAndSetDate(now);
+                }
             }
         }, transformProp, ampmList, ampm);
 
+        this.setDateTime = function (date){
+            drumMonth.setIndex(date.getMonth());
+            yers.forEach((yer,index) => {
+                if (yer == date.getFullYear()){
+                    drumYer.setIndex(index);
+                }
+            });
+            drumDay.setIndex(date.getDate()-1);
+            var geth = date.getHours();
+            var getampm = (geth >= 12) ? 1 : 0;
+            geth = geth % 12;
+            geth = geth ? geth : 12;
+            drumHour.setIndex(geth-1);
+            drumAmPM.setIndex(getampm);
+            //viewAndSetDate(date);
+        }
     };
 
     var Drum = function(element, options, transformProp, data, selectIndex)
@@ -414,7 +439,11 @@
         //     if ($(this).data('drum'))
         //         $(this).data('drum').setIndex(index);
         // },
-        init : function (options) {
+        dataPicker : null,
+        setDateTime : function (date){
+            this.dataPicker.setDateTime(date);
+        },
+        init : function (self, options) {
             var transformProp = false;
             var prefixes = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' ');
             for(var i = 0; i < prefixes.length; i++) {
@@ -422,25 +451,18 @@
                     transformProp = prefixes[i];
                 }
             }
-
             if (transformProp) {
-                var element = $(this);
-                new DataPicker(element, options, transformProp);
+                this.dataPicker = new DataPicker($(self), options, transformProp);
             }
         }
     };
 
-    $.fn.drum = function(methodOrOptions)
+    $.fn.DataPicker = function(options)
     {
-        var _arguments = arguments;
-        return this.each(function() {
-            if ( methods[methodOrOptions] ) {
-                return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( _arguments, 1 ));
-            } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
-                return methods.init.apply( this, _arguments );
-            } else {
-                $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.drum' );
-            }
+        this.each(function(i, el) {
+            methods.init(el, options);
         });
+        return methods;
+
     };
 })(jQuery);

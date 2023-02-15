@@ -92,6 +92,12 @@
     cursor: pointer;
 }
 
-.view_selected_date_time.active {
+.container-datepicker.active .date_wrapper.outside{
+    display: block;
+}
+.container-datepicker.active .view_selected_date_time{
     background: #efefef;
+}
+.container-datepicker .date_wrapper.outside{
+    display: none;
 }
