@@ -111,11 +111,15 @@
     };
 
     var DataPicker = function (element, options, transformProp){
+        var month =  ["January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        var minutes = ['00', '15','30','45'];
+        var last_selected_day = null;
+        var HTMLselect = element;
 
         var getDays = function (month, yer){
             var r = [];
-            var date = new Date(yer,month,0);
-            var days = date.getDate();
+            var days = new Date(yer,month+1,0).getDate();
             for (var i = 1; i<=days; i++) r.push(i);
             return r;
         };
@@ -127,133 +131,88 @@
             for (var i = yerNow-10; i <= yerNow+10; i++) r.push(i);
             return r;
         }
-        var getHours = function (){
-            var r = [];
-            for(var i = 1; i<=12; i++) r.push(i);
-            return r;
-        }
-        var getMinutas = function (){
-            var r = [];
-            for (var i = 0;i<=45; i+=15){
-                if (i==0) r.push('00');
-                else
-                    r.push(i);
-            }
-            return r;
-        }
-
         var viewAndSetDate = function (date){
-            var d = (date.getMonth() > 0 ? date.getMonth() : 12)+"-"+date.getDate()+"-"+date.getFullYear()
-            $('.view_selected_date_time .date').html((d));
+            var d = month[date.getMonth()]+" "+date.getDate()+" "+(date.getFullYear()+1)
+            HTMLselect.find('.view_selected_date_time .date').html((d));
+
+            var t = now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+            HTMLselect.find(".view_selected_date_time .time_from").html(t);
+
+            HTMLselect.find('.input_time_from').val(d+" "+t);
         }
 
-        var viewAndSetFromTime = function (hour, minute, ampm){
-            var t = hour+":"+minute+" "+ampm;
-            $(".view_selected_date_time .time_from").html(t);
+        var createConteiner = function (cssClass){
+            var c = document.createElement( "div" );
+            $(c).addClass("data_picker");
+            $(c).attr('id', cssClass);
+            HTMLselect.find('.date_wrapper').append(c);
+            return c;
         }
-        var viewAndSetToTime = function (hour, minute, ampm){
-            var t = hour+":"+minute+" "+ampm;
-            $(".view_selected_date_time .time_to").html(t);
-        }
 
-        var last_selected_day = null;
-        var HTMLselect = ($(element))[0];
-
-        var monthConteiner = document.createElement( "div" );
-        $(monthConteiner).addClass("data_picker");
-        $(monthConteiner).attr('id', "drum_month");
-        $(HTMLselect).append(monthConteiner);
-
-        var daysConteiner = document.createElement( "div" );
-        $(daysConteiner).addClass("data_picker");
-        $(daysConteiner).attr('id', "drum_date");
-        $(HTMLselect).append(daysConteiner);
-
-        var yersConteiner = document.createElement( "div" );
-        $(yersConteiner).addClass("data_picker");
-        $(yersConteiner).attr('id', "drum_fullYear");
-        $(HTMLselect).append(yersConteiner);
+        var monthConteiner = createConteiner("drum_month");
+        var daysConteiner = createConteiner("drum_date");
+        var yersConteiner = createConteiner("drum_fullYear");
 
         // Timer Pickek
-
-        var textFromConteiner = document.createElement( "div" );
-        $(textFromConteiner).addClass("data_picker");
-        $(textFromConteiner).attr('id', "drum_text");
-        $(textFromConteiner).html("From: ");
-        $(HTMLselect).append(textFromConteiner);
-
-        var timeFromConteiner = document.createElement( "div" );
-        $(timeFromConteiner).addClass("data_picker");
-        $(timeFromConteiner).attr('id', "drum_hours");
-        $(HTMLselect).append(timeFromConteiner);
-
-        var minuteFromConteiner = document.createElement( "div" );
-        $(minuteFromConteiner).addClass("data_picker");
-        $(minuteFromConteiner).attr('id', "drum_minutes");
-        $(HTMLselect).append(minuteFromConteiner);
-
-        var ampmFromConteiner = document.createElement( "div" );
-        $(ampmFromConteiner).addClass("data_picker");
-        $(ampmFromConteiner).attr('id', "drum_ampms");
-        $(HTMLselect).append(ampmFromConteiner);
+        var textFromConteiner = createConteiner("drum_text");
+        $(textFromConteiner).html("Time: ");
+        var timeFromConteiner = createConteiner("drum_hours");
+        var minuteFromConteiner = createConteiner("drum_minutes");
+        var ampmFromConteiner = createConteiner("drum_ampms");
 
         var now = new Date();
-
-        var month =  ["January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        console.log(now.toString())
         new Drum(monthConteiner, {
             onChange : function (month){
-                month = (month == 12) ? 0 : month;
-                now = new Date(now.getFullYear(),month,now.getDate());
-                viewAndSetDate(now);
+                now.setMonth(month);
                 var days = getDays(month, now.getFullYear());
                 new Drum(daysConteiner, {
                     onChange : function (day){
-                        now = new Date(now.getFullYear(),now.getMonth(),day);
+                        now.setDate(day+1);
                         viewAndSetDate(now);
-                        last_selected_day = day-1;
-
+                        last_selected_day = day;
                     }
-                }, transformProp, days, (last_selected_day!=null) ? last_selected_day : now.getDate());
+                }, transformProp, days, (last_selected_day!=null) ? last_selected_day : now.getDate()-1);
             }
         }, transformProp, month, now.getMonth());
 
         var yers = getYers();
         new Drum(yersConteiner, {
             onChange : function (yer){
-                now = new Date(yers[yer-1],now.getMonth(),now.getDate());
+                now.setFullYear(yers[yer-1]);
                 viewAndSetDate(now);
             }
         }, transformProp, yers, 10);
 
-        var hours = getHours()
-        var hour = new Date().getHours();
-        var ampm = (hour > 12) ? 1 : 0;
-        hour = hour % 12;
-        hour = hour ? hour : 12;
-        var drumHourFrom = new Drum(timeFromConteiner, {
+        var sethour = now.getHours();
+        var ampm = (sethour >= 12) ? 1 : 0;
+        sethour = sethour % 12;
+        sethour = sethour ? sethour : 12;
+        new Drum(timeFromConteiner, {
             onChange : function (hour){
-                if (drumMinuteFrom && drumAmpmFrom)
-                    viewAndSetFromTime(hour,minutes[drumMinuteFrom.getIndex()], ampmList[drumAmpmFrom.getIndex()]);
+                var dhour = (ampm == 1 && hour != 11) ? 12 : 0;
+                if (ampm == 0 && hour == 11) dhour = -12;
+                now.setHours(hour+1+dhour);
+                viewAndSetDate(now);
             }
-        }, transformProp, hours,hour);
+        }, transformProp, hours,sethour-1);
 
-        var minutes = getMinutas();
-        var drumMinuteFrom = new Drum(minuteFromConteiner, {
+        now.setMinutes(0);
+        new Drum(minuteFromConteiner, {
             onChange : function (minuteIndex){
-                minuteIndex --;
-                if (drumHourFrom && drumAmpmFrom)
-                    viewAndSetFromTime(drumHourFrom.getIndex()+1,minutes[minuteIndex], ampmList[drumAmpmFrom.getIndex()]);
+                now.setMinutes(minutes[minuteIndex]);
+                viewAndSetDate(now);
             }
         }, transformProp, minutes, 0);
         var ampmList = ["AM", "PM"];
-        var drumAmpmFrom = new Drum(ampmFromConteiner, {
+        var ampmDrum = new Drum(ampmFromConteiner, {
             onChange : function (ampmIndex){
-                ampmIndex--;
-                if (drumMinuteFrom && drumHourFrom)
-                    viewAndSetFromTime(drumHourFrom.getIndex()+1,minutes[drumMinuteFrom.getIndex()], ampmList[ampmIndex]);
+                if (ampmIndex==0 && now.getHours()>=12) now.setHours(now.getHours() - 12);
+                if (ampmIndex==1 && now.getHours()<=12) now.setHours(now.getHours() + 12);
+                ampm = ampmIndex;
+                viewAndSetDate(now);
             }
         }, transformProp, ampmList, ampm);
-
 
     };
 
@@ -282,13 +241,7 @@
 
         var wrapper = document.createElement( "div" );
         $(wrapper).addClass("drum-wrapper");
-
-
         $(HTMLselect).html(wrapper);
-        $(wrapper).scroll(function (){
-            console.log('scrol')
-        })
-
 
         var inner = document.createElement("div");
         $(inner).addClass("inner");
@@ -383,11 +336,8 @@
             if (selected) {
                 var data = selected.dataModel;
 
-                // var last_index = HTMLselect.selectedIndex;
-                // HTMLselect.selectedIndex = data.index;
-
                 if (settings.onChange && canEventChange)
-                    settings.onChange(data.index+1);
+                    settings.onChange(data.index);
 
                 $(selected.elem).css("opacity", 1);
 
@@ -455,15 +405,15 @@
     };
 
     var methods = {
-        getIndex : function () {
-            if ($(this).data('drum'))
-                return $(this).data('drum').getIndex();
-            return false;
-        },
-        setIndex : function (index) {
-            if ($(this).data('drum'))
-                $(this).data('drum').setIndex(index);
-        },
+        // getIndex : function () {
+        //     if ($(this).data('drum'))
+        //         return $(this).data('drum').getIndex();
+        //     return false;
+        // },
+        // setIndex : function (index) {
+        //     if ($(this).data('drum'))
+        //         $(this).data('drum').setIndex(index);
+        // },
         init : function (options) {
             var transformProp = false;
             var prefixes = 'transform WebkitTransform MozTransform OTransform msTransform'.split(' ');
@@ -475,7 +425,6 @@
 
             if (transformProp) {
                 var element = $(this);
-                // var drum = new Drum(element, options, transformProp);
                 new DataPicker(element, options, transformProp);
             }
         }

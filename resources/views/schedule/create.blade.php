@@ -36,26 +36,38 @@
                                 </div>
                                 <div class="row mb-2">
                                     <label  class="col-md-3 form-label">DateTime</label>
-                                    <div class="view_selected_date_time">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <span class="date" style="margin-left: 30px;">{{date('d-m-Y')}}</span>
-                                            </div>
-                                            <div class="col-8" style="text-align: right">
-                                                <span class="time_cont_nav active">
+                                    <div class="cont_time_from">
+                                        <input type="hidden" class="input_time_from" name="time_from" value="">
+                                        <div class="view_selected_date_time active">
+
+                                            <div class="row">
+                                                <div class="col-6">
                                                     <span class="text-muted"> From:</span>
-                                                    <span class="time_from">9:00 AM</span>
-                                                </span>
-                                                <spn class="time_cont_nav">
-                                                    <span class="text-muted" style="margin-left: 10px;"> To:</span>
-                                                    <span class="time_to">11:00 AM</span>
-                                                </spn>
+                                                    <span class="date" style="margin-left: 30px;"></span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="text-muted"> Time:</span>
+                                                    <span class="time_from"></span>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="date_wrapper outside">
+                                            <div class="lines"></div>
+                                        </div>
                                     </div>
-
-                                    <div class="date_wrapper outside">
-                                        <div class="lines"></div>
+                                    <div class="cont_time_to">
+                                        <div class="view_selected_date_time">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <span class="text-muted"> To:</span>
+                                                    <span class="date" style="margin-left: 30px;">{{date('M-d-Y')}}</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <span class="text-muted"> Time:</span>
+                                                    <span class="time_from">9:00 AM</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr/>
@@ -108,11 +120,17 @@
     </script>
     <script>
         $(document).ready(function () {
-            $(".date_wrapper").drum();
-            $('.time_cont_nav').click(function (){
-                $('.time_cont_nav').removeClass('active');
-                $(this).addClass('active');
-            });
+            $(".cont_time_from").drum();
+            // $('.time_cont_nav').click(function (){
+            //     $('.time_cont_nav').removeClass('active');
+            //     $(this).addClass('active');
+            //     $('.conteiner_time_c').removeClass('active');
+            //     if($(this).attr('data-r')=="to"){
+            //         $('.conteinerTimeTo').addClass('active');
+            //     } else {
+            //         $('.conteinerTimeFrom').addClass('active');
+            //     }
+            // });
 
         });
     </script>

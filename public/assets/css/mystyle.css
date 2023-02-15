@@ -89,5 +89,9 @@
     border:1px solid #e9edf4;
     padding: 5px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
+.view_selected_date_time.active {
+    background: #efefef;
+}
