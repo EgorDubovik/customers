@@ -13,7 +13,7 @@
             <div class="col-md-4 m-auto">
                 <div >
                     <div class="card">
-                        <form method="post" >
+                        <form method="post" action="{{route('schedule.store')}}" >
                             @csrf
                             <div class="card-body">
                                 @if($errors->any())
@@ -22,11 +22,11 @@
                                 <div class="row mb-2">
                                     <label  class="col-md-3 form-label">Customer</label>
                                     <div class="col-md-9">
-                                        <div class="content-customer-scheduling">
+                                        <div class="content-customer-scheduling" onclick="openModal()">
                                             @if(isset($customer))
-                                                <input type="hidden" value="{{$customer->id}}" name="customer">
-                                                <div> <span class="font-weight-bold" style="margin-left: 10px;font-weight: bold">{{$customer->name}}</span></div>
-                                                <div class="text-muted">{{$customer->address->full}}</div>
+                                                <input type="hidden" value="{{$customer->id}}" name="customer" id="input_customer_id">
+                                                <div> <span class="font-weight-bold" style="margin-left: 10px;font-weight: bold" id="customer_name">{{$customer->name}}</span></div>
+                                                <div class="text-muted" id="customer_address">{{$customer->address->full}}</div>
                                             @else
                                                 <p>List of customers</p>
                                             @endif
@@ -111,7 +111,31 @@
         </div>
     </div>
 
-
+    <div class="modal fade" id="exampleModal"  role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" onclick="return false;"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    @if(isset($customers))
+                        @foreach($customers as $customer)
+                            <div class="content-customer-scheduling" style="margin-top: 10px;" onclick="choiceCustomer(this, {{$customer->id}})">
+                                <div><span class="font-weight-bold choice_customer_name" style="margin-left: 10px;font-weight: bold">{{$customer->name}}</span></div>
+                                <div class="text-muted choice_customer_address">{{$customer->address->full}}</div>
+                                <div class="click-to-change"></div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
 @section('scripts')
     <script src="{{ URL::asset('assets/js/Drum.js')}}"></script>
@@ -130,12 +154,12 @@
                         let newDate = new Date(dateTime.getTime() + 2*60*60*1000)
                         dataPickerTo.setDateTime(newDate);
                     }
-                    $('.input_time_from').val(dateTime.toLocaleString());
+                    $('.input_time_from').val(toSqlFormat(dateTime));
                 }
             });
             var dataPickerTo = $(".cont_time_to").DataPicker({
                 onChange : function (dateTime){
-                    $('.input_time_to').val(dateTime.toLocaleString());
+                    $('.input_time_to').val(toSqlFormat(dateTime));
                 }
             });
             dataPickerTo.setDateTime(new Date(new Date().getTime() + 2*60*60*1000))
@@ -146,6 +170,24 @@
                 $(this).parent().addClass('active');
             });
 
+            function toSqlFormat(date){
+                return date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":00";
+            }
+
         });
+
+        function openModal(){
+            $('#exampleModal').modal('show');
+        }
+
+        function choiceCustomer(d, id){
+            $('#input_customer_id').val(id)
+            var name = $(d).find(".choice_customer_name").html();
+            var address = $(d).find(".choice_customer_address").html();
+            console.log(name,address)
+            $("#customer_name").html(name)
+            $("#customer_address").html(address);
+            $('#exampleModal').modal('hide');
+        }
     </script>
 @endsection

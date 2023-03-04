@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('customer_id');
             $table->dateTime('start');
             $table->dateTime('end');
-            $table->integer('service_id');
-            $table->integer('status');
+            $table->integer('service_id')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

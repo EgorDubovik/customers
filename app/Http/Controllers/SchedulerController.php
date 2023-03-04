@@ -35,14 +35,11 @@ class SchedulerController extends Controller
             $customer = Customer::where(['id' => $request->customer, 'company_id' => Auth::user()->company_id])->first();
             if ($customer)
                 $data['customer'] = $customer;
-            else
-                $data['customers'] = Customer::where('company_id',Auth::user()->company_id)->get();
-        }else{
-            $customers = Customer::where('company_id',Auth::user()->company_id)
-                ->get();
-            $data['customers'] = $customers;
         }
 
+        $customers = Customer::where('company_id',Auth::user()->company_id)
+            ->get();
+        $data['customers'] = $customers;
 
         return view('schedule.create',$data);
     }
@@ -55,7 +52,19 @@ class SchedulerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'customer'        => 'required|integer',
+            'time_from' => 'required',
+            'time_to' => 'required',
+        ]);
+
+        // check if this is my customer
+        Scheduler::create([
+            'customer_id' => $request->customer,
+            'start' => $request->time_from,
+            'end' => $request->time_to,
+        ]);
+        return back();
     }
 
     /**

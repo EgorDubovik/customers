@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Scheduler extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'customer_id',
+        'start',
+        'end',
+        'service_id',
+        'status',
+    ];
 }
