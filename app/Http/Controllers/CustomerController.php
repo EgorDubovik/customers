@@ -22,7 +22,7 @@ class CustomerController extends Controller
 
         $customers = Customer::where('company_id',Auth::user()->company_id)
             ->get()
-            ->makeHidden(['address_id','company_id', 'created_at','updated_at']);
+            ->makeHidden(['address_id','company_id', 'created_at','updated_at','notes']);
 
         return view('customer.index', ['customers'=>$customers]);
     }

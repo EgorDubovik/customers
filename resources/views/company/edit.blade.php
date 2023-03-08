@@ -15,9 +15,8 @@
                 <div class="card col-md-6 m-auto">
                     <form method="post" action="{{route('company.update', ['company' => $company])}}">
                         @csrf
-                        <div class="card-header">
-
-                        </div>
+                        <div class="card-header">    
+                        
                         <div class="card-body">
                             <div class="category-create-address">Customer </div>
                             <div style="margin-left: 20px;">

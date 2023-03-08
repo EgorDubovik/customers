@@ -92,7 +92,8 @@
                 var regex = new RegExp(search, "i");
                 var count = [];
                 $.each(customers, function(key, val) {
-                    if ((val.name.search(regex) != -1) || (val.address.full.search(regex) != -1) || (val.phone.search(regex) !=-1)){
+                    var phone = val.phone.replace(/\D/g, "");
+                    if ((val.name.search(regex) != -1) || (val.address.full.search(regex) != -1) || (val.phone.search(regex) !=-1) || phone.search(regex) !=-1){
                         count.push(val);
                     }
                 });

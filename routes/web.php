@@ -25,7 +25,6 @@ Route::prefix("auth")->group(function(){
 
 Route::group(['middleware' => ['auth','active']],function (){
    Route::get('/',function(){
-       //return view('dashboard');
        return redirect()->route('customer.list');
    });
 
