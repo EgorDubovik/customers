@@ -75,6 +75,9 @@
     cursor: pointer;
     font-size: 13px;
 }
+.content-customer-scheduling:hover{
+    background-color: #f8f8f8;
+}
 .click-to-change{
     text-align: right;
     font-size: 10px;
@@ -101,3 +104,4 @@
 .container-datepicker .date_wrapper.outside{
     display: none;
 }
+

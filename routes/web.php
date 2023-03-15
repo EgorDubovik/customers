@@ -12,6 +12,7 @@ use App\Http\Controllers\SettingsConstroller;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\InvoiceController;
 use  App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SchedulerController;
 
@@ -85,6 +86,13 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::prefix('schedule')->group(function (){
         Route::get('create', [SchedulerController::class, 'create'])->name('schedule.create');
         Route::post('store', [SchedulerController::class, 'store'])->name('schedule.store');
+    });
+
+    // Invoices
+
+    Route::prefix('invoice')->group(function(){
+        Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
+        Route::get('create', [InvoiceController::class, 'create'])->name('invoice.create');
     });
 
 });
