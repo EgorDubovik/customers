@@ -104,4 +104,13 @@
 .container-datepicker .date_wrapper.outside{
     display: none;
 }
-
+.invoice-serviceline{
+    border: 1px solid #bee4c1;
+    border-radius: 4px;
+    padding: 5px 0;
+    color: #454545;
+    background: #f2fef3;
+}
+.cont-service-block{
+    padding: 0 2px;
+}

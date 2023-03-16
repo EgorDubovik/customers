@@ -17,11 +17,12 @@
                         <div class="card-body">
                             <div class="category-create-address">Customer </div>
                             <div class="customer-view-info" style="display: none">
-                                <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">Customer Name</span> <span class="text-muted"  id="customer-card-email" style="font-weight: normal">yourdomain@example.com</span> <span style="margin-left:20px"> <a href=# onclick="editCustomerCard(); return false;" style="color:brown;font-weight:normal;font-size:14px;"> <i class="side-menu__icon fe fe-edit"></i> Edit</a></span></p>
-                                <address style="margin-left: 20px;" id="customer-card-address">
+                                <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">Customer Name</span> <span class="text-muted"  id="customer-card-email" style="font-weight: normal">yourdomain@example.com</span></p>
+                                <address style="margin-top: 10px;" id="customer-card-address">
                                     Street Address<br>
                                     City, State Postal Code
                                 </address>
+                                <p class="text-end"><a href=# onclick="editCustomerCard(); return false;" style="color:brown;font-weight:normal;font-size:14px;"> <i class="side-menu__icon fe fe-edit"></i> Edit</a></p>
                             </div>
                             <div class="customer-input-group">
                                 <div style="margin-left: 20px;">
@@ -88,19 +89,23 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Services</h5>
+                        <div id="line-services-added" class="row">
+                            
+                        </div>
+                        <hr>
                         <div class="row mb-3">
-                            <div class="col-8">
+                            <div class="col-7">
                                 <div class="row">
-                                    <div class="col-md-2">Title</div>
+                                    <div class="col-md-2">Title:</div>
                                     <div class="col-md-10">
                                         <input type="text" class="form-control" id="service-title" placeholder="Title">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-5">
                                 <div class="row">
-                                    <div class="col-md-2">Price</div>
-                                    <div class="col-md-10">
+                                    <div class="col-md-3">Price:</div>
+                                    <div class="col-md-9">
                                         <input type="text" class="form-control" id="service-price" >
                                     </div>
                                 </div>
@@ -109,7 +114,7 @@
                         <div class="row mb-3">
                             <label for="colFormLabel" class="col-md-2 col-form-label">Description</label>
                             <div class="col-md-10">
-                                <textarea class="form-control" placeholder="Description" id="service-description" style="height: 100px"></textarea>
+                                <textarea class="form-control" placeholder="Description" id="service-description" style="height: 65px"></textarea>
                             </div>
                         </div>
                         <div class="row">
@@ -267,7 +272,29 @@
         }
 
         function addService(){
-            
+            var title = $('#service-title').val();
+            var price = $('#service-price').val();
+            var description = $('#service-description').val();
+            $('#line-services-added').append('<div class="col-sm-12 col-md-6">'+
+                                '<div class="cont-service-block">'+
+                                    '<div class="row mb-2 invoice-serviceline">'+
+                                        '<div class="col-9">'+
+                                            '<b>'+title+'</b>'+
+                                            '<p class="text-muted">'+description+'</p>'+
+                                        '</div>'+
+                                        '<div class="col-2"><b>$'+price+'</b></div>'+
+                                        '<div class="col-1"><a href="#" style="color:brown" onclick="removeServiceItem(this); return false;"><i class="fa fa-trash"></i></a></div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>');
+            $('#service-title').val('');
+            $('#service-price').val('');
+            $('#service-description').val('');
+
+        }
+
+        function removeServiceItem(d){
+            $(d).parent().parent().remove();
         }
     </script>
 @endsection

@@ -595,6 +595,7 @@ pre code {
     .container {
         max-width: 960px;
     }
+        
 }
 
 @media (min-width: 1280px) {
@@ -15200,7 +15201,7 @@ small,
     }
 
     .app-content .side-app {
-        padding: 0px 15px 0 15px !important;
+        padding: 0px !important;
     }
 
     .header .header-right-icons .nav-link.icon {
