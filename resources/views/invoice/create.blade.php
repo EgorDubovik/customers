@@ -11,70 +11,76 @@
         <!-- CONTENT -->
         <div class="row">
             <div class="col-md-6">
-                <div class="card col-12">
+                <div class="card">
                     <form method="post">
                         @csrf
                         <div class="card-body">
-                            <div class="category-create-address">Customer </div>
-                            <div class="customer-view-info" style="display: none">
-                                <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">Customer Name</span> <span class="text-muted"  id="customer-card-email" style="font-weight: normal">yourdomain@example.com</span></p>
-                                <address style="margin-top: 10px;" id="customer-card-address">
-                                    Street Address<br>
-                                    City, State Postal Code
-                                </address>
-                                <p class="text-end"><a href=# onclick="editCustomerCard(); return false;" style="color:brown;font-weight:normal;font-size:14px;"> <i class="side-menu__icon fe fe-edit"></i> Edit</a></p>
-                            </div>
-                            <div class="customer-input-group">
-                                <div style="margin-left: 20px;">
-                                    <div class="row mb-4">
-                                        <label class="col-md-2 control-label">Full Name</label>
-                                        <div class="col-md-10">
-                                            <input type="text" class="form-control customer_name" onblur = "update_invoice_view()" id="customer_name" placeholder="Customer Full Name" name="customer_name" value="">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-4">
-                                        <label class="col-md-2 control-label">Email</label>
-                                        <div class="col-md-10">
-                                            <input type="text" class="form-control customer_phone" placeholder="Email address" id="email" onblur = "update_invoice_view()" name="email" value="">
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="category-create-address" style="border: 0px">Customer </div>
+                                <div class="customer-view-info">
+                                    <div class="customer-icon"><i class="fe fe-bookmark"></i></div>
+                                    <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">Customer Name</span></p>
+                                    <span class="text-muted"  id="customer-card-email" style="font-weight: normal">yourdomain@example.com</span>
+                                    <div class="hr"></div>
+
+                                    <address style="margin-top: 10px;" id="customer-card-address">
+                                        Street Address<br>
+                                        City, State Postal Code
+                                    </address>
+                                    <div class="action"><a href=# onclick="editCustomerCard(); return false;" class="text-warning"> <i class="side-menu__icon fe fe-edit"></i> Edit</a></div>
                                 </div>
-
-                                <div class="category-create-address">Address  <a href="#" class="parse_btn" onclick="$('.parse_address').toggle(); return false;">parse</a></div>
-
-                                <textarea name="parse_address" style="display: none" class="parse_address form-control mb-2" onblur="parse_my_address(this)"></textarea>
-                                <div style="margin-left: 20px;">
-                                    <div class="row mb-4">
-                                        <label class="col-sm-2 control-label" for="textinput">Line 1</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="House number, street" class="form-control line1" name="line1" id="address-line1" onblur = "update_invoice_view()">
+                                <div class="customer-input-group">
+                                    <div style="margin-left: 20px;">
+                                        <div class="row mb-4">
+                                            <label class="col-md-2 control-label">Full Name</label>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control customer_name" onblur = "update_invoice_view()" id="customer_name" placeholder="Customer Full Name" name="customer_name" value="">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-4">
-                                        <label class="col-sm-2 control-label" for="textinput">Line 2</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="apt. number" class="form-control line2" name="line2" id="address-line2" onblur = "update_invoice_view()">
-                                        </div>
-                                    </div>
-
-                                    <!-- Text input-->
-                                    <div class="row mb-4">
-                                        <label class="col-sm-2 control-label" for="textinput">City</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" placeholder="City" class="form-control city" name="city" id="address-city" onblur = "update_invoice_view()">
+                                        <div class="row mb-4">
+                                            <label class="col-md-2 control-label">Email</label>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control customer_phone" placeholder="Email address" id="email" onblur = "update_invoice_view()" name="email" value="">
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <!-- Text input-->
-                                    <div class="row mb-4">
-                                        <label class="col-sm-2 control-label" for="textinput">State</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" placeholder="State" class="form-control state" name="state" id="address-state" onblur = "update_invoice_view()">
+                                    <div class="category-create-address">Address  <a href="#" class="parse_btn" onclick="$('.parse_address').toggle(); return false;">parse</a></div>
+
+                                    <textarea name="parse_address" style="display: none" class="parse_address form-control mb-2" onblur="parse_my_address(this)"></textarea>
+                                    <div style="margin-left: 20px;">
+                                        <div class="row mb-4">
+                                            <label class="col-sm-2 control-label" for="textinput">Line 1</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" placeholder="House number, street" class="form-control line1" name="line1" id="address-line1" onblur = "update_invoice_view()">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label class="col-sm-2 control-label" for="textinput">Line 2</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" placeholder="apt. number" class="form-control line2" name="line2" id="address-line2" onblur = "update_invoice_view()">
+                                            </div>
                                         </div>
 
-                                        <label class="col-sm-2 control-label" for="textinput">Zip</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" placeholder="Post Code" class="form-control zip" name="zip" id="address-zip" onblur = "update_invoice_view()">
+                                        <!-- Text input-->
+                                        <div class="row mb-4">
+                                            <label class="col-sm-2 control-label" for="textinput">City</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" placeholder="City" class="form-control city" name="city" id="address-city" onblur = "update_invoice_view()">
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="row mb-4">
+                                            <label class="col-sm-2 control-label" for="textinput">State</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" placeholder="State" class="form-control state" name="state" id="address-state" onblur = "update_invoice_view()">
+                                            </div>
+
+                                            <label class="col-sm-2 control-label" for="textinput">Zip</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" placeholder="Post Code" class="form-control zip" name="zip" id="address-zip" onblur = "update_invoice_view()">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +112,7 @@
                                 <div class="row">
                                     <div class="col-md-3">Price:</div>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" id="service-price" >
+                                        <input type="text" class="form-control" id="service-price" placeholder="$ 00.00" name="price" value="">
                                     </div>
                                 </div>
                             </div>
@@ -197,6 +203,11 @@
     
 @stop
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
+    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.60/inputmask/jquery.inputmask.js"></script>--}}
+    <script>
+        $('#service-price').mask("##0.00", {reverse: true});
+    </script>
     <script type="text/javascript" src="{{ URL::asset('assets/js/parse-address.min.js')}}"></script>
     <script>
         function parse_my_address(d){

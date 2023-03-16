@@ -114,3 +114,33 @@
 .cont-service-block{
     padding: 0 2px;
 }
+
+.customer-view-info{
+    background: #f1f1f1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.customer-view-info .customer-icon{
+    position: absolute;
+    right: 26px;
+    top: -9px;
+    font-size: 36px;
+    color: #c9c9c9;
+}
+
+.customer-view-info .hr{
+    border-top: 1px solid #dfdfdf;
+    margin-top: 8px;
+}
+
+.customer-view-info address{
+    color: #7c7c7c;
+}
+
+.customer-view-info .action{
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
