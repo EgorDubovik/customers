@@ -17,7 +17,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="category-create-address" style="border: 0px">Customer </div>
-                                <div class="customer-view-info">
+                                <div class="customer-view-info" style="display: none">
                                     <div class="customer-icon"><i class="fe fe-bookmark"></i></div>
                                     <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">Customer Name</span></p>
                                     <span class="text-muted"  id="customer-card-email" style="font-weight: normal">yourdomain@example.com</span>
@@ -27,7 +27,7 @@
                                         Street Address<br>
                                         City, State Postal Code
                                     </address>
-                                    <div class="action"><a href=# onclick="editCustomerCard(); return false;" class="text-warning"> <i class="side-menu__icon fe fe-edit"></i> Edit</a></div>
+                                    <div class="action"><a href=# onclick="editCustomerCard(); return false;" class="text-warning"> <i class="side-menu__icon fe fe-edit"></i></a></div>
                                 </div>
                                 <div class="customer-input-group">
                                     <div style="margin-left: 20px;">
@@ -97,6 +97,27 @@
                         <h5 class="card-title">Services</h5>
                         <div id="line-services-added" class="row">
                             
+                            {{-- <div class="col-sm-12 col-md-6 mb-2">
+                                <div class="cont-service-block">
+                                    <div class="row mb-2">
+                                        <div class="col-9"><b>Dryer</b></div>
+                                        <div class="col-3"><b>$321.53</b></div>
+                                    </div>
+                                    <div class="hr"></div>
+                                    <div class="row mt-2">
+                                        <div class="col-9 iems-descrition">
+                                            Replace heating elelemtn
+                                        </div>
+                                        <div class="col-3">
+                                            <p class="text-end">
+                                                <a href="#"onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            
+
                         </div>
                         <hr>
                         <div class="row mb-3">
@@ -145,7 +166,7 @@
                             </div>
                             <div class="col-lg-6 text-end border-bottom border-lg-0">
                                 <h3>#INV-000</h3>
-                                <h5>Date Issued: 00-00-0000</h5>
+                                <h5>Date Issued: {{ date('M-d-Y') }}</h5>
                             </div>
                         </div>
                         <div class="row pt-5">
@@ -160,14 +181,14 @@
                             </div>
                             <div class="col-lg-6 text-end">
                                 <p class="h4 fw-semibold">Payment Details:</p>
-                                <p class="mb-1">Total Due: $00,00</p>
+                                <p class="mb-1">Total Due: $<span id='total-small-invoice'>00,00</span></p>
                                 <p class="mb-1">Type of payment: Null</p>
                             </div>
                         </div>
                         <div class="table-responsive push">
                             <table class="table table-bordered table-hover mb-0 text-nowrap">
                                 <tbody>
-                                    <tr class=" ">
+                                    <tr id="tr-header-invoice-table">
                                         <th class="text-center"></th>
                                         <th>Item</th>
                                         <th class="text-end">Total</th>
@@ -186,7 +207,7 @@
                                     
                                     <tr>
                                         <td colspan="2" class="fw-bold text-uppercase text-end">Total</td>
-                                        <td class="fw-bold text-end h4">$00,00</td>
+                                        <td class="fw-bold text-end h4"><span id="total-invoice">$00,00</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -286,26 +307,54 @@
             var title = $('#service-title').val();
             var price = $('#service-price').val();
             var description = $('#service-description').val();
-            $('#line-services-added').append('<div class="col-sm-12 col-md-6">'+
+            $('#line-services-added').append(
+                            '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
+                            '<div class="col-sm-12 col-md-6 mb-2">'+
                                 '<div class="cont-service-block">'+
-                                    '<div class="row mb-2 invoice-serviceline">'+
-                                        '<div class="col-9">'+
-                                            '<b>'+title+'</b>'+
-                                            '<p class="text-muted">'+description+'</p>'+
+                                    '<div class="row mb-2">'+
+                                        '<div class="col-9"><b>'+title+'</b></div>'+
+                                        '<div class="col-3"><b>$'+price+'</b></div>'+
+                                    '</div>'+
+                                    '<div class="hr"></div>'+
+                                    '<div class="row mt-2">'+
+                                        '<div class="col-9 iems-descrition">'+description+'</div>'+
+                                        '<div class="col-3">'+
+                                            '<p class="text-end">'+
+                                                '<a href="#"onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a>'+
+                                            '</p>'+
                                         '</div>'+
-                                        '<div class="col-2"><b>$'+price+'</b></div>'+
-                                        '<div class="col-1"><a href="#" style="color:brown" onclick="removeServiceItem(this); return false;"><i class="fa fa-trash"></i></a></div>'+
                                     '</div>'+
                                 '</div>'+
                             '</div>');
+            
             $('#service-title').val('');
             $('#service-price').val('');
             $('#service-description').val('');
 
+            $('#tr-header-invoice-table').after('<tr>'+
+                                        '<td class="text-center">1</td>'+
+                                        '<td>'+
+                                            '<p class="font-w600 mb-1">'+title+'</p>'+
+                                            '<div class="text-muted">'+
+                                                '<div class="text-muted">'+description+'</div>'+
+                                            '</div>'+
+                                        '</td>'+
+                                        '<td class="text-end">$'+price+'</td>'+
+                                    '</tr>');
+            countTotal();
+        }
+
+        function countTotal(){
+            var total = 0;
+            $('.service-prices').each(function(){
+                total += parseFloat($(this).val());
+            });
+            $('#total-invoice').html('$'+total);
+            $('#total-small-invoice').html('$'+total);
         }
 
         function removeServiceItem(d){
-            $(d).parent().parent().remove();
+            $(d).parent().parent().parent().parent().parent().remove();
         }
     </script>
 @endsection

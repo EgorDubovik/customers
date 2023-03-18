@@ -104,19 +104,20 @@
 .container-datepicker .date_wrapper.outside{
     display: none;
 }
-.invoice-serviceline{
-    border: 1px solid #bee4c1;
+.cont-service-block{
     border-radius: 4px;
     padding: 5px 0;
     color: #454545;
-    background: #f2fef3;
+    background: #ebf6ff;
+    padding: 4px 10px;
 }
-.cont-service-block{
-    padding: 0 2px;
+
+.cont-service-block .iems-descrition{
+    color: #909090;
 }
 
 .customer-view-info{
-    background: #f1f1f1;
+    background: #ebf6ff;
     padding: 5px 10px;
     border-radius: 5px;
     position: relative;
@@ -127,11 +128,11 @@
     right: 26px;
     top: -9px;
     font-size: 36px;
-    color: #c9c9c9;
+    color: #9dc0e4;
 }
 
-.customer-view-info .hr{
-    border-top: 1px solid #dfdfdf;
+.customer-view-info .hr, .cont-service-block .hr{
+    border-top: 1px solid #d8e5fc;
     margin-top: 8px;
 }
 
