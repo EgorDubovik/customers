@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->integer('creator_id');
+            $table->integer('company_id');
+            $table->integer('customer_id')->nullable();
+            $table->string('customer_name')->nullable();
+            $table->string('address')->nullable();
+            $table->string('email');
+            $table->integer('status')->default(0);
+            $table->string('pdf_path')->nullable();
             $table->timestamps();
         });
     }

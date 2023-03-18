@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\InvoiceServices;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -35,7 +36,15 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->input('service-prices'));
+        foreach($request->input('service-prices') as $key => $value){
+            InvoiceServices::create([
+                'invoice_id' => 0,
+                'title' => $request->input('service-title')[$key],
+                'description' => $request->input('service-description')[$key],
+                'price' => $request->input('service-prices')[$key],
+            ]);
+        }
     }
 
     /**

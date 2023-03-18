@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::prefix('invoice')->group(function(){
         Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
         Route::get('create', [InvoiceController::class, 'create'])->name('invoice.create');
+        Route::post('store', [InvoiceController::class, 'store'])->name('invoice.store');
     });
 
 });
