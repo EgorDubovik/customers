@@ -43,7 +43,7 @@
                                             <td>{{ $invoice->email }}</td>
                                             <td>{{ \Carbon\Carbon::parse($invoice->created_at)->diffForHumans() }}</td>
                                             <td>
-                                                
+                                                <a href="{{ route('invoice.show',['invoice' => $invoice->id]) }}" class="btn btn-info"><i class="fe fe-eye"></i> View</a>
                                             </td>
                                         </tr>
                                     @endforeach

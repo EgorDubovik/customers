@@ -20,4 +20,8 @@ class Invoice extends Model
         'status',
         'pdf_path',
     ];
+
+    function services(){
+        return $this->hasMany(InvoiceServices::class, 'invoice_id');
+    }
 }

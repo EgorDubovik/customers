@@ -15,6 +15,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InvoiceController;
 use  App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SchedulerController;
+use App\Models\Invoice;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -94,6 +95,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
         Route::get('create', [InvoiceController::class, 'create'])->name('invoice.create');
         Route::post('store', [InvoiceController::class, 'store'])->name('invoice.store');
+        Route::get('/view/{invoice}', [InvoiceController::class,'show'])->name('invoice.show');
     });
 
 });

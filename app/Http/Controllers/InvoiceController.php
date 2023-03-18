@@ -27,6 +27,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+
         return view("invoice.create");
     }
 
@@ -70,7 +71,11 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        $total = 0;
+        foreach($invoice->services as $service){
+            $total += $service->price;
+        }
+        return view('invoice.show',['invoice' => $invoice,'total' => $total]);
     }
 
     /**
