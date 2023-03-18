@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use App\Models\InvoiceServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -15,7 +16,8 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        return view("invoice.index");
+        $invoices = Invoice::where('company_id',Auth::user()->company_id)->get();
+        return view("invoice.index",['invoices' => $invoices]);
     }
 
     /**
@@ -36,15 +38,28 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->input('service-prices'));
+        
+        $invoice = Invoice::create([
+            'creator_id'    => Auth::user()->id,
+            'company_id'    => Auth::user()->company_id,
+            'customer_id'   => null,
+            'customer_name' => $request->customer_name,
+            'address' => $request->customer_address,
+            'email' => $request->email,
+            'status' => 0,
+            'pdf_path' => "path",
+        ]);
+
         foreach($request->input('service-prices') as $key => $value){
             InvoiceServices::create([
-                'invoice_id' => 0,
+                'invoice_id' => $invoice->id,
                 'title' => $request->input('service-title')[$key],
                 'description' => $request->input('service-description')[$key],
                 'price' => $request->input('service-prices')[$key],
             ]);
         }
+
+        return back();
     }
 
     /**

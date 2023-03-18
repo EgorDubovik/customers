@@ -22,7 +22,7 @@
                                 <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">Customer Name</span></p>
                                 <span class="text-muted"  id="customer-card-email" style="font-weight: normal">yourdomain@example.com</span>
                                 <div class="hr"></div>
-
+                                <input type="hidden" name="customer_address" id="input-customer-address"> 
                                 <address style="margin-top: 10px;" id="customer-card-address">
                                     Street Address<br>
                                     City, State Postal Code
@@ -259,6 +259,7 @@
             var email = $("#email").val();
             var address = getAddress();
             $('#invoice-address').html(address);
+            $('#input-customer-address').val(address);
             if(name != ""){
                 $('#invoice-customer-name').html(name);
             }
@@ -311,8 +312,8 @@
             var description = $('#service-description').val();
             $('#line-services-added').append(
                             '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
-                            '<input type="hidden" name="service-title[]" class = "service-prices" value="'+title+'">'+
-                            '<input type="hidden" name="service-description[]" class = "service-prices" value="'+description+'">'+
+                            '<input type="hidden" name="service-title[]" value="'+title+'">'+
+                            '<input type="hidden" name="service-description[]"  value="'+description+'">'+
                             '<div class="col-sm-12 col-md-6 mb-2">'+
                                 '<div class="cont-service-block">'+
                                     '<div class="row mb-2">'+
@@ -351,6 +352,7 @@
         function countTotal(){
             var total = 0;
             $('.service-prices').each(function(){
+                console.log(total);
                 total += parseFloat($(this).val());
             });
             $('#total-invoice').html('$'+total);
