@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class InvoiceController extends Controller
 {
@@ -75,7 +76,8 @@ class InvoiceController extends Controller
         foreach($invoice->services as $service){
             $total += $service->price;
         }
-        return view('invoice.show',['invoice' => $invoice,'total' => $total]);
+        return view('invoice.PDF',['invoice' => $invoice,'total' => $total]);
+        // return view('invoice.show',['invoice' => $invoice,'total' => $total]);
     }
 
     /**
@@ -110,5 +112,21 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         //
+    }
+
+    public function createPDF(Invoice $invoice){
+
+
+        $total = $this->getServiceTotal($invoice);
+        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice, 'total'=>$total]);
+        return $pdf->stream('test.pdf');
+    }
+
+    private function getServiceTotal(Invoice $invoice){   
+        $total = 0;
+        foreach($invoice->services as $service){
+            $total += $service->price;
+        }
+        return $total;
     }
 }

@@ -90,12 +90,12 @@ Route::group(['middleware' => ['auth','active']],function (){
     });
 
     // Invoices
-
     Route::prefix('invoice')->group(function(){
         Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
         Route::get('create', [InvoiceController::class, 'create'])->name('invoice.create');
         Route::post('store', [InvoiceController::class, 'store'])->name('invoice.store');
         Route::get('/view/{invoice}', [InvoiceController::class,'show'])->name('invoice.show');
+        Route::get('/create/pdf/{invoice}',[InvoiceController::class, 'createPDF'])->name('invoice.create.PDF');
     });
 
 });

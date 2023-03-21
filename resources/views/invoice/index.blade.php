@@ -26,7 +26,7 @@
                                     <th>Customer</th>
                                     <th>Email</th>
                                     <th>Created at</th>
-                                    <th class="text-end">Actions</th>
+                                    <th class="text-end" style="width: 100px">Actions</th>
                                 </tr>
                                 
                                 
@@ -43,7 +43,8 @@
                                             <td>{{ $invoice->email }}</td>
                                             <td>{{ \Carbon\Carbon::parse($invoice->created_at)->diffForHumans() }}</td>
                                             <td>
-                                                <a href="{{ route('invoice.show',['invoice' => $invoice->id]) }}" class="btn btn-info"><i class="fe fe-eye"></i> View</a>
+                                                <a href="{{ route('invoice.show',['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> View</a>
+                                                <a href="{{ route('invoice.create.PDF',['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> PDF</a>
                                             </td>
                                         </tr>
                                     @endforeach
