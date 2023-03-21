@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 
 class InvoiceController extends Controller
@@ -41,6 +42,8 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         
+        
+
         $invoice = Invoice::create([
             'creator_id'    => Auth::user()->id,
             'company_id'    => Auth::user()->company_id,
@@ -49,9 +52,11 @@ class InvoiceController extends Controller
             'address' => $request->customer_address,
             'email' => $request->email,
             'status' => 0,
-            'pdf_path' => "path",
+            'pdf_path' => null,
         ]);
 
+        
+        
         foreach($request->input('service-prices') as $key => $value){
             InvoiceServices::create([
                 'invoice_id' => $invoice->id,
@@ -60,7 +65,9 @@ class InvoiceController extends Controller
                 'price' => $request->input('service-prices')[$key],
             ]);
         }
-
+        $pdfname = $this->createPDF($invoice);
+        $invoice->pdf_path = $pdfname;
+        $invoice->save();
         return back();
     }
 
@@ -71,13 +78,9 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Invoice $invoice)
-    {
-        $total = 0;
-        foreach($invoice->services as $service){
-            $total += $service->price;
-        }
-        return view('invoice.PDF',['invoice' => $invoice,'total' => $total]);
-        // return view('invoice.show',['invoice' => $invoice,'total' => $total]);
+    {        
+        $total = $this->getServiceTotal($invoice);
+        return view('invoice.show',['invoice' => $invoice,'total' => $total]);
     }
 
     /**
@@ -114,12 +117,21 @@ class InvoiceController extends Controller
         //
     }
 
-    public function createPDF(Invoice $invoice){
-
-
+    private function createPDF(Invoice $invoice){
         $total = $this->getServiceTotal($invoice);
         $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice, 'total'=>$total]);
-        return $pdf->stream('test.pdf');
+        $content = $pdf->download()->getOriginalContent();
+        $filename = 'Invoice_'.date('m-d-Y').'-'.time().'.pdf';
+        Storage::put('public/pdf/invoices/'.$filename,$content);
+        return $filename;
+    }
+
+    public function viewPDF($path){
+
+        $file = storage_path('app/public/pdf/invoices/'.$path);
+        if(!file_exists($file))
+            abort(404);
+        return response()->file(storage_path('app/public/pdf/invoices/'.$path));
     }
 
     private function getServiceTotal(Invoice $invoice){   

@@ -78,7 +78,10 @@
                         </div>
                     </div>
                     <div class="card-footer text-end">
-                        <button type="submit" class="btn btn-secondary mb-1" ><i class="si si-paper-plane"></i> Send Invoice</button>
+                        <div class="input-group">
+                            <button type="submit" class="btn btn-secondary mb-1" ><i class="si si-paper-plane"></i> Send New Copy</button>
+                            <input type="text" id="main-email"  class="form-control" value="{{ $invoice->email }}">
+                        </div>
                     </div>
                 </div>    
             </div>

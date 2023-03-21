@@ -215,8 +215,10 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card-footer text-end">
-                        <button type="submit" class="btn btn-secondary mb-1" ><i class="si si-paper-plane"></i> Send Invoice</button>
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <button type="submit" class="btn btn-secondary mb-1" ><i class="si si-paper-plane"></i> Send Invoice</button>
+                        </div>
                     </div>
                 </div>    
             </div>
