@@ -9,8 +9,6 @@
         </div>
         <!-- PAGE-HEADER END -->
         <!-- CONTENT -->
-        <form method="post" action="{{ route('invoice.store') }}">
-            @csrf
         <div class="row">
 
             <div class="col-md-6 m-auto">
@@ -78,15 +76,18 @@
                         </div>
                     </div>
                     <div class="card-footer text-end">
-                        <div class="input-group">
-                            <button type="submit" class="btn btn-secondary mb-1" ><i class="si si-paper-plane"></i> Send New Copy</button>
-                            <input type="text" id="main-email"  class="form-control" value="{{ $invoice->email }}">
-                        </div>
+                        <form method="post" action="{{ route('invoice.resend',['invoice' => $invoice]) }}">
+                            @csrf
+                            <div class="input-group">
+                                <button type="submit" class="btn btn-secondary mb-1" ><i class="si si-paper-plane"></i> Send New Copy</button>
+                                <input type="text" id="main-email"  class="form-control" value="{{ $invoice->email }}" name="email">
+                            </div>
+                        </form>
                     </div>
                 </div>    
             </div>
         </div>
-        </form>
+        
     </div>
     
 @stop

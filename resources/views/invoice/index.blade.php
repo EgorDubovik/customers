@@ -15,7 +15,7 @@
                 @include('layout/success-message',['status' => 'successful'])
                 <div class="card">
                     <div class="card-header">
-                        Invoices <a href="{{route('invoice.create')}}" class="btn btn-success" style="margin-left: 20px;"><i class="fa fa-plus"></i> Send new invoice</a>
+                        <a href="{{route('invoice.create')}}" class="btn btn-success" style="margin-left: 20px;"><i class="fa fa-plus"></i> Send new invoice</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive push">
@@ -44,7 +44,7 @@
                                             <td>{{ \Carbon\Carbon::parse($invoice->created_at)->diffForHumans() }}</td>
                                             <td>
                                                 <a href="{{ route('invoice.show',['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> View</a>
-                                                <a target="_blank" href="{{ route('invoice.view.PDF',['path' => $invoice->pdf_path]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> PDF</a>
+                                                <a target="_blank" href="{{ route('invoice.view.PDF',['path' => ($invoice->pdf_path) ? $invoice->pdf_path : "null"]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> PDF</a>
                                             </td>
                                         </tr>
                                     @endforeach

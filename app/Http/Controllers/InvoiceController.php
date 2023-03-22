@@ -18,7 +18,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::where('company_id',Auth::user()->company_id)->get();
+        $invoices = Invoice::where('company_id',Auth::user()->company_id)->orderBy('created_at','DESC')->get();
         return view("invoice.index",['invoices' => $invoices]);
     }
 
@@ -137,6 +137,33 @@ class InvoiceController extends Controller
             return response()->file(storage_path('app/public/pdf/invoices/'.$path));
         else 
             abort(404);
+    }
+
+    public function resend(Request $request, Invoice $invoice)
+    {
+        $newInvoice = Invoice::create([
+            'creator_id'    => $invoice->creator_id,
+            'company_id'    => $invoice->company_id,
+            'customer_id'   => null,
+            'customer_name' => $invoice->customer_name,
+            'address' => $invoice->address,
+            'email' => $request->email,
+            'status' => 0,
+            'pdf_path' => null,
+        ]);
+        
+        foreach($invoice->services as $key => $service){
+            InvoiceServices::create([
+                'invoice_id' => $newInvoice->id,
+                'title' => $service->title,
+                'description' => $service->description,
+                'price' => $service->price,
+            ]);
+        }
+        $pdfname = $this->createPDF($newInvoice);
+        $newInvoice->pdf_path = $pdfname;
+        $newInvoice->save();
+        return redirect()->route('invoice.index');
     }
 
     private function getServiceTotal(Invoice $invoice){   
