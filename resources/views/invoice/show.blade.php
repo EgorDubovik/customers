@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-lg-6 text-end border-bottom border-lg-0">
                                 <h3>#INV-{{ $invoice->id }}</h3>
-                                <h5>Date Issued: {{ \Carbon\Carbon::parse($invoice->created_at)->diffForHumans() }}</h5>
+                                <h5>Date Issued: {{ \Carbon\Carbon::parse($invoice->created_at)->format('m-d-Y') }}</h5>
                             </div>
                         </div>
                         <div class="row pt-5">

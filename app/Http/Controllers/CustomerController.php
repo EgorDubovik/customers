@@ -73,6 +73,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
+        $this->authorize('view-customer',['customer'=>$customer]);
         return view('customer.show', ['customer'=>$customer]);
     }
 

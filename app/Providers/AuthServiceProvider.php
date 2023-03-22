@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Tag;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Invoice;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -74,6 +75,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // Customers
+
+        Gate::define('view-customer', function(User $user, Customer $customer){
+            return $user->company_id === $customer->company_id;
+        });
+
         Gate::define('update-customer', function (User $user, Customer $customer){
            if ($user->company_id == $customer->company_id)
                return true;
@@ -115,6 +121,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // Invoice
+        Gate::define('can-view-invoice', function(User $user, Invoice $invoice){
+            return $user->company_id === $invoice->company_id;
+        });
+        
         Gate::define('can-send-by-customer', function(User $user, Customer $customer){
             return $user->company_id === $customer->company_id;
         });

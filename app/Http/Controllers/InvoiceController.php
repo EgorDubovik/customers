@@ -87,7 +87,10 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Invoice $invoice)
-    {        
+    {
+
+        $this->authorize('can-view-invoice', $invoice);
+
         $total = $this->getServiceTotal($invoice);
         return view('invoice.show',['invoice' => $invoice,'total' => $total]);
     }
