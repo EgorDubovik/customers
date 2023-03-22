@@ -131,7 +131,12 @@ class InvoiceController extends Controller
         $file = storage_path('app/public/pdf/invoices/'.$path);
         if(!file_exists($file))
             abort(404);
-        return response()->file(storage_path('app/public/pdf/invoices/'.$path));
+
+        $invoice = Invoice::where('pdf_path',$path)->first();
+        if($invoice && $invoice->company_id == Auth::user()->company_id)
+            return response()->file(storage_path('app/public/pdf/invoices/'.$path));
+        else 
+            abort(404);
     }
 
     private function getServiceTotal(Invoice $invoice){   
