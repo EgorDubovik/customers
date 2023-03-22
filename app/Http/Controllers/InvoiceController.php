@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceServices;
 use Illuminate\Http\Request;
@@ -27,10 +28,18 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        if(!$request->customer_id)
+            return view("invoice.create");
+        
+        $customer = Customer::find($request->customer_id);
+        if(!$customer)
+            return abort(404);
+        
+        $this->authorize('can-send-by-customer',$customer);
 
-        return view("invoice.create");
+        return view("invoice.create", ['customer' => $customer]);
     }
 
     /**
@@ -47,7 +56,7 @@ class InvoiceController extends Controller
         $invoice = Invoice::create([
             'creator_id'    => Auth::user()->id,
             'company_id'    => Auth::user()->company_id,
-            'customer_id'   => null,
+            'customer_id'   => ($request->customer_id) ? $request->customer_id : null,
             'customer_name' => $request->customer_name,
             'address' => $request->customer_address,
             'email' => $request->email,
@@ -68,7 +77,7 @@ class InvoiceController extends Controller
         $pdfname = $this->createPDF($invoice);
         $invoice->pdf_path = $pdfname;
         $invoice->save();
-        return back();
+        return redirect()->route('invoice.index');
     }
 
     /**

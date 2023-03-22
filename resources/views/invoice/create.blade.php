@@ -17,30 +17,45 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="category-create-address" style="border: 0px">Customer </div>
-                            <div class="customer-view-info" style="display: none">
-                                <div class="customer-icon"><i class="fe fe-bookmark"></i></div>
-                                <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">Customer Name</span></p>
-                                <span class="text-muted"  id="customer-card-email" style="font-weight: normal">yourdomain@example.com</span>
-                                <div class="hr"></div>
-                                <input type="hidden" name="customer_address" id="input-customer-address"> 
-                                <address style="margin-top: 10px;" id="customer-card-address">
-                                    Street Address<br>
-                                    City, State Postal Code
-                                </address>
-                                <div class="action"><a href=# onclick="editCustomerCard(); return false;" class="text-warning"> <i class="side-menu__icon fe fe-edit"></i></a></div>
-                            </div>
-                            <div class="customer-input-group">
+                            @if (isset($customer))
+                                <input type="hidden" name="customer_id" value="{{ $customer->id }}">
+                                <div class="customer-view-info" style="display: block">
+                                    <div class="customer-icon"><i class="fe fe-bookmark"></i></div>
+                                    <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">{{ $customer->name }}</span></p>
+                                    <span class="text-muted"  id="customer-card-email" style="font-weight: normal">{{ $customer->email }}</span>
+                                    <div class="hr"></div>
+                                    <input type="hidden" name="customer_address" id="input-customer-address"  value="{{ $customer->address->full }}"> 
+                                    <address style="margin-top: 10px;" id="customer-card-address">
+                                        {{ $customer->address->full }}
+                                    </address>
+                                    <div class="action"><a href=# onclick="editCustomerCard(); return false;" class="text-warning"> <i class="side-menu__icon fe fe-edit"></i></a></div>
+                                </div>
+                            @else
+                                <div class="customer-view-info" style="display: none">
+                                    <div class="customer-icon"><i class="fe fe-bookmark"></i></div>
+                                    <p class="fs-18 fw-semibold mb-0"><span id="customer-card-name">Customer Name</span></p>
+                                    <span class="text-muted"  id="customer-card-email" style="font-weight: normal">yourdomain@example.com</span>
+                                    <div class="hr"></div>
+                                    <input type="hidden" name="customer_address" id="input-customer-address"> 
+                                    <address style="margin-top: 10px;" id="customer-card-address">
+                                        Street Address<br>
+                                        City, State Postal Code
+                                    </address>
+                                    <div class="action"><a href=# onclick="editCustomerCard(); return false;" class="text-warning"> <i class="side-menu__icon fe fe-edit"></i></a></div>
+                                </div>
+                            @endif
+                            <div class="customer-input-group" {!! (isset($customer)) ? "style='display:none'" : "" !!}>
                                 <div style="margin-left: 20px;">
                                     <div class="row mb-4">
                                         <label class="col-md-2 control-label">Full Name</label>
                                         <div class="col-md-10">
-                                            <input type="text" class="form-control customer_name" onblur = "update_invoice_view()" id="customer_name" placeholder="Customer Full Name" name="customer_name" value="">
+                                            <input type="text" class="form-control customer_name" onblur = "update_invoice_view()" id="customer_name" placeholder="Customer Full Name" name="customer_name" value="{!! (isset($customer)) ? $customer->name : "" !!}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label class="col-md-2 control-label">Email</label>
                                         <div class="col-md-10">
-                                            <input type="text" class="form-control customer_phone" placeholder="Email address" id="email" onblur = "update_invoice_view()" name="email" value="">
+                                            <input type="text" class="form-control customer_phone" placeholder="Email address" id="email" onblur = "update_invoice_view()" name="email" value="{!! (isset($customer)) ? $customer->email : "" !!}">
                                         </div>
                                     </div>
                                 </div>
@@ -52,13 +67,13 @@
                                     <div class="row mb-4">
                                         <label class="col-sm-2 control-label" for="textinput">Line 1</label>
                                         <div class="col-sm-10">
-                                            <input type="text" placeholder="House number, street" class="form-control line1" name="line1" id="address-line1" onblur = "update_invoice_view()">
+                                            <input type="text" placeholder="House number, street" class="form-control line1" name="line1" id="address-line1" onblur = "update_invoice_view()" value="{!! (isset($customer)) ? $customer->address->line1 : "" !!}">
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <label class="col-sm-2 control-label" for="textinput">Line 2</label>
                                         <div class="col-sm-10">
-                                            <input type="text" placeholder="apt. number" class="form-control line2" name="line2" id="address-line2" onblur = "update_invoice_view()">
+                                            <input type="text" placeholder="apt. number" class="form-control line2" name="line2" id="address-line2" onblur = "update_invoice_view()" value="{!! (isset($customer)) ? $customer->address->line2 : "" !!}">
                                         </div>
                                     </div>
 
@@ -66,7 +81,7 @@
                                     <div class="row mb-4">
                                         <label class="col-sm-2 control-label" for="textinput">City</label>
                                         <div class="col-sm-10">
-                                            <input type="text" placeholder="City" class="form-control city" name="city" id="address-city" onblur = "update_invoice_view()">
+                                            <input type="text" placeholder="City" class="form-control city" name="city" id="address-city" onblur = "update_invoice_view()" value="{!! (isset($customer)) ? $customer->address->city : "" !!}">
                                         </div>
                                     </div>
 
@@ -74,19 +89,19 @@
                                     <div class="row mb-4">
                                         <label class="col-sm-2 control-label" for="textinput">State</label>
                                         <div class="col-sm-4">
-                                            <input type="text" placeholder="State" class="form-control state" name="state" id="address-state" onblur = "update_invoice_view()">
+                                            <input type="text" placeholder="State" class="form-control state" name="state" id="address-state" onblur = "update_invoice_view()" value="{!! (isset($customer)) ? $customer->address->state : "" !!}">
                                         </div>
 
                                         <label class="col-sm-2 control-label" for="textinput">Zip</label>
                                         <div class="col-sm-4">
-                                            <input type="text" placeholder="Post Code" class="form-control zip" name="zip" id="address-zip" onblur = "update_invoice_view()">
+                                            <input type="text" placeholder="Post Code" class="form-control zip" name="zip" id="address-zip" onblur = "update_invoice_view()" value="{!! (isset($customer)) ? $customer->address->zip : "" !!}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-end customer-card-footer">
+                    <div class="card-footer text-end customer-card-footer" {!! (isset($customer)) ? "style='display:none'" : "" !!}>
                         <button class="btn btn-primary btn-sm" onclick="save_customer_information();return false;" >Save</button>
                     </div>
                     
@@ -174,12 +189,22 @@
                         <div class="row pt-5">
                             <div class="col-lg-6">
                                 <p class="h3">Invoice To:</p>
-                                <p class="fs-18 fw-semibold mb-0"><span id="invoice-customer-name">Customer Name</span></p>
-                                <address>
+                                @if (isset($customer))
+                                    <p class="fs-18 fw-semibold mb-0">{{ $customer->name }}</p>
+                                    <address>
+                                        <span id="invoice-address">{{ $customer->address->line1 }}, {{ $customer->address->line2 }}<br>
+                                        {{ $customer->address->city }} {{ $customer->address->state }} {{ $customer->address->zip }}</span><br>
+                                        <span id="invoice-email">{{ $customer->email }}</span>
+                                    </address>
+                                @else
+                                    <p class="fs-18 fw-semibold mb-0"><span id="invoice-customer-name">Customer Name</span></p>
+                                    <address>
                                         <span id="invoice-address">Street Address<br>
                                         City, State Postal Code</span><br>
                                         <span id="invoice-email">yourdomain@example.com</span>
                                     </address>
+                                @endif
+                                
                             </div>
                             <div class="col-lg-6 text-end">
                                 <p class="h4 fw-semibold">Payment Details:</p>

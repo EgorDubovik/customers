@@ -113,5 +113,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('update-service', function (User $user, Service $service){
             return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $service->company_id );
         });
+
+        // Invoice
+        Gate::define('can-send-by-customer', function(User $user, Customer $customer){
+            return $user->company_id === $customer->company_id;
+        });
     }
 }

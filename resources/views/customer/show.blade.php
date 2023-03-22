@@ -33,7 +33,7 @@
                         </p>
                         <p>
                             <span class="fs-14 text-black">{{$customer->email}}</span>
-                            <i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i>
+                            <a href="{{ route('invoice.create',['customer_id' => $customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
                         </p>
                     </div>
 

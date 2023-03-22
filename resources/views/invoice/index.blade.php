@@ -36,8 +36,8 @@
                                             <td>
                                                 {{ $invoice->customer_name }}
                                                 <address class="text-muted">
-                                                    2901 Ridgeview dr, Plano TX 75025<br>
-                                                    edservicetx@gmail.com
+                                                    {{ str_replace("<br>" ,"",$invoice->address) }}<br>
+                                                    {{ $invoice->email }}
                                                 </address>
                                             </td>
                                             <td>{{ $invoice->email }}</td>
