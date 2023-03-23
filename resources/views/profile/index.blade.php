@@ -57,7 +57,7 @@
                             <div class="social social-profile-buttons me-2">
                                 <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-map"></i></a>
                             </div>
-                            @if (Auth::user()->company->address->full)
+                            @if (Auth::user()->company->address)
                                 <span class="my-auto">{{Auth::user()->company->address->full}}</span>
                             @endif
                         </li>
