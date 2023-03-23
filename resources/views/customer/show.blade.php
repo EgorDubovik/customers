@@ -4,6 +4,8 @@
 
     <div class="main-container container-fluid">
         <!-- CONTENT -->
+
+        <div class="col-md-8">
         <div class="row" style="padding-top: 20px;">
             <div class="col-md-6">
                 @include('layout/success-message',['status' => 'success'])
@@ -17,27 +19,35 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <p>
-                            <span class="text-muted">Customer name:</span>
-                            <span style="margin-left: 15px;">{{$customer->name}}</span>
-                        </p>
-                        <p>
-                            <span class="fs-14 fw-bold">{{$customer->address->full}}</span>
-                            <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
-                            <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
-                        </p>
-                        <p>
-                            <span class="fs-14 text-info fw-bold">{{$customer->phone}}</span>
-                            <i class="fe fe-copy pull-right text-secondary" onclick="copy_to({{$customer->phone}})" style="cursor: pointer"></i>
-                            <a href="#"> <i class="fe fe-phone-call pull-right" style="margin-right: 10px;"></i></a>
-                        </p>
-                        <p>
-                            <span class="fs-14 text-black">{{$customer->email}}</span>
-                            <a href="{{ route('invoice.create',['customer_id' => $customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
-                        </p>
+                        {{-- <div class="view_map_point"><img src="{{ URL::asset('assets/images/map.png') }}" style="width:100%"></div> --}}
+                        <div class="row">
+                            <div class="view_map_point" id="customer_map">
+
+                            </div>
+                            <p>
+                                <span class="text-muted">Customer name:</span>
+                                <span style="margin-left: 15px;">{{$customer->name}}</span>
+                            </p>
+                            <p>
+                                <span class="fs-14 fw-bold">{{$customer->address->full}}</span>
+                                <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
+                                <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
+                            </p>
+                            <p>
+                                <span class="fs-14 text-info fw-bold">{{$customer->phone}}</span>
+                                <i class="fe fe-copy pull-right text-secondary" onclick="copy_to({{$customer->phone}})" style="cursor: pointer"></i>
+                                <a href="#"> <i class="fe fe-phone-call pull-right" style="margin-right: 10px;"></i></a>
+                            </p>
+                            <p>
+                                <span class="fs-14 text-black">{{$customer->email}}</span>
+                                <a href="{{ route('invoice.create',['customer_id' => $customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
+                            </p>
+                        </div>
                     </div>
 
                 </div>
+            </div>
+            <div class="col-md-6">
                 {{-- Scheduling                --}}
                 <div class="card">
                     <div class="card-header">
@@ -107,8 +117,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
+            
                 <div class="card">
                     <div class="card-header">Notes history</div>
                     <div class="card-body">
@@ -138,6 +147,7 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 
     {{--Add new tag model--}}
@@ -163,6 +173,21 @@
 @stop
 
 @section('scripts')
+
+    <script src="{{ URL::asset('assets/plugins/leaflet/leaflet.js')}}"></script>
+    
+    <script>
+        // Adding a Popup
+        var map = L.map('customer_map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        map.on('2901 Ridgeview Dr, Plano TX 75025', function (result) {
+            L.marker([result.x, result.y]).addTo(map)
+        });
+
+        // L.marker([51.5, -0.09]).addTo(map)
+        //     .openPopup();
+    </script>
+
     <script>
         function copy_to(text){
             navigator.clipboard.writeText(text);

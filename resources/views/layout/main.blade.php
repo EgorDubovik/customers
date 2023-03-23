@@ -111,9 +111,9 @@
 {{--<script src="{{ URL::asset('assets/plugins/p-scroll/pscroll-1.js')}}"></script>--}}
 
 <!-- INTERNAL CHARTJS CHART JS-->
-<script src="{{ URL::asset('assets/plugins/chart/Chart.bundle.js')}}"></script>
+{{-- <script src="{{ URL::asset('assets/plugins/chart/Chart.bundle.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/chart/rounded-barchart.js')}}"></script>
-<script src="{{ URL::asset('assets/plugins/chart/utils.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/chart/utils.js')}}"></script> --}}
 
 <!-- INTERNAL SELECT2 JS -->
 <script src="{{ URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
