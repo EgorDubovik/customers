@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Note;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class NoteController extends Controller
@@ -40,10 +41,11 @@ class NoteController extends Controller
     {
         Gate::authorize('store-note',['customer' => $customer]);
         Note::create([
+            'creator_id' => Auth::user()->id,
             'customer_id' => $customer->id,
             'text' => $request->text,
         ]);
-        return back();
+        return back()->with('successful','Note has been created successfuly');
     }
 
     /**

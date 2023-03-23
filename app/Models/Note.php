@@ -11,10 +11,14 @@ class Note extends Model
 
     protected $table = 'notes';
     protected $fillable = [
+        'creator_id',
         'customer_id',
         'text',
     ];
 
-
+    public function creator()
+    {
+        return $this->belongsTo(User::class,'creator_id','id');
+    }
 
 }
