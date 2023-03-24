@@ -40,6 +40,6 @@ class CompanyController extends Controller
             'phone' => $request->customer_phone,
             'email' => $request->email,
         ]);
-        return redirect()->back()->with('successful', 'Information has been updated successful');
+        return redirect()->route('company.edit',['company'=>$company])->with('successful', 'Information has been updated successful');
     }
 }

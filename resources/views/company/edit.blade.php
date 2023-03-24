@@ -15,8 +15,6 @@
                 <div class="card col-md-6 m-auto">
                     <form method="post" action="{{route('company.update', ['company' => $company])}}">
                         @csrf
-                        <div class="card-header">    
-                        
                         <div class="card-body">
                             <div class="category-create-address">Customer </div>
                             <div style="margin-left: 20px;">
@@ -82,7 +80,7 @@
                         </div>
                         <div class="card-footer">
                             <button class="btn btn-success" type="submit">Update</button>
-                            <a href="{{redirect()->back()->getTargetUrl()}}" class="btn btn-warning">Cancel</a>
+                            <a href="{{redirect()->route('profile')->getTargetUrl()}}" class="btn btn-warning">Cancel</a>
                         </div>
                     </form>
                 </div>

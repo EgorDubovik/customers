@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Mail\InvoiceMail;
 use App\Models\InvoiceServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 
@@ -145,8 +147,11 @@ class InvoiceController extends Controller
             abort(404);
 
         $invoice = Invoice::where('pdf_path',$path)->first();
-        if($invoice && $invoice->company_id == Auth::user()->company_id)
-            return response()->file(storage_path('app/public/pdf/invoices/'.$path));
+        if($invoice && $invoice->company_id == Auth::user()->company_id){
+            Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
+
+            return response()->file($file);
+        }
         else 
             abort(404);
     }
