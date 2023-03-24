@@ -109,33 +109,11 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
+                        
                             <h5 class="card-title">Services</h5>
                             <div id="line-services-added" class="row">
-                                
-                                {{-- <div class="col-sm-12 col-md-6 mb-2">
-                                    <div class="cont-service-block">
-                                        <div class="row mb-2">
-                                            <div class="col-9"><b>Dryer</b></div>
-                                            <div class="col-3"><b>$321.53</b></div>
-                                        </div>
-                                        <div class="hr"></div>
-                                        <div class="row mt-2">
-                                            <div class="col-9 iems-descrition">
-                                                Replace heating elelemtn
-                                            </div>
-                                            <div class="col-3">
-                                                <p class="text-end">
-                                                    <a href="#"onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                
-
+                             
                             </div>
-                            <hr>
                             <div class="row mb-3">
                                 <div class="col-7">
                                     <div class="row">
@@ -163,7 +141,7 @@
                             <div class="row">
                                 <button class="btn btn-primary btn-sm" onclick="addService();return false;">Add</button>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
 
