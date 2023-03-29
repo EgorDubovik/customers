@@ -1,2 +1,19 @@
 
 4. Create Request validator for creating customers
+
+
+
+INSERT INTO `customer` (`id`, `name`, `phone`, `email`, `address_id`, `company_id`, `created_at`, `updated_at`) VALUES
+(2, 'Yahor Dubovik', '7542264666', 'posik.web.m@gmail.com', 2, 1, '2023-03-22 21:35:21', '2023-03-22 21:35:21'),
+(3, 'Hafsa Asim', '9726977337', NULL, 3, 1, '2023-03-23 12:45:11', '2023-03-23 12:45:11'),
+(4, 'Mary Cole', '9136602283', NULL, 5, 1, '2023-03-24 18:30:34', '2023-03-24 18:30:34'),
+(5, 'Danyel Yung', '4044091096', NULL, 6, 1, '2023-03-28 14:32:49', '2023-03-28 14:32:49');
+
+
+INSERT INTO `addresses` (`id`, `line1`, `line2`, `city`, `state`, `zip`, `created_at`, `updated_at`) VALUES
+(1, 'House', NULL, 'City', 'State', 'Post', '2023-03-18 14:46:57', '2023-03-18 14:46:57'),
+(2, '2901 Ridgeview Drive', NULL, 'Plano', 'TX', '75025', '2023-03-22 21:35:21', '2023-03-22 21:35:21'),
+(3, '3301 Bluffs lane', NULL, 'Allen', 'TX', '75002', '2023-03-23 12:45:11', '2023-03-23 12:45:11'),
+(4, '2901 Ridgeview Drive', 'apt 426', 'Plano', 'TX', '75025', '2023-03-23 13:56:09', '2023-03-23 13:56:09'),
+(5, '904 Twin Creeks Dr', NULL, 'Allen', 'TX', '75013', '2023-03-24 18:30:34', '2023-03-24 18:30:34'),
+(6, '2295 Stuttgart Dr', NULL, 'Frisco', 'TX', '75034', '2023-03-28 14:32:49', '2023-03-28 14:32:49');

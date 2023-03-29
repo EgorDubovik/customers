@@ -42,9 +42,7 @@
 
                             <div class="category-create-address">Address  <a href="#" class="parse_btn" onclick="$('.parse_address').show(); return false;">parse</a></div>
 
-                            <textarea name="parse_address" style="display: none" class="parse_address form-control mb-2" onblur="parse_my_address(this)">
-
-                            </textarea>
+                            <textarea name="parse_address" style="display: none" class="parse_address form-control mb-2" onblur="parse_my_address(this)"></textarea>
                             <div style="margin-left: 20px;">
                                 <div class="row mb-4">
                                     <label class="col-sm-2 control-label" for="textinput">Line 1</label>
