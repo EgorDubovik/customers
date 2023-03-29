@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('addresses', function (Blueprint $table) {
-            $table->id();
-            $table->string('line1');
-            $table->string('line2')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('zip')->nullable();
-            $table->timestamps();
+        Schema::table('invoice_services', function (Blueprint $table) {
+            $table->boolean('is_taxeble')->default(0);
         });
     }
 
@@ -31,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('addresses');
+        Schema::table('invoice_services', function (Blueprint $table) {
+            $table->dropColumn('is_taxeble');
+        });
     }
 };

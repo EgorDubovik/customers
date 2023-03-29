@@ -9,6 +9,7 @@ class InvoiceServices extends Model
 {
     use HasFactory;
 
+    public static $_TAX = 8.25;
     protected $table = 'invoice_services';
 
     protected $fillable = [
@@ -16,6 +17,7 @@ class InvoiceServices extends Model
         'title',
         'description',
         'price',
+        'is_taxeble',
     ];
 
     public function price(): Attribute

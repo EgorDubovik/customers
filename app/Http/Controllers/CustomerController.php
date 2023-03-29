@@ -21,6 +21,7 @@ class CustomerController extends Controller
     {
 
         $customers = Customer::where('company_id',Auth::user()->company_id)
+            ->orderBy('updated_at','DESC')
             ->get()
             ->makeHidden(['address_id','company_id', 'created_at','updated_at','notes']);
 
@@ -62,7 +63,7 @@ class CustomerController extends Controller
             'company_id' => Auth::user()->company_id,
         ]);
 
-        return redirect()->route('customer.list')->with('success','Added successful');
+        return redirect()->route('customer.show',['customer'=>$customer])->with('success','Added successful');
     }
 
     /**

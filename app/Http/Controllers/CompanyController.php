@@ -11,11 +11,13 @@ class CompanyController extends Controller
 {
     public function edit(Company $company){
         Gate::authorize('edit-company',['company' => $company]);
+        
         return view('company.edit',['company' => $company]);
     }
 
     public function update(Request $request, Company $company){
         Gate::authorize('edit-company',['company' => $company]);
+        
         if ($company->address()->exists()) {
             $company->address->update([
                 'line1' => ($request->line1) ? $request->line1 : "",

@@ -110,37 +110,37 @@
                 <div class="card">
                     <div class="card-body">
                         
-                            <h5 class="card-title">Services</h5>
-                            <div id="line-services-added" class="row">
-                             
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-7">
-                                    <div class="row">
-                                        <div class="col-md-2">Title:</div>
-                                        <div class="col-md-10">
-                                            <input type="text" class="form-control" id="service-title" placeholder="Title">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-5">
-                                    <div class="row">
-                                        <div class="col-md-3">Price:</div>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" id="service-price" placeholder="$ 00.00" name="price" value="">
-                                        </div>
+                        <h5 class="card-title">Services</h5>
+                        <div id="line-services-added" class="row">
+                            
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-7">
+                                <div class="row">
+                                    <div class="col-md-2">Title:</div>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="service-title" placeholder="Title">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <label for="colFormLabel" class="col-md-2 col-form-label">Description</label>
-                                <div class="col-md-10">
-                                    <textarea class="form-control" placeholder="Description" id="service-description" style="height: 65px"></textarea>
+                            <div class="col-5">
+                                <div class="row">
+                                    <div class="col-md-3">Price:</div>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="service-price" placeholder="$ 00.00" name="price" value="">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <button class="btn btn-primary btn-sm" onclick="addService();return false;">Add</button>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="colFormLabel" class="col-md-2 col-form-label">Description</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control" placeholder="Description" id="service-description" style="height: 65px"></textarea>
                             </div>
+                        </div>
+                        <div class="row">
+                            <button class="btn btn-primary btn-sm" onclick="addService();return false;">Add</button>
+                        </div>
                         
                     </div>
                 </div>
