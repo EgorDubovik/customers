@@ -17147,7 +17147,7 @@ table.table-bordered.dataTable thead tr:first-child td {
 }
 
 .fc-v-event .fc-event-main {
-    color: var(--primary-bg-color) !important;
+    /* color: var(--primary-bg-color) !important; */
 }
 
 .login-img .page {

@@ -2,19 +2,6 @@
 
 @section('content')
 <div class="main-container container-fluid">
-
-    <!-- PAGE-HEADER -->
-    <div class="page-header">
-        <h1 class="page-title">Edit Profile</h1>
-        <div>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Pages</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
-            </ol>
-        </div>
-    </div>
-    <!-- PAGE-HEADER END -->
-
     <!-- ROW-1 OPEN -->
     <div class="row">
         <div class="card">
@@ -42,6 +29,11 @@
         $(document).ready(function(){
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                slotMinTime: "07:00:00",
+                slotMaxTime: "21:00:00",
+                contentHeight: 'auto',
+                height:500,
+                displayEventEnd: true,
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -50,18 +42,19 @@
                 events: [
                     { // this object will be "parsed" into an Event Object
                         title: 'The Title', 
-                        start: '2023-03-26 10:00:00', 
-                        end: '2018-03-26 12:00:00',
+                        start: '2023-03-26T09:00:00', 
+                        end: '2018-03-26T12:00:00',
                         color: "#1565C0",
-                        textColor: "red",
+                        
                     },
                     
                 ],
                 editable: true,
                 
+                
             });
             calendar.render();
-            $('.fc-event-main').css('color','green');
+            
         //   var now = moment();
         //   $('#calendar').Calendar({
         //     events: [
