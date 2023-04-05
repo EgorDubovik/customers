@@ -23,8 +23,8 @@ class InvoiceServices extends Model
     public function price(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value/100,
-            set: fn($value) => round($value*100),
+            get: fn($value) => number_format($value/100,2,'.'),
+            set: fn($value) => round($value*100,2),
         );
     }
 }

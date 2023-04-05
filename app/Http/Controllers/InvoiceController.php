@@ -188,6 +188,6 @@ class InvoiceController extends Controller
         foreach($invoice->services as $service){
             $total += $service->price;
         }
-        return $total;
+        return number_format($total,2,'.');
     }
 }
