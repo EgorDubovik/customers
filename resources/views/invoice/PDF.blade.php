@@ -92,7 +92,7 @@ p{
             <p style="margin-top: 20px"><b>EDService LLC</b></p>
             <div>
                 <address class="pt-3">
-                    2901 Ridgeview dr, Plano TX 75025<br>
+                    2901 Ridgeview dr, APT 426, Plano TX 75025<br>
                     edservicetx@gmail.com
                 </address>
             </div>

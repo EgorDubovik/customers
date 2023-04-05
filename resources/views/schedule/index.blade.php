@@ -40,16 +40,28 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 events: [
-                    { // this object will be "parsed" into an Event Object
+                    {
                         title: 'The Title', 
                         start: '2023-03-26T09:00:00', 
                         end: '2018-03-26T12:00:00',
                         color: "#1565C0",
-                        
                     },
-                    
+                    {
+                        title: 'The Title2', 
+                        start: '2023-03-26T09:00:00', 
+                        end: '2018-03-26T12:00:00',
+                        color: "#1565C0",
+                    },
                 ],
                 editable: true,
+                eventClick: function(info) {
+                    
+                    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                    
+
+                    // change the border color just for fun
+                    info.el.style.borderColor = 'red';
+                }
                 
                 
             });
