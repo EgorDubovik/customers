@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Scheduler;
 use App\Models\Service;
+use App\Models\ScheduleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,11 +60,22 @@ class SchedulerController extends Controller
         ]);
 
         // check if this is my customer
-        Scheduler::create([
+        $schedule = Scheduler::create([
             'customer_id' => $request->customer,
             'start' => $request->time_from,
             'end' => $request->time_to,
         ]);
+
+        foreach($request->input('service-prices') as $key => $value){
+            ScheduleService::create([
+                'sc_id' => $schedule->id,
+                'title' => $request->input('service-title')[$key],
+                'description' => $request->input('service-description')[$key],
+                'price' => $request->input('service-prices')[$key],
+            ]);
+        }
+
+
         return back();
     }
 

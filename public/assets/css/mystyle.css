@@ -152,3 +152,22 @@
     overflow: hidden;
     margin-bottom: 20px;
 }
+
+.custom-input{
+    outline: none;
+    margin: 0;
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    width: 100%;
+    font-size: 14px;
+    font-family: inherit;
+    padding: 9px 0;
+    color: #666;
+    width: 100%;
+}
+.input-group.custom{
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ccc;
+}

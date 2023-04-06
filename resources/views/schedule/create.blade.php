@@ -12,9 +12,9 @@
         <div class="row">
             <div class="col-md-4 m-auto">
                 <div >
-                    <div class="card">
-                        <form method="post" action="{{route('schedule.store')}}" >
-                            @csrf
+                    <form method="post" action="{{route('schedule.store')}}" >
+                        @csrf
+                        <div class="card">
                             <div class="card-body">
                                 @if($errors->any())
                                     @include("layout/error-message")
@@ -73,39 +73,38 @@
                                         </div>
                                     </div>
                                 </div>
-                                <hr/>
-                                <div class="row">
-                                    <p class="text-muted">Service info</p>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-success" type="submit">Create</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Services</h5>
+                                <div id="line-services-added" class="row">
+                            
                                 </div>
-                                <div class="row mb-2">
-                                    <label  class="col-md-3 form-label">Title</label>
-                                    <div class="col-md-9">
-                                        <select class="form-control form-select" id="select_service" name="service_id" onchange="change_service()">
-                                            <option value="0">Chose service...</option>
-                                            @foreach($services as $service)
-                                                <option value="{{$service->id}}">{{$service->title}}</option>
-                                            @endforeach
-                                        </select>
+                                <div class="row row-space">
+                                    <div class="col-md-7">
+                                        <div class="input-group custom">
+                                            <input class="custom-input" type="text" placeholder="TITLE" id="title">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group custom">
+                                            <input class="custom-input" type="number" placeholder="PRICE" id="price">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row mb-4">
-                                    <label class="col-md-3 form-label">Description</label>
-                                    <div class="col-md-9">
-                                        <textarea class="form-control" placeholder="Description" name="description">{{old('description')}}</textarea>
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <label  class="col-md-3 form-label">Price</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" id="price" placeholder="$ 00.00" name="price" value="{{old('price')}}">
-                                    </div>
+                                <div class="input-group custom">
+                                    <textarea class="custom-input" placeholder="DESCRIPTION" id="description"></textarea>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-success btn-block">Save</button>
+                                <button class="btn btn-primary" onclick="add_new_service();return false;">Add</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -188,6 +187,36 @@
             $("#customer_name").html(name)
             $("#customer_address").html(address);
             $('#exampleModal').modal('hide');
+        }
+
+        function add_new_service(){
+            let title = $('#title').val();
+            let price = $('#price').val();
+            let description = $('#description').val();
+            $('#line-services-added').append(
+                            '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
+                            '<input type="hidden" name="service-title[]" value="'+title+'">'+
+                            '<input type="hidden" name="service-description[]"  value="'+description+'">'+
+                            '<div class="col-sm-12 col-md-6 mb-2">'+
+                                '<div class="cont-service-block">'+
+                                    '<div class="row mb-2">'+
+                                        '<div class="col-9"><b>'+title+'</b></div>'+
+                                        '<div class="col-3"><b>$'+price+'</b></div>'+
+                                    '</div>'+
+                                    '<div class="hr"></div>'+
+                                    '<div class="row mt-2">'+
+                                        '<div class="col-9 iems-descrition">'+description+'</div>'+
+                                        '<div class="col-3">'+
+                                            '<p class="text-end">'+
+                                                '<a href="#"onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a>'+
+                                            '</p>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>');
+            $('#title').val('');
+            $('#price').val('');
+            $('#description').val('');
         }
     </script>
 @endsection
