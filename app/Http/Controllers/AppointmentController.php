@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
-use App\Models\Scheduler;
+use App\Models\Appointment;
 use App\Models\Service;
-use App\Models\ScheduleService;
+use App\Models\AppointmentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SchedulerController extends Controller
+class AppointmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,9 @@ class SchedulerController extends Controller
      */
     public function index()
     {
-        return view('schedule.index');
+        $appoinments = Appointment::where('company_id', Auth::user()->company_id)->get();
+        
+        return view('schedule.index', ['appointments' => $appoinments]);
     }
 
     /**
@@ -60,32 +62,34 @@ class SchedulerController extends Controller
         ]);
 
         // check if this is my customer
-        $schedule = Scheduler::create([
+        $appointment = Appointment::create([
             'customer_id' => $request->customer,
+            'company_id' => Auth::user()->company_id,
             'start' => $request->time_from,
             'end' => $request->time_to,
         ]);
-
-        foreach($request->input('service-prices') as $key => $value){
-            ScheduleService::create([
-                'sc_id' => $schedule->id,
-                'title' => $request->input('service-title')[$key],
-                'description' => $request->input('service-description')[$key],
-                'price' => $request->input('service-prices')[$key],
-            ]);
+        
+        if($request->has('service-prices')){
+            foreach($request->input('service-prices') as $key => $value){
+                AppointmentService::create([
+                    'appointment_id' => $appointment->id,
+                    'title' => $request->input('service-title')[$key],
+                    'description' => $request->input('service-description')[$key],
+                    'price' => $request->input('service-prices')[$key],
+                ]);
+            }
         }
 
-
-        return back();
+        return redirect()->route('schedule.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Scheduler  $scheduler
+     * @param  \App\Models\Appointment  $Appointment
      * @return \Illuminate\Http\Response
      */
-    public function show(Scheduler $scheduler)
+    public function show(Appointment $Appointment)
     {
         //
     }
@@ -93,10 +97,10 @@ class SchedulerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Scheduler  $scheduler
+     * @param  \App\Models\Appointment  $Appointment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Scheduler $scheduler)
+    public function edit(Appointment $Appointment)
     {
         //
     }
@@ -105,10 +109,10 @@ class SchedulerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Scheduler  $scheduler
+     * @param  \App\Models\Appointment  $Appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Scheduler $scheduler)
+    public function update(Request $request, Appointment $Appointment)
     {
         //
     }
@@ -116,10 +120,10 @@ class SchedulerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Scheduler  $scheduler
+     * @param  \App\Models\Appointment  $Appointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Scheduler $scheduler)
+    public function destroy(Appointment $Appointment)
     {
         //
     }

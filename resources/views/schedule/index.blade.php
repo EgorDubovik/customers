@@ -40,18 +40,15 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 events: [
-                    {
-                        title: 'The Title', 
-                        start: '2023-03-26T09:00:00', 
-                        end: '2018-03-26T12:00:00',
-                        color: "#1565C0",
-                    },
-                    {
-                        title: 'The Title2', 
-                        start: '2023-03-26T09:00:00', 
-                        end: '2018-03-26T12:00:00',
-                        color: "#1565C0",
-                    },
+                    @foreach ($appointments as $appointment)
+                        {
+                            title: '{{ $appointment->customer->name }}', 
+                            start: '{{ $appointment->start }}', 
+                            end: '{{ $appointment->end }}',
+                            color: "#1565C0",
+                            
+                        },    
+                    @endforeach
                 ],
                 editable: true,
                 eventClick: function(info) {

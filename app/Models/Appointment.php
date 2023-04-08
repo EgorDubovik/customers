@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Scheduler extends Model
+class Appointment extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,11 @@ class Scheduler extends Model
         'customer_id',
         'start',
         'end',
-        'service_id',
+        'company_id',
         'status',
     ];
+
+    public function customer(){
+        return $this->belongsTo(Customer::class);
+    }
 }

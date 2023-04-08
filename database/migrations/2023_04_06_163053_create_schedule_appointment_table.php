@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('schedule_services', function (Blueprint $table) {
+        Schema::create('appointment_services', function (Blueprint $table) {
             $table->id();
-            $table->integer('schedule_id');
+            $table->integer('appointment_id');
             $table->string('title');
             $table->integer('price')->default(0);
             $table->text('description')->nullable();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule_services');
+        Schema::dropIfExists('appointment_services');
     }
 };

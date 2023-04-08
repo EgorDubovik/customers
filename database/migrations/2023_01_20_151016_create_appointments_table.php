@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('schedulers', function (Blueprint $table) {
+        Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id');
             $table->dateTime('start');
             $table->dateTime('end');
-            $table->integer('service_id')->nullable();
+            $table->integer('company_id');
             $table->integer('status')->default(0);
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedulers');
+        Schema::dropIfExists('appointments');
     }
 };

@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ScheduleService extends Model
+class AppointmentService extends Model
 {
     use HasFactory;
 
-    protected $table = 'schedule_services';
+    protected $table = 'appointment_services';
     protected $fillable = [
         'title',
         'price',
         'description',
-        'schedule_id',
+        'appointment_id',
     ];
 }

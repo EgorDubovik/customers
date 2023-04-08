@@ -14,8 +14,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InvoiceController;
 use  App\Http\Controllers\ServiceController;
-use App\Http\Controllers\SchedulerController;
-use App\Models\Invoice;
+use App\Http\Controllers\AppointmentController;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -85,9 +84,9 @@ Route::group(['middleware' => ['auth','active']],function (){
 
     //Schedule
     Route::prefix('schedule')->group(function (){
-        Route::get('/',[SchedulerController::class,'index'])->name('schedule.index');
-        Route::get('create', [SchedulerController::class, 'create'])->name('schedule.create');
-        Route::post('store', [SchedulerController::class, 'store'])->name('schedule.store');
+        Route::get('/',[AppointmentController::class,'index'])->name('schedule.index');
+        Route::get('create', [AppointmentController::class, 'create'])->name('schedule.create');
+        Route::post('store', [AppointmentController::class, 'store'])->name('schedule.store');
     });
 
     // Invoices
