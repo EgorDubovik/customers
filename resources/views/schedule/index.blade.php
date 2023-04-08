@@ -54,9 +54,6 @@
                 eventClick: function(info) {
                     
                     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                    
-
-                    // change the border color just for fun
                     info.el.style.borderColor = 'red';
                 }
                 
