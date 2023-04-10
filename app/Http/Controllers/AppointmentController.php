@@ -34,6 +34,7 @@ class AppointmentController extends Controller
         $services = Service::where('company_id',Auth::user()->company_id)
             ->get();
         $data['services'] = $services;
+        
         if ($request->has("customer")){
             $customer = Customer::where(['id' => $request->customer, 'company_id' => Auth::user()->company_id])->first();
             if ($customer)

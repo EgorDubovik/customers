@@ -2,6 +2,7 @@
 
 @section('content')
     <link href="{{ URL::asset('assets/css/drum.css')}}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.css')}}" rel="stylesheet" />
     <div class="main-container container-fluid">
         <!-- PAGE-HEADER -->
         <div class="page-header">
@@ -91,7 +92,13 @@
                                     <div class="row row-space">
                                         <div class="col-md-7">
                                             <div class="input-group custom">
-                                                <input class="custom-input" type="text" placeholder="TITLE" id="title">
+                                                <div class="typeahead__container">
+                                                    <div class="typeahead__field">
+                                                        <div class="typeahead__query">
+                                                            <input class="custom-input js-typeahead" type="text" placeholder="TITLE" id="title">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-5">
@@ -143,6 +150,7 @@
 @section('scripts')
     <script src="{{ URL::asset('assets/js/Drum.js')}}"></script>
     <script src="{{ URL::asset('assets/js/hammer.mini.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.js')}}"></script>
     <script>
         function change_service(){
             var select = $("#select_service");
@@ -150,6 +158,7 @@
     </script>
     <script>
         $(document).ready(function () {
+            
             var dataPickerTo = null;
             var dataPickerFrom = $(".cont_time_from").DataPicker({
                 onChange : function (dateTime){
@@ -176,6 +185,28 @@
             function toSqlFormat(date){
                 return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":00";
             }
+
+            $('.js-typeahead').typeahead({
+                minLength: 0,
+                order: "asc",
+                maxItem: 15,
+                accent: true,
+                searchOnFocus : true,
+                template: "{\{title\}}, {\{price\}}",
+                source: {
+                    data: @json($services)
+                },
+                display:'title',
+                callback: {
+                    onClickAfter: function (node, a, item, event) {
+                        event.preventDefault();
+                        $('#price').val(item.price);
+                        $('#description').val(item.description);
+                    },
+                    
+                },
+                debug: true
+            });
 
         });
 

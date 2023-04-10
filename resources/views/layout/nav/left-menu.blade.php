@@ -19,8 +19,8 @@
                 </svg></div>
             <ul class="side-menu">
                 <li class="slide">
-                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('customer.list')}}"><i
-                            class="side-menu__icon fe fe-users"></i><span
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('customer.list')}}">
+                        <i class="side-menu__icon fe fe-users"></i><span
                             class="side-menu__label">Customers</span></a>
                 </li>
 
