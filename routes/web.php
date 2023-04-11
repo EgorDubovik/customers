@@ -95,7 +95,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('create', [InvoiceController::class, 'create'])->name('invoice.create');
         Route::post('store', [InvoiceController::class, 'store'])->name('invoice.store');
         Route::get('/view/{invoice}', [InvoiceController::class,'show'])->name('invoice.show');
-        Route::get('/pdf/view/{path}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
+        Route::get('/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
         Route::post('/resend/{invoice}', [InvoiceController::class,'resend'])->name('invoice.resend');
     });
 

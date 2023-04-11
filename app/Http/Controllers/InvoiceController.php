@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use PDF;
+
 
 class InvoiceController extends Controller
 {
@@ -53,8 +55,6 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         
-        
-
         $invoice = Invoice::create([
             'creator_id'    => Auth::user()->id,
             'company_id'    => Auth::user()->company_id,
@@ -66,8 +66,6 @@ class InvoiceController extends Controller
             'pdf_path' => null,
         ]);
 
-        
-        
         foreach($request->input('service-prices') as $key => $value){
             InvoiceServices::create([
                 'invoice_id' => $invoice->id,
@@ -78,7 +76,13 @@ class InvoiceController extends Controller
         }
         $pdfname = $this->createPDF($invoice);
         $invoice->pdf_path = $pdfname;
+        $invoice->key = Str::random(150);
         $invoice->save();
+
+        //send invocie
+        // $file = storage_path('app/public/pdf/invoices/'.$pdfname);
+        // Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
+
         return redirect()->route('invoice.index');
     }
 
@@ -140,20 +144,17 @@ class InvoiceController extends Controller
         return $filename;
     }
 
-    public function viewPDF($path){
+    public function viewPDF($key){
 
-        $file = storage_path('app/public/pdf/invoices/'.$path);
+        $invoice = Invoice::where('key',$key)->first();
+        if(!$invoice)
+            abort(404);
+
+        $file = storage_path('app/public/pdf/invoices/'.$invoice->pdf_path);
         if(!file_exists($file))
             abort(404);
-
-        $invoice = Invoice::where('pdf_path',$path)->first();
-        if($invoice && $invoice->company_id == Auth::user()->company_id){
-            Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
-
-            return response()->file($file);
-        }
-        else 
-            abort(404);
+        
+        return response()->file($file);
     }
 
     public function resend(Request $request, Invoice $invoice)

@@ -44,7 +44,7 @@
                                             <td>{{ \Carbon\Carbon::parse($invoice->created_at)->diffForHumans() }}</td>
                                             <td>
                                                 <a href="{{ route('invoice.show',['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> View</a>
-                                                <a target="_blank" href="{{ route('invoice.view.PDF',['path' => ($invoice->pdf_path) ? $invoice->pdf_path : "null"]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> PDF</a>
+                                                <a target="_blank" href="{{ route('invoice.view.PDF',['key' => ($invoice->key) ? $invoice->key : "null"]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> PDF</a>
                                             </td>
                                         </tr>
                                     @endforeach

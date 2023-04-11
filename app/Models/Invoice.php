@@ -19,6 +19,7 @@ class Invoice extends Model
         'email',
         'status',
         'pdf_path',
+        'key',
     ];
 
     function services(){
