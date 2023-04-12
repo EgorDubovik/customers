@@ -18,12 +18,12 @@
                             </a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        {{-- <div class="view_map_point"><img src="{{ URL::asset('assets/images/map.png') }}" style="width:100%"></div> --}}
-                        <div class="row">
-                            <div class="view_map_point" id="customer_map">
+                    <div class="view_map_point" id="customer_map">
 
-                            </div>
+                    </div>
+                    <div class="card-body">
+                    
+                        
                             <p>
                                 <span class="text-muted">Customer name:</span>
                                 <span style="margin-left: 15px;">{{$customer->name}}</span>
@@ -42,7 +42,7 @@
                                 <span class="fs-14 text-black">{{$customer->email}}</span>
                                 <a href="{{ route('invoice.create',['customer_id' => $customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
                             </p>
-                        </div>
+                        
                     </div>
 
                 </div>
@@ -147,19 +147,16 @@
 
 @section('scripts')
 
-    <script src="{{ URL::asset('assets/plugins/leaflet/leaflet.js')}}"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP') }}&callback=initMap"></script>
     <script>
-        // // Adding a Popup
-        // var map = L.map('customer_map').setView([51.505, -0.09], 13);
-        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        // map.on('2901 Ridgeview Dr, Plano TX 75025', function (result) {
-        //     L.marker([result.x, result.y]).addTo(map)
-        // });
-
-        // // L.marker([51.5, -0.09]).addTo(map)
-        // //     .openPopup();
-
+        let noPoi = [
+            {
+                featureType: "poi",
+                stylers: [
+                    { visibility: "off" }
+                ]   
+            }
+        ];
         let map;
         let geocoder;
         let address = "{{ $customer->address->full }}";
@@ -172,6 +169,7 @@
                 disableDefaultUI: true,
             });
             codeAddress(address);
+            map.setOptions({styles: noPoi});
         }
         function codeAddress(address) {
             geocoder.geocode({ 'address': address }, function (results, status) {
@@ -187,6 +185,7 @@
                 }
             });
         }
+        
         window.initMap = initMap;
     </script>
 
