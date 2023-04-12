@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('css')
+    <link href="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.css')}}" rel="stylesheet" />
+@endsection
+
 @section('content')
 
     <div class="main-container container-fluid">
@@ -114,34 +118,10 @@
                         <div id="line-services-added" class="row">
                             
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-7">
-                                <div class="row">
-                                    <div class="col-md-2">Title:</div>
-                                    <div class="col-md-10">
-                                        <input type="text" class="form-control" id="service-title" placeholder="Title">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="row">
-                                    <div class="col-md-3">Price:</div>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" id="service-price" placeholder="$ 00.00" name="price" value="">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="colFormLabel" class="col-md-2 col-form-label">Description</label>
-                            <div class="col-md-10">
-                                <textarea class="form-control" placeholder="Description" id="service-description" style="height: 65px"></textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <button class="btn btn-primary btn-sm" onclick="addService();return false;">Add</button>
-                        </div>
-                        
+                        @include('service.add-form')
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm" onclick="addService();return false;">Add</button>
                     </div>
                 </div>
 
@@ -232,7 +212,7 @@
 @stop
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
-    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.60/inputmask/jquery.inputmask.js"></script>--}}
+    <script src="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.js')}}"></script>
     <script>
         $('#service-price').mask("##0.00", {reverse: true});
     </script>
@@ -312,9 +292,9 @@
         }
 
         function addService(){
-            var title = $('#service-title').val();
-            var price = $('#service-price').val();
-            var description = $('#service-description').val();
+            var title = $('#title').val();
+            var price = $('#price').val();
+            var description = $('#description').val();
             $('#line-services-added').append(
                             '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
                             '<input type="hidden" name="service-title[]" value="'+title+'">'+
@@ -337,9 +317,9 @@
                                 '</div>'+
                             '</div>');
             
-            $('#service-title').val('');
-            $('#service-price').val(''); 
-            $('#service-description').val('');
+            $('#title').val('');
+            $('#price').val(''); 
+            $('#description').val('');
 
             $('#tr-header-invoice-table').after('<tr>'+
                                         '<td class="text-center">1</td>'+
@@ -361,11 +341,14 @@
                 total += parseFloat($(this).val());
             });
             $('#total-invoice').html('$'+total);
-            $('#total-small-invoice').html('$'+total);
+            $('#total-small-invoice').html(total);
         }
 
         function removeServiceItem(d){
             $(d).parent().parent().parent().parent().parent().remove();
         }
+
+        @include('service.typehead-script')
+        
     </script>
 @endsection

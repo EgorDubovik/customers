@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Mail\InvoiceMail;
 use App\Models\InvoiceServices;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -34,16 +35,19 @@ class InvoiceController extends Controller
      */
     public function create(Request $request)
     {
+        $services = Service::where('company_id',Auth::user()->company_id)
+        ->get();
+
         if(!$request->customer_id)
-            return view("invoice.create");
+            return view("invoice.create",['services' => $services]);
         
         $customer = Customer::find($request->customer_id);
         if(!$customer)
             return abort(404);
         
         $this->authorize('can-send-by-customer',$customer);
-
-        return view("invoice.create", ['customer' => $customer]);
+       
+        return view("invoice.create", ['customer' => $customer, 'services' => $services]);
     }
 
     /**
@@ -184,7 +188,7 @@ class InvoiceController extends Controller
 
         $file = storage_path('app/public/pdf/invoices/'.$pdfname);
         Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
-        
+
         return redirect()->route('invoice.index');
     }
 

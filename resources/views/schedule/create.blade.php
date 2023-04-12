@@ -1,8 +1,12 @@
 @extends('layout.main')
 
-@section('content')
+@section('css')
     <link href="{{ URL::asset('assets/css/drum.css')}}" rel="stylesheet" />
     <link href="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.css')}}" rel="stylesheet" />
+@endsection
+
+@section('content')
+   
     <div class="main-container container-fluid">
         <!-- PAGE-HEADER -->
         <div class="page-header">

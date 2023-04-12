@@ -37,7 +37,7 @@
     <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ URL::asset('assets/colors/color1.css')}}" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css" />
-
+    @yield('css')
 </head>
 
 <body class="app sidebar-mini ltr light-mode">

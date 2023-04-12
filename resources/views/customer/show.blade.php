@@ -148,17 +148,46 @@
 @section('scripts')
 
     <script src="{{ URL::asset('assets/plugins/leaflet/leaflet.js')}}"></script>
-    
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP') }}&callback=initMap"></script>
     <script>
-        // Adding a Popup
-        var map = L.map('customer_map').setView([51.505, -0.09], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        map.on('2901 Ridgeview Dr, Plano TX 75025', function (result) {
-            L.marker([result.x, result.y]).addTo(map)
-        });
+        // // Adding a Popup
+        // var map = L.map('customer_map').setView([51.505, -0.09], 13);
+        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        // map.on('2901 Ridgeview Dr, Plano TX 75025', function (result) {
+        //     L.marker([result.x, result.y]).addTo(map)
+        // });
 
-        // L.marker([51.5, -0.09]).addTo(map)
-        //     .openPopup();
+        // // L.marker([51.5, -0.09]).addTo(map)
+        // //     .openPopup();
+
+        let map;
+        let geocoder;
+        let address = "{{ $customer->address->full }}";
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            let point = { lat: -34.397, lng: 150.644 };
+            map = new google.maps.Map(document.getElementById("customer_map"), {
+                center: point,
+                zoom: 13,
+                disableDefaultUI: true,
+            });
+            codeAddress(address);
+        }
+        function codeAddress(address) {
+            geocoder.geocode({ 'address': address }, function (results, status) {
+                var latLng = {lat: results[0].geometry.location.lat (), lng: results[0].geometry.location.lng ()};
+                if (status == 'OK') {
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        position: latLng,
+                        map: map
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+        window.initMap = initMap;
     </script>
 
     <script>

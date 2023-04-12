@@ -13,6 +13,10 @@
 
             <div class="col-md-6 m-auto">
                 <div class="card">
+                    <div class="card-header">
+                        <spam class="text-muted">Access by link</spam>
+                        <input type="text" class="form-control" value="{{ route('invoice.view.PDF',['key' => ($invoice->key) ? $invoice->key : "null"]) }}" readonly>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
