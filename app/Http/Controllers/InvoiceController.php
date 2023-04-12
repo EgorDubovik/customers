@@ -79,9 +79,9 @@ class InvoiceController extends Controller
         $invoice->key = Str::random(150);
         $invoice->save();
 
-        //send invocie
-        // $file = storage_path('app/public/pdf/invoices/'.$pdfname);
-        // Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
+        // send invocie
+        $file = storage_path('app/public/pdf/invoices/'.$pdfname);
+        Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
 
         return redirect()->route('invoice.index');
     }
@@ -162,7 +162,7 @@ class InvoiceController extends Controller
         $newInvoice = Invoice::create([
             'creator_id'    => $invoice->creator_id,
             'company_id'    => $invoice->company_id,
-            'customer_id'   => null,
+            'customer_id'   => $invoice->customer_id,
             'customer_name' => $invoice->customer_name,
             'address' => $invoice->address,
             'email' => $request->email,
@@ -181,6 +181,10 @@ class InvoiceController extends Controller
         $pdfname = $this->createPDF($newInvoice);
         $newInvoice->pdf_path = $pdfname;
         $newInvoice->save();
+
+        $file = storage_path('app/public/pdf/invoices/'.$pdfname);
+        Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
+        
         return redirect()->route('invoice.index');
     }
 
