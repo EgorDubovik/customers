@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Addresses;
+use App\Models\Appointment;
 use App\Models\Customer;
 use App\Models\CustomerTags;
 use App\Models\Tag;
@@ -74,8 +75,18 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
+
+        //!! Timezone from settings
+
         $this->authorize('view-customer',['customer'=>$customer]);
-        return view('customer.show', ['customer'=>$customer]);
+        $appointments = Appointment::where('customer_id', $customer->id)->get();
+        $upcoming_appoinments = Appointment::where('customer_id', $customer->id)
+                                            ->where('end','>', date('Y-m-d H:i:s'))
+                                            ->get();
+        return view('customer.show', ['customer'=>$customer, 
+                                    'appointments' => $appointments,
+                                    'upcoming_appoinments' => $upcoming_appoinments,
+                                ]);
     }
 
     /**

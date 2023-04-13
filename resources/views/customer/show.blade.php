@@ -2,21 +2,16 @@
 
 @section('content')
 
-    <div class="main-container container-fluid">
+    <div class="main-container container-fluid px-0">
         <!-- CONTENT -->
 
-        <div class="col-md-8">
+        <div class="col-lg-8">
         <div class="row" style="padding-top: 20px;">
             <div class="col-md-6">
                 @include('layout/success-message',['status' => 'success'])
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Customer information</h3>
-                        <div class="card-options">
-                            <a href="{{route('customer.edit',['customer' => $customer])}}">
-                                <i class="fe fe-edit text-success"></i>
-                            </a>
-                        </div>
                     </div>
                     <div class="view_map_point" id="customer_map">
 
@@ -25,8 +20,10 @@
                     
                         
                             <p>
-                                <span class="text-muted">Customer name:</span>
-                                <span style="margin-left: 15px;">{{$customer->name}}</span>
+                                <span style="font-size:20px;">{{$customer->name}}</span>
+                                <a href="{{route('customer.edit',['customer' => $customer])}}">
+                                    <i class="fe fe-edit text-success pull-right"></i>
+                                </a>
                             </p>
                             <p>
                                 <span class="fs-14 fw-bold">{{$customer->address->full}}</span>
@@ -60,6 +57,8 @@
                     </div>
                     <div class="card-body">
                         <p class="text-muted">Upcoming appointment</p>
+                        <p>{{ count($upcoming_appoinments) }}</p>
+                        <p class="text-end"><a href="#">View all History ({{ count($appointments) }})</a></p>
                     </div>
                 </div>
 
