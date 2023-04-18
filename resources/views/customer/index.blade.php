@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" id="search_bar" class="form-control" placeholder="Search in customers">
-                        <button class="btn btn-secondary" type="button">
+                        <button class="btn btn-secondary" type="button" onclick="search_f($('#search_bar').val())">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -85,6 +85,10 @@
 
         $('#search_bar').keyup(function (){
             var search = $(this).val();
+            search_f(search);
+        });
+
+        function search_f(search){
             if(search.length>=3){
                 search = search.replace('(','\\(');
                 search = search.replace(')','\\)');
@@ -94,7 +98,12 @@
                 var count = [];
                 $.each(customers, function(key, val) {
                     var phone = val.phone.replace(/\D/g, "");
-                    if ((val.name.search(regex) != -1) || (val.address.full.search(regex) != -1) || (val.phone.search(regex) !=-1) || phone.search(regex) !=-1){
+                    var search_phone = new RegExp(search.replace(/\D/g, ""), "i");
+                    if ((val.name.search(regex) != -1) 
+                        || (val.address.full.search(regex) != -1) 
+                        || (val.phone.search(regex) !=-1) 
+                        || (phone.search(regex) !=-1)
+                        || (phone.search(search_phone) !=-1)){
                         count.push(val);
                     }
                 });
@@ -103,7 +112,7 @@
                 console.log('view old list')
                 view_old_list();
             }
-        });
+        }
 
         function viewSearchResult(list){
             if(list.length==0)
