@@ -88,6 +88,7 @@
             if(search.length>=3){
                 search = search.replace('(','\\(');
                 search = search.replace(')','\\)');
+                search = search.replace('+','\\+');
                 console.log(search);
                 var regex = new RegExp(search, "i");
                 var count = [];
