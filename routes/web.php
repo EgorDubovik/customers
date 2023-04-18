@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('/',[AppointmentController::class,'index'])->name('schedule.index');
         Route::get('create', [AppointmentController::class, 'create'])->name('schedule.create');
         Route::post('store', [AppointmentController::class, 'store'])->name('schedule.store');
+        Route::get('appointment/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show');
     });
 
     // Invoices

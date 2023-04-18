@@ -25,11 +25,6 @@
 @stop
 
 @section('scripts')
-{{-- <script src="https://cdn.jsdelivr.net/npm/moment@2.22.1/min/moment-with-locales.min.js"></script> --}}
-
-{{-- <script src="https://cdn.jsdelivr.net/npm/jquery-touchswipe@1.6.18/jquery.touchSwipe.min.js"></script> --}}
-{{-- <script src="https://cdn.jsdelivr.net/npm/arrobefr-jquery-calendar-bs4@1.0.3/dist/js/jquery-calendar.min.js"></script> --}}
-{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/arrobefr-jquery-calendar-bs4@1.0.3/dist/css/jquery-calendar.min.css"> --}}
 <script src="{{ URL::asset('assets/plugins/fullcalendar/moment.min.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
     <script>
@@ -53,52 +48,21 @@
                             start: '{{ $appointment->start }}', 
                             end: '{{ $appointment->end }}',
                             color: "#1565C0",
+                            url: "{{ route('appointment.show',['appointment'=>$appointment]) }}",
                             
                         },    
                     @endforeach
                 ],
                 editable: true,
                 eventClick: function(info) {
-                    
-                    alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                    info.el.style.borderColor = 'red';
+                    if (info.event.url) {
+                        window.open(info.event.url);
+                    }
                 }
                 
                 
             });
             calendar.render();
-            
-        //   var now = moment();
-        //   $('#calendar').Calendar({
-        //     events: [
-        //         { // An event on the current week on Wednesday from 10h to 12h
-        //             start: new Date( 2023, 02, 26,06,00).getTime()/1000,
-        //             end: new Date( 2023, 02, 26,08,00).getTime()/1000,
-        //             title: 'An event title !',
-        //             content: 'Hello World! <br>Foo Bar<p class="text-right">Wow this text is right aligned !</p>',
-        //             category: 'Egor Dubovik',
-        //             color: "#C62828",
-                    
-        //         },
-        //         { // An event on the current week on Wednesday from 10h to 12h
-        //             start: new Date( 2023, 02, 26,08,00).getTime()/1000,
-        //             end: new Date( 2023, 02, 26,10,00).getTime()/1000,
-        //             title: 'An event title !',
-        //             content: 'Hello World! <br>Foo Bar<p class="text-right">Wow this text is right aligned !</p>',
-        //             category: 'Alena Dubovik',
-        //             color: "#1565C0",
-        //         },
-        //         { 
-        //             start: new Date( 2023, 02, 26,8,00).getTime()/1000,
-        //             end: new Date( 2023, 02, 26,10,00).getTime()/1000,
-        //             title: 'An event title !',
-        //             content: 'Hello World! <br>Foo Bar<p class="text-right">Wow this text is right aligned !</p>',
-        //             category: 'Egor Dubovik',
-        //             color: "#C62828",
-                    
-        //         },
-        //     ]
-        //   }).init();
         });
       </script>
 @endsection

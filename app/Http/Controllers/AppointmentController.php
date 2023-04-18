@@ -90,9 +90,9 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $Appointment
      * @return \Illuminate\Http\Response
      */
-    public function show(Appointment $Appointment)
+    public function show(Appointment $appointment)
     {
-        //
+        return view('schedule.show',['appointment'=>$appointment]);
     }
 
     /**
