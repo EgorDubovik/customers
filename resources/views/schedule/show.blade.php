@@ -45,18 +45,43 @@
                 </div>
             </div>
             <div class="col-md-6">
-                {{-- Scheduling                --}}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Appointment time</h3>
+                        <h3 class="card-title"><i class="fe fe-calendar"></i> Time</h3>
                     </div>
                     <div class="card-body">
-                        
+                        <p>Start time: <b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i m-d Y') }}</b></p>
+                        <p>End time: <b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i m-d Y') }}</b></p>
                     </div>
-                    
                     {{-- <div class="card-footer">
                         <p class="text-end"><a href="#">View all History ({{ count($appointments) }})</a></p>
                     </div> --}}
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fe fe-list"></i> Services</h3>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="media m-0 mt-0">
+                            <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
+                            <div class="media-body">
+                                <a href="#" class="text-default fw-semibold">{{ $appointment->tech->name }}</a>
+                                <p class="text-muted ">
+                                    {{ $appointment->tech->phone }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 

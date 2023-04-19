@@ -60,8 +60,9 @@
                             <p class="text-muted">Upcoming appointment</p>
                             <div class="card upcuming-card" style="background: #1565C0;">
                                 <div class="card-body">
-                                    <div class="time-upcoming"><b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $upcoming_appoinments->first()->start)->format('H:i') }} - 11:00</b>  <span style="margin-left: 15px;">Yahor Dubovik</span></div>
+                                    <div class="time-upcoming"><b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $upcoming_appoinments->first()->start)->format('H:i') }} - {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $upcoming_appoinments->first()->end)->format('H:i') }}</b> </div>
                                     <div class="name-upcoming">Washer</div>
+                                    <a href="{{ route('appointment.show', ['appointment' => $upcoming_appoinments->first()]) }}" class="stretched-link"></a>
                                 </div>
                             </div>    
                         @else

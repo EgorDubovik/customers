@@ -60,6 +60,7 @@ class AppointmentController extends Controller
             'customer'        => 'required|integer',
             'time_from' => 'required',
             'time_to' => 'required',
+            'tech_id' => 'required',
         ]);
 
         // check if this is my customer
@@ -68,6 +69,7 @@ class AppointmentController extends Controller
             'company_id' => Auth::user()->company_id,
             'start' => $request->time_from,
             'end' => $request->time_to,
+            'tech_id' => $request->tech_id,
         ]);
         
         if($request->has('service-prices')){

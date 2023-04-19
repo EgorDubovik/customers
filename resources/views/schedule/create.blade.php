@@ -88,8 +88,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fe fe-list"></i> Services</h3>
+                                </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Services</h5>
                                     <div id="line-services-added" class="row">
                                 
                                     </div>
@@ -117,6 +119,24 @@
                                 </div>
                                 <div class="card-footer">
                                     <button class="btn btn-primary" onclick="add_new_service();return false;">Add</button>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
+                                </div>
+                                <div class="card-body">
+                                    <input type="hidden" name="tech_id" value="1">
+                                    <div class="media m-0 mt-0">
+                                        <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
+                                        <div class="media-body">
+                                            <a href="#" class="text-default fw-semibold">Yahor Dubovik</a>
+                                            {{-- <p class="text-muted ">
+                                                +1 (754) 226-4666
+                                            </p> --}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

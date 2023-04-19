@@ -12,7 +12,7 @@ class CompanyController extends Controller
     public function edit(Company $company){
         Gate::authorize('edit-company',['company' => $company]);
         
-        return view('company.edit',['company' => $company]);
+        return redirect()->route('profile');
     }
 
     public function update(Request $request, Company $company){

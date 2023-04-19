@@ -15,9 +15,15 @@ class Appointment extends Model
         'end',
         'company_id',
         'status',
+        'tech_id',
     ];
 
     public function customer(){
         return $this->belongsTo(Customer::class);
+    }
+
+    public function tech()
+    {
+        return $this->hasOne(User::class,'id','tech_id');
     }
 }

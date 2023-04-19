@@ -56,8 +56,9 @@
                 editable: true,
                 eventClick: function(info) {
                     if (info.event.url) {
+                        event.jsEvent.preventDefault();
                         window.open(info.event.url);
-                        return false;
+                        
                     }
                 }
                 
