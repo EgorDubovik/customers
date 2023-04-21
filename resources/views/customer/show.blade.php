@@ -134,26 +134,8 @@
         </div>
     </div>
 
-    {{--Add new tag model--}}
-    <div class="modal fade" id="add_new_tag_model" aria-hidden="true">
-        <div class="modal-dialog modal-sm text-center" role="document">
-            <div class="modal-content modal-content-demo">
-                <form method="post" action="{{route('tag.store')}}">
-                    @csrf
-                    <div class="modal-header">
-                        <h6 class="modal-title">Add new tag</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="customer_id" value="{{$customer->id}}">
-                        <input class="form-control mb-4" placeholder="Tag title" name="title" type="text">
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" type="submit">Add</button> <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    {{--Add new service model--}}
+    @include('layout.modals.add-service')
 @stop
 
 @section('scripts')

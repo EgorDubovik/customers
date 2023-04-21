@@ -90,12 +90,17 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title"><i class="fe fe-list"></i> Services</h3>
+                                    <div class="card-options">
+                                        <a href="#" onclick="$('#add_new_service_model').modal('show');return false;">
+                                            <i class="fe fe-plus text-success"></i>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div id="line-services-added" class="row">
                                 
                                     </div>
-                                    <div class="row row-space">
+                                    {{-- <div class="row row-space">
                                         <div class="col-md-7">
                                             <div class="input-group custom">
                                                 <div class="typeahead__container">
@@ -115,11 +120,11 @@
                                     </div>
                                     <div class="input-group custom">
                                         <textarea class="custom-input" placeholder="DESCRIPTION" id="description"></textarea>
-                                    </div>
+                                    </div> --}}
                                 </div>
-                                <div class="card-footer">
+                                {{-- <div class="card-footer">
                                     <button class="btn btn-primary" onclick="add_new_service();return false;">Add</button>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class="card">
@@ -145,6 +150,9 @@
             </div>
         </div>
     </div>
+
+    {{--Add new service model--}}
+    @include('layout.modals.add-service')
 
     <div class="modal fade" id="exampleModal"  role="dialog">
         <div class="modal-dialog" role="document">
@@ -253,10 +261,10 @@
             let price = $('#price').val();
             let description = $('#description').val();
             $('#line-services-added').append(
-                            '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
-                            '<input type="hidden" name="service-title[]" value="'+title+'">'+
-                            '<input type="hidden" name="service-description[]"  value="'+description+'">'+
                             '<div class="col-sm-12 col-md-6 mb-2">'+
+                                '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
+                                '<input type="hidden" name="service-title[]" value="'+title+'">'+
+                                '<input type="hidden" name="service-description[]"  value="'+description+'">'+
                                 '<div class="cont-service-block">'+
                                     '<div class="row mb-2">'+
                                         '<div class="col-9"><b>'+title+'</b></div>'+
@@ -277,5 +285,7 @@
             $('#price').val('');
             $('#description').val('');
         }
+
+        
     </script>
 @endsection

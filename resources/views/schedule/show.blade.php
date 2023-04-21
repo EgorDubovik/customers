@@ -48,10 +48,35 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title"><i class="fe fe-calendar"></i> Time</h3>
+                        <div class="card-options">
+                            <a href="{{ route('appointment.edit',['appoitment' => $appointment]) }}">
+                                <i class="fe fe-edit text-success"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <p>Start time: <b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i m-d Y') }}</b></p>
-                        <p>End time: <b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i m-d Y') }}</b></p>
+
+                        <ul class="task-list">
+                            <li class="d-sm-flex">
+                                <div>
+                                    <i class="task-icon bg-primary"></i>
+                                    <h6 class="fw-semibold fs-16">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i') }}<span class="text-muted fs-14 mx-2 fw-normal"> {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('m-d Y') }}</span>
+                                    </h6>
+                                    {{-- <p class="text-muted fs-12"></p> --}}
+                                </div>
+                            </li>
+                            <li class="d-sm-flex">
+                                <div>
+                                    <i class="task-icon bg-primary"></i>
+                                    <h6 class="fw-semibold fs-16">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i') }}<span class="text-muted fs-14 mx-2 fw-normal"> {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('m-d Y') }}</span>
+                                    </h6>
+                                    {{-- <p class="text-muted fs-12"></p> --}}
+                                </div>
+                            </li>
+                        </ul>
+
+                        {{-- <p>Start time: <b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i') }}</b> <span class="text-muted">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('d-m Y') }}</span></p>
+                        <p>End time: <b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i') }}</b> <span class="text-muted">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('d-m Y') }}</span></p> --}}
                     </div>
                     {{-- <div class="card-footer">
                         <p class="text-end"><a href="#">View all History ({{ count($appointments) }})</a></p>
@@ -63,7 +88,28 @@
                         <h3 class="card-title"><i class="fe fe-list"></i> Services</h3>
                     </div>
                     <div class="card-body">
-
+                        <div class="line-services-added" class="row">
+                            @foreach ($appointment->services as $service)
+                            <div class="col-sm-12 col-md-6 mb-2">
+                                <input type="hidden" name="service-prices[]" class = "service-prices" value="{{ $service->price }}">
+                                <input type="hidden" name="service-title[]" value="{{ $service->title }}">
+                                <input type="hidden" name="service-description[]"  value="{{ $service->description }}">
+                                <div class="cont-service-block">
+                                    <div class="row mb-2">
+                                        <div class="col-9"><b>{{ $service->title }}</b></div>
+                                        <div class="col-3"><b>${{ $service->price }}</b></div>
+                                    </div>
+                                    <div class="hr"></div>
+                                    <div class="row mt-2">
+                                        <div class="col-9 iems-descrition">{{ $service->description }}</div>
+                                        <div class="col-3">
+                                            <p class="text-end"><a href="#" onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
 

@@ -158,7 +158,7 @@
 .typeahead__container {
   width: 100%;
   /* position: relative; */
-  font: 1rem Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  /* font: 1rem Lato, "Helvetica Neue", Arial, Helvetica, sans-serif; */
 }
 
 .typeahead__container * {
