@@ -30,22 +30,14 @@ class AppointmentController extends Controller
      */
     public function create(Request $request)
     {
-        $data = [];
-        $services = Service::where('company_id',Auth::user()->company_id)
-            ->get();
-        $data['services'] = $services;
-        
+
         if ($request->has("customer")){
             $customer = Customer::where(['id' => $request->customer, 'company_id' => Auth::user()->company_id])->first();
             if ($customer)
-                $data['customer'] = $customer;
+                return view('schedule.create',['customer'=>$customer]);
         }
 
-        $customers = Customer::where('company_id',Auth::user()->company_id)
-            ->get();
-        $data['customers'] = $customers;
-
-        return view('schedule.create',$data);
+        return view('schedule.create');
     }
 
     /**
@@ -103,9 +95,9 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $Appointment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Appointment $Appointment)
-    {
-        //
+    public function edit(Appointment $appointment)
+    {   
+        return  view('schedule.edit', ['appointment' => $appointment]);
     }
 
     /**

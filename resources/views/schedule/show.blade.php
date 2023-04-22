@@ -86,6 +86,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title"><i class="fe fe-list"></i> Services</h3>
+                        <div class="card-options">
+                            <a href="#" onclick="$('#add_new_service_model').modal('show');return false;">
+                                <i class="fe fe-plus text-success"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="line-services-added" class="row">
@@ -102,9 +107,9 @@
                                     <div class="hr"></div>
                                     <div class="row mt-2">
                                         <div class="col-9 iems-descrition">{{ $service->description }}</div>
-                                        <div class="col-3">
+                                        {{-- <div class="col-3">
                                             <p class="text-end"><a href="#" onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a></p>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -129,43 +134,13 @@
                         </div>
                     </div>
                 </div>
-
-
-                {{-- Images                --}}
-                {{-- <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Images</h3>
-                    </div>
-                    @include('layout/error-message')
-                    <div class="card-body">
-                        <form method="post" action="{{route('image.store',['customer' => $customer])}}" enctype="multipart/form-data">
-                            @csrf
-                            <div class="input-group mb-3">
-                                <input class="form-control form-control-sm" name="images[]" type="file" multiple>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary btn-sm" type="submit">Upload</button>
-                                </div>
-                            </div>
-                        </form>
-                        <div class="row">
-                            @foreach($customer->images as $image)
-                                <div class="col-4 col-sm-2 customer-img-bl">
-                                    <a href="{{route('image.delete',['image'=>$image])}}" onclick="return confirm('Are you sure?');"><span class="close">&times;</span></a>
-                                    <img src="{{url($image->id.'/'.$image->path)}}" />
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div> --}}
-
-                
-                {{-- @include('customer.notes') --}}
             </div>
         </div>
         </div>
     </div>
 
-    
+    {{--Add new service model--}}
+    @include('layout.modals.add-service')
     
 @stop
 
@@ -222,6 +197,9 @@
             if (confirm('Are you sure?'))
                 return true;
             return false;
+        }
+        function removeServiceItem(d){
+            $(d).parent().parent().parent().parent().parent().remove();
         }
     </script>
 @endsection
