@@ -49,7 +49,7 @@
                     <div class="card-header">
                         <h3 class="card-title"><i class="fe fe-calendar"></i> Time</h3>
                         <div class="card-options">
-                            <a href="{{ route('appointment.edit',['appoitment' => $appointment]) }}">
+                            <a href="{{ route('appointment.edit',['appointment' => $appointment]) }}">
                                 <i class="fe fe-edit text-success"></i>
                             </a>
                         </div>

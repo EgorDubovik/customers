@@ -30,10 +30,10 @@
                                         <label  class="col-md-3 form-label">Customer</label>
                                         <div class="col-md-9">
                                             <div class="content-customer-scheduling" onclick="openModal()">
-                                                @if(isset($customer))
-                                                    <input type="hidden" value="{{$customer->id}}" name="customer" id="input_customer_id">
-                                                    <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$customer->name}}</span></div>
-                                                    <div class="text-muted" id="customer_address">{{$customer->address->full}}</div>
+                                                @if(isset($appointment->customer))
+                                                    <input type="hidden" value="{{$appointment->customer->id}}" name="customer" id="input_customer_id">
+                                                    <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$appointment->customer->name}}</span></div>
+                                                    <div class="text-muted" id="customer_address">{{$appointment->customer->address->full}}</div>
                                                 @else
                                                     <p>List of customers</p>
                                                 @endif
@@ -194,6 +194,7 @@
             var dataPickerTo = null;
             var dataPickerFrom = $(".cont_time_from").DataPicker({
                 onChange : function (dateTime){
+                    console.log('change FROM')
                     if(dataPickerTo){
                         let newDate = new Date(dateTime.getTime() + 2*60*60*1000)
                         dataPickerTo.setDateTime(newDate);
@@ -207,7 +208,8 @@
                 }
             });
             dataPickerTo.setDateTime(new Date(new Date().getTime() + 2*60*60*1000))
-
+            
+            dataPickerFrom.setDateTime(new Date('{{ $appointment->start }}'));
             $('.cont_time_to').removeClass('active');
             $('.view_selected_date_time').click(function (){
                 $('.container-datepicker').removeClass('active');
