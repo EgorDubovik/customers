@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Service;
+use App\Models\User;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -41,6 +42,13 @@ class ViewServiceProvider extends ServiceProvider
             function (View $view){
                 $customers = Customer::where('company_id',Auth::user()->company_id)->get();
                 $view->with('customers', $customers);
+            });
+
+        Facades\View::composer(
+            ['schedule.create', 'schedule.edit','schedule.show'],
+            function (View $view){
+                $techs = User::where('company_id',Auth::user()->company_id)->get();
+                $view->with('techs', $techs);
             });
     }
 }

@@ -130,16 +130,25 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
+                                    <div class="card-options">
+                                        <a href="#" onclick="$('#add_new_tech_model').modal('show');return false;">
+                                            <i class="fe fe-plus text-success"></i>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="card-body">
-                                    <input type="hidden" name="tech_ids[]" value="1">
-                                    <div class="media m-0 mt-0">
-                                        <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
-                                        <div class="media-body">
-                                            <a href="#" class="text-default fw-semibold">Yahor Dubovik</a>
-                                            <p class="text-muted ">
-                                                +1 (754) 226-4666
-                                            </p>
+                                    <div id='techs-cont'>
+                                        <div class="tech-line">
+                                            <input type="hidden" name="tech_ids[]" value="{{ Auth::user()->id }}" class="tech-ids">
+                                            <div class="media m-0 mt-0">
+                                                <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
+                                                <div class="media-body">
+                                                    <a href="#" class="text-default fw-semibold">{{ Auth::user()->name }}</a>
+                                                    <p class="text-muted ">
+                                                        {{ Auth::user()->phone }}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -153,6 +162,7 @@
 
     {{--Add new service model--}}
     @include('layout.modals.add-service')
+    @include('layout.modals.add-tech')
 
     <div class="modal fade" id="exampleModal"  role="dialog">
         <div class="modal-dialog" role="document">

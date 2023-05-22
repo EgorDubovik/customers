@@ -172,3 +172,13 @@
 .card.upcuming-card{
     color:white;
 }
+
+.add-new-tech-line-model{
+    padding: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-new-tech-line-model:hover{
+    background-color: #eaeaea;
+}

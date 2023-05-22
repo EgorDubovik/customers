@@ -118,7 +118,7 @@
                     <div class="card-header">
                         <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
                         <div class="card-options">
-                            <a href="#" onclick="$('#add_new_service_model').modal('show');return false;">
+                            <a href="#" onclick="$('#add_new_tech_model').modal('show');return false;">
                                 <i class="fe fe-plus text-success"></i>
                             </a>
                         </div>
@@ -151,6 +151,7 @@
 
     {{--Add new service model--}}
     @include('layout.modals.add-service')
+    @include('layout.modals.add-tech')
     
 @stop
 
