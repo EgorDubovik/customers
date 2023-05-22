@@ -96,9 +96,7 @@
                         <div class="line-services-added" class="row">
                             @foreach ($appointment->services as $service)
                             <div class="col-sm-12 col-md-6 mb-2">
-                                <input type="hidden" name="service-prices[]" class = "service-prices" value="{{ $service->price }}">
-                                <input type="hidden" name="service-title[]" value="{{ $service->title }}">
-                                <input type="hidden" name="service-description[]"  value="{{ $service->description }}">
+                               
                                 <div class="cont-service-block">
                                     <div class="row mb-2">
                                         <div class="col-9"><b>{{ $service->title }}</b></div>
@@ -107,9 +105,7 @@
                                     <div class="hr"></div>
                                     <div class="row mt-2">
                                         <div class="col-9 iems-descrition">{{ $service->description }}</div>
-                                        {{-- <div class="col-3">
-                                            <p class="text-end"><a href="#" onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a></p>
-                                        </div> --}}
+                                        
                                     </div>
                                 </div>
                             </div>

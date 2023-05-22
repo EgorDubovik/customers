@@ -107,9 +107,35 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $Appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appointment $Appointment)
+    public function update(Request $request, Appointment $appointment)
     {
-        //
+        $validate = $request->validate([
+            'customer'        => 'required|integer',
+            'time_from' => 'required',
+            'time_to' => 'required',
+            'tech_id' => 'required',
+        ]);
+
+        // check if this is my customer
+        $appointment->update([
+            'start' => $request->time_from,
+            'end' => $request->time_to,
+            'tech_id' => $request->tech_id,
+        ]);
+        
+        $appointment->services()->delete();
+
+        if($request->has('service-prices')){
+            foreach($request->input('service-prices') as $key => $value){
+                AppointmentService::create([
+                    'appointment_id' => $appointment->id,
+                    'title' => $request->input('service-title')[$key],
+                    'description' => $request->input('service-description')[$key],
+                    'price' => $request->input('service-prices')[$key],
+                ]);
+            }
+        }
+        return redirect()->route('appointment.show',['appointment'=>$appointment]);
     }
 
     /**

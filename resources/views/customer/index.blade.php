@@ -66,19 +66,39 @@
                 </div>
             </div>
             <div class="col-md-6 d-none d-sm-none d-md-block">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="card-img-absolute circle-icon bg-primary text-center align-self-center box-primary-shadow bradius">
-                                    <img src="../assets/images/svgs/circle.svg" alt="img" class="card-img-absolute">
-                                    <i class="lnr lnr-user fs-30  text-white mt-4"></i>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card-img-absolute circle-icon bg-primary text-center align-self-center box-primary-shadow bradius">
+                                        <img src="../assets/images/svgs/circle.svg" alt="img" class="card-img-absolute">
+                                        <i class="lnr lnr-user fs-30  text-white mt-4"></i>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body p-4">
+                                        <h2 class="mb-2 fw-normal mt-2">{{ count($customers) }}</h2>
+                                        <h5 class="fw-normal mb-0">Total Customers</h5>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-8">
-                                <div class="card-body p-4">
-                                    <h2 class="mb-2 fw-normal mt-2">{{ count($customers) }}</h2>
-                                    <h5 class="fw-normal mb-0">Total Customers</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card-img-absolute circle-icon bg-secondary align-items-center text-center box-secondary-shadow bradius">
+                                        <img src="../assets/images/svgs/circle.svg" alt="img" class="card-img-absolute">
+                                        <i class="lnr lnr-briefcase fs-30 text-white mt-4"></i>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body p-4">
+                                        <h2 class="mb-2 fw-normal mt-2">10,257</h2>
+                                        <h5 class="fw-normal mb-0">Total Services</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>

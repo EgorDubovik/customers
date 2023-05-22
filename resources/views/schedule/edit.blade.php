@@ -16,7 +16,7 @@
         <!-- CONTENT -->
         <div class="row">
             <div class="col-lg-8">               
-                <form method="post" action="{{route('schedule.store')}}" >
+                <form method="post" action="{{route('appointment.update',["appointment"=>$appointment])}}" >
                     @csrf
                     <div class="row">
                         
@@ -98,7 +98,26 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="line-services-added" class="row">
-                                
+                                        @foreach ($appointment->services as $service)
+                                        <div class="col-sm-12 col-md-6 mb-2">
+                                            <input type="hidden" name="service-prices[]" class = "service-prices" value="{{ $service->price }}">
+                                            <input type="hidden" name="service-title[]" value="{{ $service->title }}">
+                                            <input type="hidden" name="service-description[]"  value="{{ $service->description }}">
+                                            <div class="cont-service-block">
+                                                <div class="row mb-2">
+                                                    <div class="col-9"><b>{{ $service->title }}</b></div>
+                                                    <div class="col-3"><b>${{ $service->price }}</b></div>
+                                                </div>
+                                                <div class="hr"></div>
+                                                <div class="row mt-2">
+                                                    <div class="col-9 iems-descrition">{{ $service->description }}</div>
+                                                    <div class="col-3">
+                                                        <p class="text-end"><a href="#" onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
                                     </div>
                                     {{-- <div class="row row-space">
                                         <div class="col-md-7">
@@ -220,27 +239,27 @@
                 return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":00";
             }
 
-            $('.js-typeahead').typeahead({
-                minLength: 0,
-                order: "asc",
-                maxItem: 15,
-                accent: true,
-                searchOnFocus : true,
-                template: "{\{title\}}, {\{price\}}",
-                source: {
-                    data: @json($services)
-                },
-                display:'title',
-                callback: {
-                    onClickAfter: function (node, a, item, event) {
-                        event.preventDefault();
-                        $('#price').val(item.price);
-                        $('#description').val(item.description);
-                    },
+            // $('.js-typeahead').typeahead({
+            //     minLength: 0,
+            //     order: "asc",
+            //     maxItem: 15,
+            //     accent: true,
+            //     searchOnFocus : true,
+            //     template: "{\{title\}}, {\{price\}}",
+            //     source: {
+            //         data: @json($services)
+            //     },
+            //     display:'title',
+            //     callback: {
+            //         onClickAfter: function (node, a, item, event) {
+            //             event.preventDefault();
+            //             $('#price').val(item.price);
+            //             $('#description').val(item.description);
+            //         },
                     
-                },
-                debug: true
-            });
+            //     },
+            //     debug: true
+            // });
 
         });
 
@@ -287,7 +306,11 @@
             $('#price').val('');
             $('#description').val('');
         }
+        function removeServiceItem(d){
+            $(d).parent().parent().parent().parent().parent().remove();
+        }
 
+        @include('service.typehead-script')
         
     </script>
 @endsection
