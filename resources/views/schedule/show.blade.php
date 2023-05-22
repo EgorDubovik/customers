@@ -117,19 +117,31 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
+                        <div class="card-options">
+                            <a href="#" onclick="$('#add_new_service_model').modal('show');return false;">
+                                <i class="fe fe-plus text-success"></i>
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
-                        @if($appointment->tech)
-                        <div class="media m-0 mt-0">
-                            <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
-                            <div class="media-body">
-                                <a href="#" class="text-default fw-semibold">{{ $appointment->tech->name }}</a>
-                                <p class="text-muted ">
-                                    {{ $appointment->tech->phone }}
-                                </p>
+                        @foreach ($appointment->techs as $tech)
+                            <div class="media m-0 mt-0">
+                                <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <a href="#" class="text-default fw-semibold">{{ $tech->name }}</a>
+                                            <p class="text-muted ">
+                                                {{ $tech->phone }}
+                                            </p>
+                                        </div>
+                                        <div class="col-2">
+                                            <a href="{{ route('appointment.remove.tech', ['appointment'=>$appointment,'user'=>$tech]) }}" class="text-danger"  style="font-size:18px;"><i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        @endif
+                        @endforeach
                     </div>
                 </div>
             </div>

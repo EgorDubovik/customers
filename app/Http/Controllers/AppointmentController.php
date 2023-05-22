@@ -6,6 +6,8 @@ use App\Models\Customer;
 use App\Models\Appointment;
 use App\Models\Service;
 use App\Models\AppointmentService;
+use App\Models\AppointmentTechs;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,7 +54,7 @@ class AppointmentController extends Controller
             'customer'        => 'required|integer',
             'time_from' => 'required',
             'time_to' => 'required',
-            'tech_id' => 'required',
+            'tech_ids' => 'required',
         ]);
 
         // check if this is my customer
@@ -61,8 +63,18 @@ class AppointmentController extends Controller
             'company_id' => Auth::user()->company_id,
             'start' => $request->time_from,
             'end' => $request->time_to,
-            'tech_id' => $request->tech_id,
         ]);
+
+        if($request->has('tech_ids')){
+            foreach($request->tech_ids as $tech){
+                AppointmentTechs::create([
+                    'appointment_id' => $appointment->id,
+                    'tech_id'        => $tech,
+                    'creator_id'     => Auth::user()->id,
+                ]);
+            }
+        } else 
+            return redirect()->back()->withErrors(['msg' => 'Please choose at least one tech']);
         
         if($request->has('service-prices')){
             foreach($request->input('service-prices') as $key => $value){
@@ -147,5 +159,15 @@ class AppointmentController extends Controller
     public function destroy(Appointment $Appointment)
     {
         //
+    }
+
+    public function removeTech(Request $request, Appointment $appointment, User $user){
+        
+        // Add gate !!!!!
+
+        AppointmentTechs::where('appointment_id',$appointment->id)
+            ->where('tech_id',$user->id)
+            ->delete();
+        return back();
     }
 }

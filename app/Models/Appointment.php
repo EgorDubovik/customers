@@ -24,11 +24,16 @@ class Appointment extends Model
 
     public function tech()
     {
-        return $this->hasOne(User::class,'id','tech_id');
+        return $this->hasMany(User::class,'id','tech_id');
     }
 
     public function services()
     {
         return $this->hasMany(AppointmentService::class,'appointment_id');
+    }
+
+    public function techs()
+    {
+        return $this->belongsToMany(User::class, AppointmentTechs::class, 'appointment_id','tech_id');
     }
 }

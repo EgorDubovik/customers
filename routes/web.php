@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('appointment/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show');
         Route::get('edit/{appointment}', [AppointmentController::class,'edit'])->name('appointment.edit');
         Route::post('edit/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
+        Route::get('appointment/tech/remove/{appointment}/{user}', [AppointmentController::class, 'removeTech'])->name('appointment.remove.tech');
     });
 
     // Invoices

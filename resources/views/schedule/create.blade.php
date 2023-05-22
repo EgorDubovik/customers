@@ -132,14 +132,14 @@
                                     <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
                                 </div>
                                 <div class="card-body">
-                                    <input type="hidden" name="tech_id" value="1">
+                                    <input type="hidden" name="tech_ids[]" value="1">
                                     <div class="media m-0 mt-0">
                                         <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
                                         <div class="media-body">
                                             <a href="#" class="text-default fw-semibold">Yahor Dubovik</a>
-                                            {{-- <p class="text-muted ">
+                                            <p class="text-muted ">
                                                 +1 (754) 226-4666
-                                            </p> --}}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
