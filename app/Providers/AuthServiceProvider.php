@@ -10,6 +10,7 @@ use App\Models\Tag;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Invoice;
+use App\Models\Appointment;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -92,6 +93,15 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             return false;
         });
+
+        // Appointment notes
+        Gate::define('appointment-store-note',function (User $user, Appointment $appointment){
+            if ($user->company_id == $appointment->company_id)
+                return true;
+            return false;
+        });
+
+
 
         // Upload images
         Gate::define('upload-images', function (User $user, Customer $customer){

@@ -58,7 +58,7 @@
                     <div class="card-body">
                         @if (count($upcoming_appoinments)>0)
                             <p class="text-muted">Upcoming appointment</p>
-                            <div class="card upcuming-card" style="background: #1565C0;">
+                            <div class="card upcuming-card">
                                 <div class="card-body">
                                     <div class="time-upcoming"><b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $upcoming_appoinments->first()->start)->format('H:i') }} - {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $upcoming_appoinments->first()->end)->format('H:i') }}</b> </div>
                                     <div class="name-upcoming">Washer</div>
@@ -69,8 +69,7 @@
                             <p class="text-muted">No upcoming appointment</p>
                         @endif
                         
-                        
-                        <p class="text-end"><a href="#">View all History ({{ count($appointments) }})</a></p>
+                        <p class="text-end"><a href="{{ route('appointment.viewall',['customer'=>$customer]) }}">View all History ({{ count($appointments) }})</a></p>
                     </div>
                 </div>
 

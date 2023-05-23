@@ -170,4 +170,10 @@ class AppointmentController extends Controller
             ->delete();
         return back();
     }
+
+    public function viewall(Customer $customer)
+    {   
+        $appoinments = Appointment::where('customer_id',$customer->id)->get();
+        return view('schedule.viewall',['customer'=>$customer,'appointments'=>$appoinments]);
+    }
 }

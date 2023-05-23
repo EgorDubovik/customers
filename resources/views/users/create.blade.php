@@ -72,23 +72,16 @@
                                         <div class="row">
                                             <label class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="role[]" value="2">
-                                                <span class="custom-control-label">Forman</span>
+                                                <span class="custom-control-label">Technician</span>
                                             </label>
-                                            <footer class="blockquote-footer">Дает право создавать inventory list и просматривать его</footer>
+                                            <footer class="blockquote-footer"></footer>
                                         </div>
                                         <div class="row">
                                             <label class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" name="role[]" value="3">
-                                                <span class="custom-control-label">Driver</span>
+                                                <span class="custom-control-label">Dispatcher</span>
                                             </label>
-                                            <footer class="blockquote-footer">Дает право только просматривать inventory list</footer>
-                                        </div>
-                                        <div class="row">
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="role[]" value="4">
-                                                <span class="custom-control-label">Helper</span>
-                                            </label>
-                                            <footer class="blockquote-footer">Дает право только просматривать inventory list</footer>
+                                            <footer class="blockquote-footer"></footer>
                                         </div>
                                     </div>
                                 </div>

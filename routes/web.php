@@ -15,6 +15,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InvoiceController;
 use  App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AppointmentNotesController;
 use App\Models\Appointment;
 
 Route::prefix("auth")->group(function(){
@@ -92,6 +93,8 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('edit/{appointment}', [AppointmentController::class,'edit'])->name('appointment.edit');
         Route::post('edit/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
         Route::get('appointment/tech/remove/{appointment}/{user}', [AppointmentController::class, 'removeTech'])->name('appointment.remove.tech');
+        Route::get('viewall/{customer}', [AppointmentController::class, 'viewall'])->name('appointment.viewall');
+        Route::post('appointment/note/store/{appointment}', [AppointmentNotesController::class, 'store'])->name('appointment.note.store');
     });
 
     // Invoices
