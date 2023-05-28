@@ -201,7 +201,7 @@
 @section('scripts')
     <script src="{{ URL::asset('assets/js/Drum.js')}}"></script>
     <script src="{{ URL::asset('assets/js/hammer.mini.js')}}"></script>
-    <script src="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.js')}}"></script>
+    
     <script>
         function change_service(){
             var select = $("#select_service");
@@ -310,7 +310,8 @@
             $(d).parent().parent().parent().parent().parent().remove();
         }
 
-        @include('service.typehead-script')
+       
         
     </script>
+    @include('service.typehead-script')
 @endsection

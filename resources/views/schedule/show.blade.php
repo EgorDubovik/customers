@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('css')
+    <link href="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.css')}}" rel="stylesheet" />
+@endsection
+
 @section('content')
 
     <div class="main-container container-fluid px-0">
@@ -240,4 +244,5 @@
             $(d).parent().parent().parent().parent().parent().remove();
         }
     </script>
+    @include('service.typehead-script')
 @endsection

@@ -1,3 +1,5 @@
+<script src="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.js')}}"></script>
+<script>
 $(document).ready(function () {
     $('.js-typeahead').typeahead({
         minLength: 0,
@@ -21,3 +23,4 @@ $(document).ready(function () {
         debug: true
     });
 });
+</script>

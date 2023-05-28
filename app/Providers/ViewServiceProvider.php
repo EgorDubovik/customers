@@ -31,7 +31,7 @@ class ViewServiceProvider extends ServiceProvider
     {
 
         Facades\View::composer(
-            ['schedule.create', 'schedule.edit'],
+            ['schedule.create', 'schedule.edit','schedule.show'],
             function (View $view){
                 $services = Service::where('company_id',Auth::user()->company_id)->get();
                 $view->with('services',$services);
