@@ -101,7 +101,12 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-
+        // Appointment srvices
+        Gate::define('add-remove-service-from-appointment',function(User $user, Appointment $appointment){
+            if ($user->company_id == $appointment->company_id)
+                return true;
+            return false;
+        });
 
         // Upload images
         Gate::define('upload-images', function (User $user, Customer $customer){

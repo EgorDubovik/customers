@@ -16,7 +16,9 @@ use App\Http\Controllers\InvoiceController;
 use  App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentNotesController;
+use App\Http\Controllers\AppointmentServiceController;
 use App\Models\Appointment;
+use App\Models\AppointmentService;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -95,6 +97,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('appointment/tech/remove/{appointment}/{user}', [AppointmentController::class, 'removeTech'])->name('appointment.remove.tech');
         Route::get('viewall/{customer}', [AppointmentController::class, 'viewall'])->name('appointment.viewall');
         Route::post('appointment/note/store/{appointment}', [AppointmentNotesController::class, 'store'])->name('appointment.note.store');
+        Route::post('appointment/add-service/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.add.serivce');
     });
 
     // Invoices

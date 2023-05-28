@@ -125,16 +125,29 @@ class AppointmentController extends Controller
             'customer'        => 'required|integer',
             'time_from' => 'required',
             'time_to' => 'required',
-            'tech_id' => 'required',
+            'tech_ids' => 'required',
         ]);
 
         // check if this is my customer
         $appointment->update([
             'start' => $request->time_from,
             'end' => $request->time_to,
-            'tech_id' => $request->tech_id,
+            // 'tech_id' => $request->tech_id,
         ]);
         
+        $appointment->techs()->delete();
+
+        if($request->has('tech_ids')){
+            foreach($request->tech_ids as $tech){
+                AppointmentTechs::create([
+                    'appointment_id' => $appointment->id,
+                    'tech_id'        => $tech,
+                    'creator_id'     => Auth::user()->id,
+                ]);
+            }
+        } else 
+            return redirect()->back()->withErrors(['msg' => 'Please choose at least one tech']);
+
         $appointment->services()->delete();
 
         if($request->has('service-prices')){
@@ -176,4 +189,5 @@ class AppointmentController extends Controller
         $appoinments = Appointment::where('customer_id',$customer->id)->get();
         return view('schedule.viewall',['customer'=>$customer,'appointments'=>$appoinments]);
     }
+
 }
