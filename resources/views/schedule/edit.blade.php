@@ -10,7 +10,7 @@
     <div class="main-container container-fluid">
         <!-- PAGE-HEADER -->
         <div class="page-header">
-            <h1 class="page-title">Create Appointment</h1>
+            <h1 class="page-title">Update Appointment</h1>
         </div>
         <!-- PAGE-HEADER END -->
         <!-- CONTENT -->
@@ -82,7 +82,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button class="btn btn-success" type="submit">Create</button>
+                                    <button class="btn btn-success" type="submit">Update</button>
                                 </div>
                             </div>
                         </div>
@@ -119,31 +119,9 @@
                                         </div>
                                         @endforeach
                                     </div>
-                                    {{-- <div class="row row-space">
-                                        <div class="col-md-7">
-                                            <div class="input-group custom">
-                                                <div class="typeahead__container">
-                                                    <div class="typeahead__field">
-                                                        <div class="typeahead__query">
-                                                            <input class="custom-input js-typeahead" type="text" placeholder="TITLE" id="title">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="input-group custom">
-                                                <input class="custom-input" type="number" placeholder="PRICE" id="price">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-group custom">
-                                        <textarea class="custom-input" placeholder="DESCRIPTION" id="description"></textarea>
-                                    </div> --}}
+                                    
                                 </div>
-                                {{-- <div class="card-footer">
-                                    <button class="btn btn-primary" onclick="add_new_service();return false;">Add</button>
-                                </div> --}}
+                               
                             </div>
 
                             <div class="card">
@@ -151,15 +129,21 @@
                                     <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
                                 </div>
                                 <div class="card-body">
-                                    <input type="hidden" name="tech_id" value="1">
-                                    <div class="media m-0 mt-0">
-                                        <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
-                                        <div class="media-body">
-                                            <a href="#" class="text-default fw-semibold">Yahor Dubovik</a>
-                                            {{-- <p class="text-muted ">
-                                                +1 (754) 226-4666
-                                            </p> --}}
-                                        </div>
+                                    <div id='techs-cont'>
+                                        @foreach ($appointment->techs as $tech)                                        
+                                            <div class="tech-line">
+                                                <input type="hidden" name="tech_ids[]" value="{{ $tech->id }}" class="tech-ids">
+                                                <div class="media m-0 mt-0">
+                                                    <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
+                                                    <div class="media-body">
+                                                        <a href="#" class="text-default fw-semibold">{{ $tech->name }}</a>
+                                                        <p class="text-muted ">
+                                                            {{ $tech->phone }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

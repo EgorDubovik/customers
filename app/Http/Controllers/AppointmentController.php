@@ -135,7 +135,7 @@ class AppointmentController extends Controller
             // 'tech_id' => $request->tech_id,
         ]);
         
-        $appointment->techs()->delete();
+        $appointment->appointmentTechs()->delete();
 
         if($request->has('tech_ids')){
             foreach($request->tech_ids as $tech){

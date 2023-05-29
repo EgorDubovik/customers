@@ -22,9 +22,9 @@ class Appointment extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function tech()
+    public function appointmentTechs()
     {
-        return $this->hasMany(User::class,'id','tech_id');
+        return $this->hasMany(AppointmentTechs::class,'appointment_id','id');
     }
 
     public function services()

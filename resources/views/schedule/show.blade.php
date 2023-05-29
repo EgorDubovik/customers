@@ -21,28 +21,26 @@
 
                     </div>
                     <div class="card-body">
-                    
-                        
-                            <p>
-                                <span style="font-size:20px;">{{$appointment->customer->name}}</span>
-                                <a href="{{route('customer.edit',['customer' => $appointment->customer])}}">
-                                    <i class="fe fe-edit text-success pull-right"></i>
-                                </a>
-                            </p>
-                            <p>
-                                <span class="fs-14 fw-bold">{{$appointment->customer->address->full}}</span>
-                                <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
-                                <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
-                            </p>
-                            <p>
-                                <span class="fs-14 text-info fw-bold">{{$appointment->customer->phone}}</span>
-                                <i class="fe fe-copy pull-right text-secondary" onclick="copy_to({{$appointment->customer->phone}})" style="cursor: pointer"></i>
-                                <a href="#"> <i class="fe fe-phone-call pull-right" style="margin-right: 10px;"></i></a>
-                            </p>
-                            <p>
-                                <span class="fs-14 text-black">{{$appointment->customer->email}}</span>
-                                <a href="{{ route('invoice.create',['customer_id' => $appointment->customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
-                            </p>
+                        <p>
+                            <span style="font-size:20px;">{{$appointment->customer->name}}</span>
+                            <a href="{{route('customer.edit',['customer' => $appointment->customer])}}">
+                                <i class="fe fe-edit text-success pull-right"></i>
+                            </a>
+                        </p>
+                        <p>
+                            <span class="fs-14 fw-bold">{{$appointment->customer->address->full}}</span>
+                            <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
+                            <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
+                        </p>
+                        <p>
+                            <span class="fs-14 text-info fw-bold">{{$appointment->customer->phone}}</span>
+                            <i class="fe fe-copy pull-right text-secondary" onclick="copy_to({{$appointment->customer->phone}})" style="cursor: pointer"></i>
+                            <a href="#"> <i class="fe fe-phone-call pull-right" style="margin-right: 10px;"></i></a>
+                        </p>
+                        <p>
+                            <span class="fs-14 text-black">{{$appointment->customer->email}}</span>
+                            <a href="{{ route('invoice.create',['customer_id' => $appointment->customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
+                        </p>
                         
                     </div>
 
@@ -97,7 +95,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="line-services-added" class="row">
+                        <div class="line-services-added row">
                             @foreach ($appointment->services as $service)
                             <div class="col-sm-12 col-md-6 mb-2">
                                
@@ -181,7 +179,7 @@
     </div>
 
     {{--Add new service model--}}
-    @include('layout.modals.add-service')
+    @include('layout.modals.add-service',['place'=>'show'])
     @include('layout.modals.add-tech')
     
 @stop
