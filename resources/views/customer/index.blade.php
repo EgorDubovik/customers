@@ -28,7 +28,14 @@
                             <div class="card">
                                 <div class="card-body" style="padding-bottom: 10px;">
                                     <div class="media m-0 mt-0">
-                                        <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../assets/images/users/18.jpg">
+                                        <div class="customer avatar avatar-md me-3">
+                                            @if ($customer->appointments)
+                                                {{ \Carbon\Carbon::parse($customer->appointments->last()->end)->formatLocalized('%b') }}  <br>
+                                                {{ \Carbon\Carbon::parse($customer->appointments->last()->end)->format('d') }}
+                                                
+                                            @endif
+                                            
+                                        </div>
                                         <div class="media-body">
                                             <a href="{{route('customer.show',['customer'=>$customer->id])}}" class="text-default fw-semibold">{{$customer->name}}</a>
                                             <p class="text-muted ">
@@ -53,10 +60,12 @@
                                     </div>
                                     <div class="row" style="padding-top: 5px;">
                                         <div class="col-8">
-                                            <small class="text-muted"> Last update: {{$customer->updated_at->diffForHumans()}}</small>
+                                            @if ($customer->appointments)
+                                                <small class="text-muted"> Last visit: {{ \Carbon\Carbon::parse($customer->appointments->last()->end)->diffForHumans()}}</small>
+                                            @endif
                                         </div>
                                         <div class="col-4 text-end">
-                                            <small class="text-muted"> {{count($customer->notes)}} notes </small>
+                                            <small class="text-muted"> {{count($customer->appointments)}} visits </small>
                                         </div>
                                     </div>
                                 </div>

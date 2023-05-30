@@ -222,29 +222,6 @@
             function toSqlFormat(date){
                 return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":00";
             }
-
-            // $('.js-typeahead').typeahead({
-            //     minLength: 0,
-            //     order: "asc",
-            //     maxItem: 15,
-            //     accent: true,
-            //     searchOnFocus : true,
-            //     template: "{\{title\}}, {\{price\}}",
-            //     source: {
-            //         data: @json($services)
-            //     },
-            //     display:'title',
-            //     callback: {
-            //         onClickAfter: function (node, a, item, event) {
-            //             event.preventDefault();
-            //             $('#price').val(item.price);
-            //             $('#description').val(item.description);
-            //         },
-                    
-            //     },
-            //     debug: true
-            // });
-
         });
 
         function openModal(){

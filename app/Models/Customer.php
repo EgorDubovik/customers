@@ -42,4 +42,9 @@ class Customer extends Model
         return $this->hasMany(Image::class);
     }
 
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class,'customer_id','id');
+    }
+
 }
