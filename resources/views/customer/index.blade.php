@@ -132,24 +132,30 @@
             search_f(search);
         });
 
-        function search_f(search){
+        function search_f(search){    
             if(search.length>=3){
                 search = search.replace('(','\\(');
                 search = search.replace(')','\\)');
                 search = search.replace('+','\\+');
-                console.log(search);
                 var regex = new RegExp(search, "i");
                 var count = [];
                 $.each(customers, function(key, val) {
                     var phone = val.phone.replace(/\D/g, "");
-                    var search_phone = new RegExp(search.replace(/\D/g, ""), "i");
+                    var search_phone = search.replace(/\D/g, "");
+                    search_phone = (search_phone.length >2) ? new RegExp(search_phone, "i") : search_phone;
+                    
                     if ((val.name.search(regex) != -1) 
-                        || (val.address.full.search(regex) != -1) 
-                        || (val.phone.search(regex) !=-1) 
-                        || (phone.search(regex) !=-1)
-                        || (phone.search(search_phone) !=-1)){
+                        || (val.address.full.search(regex) != -1)){
+                        
                         count.push(val);
+                    } else {
+                        
+                        if(((phone.search(regex) !=-1) || (phone.search(search_phone) !=-1)) && search_phone.toString().length>2 ){
+                                console.log('add')
+                                count.push(val);
+                            }
                     }
+
                 });
                 viewSearchResult(count);
             } else if(search.length == 0){
