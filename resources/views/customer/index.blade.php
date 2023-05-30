@@ -29,7 +29,7 @@
                                 <div class="card-body" style="padding-bottom: 10px;">
                                     <div class="media m-0 mt-0">
                                         <div class="customer avatar avatar-md me-3">
-                                            @if ($customer->appointments)
+                                            @if ($customer->appointments->last())
                                                 {{ \Carbon\Carbon::parse($customer->appointments->last()->end)->formatLocalized('%b') }}  <br>
                                                 {{ \Carbon\Carbon::parse($customer->appointments->last()->end)->format('d') }}
                                                 
@@ -60,8 +60,10 @@
                                     </div>
                                     <div class="row" style="padding-top: 5px;">
                                         <div class="col-8">
-                                            @if ($customer->appointments)
+                                            @if ($customer->appointments->last())
                                                 <small class="text-muted"> Last visit: {{ \Carbon\Carbon::parse($customer->appointments->last()->end)->diffForHumans()}}</small>
+                                            @else
+                                            <small class="text-muted"> No last visit</small>
                                             @endif
                                         </div>
                                         <div class="col-4 text-end">
