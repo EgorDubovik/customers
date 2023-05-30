@@ -186,7 +186,7 @@ class AppointmentController extends Controller
 
     public function viewall(Customer $customer)
     {   
-        $appoinments = Appointment::where('customer_id',$customer->id)->get();
+        $appoinments = Appointment::where('customer_id',$customer->id)->orderBy('end','desc')->get();
         return view('schedule.viewall',['customer'=>$customer,'appointments'=>$appoinments]);
     }
 
