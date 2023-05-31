@@ -125,7 +125,7 @@
 @section('scripts')
     <script>
         var customers = @json($customers);
-        var limit = 10;
+        var limit = 100;
 
         $('#search_bar').keyup(function (){
             var search = $(this).val();

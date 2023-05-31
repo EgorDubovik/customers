@@ -178,18 +178,6 @@
                                         <th>Item</th>
                                         <th class="text-end">Total</th>
                                     </tr>
-{{--                                     
-                                    <tr>
-                                        <td class="text-center">1</td>
-                                        <td>
-                                            <p class="font-w600 mb-1">Logo Design</p>
-                                            <div class="text-muted">
-                                                <div class="text-muted">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</div>
-                                            </div>
-                                        </td>
-                                        <td class="text-end">$1,308</td>
-                                    </tr> --}}
-                                    
                                     <tr>
                                         <td colspan="2" class="fw-bold text-uppercase text-end">Total</td>
                                         <td class="fw-bold text-end h4"><span id="total-invoice">$00,00</span></td>
@@ -348,7 +336,8 @@
             $(d).parent().parent().parent().parent().parent().remove();
         }
 
-        @include('service.typehead-script')
+        
         
     </script>
+    @include('service.typehead-script')
 @endsection
