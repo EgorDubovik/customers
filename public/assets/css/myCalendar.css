@@ -176,8 +176,9 @@
   flex: 1 0 auto;
 }
 .header-item.today{
-  background: #c3e5ff;
-  border-radius: 5px;
+  background: #f3f3f3;
+  border-radius: 20px;
+  box-shadow: 0px 0px 8px #bbbbbb;
 }
 .header-items .header-item .header-item-text{
   font-size: 1em;
@@ -248,4 +249,19 @@
   cursor: pointer;
   justify-content: center;
   flex: 0 0 auto;
+}
+.disable-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently supported by any browser but < IE9 */
+}
+
+.event-conteiner.done .event-time{
+  color: #737373;
+}
+.event-conteiner.done a{
+  color: #737373;
 }
