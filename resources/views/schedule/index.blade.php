@@ -34,6 +34,8 @@
     <script>
         $(document).ready(function(){
             $('#calendar').appointmentScheduler({
+                startTime : '06:00',
+                endTime: '21:00',
                 appointments : [
                     @foreach ($appointments as $appointment)
                         {
