@@ -134,15 +134,7 @@
   color: black;
   text-decoration: underline;
 }
-.event-title.done{
-  color: #737373;
-}
-.event-title.done a{
-  color: #737373;
-}
-.event-time{
-  font-size: .8em;
-}
+
 .last-item{
   border-bottom: 1px solid;
 }
