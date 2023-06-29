@@ -63,7 +63,7 @@
                                             <td>
                                                 <p class="font-w600 mb-1">{{ $service->title }}</p>
                                                 <div class="text-muted">
-                                                    <div class="text-muted">{{ $service->description }}</div>
+                                                    <div class="text-muted">{!! $service->description !!}</div>
                                                 </div>
                                             </td>
                                             <td class="text-end">${{ $service->price }}</td>

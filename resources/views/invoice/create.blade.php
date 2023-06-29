@@ -282,7 +282,9 @@
         function addService(){
             var title = $('#title').val();
             var price = $('#price').val();
-            var description = $('#description').val();
+            
+            var description = $('#description').val().replace(/\n/g, "<br />");
+            
             $('#line-services-added').append(
                             '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
                             '<input type="hidden" name="service-title[]" value="'+title+'">'+
