@@ -46,7 +46,15 @@
                                         <input type="phone" class="form-control" id="inputEmail4" placeholder="Phone" name="phone" value="{{$user->phone}}">
                                     </div>
                                 </div>
-
+                                <div class="row mb-4">
+                                    <label for="inputColor" class="col-md-3 form-label">Color</label>
+                                    <div class="col-md-9">
+                                        <div class="clr-field" style="color: {{ $user->color }}">
+                                            <button type="button" aria-labelledby="clr-open-label" style="width: 100%;height: 100%;border-radius: 5px;"></button>
+                                            <input type="text" name="user_color" class="coloris instance3" id="user_color" value="{{ $user->color }}">
+                                        </div>
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="mb-4 row">
                                     <div class="col-md-3"><b>Role</b></div>
@@ -85,3 +93,39 @@
         </div>
     </div>
 @stop
+@section('scripts')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+    <script>
+        
+
+    /** Default configuration **/
+
+    Coloris({
+      el: '.coloris',
+      swatches: [
+        '#264653',
+        '#2a9d8f',
+        '#e9c46a',
+        '#f4a261',
+        '#e76f51',
+        '#d62828',
+        '#023e8a',
+        '#0077b6',
+        '#0096c7',
+        '#00b4d8',
+        '#48cae4'
+      ]
+    });
+
+    
+
+    Coloris.setInstance('.instance3', {
+      theme: 'polaroid',
+      alpha: false,
+      defaultColor: '{{ $user->color }}',
+    });
+
+    
+    </script>
+@endsection

@@ -42,7 +42,7 @@
                             title: '{{ $appointment->customer->name }}', 
                             startTime: moment('{{ $appointment->start }}'), 
                             endTime: moment('{{ $appointment->end }}'),
-                            background: "#1565C0",
+                            background: "{{ (count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0' }}",
                             href: "{{ route('appointment.show',['appointment'=>$appointment]) }}",
                             status : 'pending',
                         },    

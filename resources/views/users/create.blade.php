@@ -41,21 +41,30 @@
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <label for="inputEmail4" class="col-md-3 form-label">Phone</label>
+                                    <label for="inputPhone" class="col-md-3 form-label">Phone</label>
                                     <div class="col-md-9">
-                                        <input type="phone" class="form-control" id="inputEmail4" placeholder="Phone" name="phone" value="{{old('phone')}}">
+                                        <input type="phone" class="form-control" id="inputPhone" placeholder="Phone" name="phone" value="{{old('phone')}}">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <label for="inputEmail4" class="col-md-3 form-label">Password</label>
+                                    <label for="inputPassword" class="col-md-3 form-label">Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" id="inputEmail4" placeholder="Password" name="password">
+                                        <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
                                     </div>
                                 </div>
                                 <div class="row mb-4">
-                                    <label for="inputEmail4" class="col-md-3 form-label">Re-enter Password</label>
+                                    <label for="inputSecondPassword" class="col-md-3 form-label">Re-enter Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" id="inputEmail4" placeholder="Re-enter Password" name="password2">
+                                        <input type="password" class="form-control" id="inputSecondPassword" placeholder="Re-enter Password" name="password2">
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <label for="inputColor" class="col-md-3 form-label">Color</label>
+                                    <div class="col-md-9">
+                                        <div class="clr-field" style="color: #1565C0">
+                                            <button type="button" aria-labelledby="clr-open-label" style="width: 100%;height: 100%;border-radius: 5px;"></button>
+                                            <input type="text" name="user_color" class="coloris instance3" id="user_color" value="#1565C0">
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
@@ -94,3 +103,40 @@
         </div>
     </div>
 @stop
+
+@section('scripts')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+    <script>
+        
+
+    /** Default configuration **/
+
+    Coloris({
+      el: '.coloris',
+      swatches: [
+        '#264653',
+        '#2a9d8f',
+        '#e9c46a',
+        '#f4a261',
+        '#e76f51',
+        '#d62828',
+        '#023e8a',
+        '#0077b6',
+        '#0096c7',
+        '#00b4d8',
+        '#48cae4'
+      ]
+    });
+
+    
+
+    Coloris.setInstance('.instance3', {
+      theme: 'polaroid',
+      alpha: false,
+      defaultColor: '#1565C0',
+    });
+
+    
+    </script>
+@endsection

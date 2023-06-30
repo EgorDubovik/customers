@@ -26,7 +26,8 @@
                         <table class="table border text-nowrap text-md-nowrap table-striped mb-0">
                             <thead>
                             <tr>
-                                <th>ID</th>
+                                <th style="width: 20px">ID</th>
+                                <th style="width: 80px">Color</th>
                                 <th>Date create</th>
                                 <th>User name</th>
                                 <th>Email</th>
@@ -39,6 +40,7 @@
                             @forelse($users as $user)
                                 <tr >
                                     <td class="align-middle">{{$user->id}}</td>
+                                    <td class="align-middle" style="text-align: center"><div class="user_circule" style="background: {{ $user->color }}"></div></td>
                                     <td class="align-middle">{{\Carbon\Carbon::parse($user->created_at)->diffForHumans()}}</td>
                                     <td class="align-middle">{{$user->name}}</td>
                                     <td class="align-middle">{{$user->email}}</td>

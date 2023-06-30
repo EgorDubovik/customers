@@ -37,6 +37,7 @@ class UserController extends Controller
             'password' => password_hash($request->password, PASSWORD_BCRYPT),
             'phone' => $request->phone,
             'company_id' => Auth::user()->company_id,
+            'color' => $request->user_color,
         ]);
 
         foreach ($request->role as $role){
@@ -66,6 +67,7 @@ class UserController extends Controller
            'name' => $request->user_name,
            'email' => $request->email,
            'phone' => $request->phone,
+           'color' => $request->user_color,
         ]);
         $user->roles()->delete();
         foreach ($request->role as $role){
