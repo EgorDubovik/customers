@@ -45,15 +45,26 @@
                                         '<div class="media m-0 mt-0">'+
                                             '<img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">'+
                                                 '<div class="media-body">'+
-                                                    '<a href="#" class="text-default fw-semibold">'+tech_name+'</a>'+
-                                                    '<p class="text-muted ">'+
-                                                        tech_phone+
-                                                    '</p>'+
+                                                    '<div class="row">'+
+                                                        '<div class="col-10"'+
+                                                            '<a href="#" class="text-default fw-semibold">'+tech_name+'</a>'+
+                                                            '<p class="text-muted ">'+
+                                                                tech_phone+
+                                                            '</p>'+
+                                                        '</div>'+
+                                                        '<div class="col-2">'+
+                                                            '<a href="#" class="text-danger" style="font-size:18px;" onClick="removeTech(this);return false;"><i class="fa fa-trash"></i></a>'+
+                                                        '</div>'+
+                                                    '</div>'+
                                                 '</div>'+
                                             '</div>'+
                                         '</div>');
         }
         $('#add_new_tech_model').modal('hide');
         
+    }
+    function removeTech(d){
+
+        $(d).parent().parent().parent().parent().parent().remove();
     }
 </script>

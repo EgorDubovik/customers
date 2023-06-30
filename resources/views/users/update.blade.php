@@ -60,25 +60,20 @@
                                         </div>
                                         <div class="row">
                                             <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="role[]" value="2" {{(in_array(\App\Models\Role::FORMAN,$role_array)) ? "checked" : ""}}>
-                                                <span class="custom-control-label">Forman</span>
+                                                <input type="checkbox" class="custom-control-input" name="role[]" value="2" {{(in_array(\App\Models\Role::TECH,$role_array)) ? "checked" : ""}}>
+                                                <span class="custom-control-label">Technician</span>
                                             </label>
-                                            <footer class="blockquote-footer">Дает право создавать inventory list и просматривать его</footer>
+                                            <footer class="blockquote-footer"></footer>
+                                            
                                         </div>
                                         <div class="row">
                                             <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="role[]" value="3" {{(in_array(\App\Models\Role::DRIVER,$role_array)) ? "checked" : ""}}>
-                                                <span class="custom-control-label">Driver</span>
+                                                <input type="checkbox" class="custom-control-input" name="role[]" value="3" {{(in_array(\App\Models\Role::DISP,$role_array)) ? "checked" : ""}}>
+                                                <span class="custom-control-label">Dispatcher</span>
                                             </label>
-                                            <footer class="blockquote-footer">Дает право только просматривать inventory list</footer>
+                                            
                                         </div>
-                                        <div class="row">
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="role[]" value="4" {{(in_array(\App\Models\Role::HELPER,$role_array)) ? "checked" : ""}}>
-                                                <span class="custom-control-label">Helper</span>
-                                            </label>
-                                            <footer class="blockquote-footer">Дает право только просматривать inventory list</footer>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-warning btn-block">Update</button>
