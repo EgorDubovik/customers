@@ -13,6 +13,27 @@
         <div class="row" style="padding-top: 20px;">
             <div class="col-md-6">
                 @include('layout/success-message',['status' => 'success'])
+                <div class="cont-appointment-buttons">
+                    <div class="btn-group d-flex" role="group">
+                        @if ($appointment->status == App\Models\Appointment::ACTIVE)
+                            <a href="{{ route('appointment.change_status',['appointment' => $appointment]) }}" class="btn btn-success col-5">
+                                <i class="fa fa-check"></i> Finish appointment
+                            </a>    
+                        @else
+                            <a href="{{ route('appointment.change_status',['appointment' => $appointment]) }}" class="btn  btn-default col-5">
+                                <i class="fa fa-angle-double-left"></i> Back to Active
+                            </a>    
+                        @endif
+                        
+                        <a href="#" class="btn btn-success col-5">
+                            <i class="fe fe-copy"></i> Create copy
+                        </a>
+                        <a href="#" class="btn btn-secondary col-2">
+                            <i class="fa fa-credit-card"></i> Pay
+                        </a>
+                    </div>
+                </div>
+                
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Customer information</h3>
@@ -97,8 +118,7 @@
                     <div class="card-body">
                         <div class="line-services-added row">
                             @foreach ($appointment->services as $service)
-                            <div class="col-sm-12 col-md-6 mb-2">
-                               
+                            <div class="col-sm-12 col-md-6 p-1">
                                 <div class="cont-service-block">
                                     <div class="row mb-2">
                                         <div class="col-9"><b>{{ $service->title }}</b></div>
@@ -114,6 +134,7 @@
                             @endforeach
                         </div>
                     </div>
+                    <div class="card-footer">Total: <b style="margin-left: 30px;">${{ $appointment->services->sum('price') }}</b></div>
                 </div>
 
                 <div class="card">
@@ -128,7 +149,7 @@
                     <div class="card-body">
                         @foreach ($appointment->techs as $tech)
                             <div class="media m-0 mt-0">
-                                <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
+                                <div class="avatar_cirle" style="background: {{ $tech->color }}"></div>
                                 <div class="media-body">
                                     <div class="row">
                                         <div class="col-10">
@@ -138,7 +159,7 @@
                                             </p>
                                         </div>
                                         <div class="col-2">
-                                            <a href="{{ route('appointment.remove.tech', ['appointment'=>$appointment,'user'=>$tech]) }}" class="text-danger"  style="font-size:18px;"><i class="fa fa-trash"></i></a>
+                                            <a href="{{ route('appointment.remove.tech', ['appointment'=>$appointment,'user'=>$tech]) }}"  style="font-size:18px;color:#ff7979;"><i class="fa fa-trash"></i></a>
                                         </div>
                                     </div>
                                 </div>

@@ -186,8 +186,16 @@ class AppointmentController extends Controller
 
     public function viewall(Customer $customer)
     {   
-        $appoinments = Appointment::where('customer_id',$customer->id)->orderBy('end','desc')->get();
-        return view('schedule.viewall',['customer'=>$customer,'appointments'=>$appoinments]);
+        $appointments = Appointment::where('customer_id',$customer->id)->orderBy('end','desc')->get();
+        return view('schedule.viewall',['customer'=>$customer,'appointments'=>$appointments]);
+    }
+
+    public function change_status(Appointment $appointment){
+        // Add gate !!!!
+        
+        $appointment->status = ($appointment->status == Appointment::ACTIVE) ? Appointment::DONE : Appointment::ACTIVE;
+        $appointment->save();
+        return back();
     }
 
 }
