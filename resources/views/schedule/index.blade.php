@@ -42,9 +42,9 @@
                             title: '{{ $appointment->customer->name }}', 
                             startTime: moment('{{ $appointment->start }}'), 
                             endTime: moment('{{ $appointment->end }}'),
-                            background: "{{ (count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0' }}",
+                            background: "{{ ($appointment->status== App\Models\Appointment::ACTIVE) ? ((count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0') : '#ccc' }}",
                             href: "{{ route('appointment.show',['appointment'=>$appointment]) }}",
-                            status : 'pending',
+                            status : "{{ ($appointment->status== App\Models\Appointment::DONE) ? 'done' : 'pedding'}}",
                         },    
                     @endforeach 
                 ],

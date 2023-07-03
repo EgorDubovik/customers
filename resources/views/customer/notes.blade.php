@@ -18,7 +18,7 @@
                     <img class="avatar brround avatar-md me-3" alt="avatra-img" src="{{ URL::asset('/assets/images/users/18.jpg') }}">
                     <div class="media-body">
                         <a href="javascript:void(0)" class="text-default fw-semibold">{{ $note->creator->name }}</a>
-                        <p class="text-muted ">{{ $note->text }}</p>
+                        <p class="text-muted ">{!! $note->text !!}</p>
                     </div>
                 </div>
             {{-- <li class="d-sm-flex">

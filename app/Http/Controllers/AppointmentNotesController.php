@@ -17,7 +17,7 @@ class AppointmentNotesController extends Controller
         AppointmentNotes::create([
             'appointment_id' => $appointment->id,
             'creator_id'    => Auth::user()->id,
-            'text'          => $request->text,
+            'text'          => nl2br($request->text),
         ]);
 
         return back();

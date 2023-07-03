@@ -42,6 +42,6 @@ class Appointment extends Model
 
     public function notes()
     {   
-        return $this->hasMany(AppointmentNotes::class,'appointment_id');
+        return $this->hasMany(AppointmentNotes::class,'appointment_id')->orderBy('created_at','desc');
     }
 }

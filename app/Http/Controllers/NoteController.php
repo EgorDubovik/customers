@@ -43,7 +43,7 @@ class NoteController extends Controller
         Note::create([
             'creator_id' => Auth::user()->id,
             'customer_id' => $customer->id,
-            'text' => $request->text,
+            'text' => nl2br($request->text),
         ]);
         return back()->with('successful','Note has been created successfuly');
     }
