@@ -21,4 +21,13 @@ class AppointmentServiceController extends Controller
         ]);
         return back();
     }
+
+    public function delete(Request $request, AppointmentService $appointmentService) {
+        
+        Gate::authorize('add-remove-service-from-appointment',[$appointmentService->appointment]);
+
+        $appointmentService->delete();
+        return back();
+
+    }
 }

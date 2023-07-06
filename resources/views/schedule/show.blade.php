@@ -127,7 +127,11 @@
                                     <div class="hr"></div>
                                     <div class="row mt-2">
                                         <div class="col-9 iems-descrition">{{ $service->description }}</div>
-                                        
+                                        <div class="col-3">
+                                            <p class="text-end">
+                                                <a href="{{ route('appointment.service.remove',['appointmentService' => $service]) }}" onclick="if(confirm('Are you sure?')) return true; else return false; " class=" text-danger"><i class="fa fa-trash"></i></a>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

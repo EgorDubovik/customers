@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('viewall/{customer}', [AppointmentController::class, 'viewall'])->name('appointment.viewall');
         Route::post('appointment/note/store/{appointment}', [AppointmentNotesController::class, 'store'])->name('appointment.note.store');
         Route::post('appointment/add-service/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.add.serivce');
+        Route::get('appointment/remove-service/{appointmentService}', [AppointmentServiceController::class, 'delete'])->name('appointment.service.remove');
         Route::get('appointment/status/{appointment}',[AppointmentController::class,'change_status'])->name('appointment.change_status');
     });
 
