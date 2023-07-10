@@ -116,7 +116,31 @@
                         
                         <h5 class="card-title">Services</h5>
                         <div id="line-services-added" class="row">
-                            
+                            @if(isset($appointment))
+                                @foreach ($appointment->services as $service)
+                                    <div class="col-sm-12 col-md-6 mb-2">
+                                        <div class="cont-service-block">
+                                            <div class="row mb-2">
+                                                <div class="col-9">
+                                                    <b>Dryer</b>
+                                                </div>
+                                                <div class="col-3"><b>$60</b></div>
+                                            </div>
+                                            <div class="hr"></div>
+                                            <div class="row mt-2">
+                                                <div class="col-9 iems-descrition">Diagnose your Washer</div>
+                                                <div class="col-3">
+                                                    <p class="text-end">
+                                                        <a href="#" onclick="removeServiceItem(this); return false;" class=" text-danger">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                         @include('service.add-form')
                     </div>
@@ -286,10 +310,10 @@
             var description = $('#description').val().replace(/\n/g, "<br />");
             
             $('#line-services-added').append(
-                            '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
-                            '<input type="hidden" name="service-title[]" value="'+title+'">'+
-                            '<input type="hidden" name="service-description[]"  value="'+description+'">'+
-                            '<div class="col-sm-12 col-md-6 mb-2">'+
+                            '<div class="col-sm-12 col-md-6 mb-2 added-service-line">'+
+                                '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
+                                '<input type="hidden" name="service-title[]" class = "service-title" value="'+title+'">'+
+                                '<input type="hidden" name="service-description[]" class = "service-description"  value="'+description+'">'+
                                 '<div class="cont-service-block">'+
                                     '<div class="row mb-2">'+
                                         '<div class="col-9"><b>'+title+'</b></div>'+
@@ -311,7 +335,30 @@
             $('#price').val(''); 
             $('#description').val('');
 
-            $('#tr-header-invoice-table').after('<tr>'+
+            fillInvoiceTable();
+
+            // $('#tr-header-invoice-table').after('<tr>'+
+            //                             '<td class="text-center">1</td>'+
+            //                             '<td>'+
+            //                                 '<p class="font-w600 mb-1">'+title+'</p>'+
+            //                                 '<div class="text-muted">'+
+            //                                     '<div class="text-muted">'+description+'</div>'+
+            //                                 '</div>'+
+            //                             '</td>'+
+            //                             '<td class="text-end">$'+price+'</td>'+
+            //                         '</tr>');
+            countTotal();
+        }
+
+        function fillInvoiceTable(){
+            $('.table-invoice-line').remove();
+            $('.added-service-line').each(function(){
+                var parent = $(this);
+                var price = parent.find('.service-prices').val();
+                var title = parent.find('.service-title').val();
+                var description = parent.find('.service-description').val();
+                $('#tr-header-invoice-table').after(
+                                    '<tr class="table-invoice-line">'+
                                         '<td class="text-center">1</td>'+
                                         '<td>'+
                                             '<p class="font-w600 mb-1">'+title+'</p>'+
@@ -320,8 +367,9 @@
                                             '</div>'+
                                         '</td>'+
                                         '<td class="text-end">$'+price+'</td>'+
-                                    '</tr>');
-            countTotal();
+                                    '</tr>'
+                )
+            })
         }
 
         function countTotal(){
@@ -336,6 +384,7 @@
 
         function removeServiceItem(d){
             $(d).parent().parent().parent().parent().parent().remove();
+            fillInvoiceTable();
         }
 
         

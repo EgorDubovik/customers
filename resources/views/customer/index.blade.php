@@ -107,8 +107,8 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="card-body p-4">
-                                        <h2 class="mb-2 fw-normal mt-2">10,257</h2>
-                                        <h5 class="fw-normal mb-0">Total Services</h5>
+                                        <h2 class="mb-2 fw-normal mt-2">{{ count($appointments) }}</h2>
+                                        <h5 class="fw-normal mb-0">Total Appointments</h5>
                                     </div>
                                 </div>
                             </div>

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Mail\InvoiceMail;
+use App\Models\Appointment;
 use App\Models\InvoiceServices;
 use App\Models\Service;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -38,16 +40,34 @@ class InvoiceController extends Controller
         $services = Service::where('company_id',Auth::user()->company_id)
         ->get();
 
-        if(!$request->customer_id)
-            return view("invoice.create",['services' => $services]);
+        $data = ['services'=> $services];
+        if($request->customer_id){
+            $customer = Customer::where('id',$request->customer_id)
+                                ->where('company_id', Auth::user()->company_id)
+                                ->first();
+            if(!$customer)
+                return abort(404);
+            
+            $this->authorize('can-send-by-customer',$customer);
+            
+            $data['customer'] = $customer;
+        }
+
+        if($request->appointment){
+            $appointment = Appointment::where('id',$request->appointment)
+                                      ->where('company_id', Auth::user()->comapny_id)
+                                      ->first();
+            if(!$appointment)
+                return abort(404);
+
+            $this->authorize('can-send-by-customer',$appointment->customer);
+
+            $data['appointment'] = $appointment;
+        }
+
         
-        $customer = Customer::find($request->customer_id);
-        if(!$customer)
-            return abort(404);
-        
-        $this->authorize('can-send-by-customer',$customer);
        
-        return view("invoice.create", ['customer' => $customer, 'services' => $services]);
+        return view("invoice.create", $data);
     }
 
     /**

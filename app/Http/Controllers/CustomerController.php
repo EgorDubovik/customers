@@ -26,7 +26,9 @@ class CustomerController extends Controller
             ->get()
             ->makeHidden(['address_id','company_id', 'created_at','updated_at','notes']);
 
-        return view('customer.index', ['customers'=>$customers]);
+        $appointments = Appointment::where('company_id',Auth::user()->company_id)->get();
+
+        return view('customer.index', ['customers'=>$customers, 'appointments' => $appointments]);
     }
 
     /**

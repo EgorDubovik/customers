@@ -43,7 +43,7 @@
                     </div>
                     <div class="card-body">
                         <p>
-                            <span style="font-size:20px;">{{$appointment->customer->name}}</span>
+                            <span style="font-size:20px;"><a href="{{ route("customer.show" , ['customer' => $appointment->customer]) }}">{{ $appointment->customer->name}}</a></span>
                             <a href="{{route('customer.edit',['customer' => $appointment->customer])}}">
                                 <i class="fe fe-edit text-success pull-right"></i>
                             </a>
@@ -60,7 +60,7 @@
                         </p>
                         <p>
                             <span class="fs-14 text-black">{{$appointment->customer->email}}</span>
-                            <a href="{{ route('invoice.create',['customer_id' => $appointment->customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
+                            <a href="{{ route('invoice.create',['customer_id' => $appointment->customer->id,'appointment' => $appointment->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
                         </p>
                         
                     </div>
