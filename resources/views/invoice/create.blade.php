@@ -119,6 +119,9 @@
                             @if(isset($appointment))
                                 @foreach ($appointment->services as $service)
                                     <div class="col-sm-12 col-md-6 mb-2">
+                                        <input type="hidden" name="service-prices[]" class = "service-prices" value="{{ $service->price }}">
+                                        <input type="hidden" name="service-title[]" class = "service-title" value="{{ $service->title }}">
+                                        <input type="hidden" name="service-description[]" class = "service-description"  value="{{ $service->description }}">
                                         <div class="cont-service-block">
                                             <div class="row mb-2">
                                                 <div class="col-9">
@@ -202,9 +205,23 @@
                                         <th>Item</th>
                                         <th class="text-end">Total</th>
                                     </tr>
+                                    @if(isset($appointment))
+                                        @foreach ($appointment->services as $service)
+                                            <tr class="table-invoice-line">
+                                                <td class="text-center">1</td>
+                                                <td>
+                                                    <p class="font-w600 mb-1">{{ $service->title }}</p>
+                                                    <div class="text-muted">
+                                                        <div class="text-muted">{{ $service->description }}</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-end">${{  $service->price }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                     <tr>
                                         <td colspan="2" class="fw-bold text-uppercase text-end">Total</td>
-                                        <td class="fw-bold text-end h4"><span id="total-invoice">$00,00</span></td>
+                                        <td class="fw-bold text-end h4"><span id="total-invoice">$ {{ $appointment->services->sum('price') }}</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -337,16 +354,6 @@
 
             fillInvoiceTable();
 
-            // $('#tr-header-invoice-table').after('<tr>'+
-            //                             '<td class="text-center">1</td>'+
-            //                             '<td>'+
-            //                                 '<p class="font-w600 mb-1">'+title+'</p>'+
-            //                                 '<div class="text-muted">'+
-            //                                     '<div class="text-muted">'+description+'</div>'+
-            //                                 '</div>'+
-            //                             '</td>'+
-            //                             '<td class="text-end">$'+price+'</td>'+
-            //                         '</tr>');
             countTotal();
         }
 

@@ -55,7 +55,7 @@ class InvoiceController extends Controller
 
         if($request->appointment){
             $appointment = Appointment::where('id',$request->appointment)
-                                      ->where('company_id', Auth::user()->comapny_id)
+                                      ->where('company_id', Auth::user()->company_id)
                                       ->first();
             if(!$appointment)
                 return abort(404);
