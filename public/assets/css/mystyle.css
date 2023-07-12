@@ -227,3 +227,28 @@ li.tag-li{
 li.tag-li:hover:not(.active) {
     background:#f2f2f2;
 }
+.amount-pay{
+    text-align: center;
+    padding: 30px 0px;
+}
+.amount-pay input{
+    font-size: 37px;
+    text-align: center;
+    outline: 0;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+    width: 112px;
+    font-weight: bold;
+    color: #797979;
+}
+.amount-pay span{
+    font-size: 37px;
+    font-weight: bold;
+    color: #797979;
+}
+.btn-cont-payment{
+    text-align: center;
+}
+.type-of-payment{
+    padding-top: 15px;
+}

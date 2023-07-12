@@ -17,31 +17,27 @@
 
                     </div>
                     <div class="card-body">
-                    
-                        
-                            <p>
-                                <span style="font-size:20px;">{{$customer->name}}</span>
-                                <a href="{{route('customer.edit',['customer' => $customer])}}">
-                                    <i class="fe fe-edit text-success pull-right"></i>
-                                </a>
-                            </p>
-                            <p>
-                                <span class="fs-14 fw-bold">{{$customer->address->full}}</span>
-                                <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
-                                <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
-                            </p>
-                            <p>
-                                <span class="fs-14 text-info fw-bold">{{$customer->phone}}</span>
-                                <i class="fe fe-copy pull-right text-secondary" onclick="copy_to({{$customer->phone}})" style="cursor: pointer"></i>
-                                <a href="#"> <i class="fe fe-phone-call pull-right" style="margin-right: 10px;"></i></a>
-                            </p>
-                            <p>
-                                <span class="fs-14 text-black">{{$customer->email}}</span>
-                                <a href="{{ route('invoice.create',['customer_id' => $customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
-                            </p>
-                        
+                        <p>
+                            <span style="font-size:20px;">{{$customer->name}}</span>
+                            <a href="{{route('customer.edit',['customer' => $customer])}}">
+                                <i class="fe fe-edit text-success pull-right"></i>
+                            </a>
+                        </p>
+                        <p>
+                            <span class="fs-14 fw-bold">{{$customer->address->full}}</span>
+                            <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
+                            <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
+                        </p>
+                        <p>
+                            <span class="fs-14 text-info fw-bold">{{$customer->phone}}</span>
+                            <i class="fe fe-copy pull-right text-secondary" onclick="copy_to({{$customer->phone}})" style="cursor: pointer"></i>
+                            <a href="#"> <i class="fe fe-phone-call pull-right" style="margin-right: 10px;"></i></a>
+                        </p>
+                        <p>
+                            <span class="fs-14 text-black">{{$customer->email}}</span>
+                            <a href="{{ route('invoice.create',['customer_id' => $customer->id]) }}"><i class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
+                        </p>
                     </div>
-
                 </div>
             </div>
             <div class="col-md-6">
@@ -114,22 +110,6 @@
                                 <span class="tag tag-rounded tag-icon tag-orange">{{$tag->title}} <a href="{{route('tag.untie',[$customer,$tag])}}" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
                             @endforeach
                         </div>
-                        {{-- <div class="row">
-                            <form method="post" action="{{route('tag.assign',['customer' => $customer])}}">
-                                @csrf
-                                <div class="input-group">
-                                    <select class="form-control form-select" name="tag_id">
-                                        @foreach(\Illuminate\Support\Facades\Auth::user()->company_tags as $tag)
-                                            <option value="{{$tag->id}}">{{$tag->title}}</option>
-                                        @endforeach
-                                    </select>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Assign</button>
-                                    </div>
-                                </div>
-
-                            </form>
-                        </div> --}}
                     </div>
                 </div>
                 @include('customer.notes')
@@ -162,6 +142,7 @@
             </div>
         </div>
     </div>
+    
 @stop
 
 @section('scripts')

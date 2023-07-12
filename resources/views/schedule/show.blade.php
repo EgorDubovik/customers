@@ -30,7 +30,7 @@
                             <a href="#" class="btn btn-success col-5">
                                 <i class="fe fe-copy"></i> Create copy
                             </a>
-                            <a href="#" class="btn btn-secondary col-2">
+                            <a data-bs-toggle="modal" href="#payment_model" class="btn btn-secondary col-2">
                                 <i class="fa fa-credit-card"></i> Pay
                             </a>
                         </div>
@@ -228,6 +228,41 @@
     {{-- Add new service model --}}
     @include('layout.modals.add-service', ['place' => 'show'])
     @include('layout.modals.add-tech')
+
+    {{--Ppayemnt model--}}
+    <div class="modal fade" id="payment_model" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Payment</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <form method="post" action="">
+                    @csrf
+                    <div class="row p-2">
+                        <div class="col-10">Remainig payment:</div> 
+                        <div class="col-2"> <b>${{ $remainingBalance }}</b></div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="amount-pay">
+                            <span>$</span><input type="text" name="amount" value="{{ $remainingBalance }}">
+                        </div>
+                        <div class="btn-cont-payment">
+                            @if ($remainingBalance > 100)
+                            <button type="button" class="btn btn-outline-primary" style="margin-right: 30px;">Deposit ($100)</button>
+                            @endif
+                            <button type="button" class="btn btn-outline-primary" >Full</button>
+                        </div>
+                        <div class="type-of-payment">
+                            Type of payment:
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit">Pay</button> <button class="btn btn-light" data-bs-dismiss="modal" onclick="return false;">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @stop
 

@@ -98,7 +98,13 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-        return view('schedule.show',['appointment'=>$appointment]);
+
+        $remainingBalance = $appointment->services->sum('price');
+
+        return view('schedule.show',[
+            'appointment'       => $appointment,
+            'remainingBalance'   => $remainingBalance,
+        ]);
     }
 
     /**
