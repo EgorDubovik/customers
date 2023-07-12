@@ -221,3 +221,9 @@ input.coloris{
 .cont-appointment-buttons{
     margin-bottom: 20px;
 }
+li.tag-li{
+    cursor: pointer;
+}
+li.tag-li:hover:not(.active) {
+    background:#f2f2f2;
+}

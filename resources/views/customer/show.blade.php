@@ -102,14 +102,19 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header">Customer Tags <a class="fs-16 text-orange" style="margin-left: 20px;" data-bs-toggle="modal" href="#add_new_tag_model"><i class="fe fe-plus-circle"></i> </a></div>
+                    <div class="card-header">
+                        <h3 class="card-title">Customer Tags</h3>
+                        <div class="card-options">
+                            <a class="fs-16 text-orange" style="margin-left: 20px;" data-bs-toggle="modal" href="#add_new_tag_model"><i class="fe fe-plus-circle"></i> </a>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="tags-row mb-3">
                             @foreach($customer->tags as $tag)
                                 <span class="tag tag-rounded tag-icon tag-orange">{{$tag->title}} <a href="{{route('tag.untie',[$customer,$tag])}}" class="tag-addon tag-addon-cross tag-orange"><i class="fe fe-x text-white m-1"></i></a></span>
                             @endforeach
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <form method="post" action="{{route('tag.assign',['customer' => $customer])}}">
                                 @csrf
                                 <div class="input-group">
@@ -124,7 +129,7 @@
                                 </div>
 
                             </form>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 @include('customer.notes')
@@ -135,19 +140,23 @@
 
     {{--Add new tag model--}}
     <div class="modal fade" id="add_new_tag_model" aria-hidden="true">
-        <div class="modal-dialog modal-sm text-center" role="document">
+        <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content modal-content-demo">
-                <form method="post" action="{{route('tag.store')}}">
+                <div class="modal-header">
+                    <h6 class="modal-title">Add new tag</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <form method="post" action="{{route('tag.assign',['customer' => $customer])}}">
                     @csrf
-                    <div class="modal-header">
-                        <h6 class="modal-title">Add new tag</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-                    </div>
                     <div class="modal-body">
-                        <input type="hidden" name="customer_id" value="{{$customer->id}}">
-                        <input class="form-control mb-4" placeholder="Tag title" name="title" type="text">
+                        <input type="hidden" id="tag-id" name="tag_id" value="0">
+                        <ul class="list-group list-group-flush">
+                            @foreach(\Illuminate\Support\Facades\Auth::user()->company_tags as $tag)
+                                <li class="list-group-item tag-li" onClick="selectTag(this)" data-id="{{ $tag->id }}">{{ $tag->title }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" type="submit">Add</button> <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button class="btn btn-success" type="submit">Add</button> <button class="btn btn-light" data-bs-dismiss="modal" onclick="return false;">Close</button>
                     </div>
                 </form>
             </div>
@@ -208,6 +217,12 @@
             if (confirm('Are you sure?'))
                 return true;
             return false;
+        }
+
+        function selectTag(d){
+            $(".tag-li").removeClass('active');
+            $(d).addClass('active');
+            $("#tag-id").val($(d).attr('data-id'));
         }
     </script>
 @endsection
