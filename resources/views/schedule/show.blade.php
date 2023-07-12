@@ -234,7 +234,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">Payment</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+                    <h6 class="modal-title">Payment <span style="color: #5f5f5f; margin-left:20px;">(Total: ${{ $appointment->services->sum('price') }})</span></h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
                 </div>
                 <form method="post" action="">
                     @csrf
@@ -244,13 +244,13 @@
                     </div>
                     <div class="modal-body">
                         <div class="amount-pay">
-                            <span>$</span><input type="text" name="amount" value="{{ $remainingBalance }}">
+                            <span>$</span><input id="amountPayment" type="text" name="amount" value="{{ $remainingBalance }}">
                         </div>
                         <div class="btn-cont-payment">
                             @if ($remainingBalance > 100)
-                            <button type="button" class="btn btn-outline-primary" style="margin-right: 30px;">Deposit ($100)</button>
+                            <button type="button" onClick="setAmount(this)" data-amount="100" class="btn btn-outline-primary" style="margin-right: 30px;">Deposit ($100)</button>
                             @endif
-                            <button type="button" class="btn btn-outline-primary" >Full</button>
+                            <button type="button" onClick="setAmount(this)" data-amount="{{ $remainingBalance }}" class="btn btn-outline-primary" >Full</button>
                         </div>
                         <div class="type-of-payment">
                             Type of payment:
@@ -333,6 +333,12 @@
 
         function removeServiceItem(d) {
             $(d).parent().parent().parent().parent().parent().remove();
+        }
+
+        function setAmount(b){
+            var newAmount = $(b).attr('data-amount');
+            $('#amountPayment').val(newAmount);
+            return false;
         }
     </script>
     @include('service.typehead-script')
