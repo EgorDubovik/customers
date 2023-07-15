@@ -154,13 +154,13 @@
                                             <div class="cont-service-block">
                                                 <div class="row mb-2">
                                                     <div class="col-9">
-                                                        <b>Dryer</b>
+                                                        <b>{{ $service->title }}</b>
                                                     </div>
-                                                    <div class="col-3"><b>$60</b></div>
+                                                    <div class="col-3"><b>${{ $service->price }}</b></div>
                                                 </div>
                                                 <div class="hr"></div>
                                                 <div class="row mt-2">
-                                                    <div class="col-9 iems-descrition">Diagnose your Washer</div>
+                                                    <div class="col-9 iems-descrition">{{ $service->description }}</div>
                                                     <div class="col-3">
                                                         <p class="text-end">
                                                             <a href="#"
@@ -257,7 +257,7 @@
                                         <tr>
                                             <td colspan="2" class="fw-bold text-uppercase text-end">Total</td>
                                             <td class="fw-bold text-end h4"><span id="total-invoice">$
-                                                    {{ $appointment->services->sum('price') }}</span></td>
+                                                    {!! (isset($appointment)) ? $appointment->services->sum('price') : '0' !!}</span></td>
                                         </tr>
                                     </tbody>
                                 </table>
