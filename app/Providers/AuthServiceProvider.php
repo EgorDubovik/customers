@@ -108,6 +108,32 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        //Services
+        Gate::define('update-service', function (User $user, Service $service){
+            return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $service->company_id );
+        });
+        
+        // Payments
+        Gate::define('pay-service', function(User $user, Appointment $appointment){
+            if ($user->company_id == $appointment->company_id)
+                return true;
+            return false;
+        });
+
+        // Company
+        Gate::define('edit-company',function (User $user, Company $company){
+            return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $company->id );
+        });
+
+        // Invoice
+        Gate::define('can-view-invoice', function(User $user, Invoice $invoice){
+            return $user->company_id === $invoice->company_id;
+        });
+        
+        Gate::define('can-send-by-customer', function(User $user, Customer $customer){
+            return $user->company_id === $customer->company_id;
+        });
+
         // Upload images
         Gate::define('upload-images', function (User $user, Customer $customer){
             if ($user->company_id == $customer->company_id)
@@ -125,23 +151,5 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        // Company
-        Gate::define('edit-company',function (User $user, Company $company){
-            return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $company->id );
-        });
-
-        //Services
-        Gate::define('update-service', function (User $user, Service $service){
-            return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $service->company_id );
-        });
-
-        // Invoice
-        Gate::define('can-view-invoice', function(User $user, Invoice $invoice){
-            return $user->company_id === $invoice->company_id;
-        });
-        
-        Gate::define('can-send-by-customer', function(User $user, Customer $customer){
-            return $user->company_id === $customer->company_id;
-        });
     }
 }

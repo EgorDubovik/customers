@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\Service;
 use App\Models\AppointmentService;
 use App\Models\AppointmentTechs;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -99,7 +100,7 @@ class AppointmentController extends Controller
     public function show(Appointment $appointment)
     {
 
-        $remainingBalance = $appointment->services->sum('price');
+        $remainingBalance = $appointment->services->sum('price') - Payment::where('appointment_id',$appointment->id)->get()->sum('amount');
 
         return view('schedule.show',[
             'appointment'       => $appointment,

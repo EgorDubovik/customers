@@ -236,7 +236,7 @@
                 <div class="modal-header">
                     <h6 class="modal-title">Payment <span style="color: #5f5f5f; margin-left:20px;">(Total: ${{ $appointment->services->sum('price') }})</span></h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
                 </div>
-                <form method="post" action="">
+                <form method="post" action="{{ route('appointment.pay', ['appointment' => $appointment]) }}">
                     @csrf
                     <div class="row p-2">
                         <div class="col-10">Remainig payment:</div> 
@@ -254,6 +254,13 @@
                         </div>
                         <div class="type-of-payment">
                             Type of payment:
+                            <div class="btn_cont_type row">
+                                <input type="hidden" name="payment_type" value="{{ \App\Models\Payment::CREDIT }}">
+                                <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CREDIT }}" class="btn btn-outline-primary active col-3">Credit</button>
+                                <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::TRANSFER }}" class="btn btn-outline-primary col-3">Transfer</button>
+                                <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CASH }}" class="btn btn-outline-primary col-3">Cash</button>
+                                <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CHECK }}" class="btn btn-outline-primary col-3">Check</button>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -339,6 +346,12 @@
             var newAmount = $(b).attr('data-amount');
             $('#amountPayment').val(newAmount);
             return false;
+        }
+
+        function setPaymentType(b){
+            $(b).parent().find('button').removeClass('active');
+            $(b).addClass('active');
+            $(b).parent().find('input').val($(b).attr('data-type'));
         }
     </script>
     @include('service.typehead-script')

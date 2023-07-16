@@ -252,3 +252,6 @@ li.tag-li:hover:not(.active) {
 .type-of-payment{
     padding-top: 15px;
 }
+.btn_cont_type{
+    margin-top: 20px;
+}

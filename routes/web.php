@@ -17,6 +17,7 @@ use  App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentNotesController;
 use App\Http\Controllers\AppointmentServiceController;
+use App\Http\Controllers\PaymentController;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
 
@@ -100,6 +101,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::post('appointment/add-service/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.add.serivce');
         Route::get('appointment/remove-service/{appointmentService}', [AppointmentServiceController::class, 'delete'])->name('appointment.service.remove');
         Route::get('appointment/status/{appointment}',[AppointmentController::class,'change_status'])->name('appointment.change_status');
+        Route::post('appointment/pay/{appointment}', [PaymentController::class, 'store'])->name('appointment.pay');
     });
 
     // Invoices
