@@ -20,6 +20,7 @@ use App\Http\Controllers\AppointmentServiceController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Appointment;
 use App\Models\AppointmentService;
+use App\Models\Customer;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -56,6 +57,7 @@ Route::group(['middleware' => ['auth','active']],function (){
        Route::get('/show/{customer}', [CustomerController::class, 'show'])->name('customer.show');
        Route::get('/edit/{customer}' , [CustomerController::class, 'edit'])->name('customer.edit');
        Route::post('/update/{customer}', [ CustomerController::class, 'update'])->name('customer.update');
+       Route::post('/update/add/address/{customer}', [CustomerController::class,'add_address'])->name('customer.add_address');
    });
 
    Route::prefix('tag')->group(function (){
@@ -115,3 +117,5 @@ Route::group(['middleware' => ['auth','active']],function (){
     });
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
+
+Route::get('run', [CustomerController::class,'run']);

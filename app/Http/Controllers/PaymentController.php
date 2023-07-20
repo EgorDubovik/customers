@@ -18,12 +18,12 @@ class PaymentController extends Controller
         // $totalPaid = Payment::where('appointment_id', $appointment->id)->get()->sum('amount');
         // $remainigBalance = $totalAmount - $totalPaid;
         // if($remainigBalance > 0 && $remainigBalance == $request->amount)
-        
-        Payment::create([
-            'appointment_id' => $appointment->id,
-            'amount' => $request->amount,
-            'payment_type' => $request->payment_type,
-        ]);
+        if($request->amount > 0)
+            Payment::create([
+                'appointment_id' => $appointment->id,
+                'amount' => $request->amount,
+                'payment_type' => $request->payment_type,
+            ]);
 
         return back();
     }

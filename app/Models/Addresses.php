@@ -14,7 +14,8 @@ class Addresses extends Model
         'line2',
         'city',
         'state',
-        'zip'
+        'zip',
+        'customer_id',
     ];
 
     protected $appends = ['full'];

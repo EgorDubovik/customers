@@ -50,20 +50,22 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
 
+        
+
+        $customer = Customer::create([
+            'name' => $request->customer_name,
+            'phone' => $request->customer_phone,
+            'email' => $request->email,
+            'company_id' => Auth::user()->company_id,
+        ]);
+
         $address = Addresses::create([
             'line1' => $request->line1,
             'line2' => $request->line2,
             'city' => $request->city,
             'state' => $request->state,
             'zip' => $request->zip,
-        ]);
-
-        $customer = Customer::create([
-            'name' => $request->customer_name,
-            'phone' => $request->customer_phone,
-            'email' => $request->email,
-            'address_id' => $address->id,
-            'company_id' => Auth::user()->company_id,
+            'customer_id' => $customer->id,
         ]);
 
         return redirect()->route('customer.show',['customer'=>$customer])->with('success','Added successful');
@@ -113,13 +115,18 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         Gate::authorize('update-customer', $customer);
-        $customer->address->update([
-            'line1' => $request->line1,
-            'line2' => $request->line2,
-            'city' => $request->city,
-            'state' => $request->state,
-            'zip' => $request->zip,
-        ]);
+
+        if($request->address_id){
+            $address = $customer->address->find($request->address_id);
+
+            $address->update([
+                'line1' => $request->line1,
+                'line2' => $request->line2,
+                'city' => $request->city,
+                'state' => $request->state,
+                'zip' => $request->zip,
+            ]);
+        }
 
         $customer->update([
             'name' => $request->customer_name,
@@ -139,6 +146,30 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         //
+    }
+
+    public function add_address(Request $request, Customer $customer){
+        Gate::authorize('update-customer', $customer);
+
+        $address = Addresses::create([
+            'line1' => $request->line1,
+            'line2' => $request->line2,
+            'city' => $request->city,
+            'state' => $request->state,
+            'zip' => $request->zip,
+            'customer_id' => $customer->id,
+        ]);
+
+        return back();
+    }
+
+    public function run(){
+        $all = Customer::all();
+        foreach($all as $customer){
+            $customer->address->customer_id = $customer->id;
+            $customer->address->save();
+        }
+        return "true";
     }
 
 

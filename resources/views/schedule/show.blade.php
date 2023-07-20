@@ -121,7 +121,12 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fe fe-list"></i> Services</h3>
+                            <h3 class="card-title"><i class="fe fe-list"></i> Services  
+                                @if ($remainingBalance <= 0)
+                                    <span class="tag tag-outline-success" style="margin-left: 30px;">Paid full</span>    
+                                @endif
+                            </h3>
+                                
                             <div class="card-options">
                                 <a href="#" onclick="$('#add_new_service_model').modal('show');return false;">
                                     <i class="fe fe-plus text-success"></i>
@@ -254,12 +259,14 @@
                         </div>
                         <div class="type-of-payment">
                             Type of payment:
-                            <div class="btn_cont_type row">
+                            <div class="btn_cont_type">
                                 <input type="hidden" name="payment_type" value="{{ \App\Models\Payment::CREDIT }}">
-                                <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CREDIT }}" class="btn btn-outline-primary active col-3">Credit</button>
-                                <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::TRANSFER }}" class="btn btn-outline-primary col-3">Transfer</button>
-                                <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CASH }}" class="btn btn-outline-primary col-3">Cash</button>
-                                <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CHECK }}" class="btn btn-outline-primary col-3">Check</button>
+                                <div class="btn-group d-flex">
+                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CREDIT }}" class="btn btn-outline-primary w-100 active">Credit</button>
+                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::TRANSFER }}" class="btn btn-outline-primary w-100">Transfer</button>
+                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CASH }}" class="btn btn-outline-primary w-100">Cash</button>
+                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CHECK }}" class="btn btn-outline-primary w-100">Check</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -351,7 +358,7 @@
         function setPaymentType(b){
             $(b).parent().find('button').removeClass('active');
             $(b).addClass('active');
-            $(b).parent().find('input').val($(b).attr('data-type'));
+            $(b).parent().parent().find('input').val($(b).attr('data-type'));
         }
     </script>
     @include('service.typehead-script')

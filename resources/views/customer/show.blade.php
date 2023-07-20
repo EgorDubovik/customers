@@ -24,7 +24,7 @@
                             </a>
                         </p>
                         <p>
-                            <span class="fs-14 fw-bold">{{$customer->address->full}}</span>
+                            <span class="fs-14 fw-bold">{{$customer->address->last()->full}}</span>
                             <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
                             <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
                         </p>
@@ -159,7 +159,7 @@
         ];
         let map;
         let geocoder;
-        let address = "{{ $customer->address->full }}";
+        let address = "{{ $customer->address->last()->full }}";
         function initMap() {
             geocoder = new google.maps.Geocoder();
             let point = { lat: -34.397, lng: 150.644 };

@@ -49,7 +49,7 @@
                                     <div class="media-body border-bottom" style="padding-bottom: 10px;">
                                         <div class="d-flex align-items-center">
                                             <div class="mt-0">
-                                                <h5 class="mb-1 fs-13 fw-semibold  " style="color: #1170e4 ">{{$customer->address->full}}</h5>
+                                                <h5 class="mb-1 fs-13 fw-semibold  " style="color: #1170e4 ">{{$customer->address->last()->full}}</h5>
                                             </div>
                                             <span class="ms-auto fs-14">
                                                 <span class="float-end">
