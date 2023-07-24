@@ -20,6 +20,7 @@
         @if($errors->any())
             @include("layout/error-message")
         @endif
+        @include('layout/success-message',['status' => 'success'])
         <div class="col-xl-4">
             <div class="card panel-theme">
                 <div class="card-header">

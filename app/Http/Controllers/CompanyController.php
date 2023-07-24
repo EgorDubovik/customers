@@ -12,7 +12,8 @@ class CompanyController extends Controller
     public function edit(Company $company){
         Gate::authorize('edit-company',['company' => $company]);
         
-        return redirect()->route('profile');
+        return view('company.edit',['company' => $company]);
+        //return redirect()->route]('profile');
     }
 
     public function update(Request $request, Company $company){
@@ -33,6 +34,7 @@ class CompanyController extends Controller
               'city' => ($request->city) ? $request->city : "",
               'state' => ($request->state) ? $request->state : "",
               'zip' => ($request->zip) ? $request->zip : "",
+              'customer_id' => 0,
           ]);
           $company->address_id = $address->id;
         }
@@ -42,6 +44,6 @@ class CompanyController extends Controller
             'phone' => $request->customer_phone,
             'email' => $request->email,
         ]);
-        return redirect()->route('company.edit',['company'=>$company])->with('successful', 'Information has been updated successful');
+        return redirect()->route('profile')->with('success', 'Information has been updated successful');
     }
 }
