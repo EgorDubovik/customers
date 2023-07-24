@@ -39,7 +39,6 @@ class InvoiceController extends Controller
     {
         $services = Service::where('company_id',Auth::user()->company_id)
         ->get();
-
         $data = ['services'=> $services];
         if($request->customer_id){
             $customer = Customer::where('id',$request->customer_id)
@@ -47,9 +46,7 @@ class InvoiceController extends Controller
                                 ->first();
             if(!$customer)
                 return abort(404);
-            
             $this->authorize('can-send-by-customer',$customer);
-            
             $data['customer'] = $customer;
         }
 

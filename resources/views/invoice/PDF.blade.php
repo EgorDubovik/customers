@@ -89,11 +89,11 @@ p{
     <div class="row">
         <div class="col-6">
             <img src="{{ URL::asset('assets/images/brand/LogoForT-Shutsh.png')}}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">
-            <p style="margin-top: 20px"><b>EDService LLC</b></p>
+            <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
             <div>
                 <address class="pt-3">
-                    2901 Ridgeview dr, APT 426, Plano TX 75025<br>
-                    edservicetx@gmail.com
+                    {{ Auth::user()->company->address->full }}<br>
+                    {{ Auth::user()->company->email }}
                 </address>
             </div>
         </div>
