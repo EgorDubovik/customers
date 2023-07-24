@@ -11,6 +11,7 @@
         <!-- CONTENT -->
         <div class="row">
             <div class="col-12">
+                @include('layout/success-message',['status' => 'success'])
                 <div class="card col-md-6 m-auto">
                     <form method="post" action="{{route('customer.update', ['customer' => $customer])}}">
                         @csrf
@@ -82,18 +83,32 @@
 
                             <div class="addresses">
                                 <p class="text-end"><a data-bs-toggle="modal" href="#add_new_address_model">+ add new address</a></p>
-                                <div class="list-group">
-                                    @foreach ($customer->address as $address)
-                                        <a href="#" onclick="edditAddress(this)" class="list-group-item list-group-item-action"
+                                    <ul class="list-group">  
+                                        @foreach ($customer->address as $address)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                                            onclick="edditAddress(this);"
                                             data-line1 = '{{ $address->line1 }}'
                                             data-line2 = '{{ $address->line2 }}'
                                             data-city = '{{ $address->city }}'
                                             data-state = '{{ $address->state }}'
                                             data-zip = '{{ $address->zip }}'
                                             data-id = '{{ $address->id }}'
-                                        >{{ $address->full }}</a>
-                                    @endforeach
-                                  </div>
+                                        >
+                                            <span style="cursor: pointer;width:100%">{{ $address->full }}</span>
+                                            <a  href="{{ route('customer.remove.address',['address' => $address]) }}" onclick="if(!confirm('Are you sure you want to remove this address?')) return false;" class="text-danger"><i class="fa fa-trash"></i></a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    {{-- <div class="list-group">
+                                        <button onclick="edditAddress(this);return false;" class="list-group-item list-group-item-action"
+                                            data-line1 = '{{ $address->line1 }}'
+                                            data-line2 = '{{ $address->line2 }}'
+                                            data-city = '{{ $address->city }}'
+                                            data-state = '{{ $address->state }}'
+                                            data-zip = '{{ $address->zip }}'
+                                            data-id = '{{ $address->id }}'
+                                        >{{ $address->full }}</button>
+                                    </div> --}}
                             </div>
 
                             {{-- @if(count($customer->address) <= 1)

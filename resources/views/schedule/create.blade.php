@@ -31,7 +31,7 @@
                                         @if(isset($customer))
                                             <input type="hidden" value="{{$customer->id}}" name="customer" id="input_customer_id">
                                             <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$customer->name}}</span></div>
-                                            <div class="text-muted" id="customer_address">{{$customer->address->full}}</div>
+                                            <div class="text-muted" id="customer_address">{{$customer->address->last()->full}}</div>
                                         @else
                                             <p>List of customers</p>
                                         @endif

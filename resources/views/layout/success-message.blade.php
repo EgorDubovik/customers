@@ -16,7 +16,7 @@
     <script>
         window.onload = function(){
             notif({
-                msg: "<b>Success:</b> {{ session()->get($status) }}",
+                msg: "{{ session()->get($status) }}",
                 type: "success",
                 position: "center",
             });

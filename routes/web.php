@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth','active']],function (){
        Route::get('/edit/{customer}' , [CustomerController::class, 'edit'])->name('customer.edit');
        Route::post('/update/{customer}', [ CustomerController::class, 'update'])->name('customer.update');
        Route::post('/update/add/address/{customer}', [CustomerController::class,'add_address'])->name('customer.add_address');
+       Route::get('/customer/remove/address/{address}',[CustomerController::class, 'remove_address'])->name('customer.remove.address');
    });
 
    Route::prefix('tag')->group(function (){

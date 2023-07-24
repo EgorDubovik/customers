@@ -160,7 +160,7 @@ class CustomerController extends Controller
             'customer_id' => $customer->id,
         ]);
 
-        return back();
+        return back()->with('success','Address has been added successfull');
     }
 
     public function run(){
@@ -172,5 +172,10 @@ class CustomerController extends Controller
         return "true";
     }
 
+    public function remove_address(Addresses $address) {
+        Gate::authorize('update-customer', $address->customer);
+        $address->delete();
+        return back()->with('success','Address has been removed successfull');
 
+    }
 }

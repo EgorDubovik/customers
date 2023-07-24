@@ -33,7 +33,7 @@
                                                 @if(isset($appointment->customer))
                                                     <input type="hidden" value="{{$appointment->customer->id}}" name="customer" id="input_customer_id">
                                                     <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$appointment->customer->name}}</span></div>
-                                                    <div class="text-muted" id="customer_address">{{$appointment->customer->address->full}}</div>
+                                                    <div class="text-muted" id="customer_address">{{$appointment->customer->address->last()->full}}</div>
                                                 @else
                                                     <p>List of customers</p>
                                                 @endif
@@ -169,7 +169,7 @@
                         @foreach($customers as $customer)
                             <div class="content-customer-scheduling" style="margin-top: 10px;" onclick="choiceCustomer(this, {{$customer->id}})">
                                 <div><span class="font-weight-bold choice_customer_name" style="font-weight: bold">{{$customer->name}}</span></div>
-                                <div class="text-muted choice_customer_address">{{$customer->address->full}}</div>
+                                <div class="text-muted choice_customer_address">{{$customer->address->last()->full}}</div>
                                 <div class="click-to-change"></div>
                             </div>
                         @endforeach

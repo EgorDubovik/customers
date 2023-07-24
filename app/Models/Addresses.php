@@ -24,4 +24,8 @@ class Addresses extends Model
         return $this->line1." ".$this->line2.", ".$this->city." ".$this->state.", ".$this->zip;
     }
 
+    public function customer(){
+        return $this->belongsTo(Customer::class);
+    }
+
 }
