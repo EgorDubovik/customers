@@ -16,11 +16,11 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request){
 
-        if (Auth::attempt(['email'=>$request->email,'password'=>$request->password,'active' => 1], $request->remember)){
-            return redirect()->route('customer.list');
-        } else {
-            return back()->withErrors("User wasn`t found");
+        if (!Auth::attempt(['email'=>$request->email,'password'=>$request->password,'active' => 1], $request->remember)){
+            return back()->withInput()->withErrors("User wasn`t found");
         }
+        
+        return redirect()->route('customer.list');
     }
 
     public function destroy(Request $request){

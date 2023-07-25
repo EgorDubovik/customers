@@ -82,7 +82,7 @@
                                                 <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                                     <i class="zmdi zmdi-email text-muted" aria-hidden="true"></i>
                                                 </a>
-                                                <input class="input100 border-start-0 form-control ms-0" type="email" name="email" placeholder="Email">
+                                                <input class="input100 border-start-0 form-control ms-0" type="email" name="email" placeholder="Email" value="{{ old("email") }}">
                                             </div>
                                             <div class="wrap-input100 validate-input input-group" id="Password-toggle">
                                                 <a href="javascript:void(0)" class="input-group-text bg-white text-muted">

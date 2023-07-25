@@ -51,7 +51,6 @@ class CompanyController extends Controller
     }
 
     public function upload_logo(Request $request){
-
         
         $company = Auth::user()->company;
         Gate::authorize('edit-company',['company'=> $company]);
