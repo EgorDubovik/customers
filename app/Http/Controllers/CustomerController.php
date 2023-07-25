@@ -163,16 +163,6 @@ class CustomerController extends Controller
         return back()->with('success','Address has been added successfull');
     }
 
-    public function run(){
-        $all = Customer::all();
-        foreach($all as $customer){
-            $address = Addresses::find($customer->address_id);
-            $address->customer_id = $customer->id;
-            $address->save();
-        }
-        return "true";
-    }
-
     public function remove_address(Addresses $address) {
         Gate::authorize('update-customer', $address->customer);
         $address->delete();

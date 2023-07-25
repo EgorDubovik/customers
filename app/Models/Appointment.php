@@ -19,6 +19,7 @@ class Appointment extends Model
         'company_id',
         'status',
         'tech_id',
+        'address_id',
     ];
 
     public function customer(){
@@ -43,5 +44,9 @@ class Appointment extends Model
     public function notes()
     {   
         return $this->hasMany(AppointmentNotes::class,'appointment_id')->orderBy('created_at','desc');
+    }
+
+    public function address() {
+        return $this->hasOne(Addresses::class,'id','address_id');
     }
 }

@@ -27,15 +27,11 @@
                             <div class="row mb-2">
                                 <label  class="col-md-3 form-label">Customer</label>
                                 <div class="col-md-9">
-                                    <div class="content-customer-scheduling" >
-                                        @if(isset($customer))
-                                            <input type="hidden" value="{{$customer->id}}" name="customer" id="input_customer_id">
-                                            <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$customer->name}}</span></div>
-                                            <div class="text-muted" id="customer_address">{{$customer->address->last()->full}}</div>
-                                        @else
-                                            <p>List of customers</p>
-                                        @endif
-                                        {{-- <div class="click-to-change">Click to change</div> --}}
+                                    <div class="content-customer-scheduling" onclick="$('#exampleModal').modal('show')" >
+                                        <input type="hidden" value="{{$customer->id}}" name="customer_id" id="input_customer_id">
+                                        <input type="hidden" value="{{$customer->address->last()->id}}" name="address_id" id="address_id">
+                                        <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$customer->name}}</span></div>
+                                        <div class="text-muted" id="customer_address">{{$customer->address->last()->full}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -145,30 +141,26 @@
     @include('layout.modals.add-service')
     @include('layout.modals.add-tech')
 
-    {{-- <div class="modal fade" id="exampleModal"  role="dialog">
+    <div class="modal fade" id="exampleModal"  role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Change the address</h5>
                     <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" onclick="return false;"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-                    @if(isset($customers))
-                        @foreach($customers as $customer)
-                            <div class="content-customer-scheduling" style="margin-top: 10px;" onclick="choiceCustomer(this, {{$customer->id}})">
-                                <div><span class="font-weight-bold choice_customer_name" style="font-weight: bold">{{$customer->name}}</span></div>
-                                <div class="text-muted choice_customer_address">{{$customer->address->full}}</div>
-                                <div class="click-to-change"></div>
-                            </div>
-                        @endforeach
-                    @endif
+                    <ul class="list-group">
+                    @foreach($customer->address as $address)
+                        <li class="list-group-item list-group-item-action " style="cursor: pointer; color:#232323" onClick='choiseAddress(this,{{ $address->id }})'>{{ $address->full }} </li>
+                    @endforeach
+                    </ul>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 @stop
 @section('scripts')
     <script src="{{ URL::asset('assets/js/Drum.js')}}"></script>
@@ -213,12 +205,9 @@
         //     $('#exampleModal').modal('show');
         // }
 
-        function choiceCustomer(d, id){
-            $('#input_customer_id').val(id)
-            var name = $(d).find(".choice_customer_name").html();
-            var address = $(d).find(".choice_customer_address").html();
-            console.log(name,address)
-            $("#customer_name").html(name)
+        function choiseAddress(d,id){
+            $('#address_id').val(id)
+            var address = $(d).html();
             $("#customer_address").html(address);
             $('#exampleModal').modal('hide');
         }

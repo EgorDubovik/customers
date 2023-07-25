@@ -52,7 +52,11 @@
                                 </a>
                             </p>
                             <p>
+                                @if($appointment->address_id == 0)
                                 <span class="fs-14 fw-bold">{{ $appointment->customer->address->last()->full }}</span>
+                                @else
+                                <span class="fs-14 fw-bold">{{ $appointment->address->full }}</span>
+                                @endif
                                 <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
                                 <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
                             </p>

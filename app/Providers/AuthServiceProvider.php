@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Addresses;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Image;
@@ -91,6 +92,16 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('store-note',function (User $user,Customer $customer){
             if ($user->company_id == $customer->company_id)
                 return true;
+            return false;
+        });
+
+        // Appointment
+        Gate::define('make-appointment', function(User $user, $customer_id, $address_id){
+            $customer = Customer::find($customer_id);
+            $address = Addresses::find($address_id);
+            if($customer && $address)
+                if($customer->company_id == $user->company_id && $address->customer_id == $customer->id)
+                    return true;
             return false;
         });
 

@@ -9,6 +9,7 @@ use App\Models\AppointmentService;
 use App\Models\AppointmentTechs;
 use App\Models\Payment;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -52,16 +53,20 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'customer'        => 'required|integer',
+            'customer_id'        => 'required|integer',
+            'address_id' => 'required|integer',
             'time_from' => 'required',
             'time_to' => 'required',
             'tech_ids' => 'required',
         ]);
 
+        Gate::authorize('make-appointment',[$request->customer_id, $request->address_id]);
+        
         // check if this is my customer
         $appointment = Appointment::create([
-            'customer_id' => $request->customer,
+            'customer_id' => $request->customer_id,
             'company_id' => Auth::user()->company_id,
+            'address_id' => $request->address_id,
             'start' => $request->time_from,
             'end' => $request->time_to,
         ]);
