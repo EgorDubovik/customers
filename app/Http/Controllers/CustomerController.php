@@ -168,6 +168,7 @@ class CustomerController extends Controller
         foreach($all as $customer){
             $address = Addresses::find($customer->address_id);
             $address->customer_id = $customer->id;
+            $address->save();
         }
         return "true";
     }
