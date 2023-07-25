@@ -189,14 +189,15 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <img src="../assets/images/brand/LogoForT-Shutsh.png" style="width: 170px;"
+                                    <img src="{{ URL::asset('storage/'.Auth::user()->company->logo) }}" style="width: 170px;"
                                         class="header-brand-img logo-3" alt="Sash logo">
                                     <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
                                     <div>
-                                        <address class="pt-3">
+                                        <address>
                                             {{ Auth::user()->company->address->full }}<br>
-                                            {{ Auth::user()->company->email }}
                                         </address>
+                                        {{ Auth::user()->company->phone }}<br>
+                                        {{ Auth::user()->company->email }}
                                     </div>
                                 </div>
                                 <div class="col-lg-6 text-end border-bottom border-lg-0">

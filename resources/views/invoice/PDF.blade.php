@@ -88,7 +88,7 @@ p{
 <div class="card-body">
     <div class="row">
         <div class="col-6">
-            <img src="{{ URL::asset('assets/images/brand/LogoForT-Shutsh.png')}}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">
+            <img src="{{ URL::asset('storage/'.Auth::user()->company->logo) }}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">
             <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
             <div>
                 <address class="pt-3">
