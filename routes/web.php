@@ -115,5 +115,3 @@ Route::group(['middleware' => ['auth','active']],function (){
     });
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
-
-Route::get('run', [CustomerController::class,'run']);
