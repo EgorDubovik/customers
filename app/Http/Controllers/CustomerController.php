@@ -49,14 +49,12 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-
-        
-
         $customer = Customer::create([
             'name' => $request->customer_name,
             'phone' => $request->customer_phone,
             'email' => $request->email,
             'company_id' => Auth::user()->company_id,
+            'address_id' => 0,
         ]);
 
         $address = Addresses::create([
