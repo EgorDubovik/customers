@@ -166,8 +166,8 @@ class CustomerController extends Controller
     public function run(){
         $all = Customer::all();
         foreach($all as $customer){
-            $customer->address->first()->customer_id = $customer->id;
-            $customer->address->first()->save();
+            $address = Addresses::find($customer->address_id);
+            $address->customer_id = $customer->id;
         }
         return "true";
     }
