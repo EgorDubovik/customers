@@ -88,7 +88,7 @@
                                             <div class="col-sm-10">
                                                 <input type="text" placeholder="House number, street"
                                                     class="form-control line1" name="line1" id="address-line1"
-                                                    onblur="update_invoice_view()" value="{!! isset($customer) ? $customer->address->line1 : '' !!}">
+                                                    onblur="update_invoice_view()" value="{!! isset($customer) ? $customer->address->last()->line1 : '' !!}">
                                             </div>
                                         </div>
                                         <div class="row mb-4">
@@ -96,7 +96,7 @@
                                             <div class="col-sm-10">
                                                 <input type="text" placeholder="apt. number"
                                                     class="form-control line2" name="line2" id="address-line2"
-                                                    onblur="update_invoice_view()" value="{!! isset($customer) ? $customer->address->line2 : '' !!}">
+                                                    onblur="update_invoice_view()" value="{!! isset($customer) ? $customer->address->last()->line2 : '' !!}">
                                             </div>
                                         </div>
 
@@ -106,7 +106,7 @@
                                             <div class="col-sm-10">
                                                 <input type="text" placeholder="City" class="form-control city"
                                                     name="city" id="address-city" onblur="update_invoice_view()"
-                                                    value="{!! isset($customer) ? $customer->address->city : '' !!}">
+                                                    value="{!! isset($customer) ? $customer->address->last()->city : '' !!}">
                                             </div>
                                         </div>
 
@@ -116,14 +116,14 @@
                                             <div class="col-sm-4">
                                                 <input type="text" placeholder="State" class="form-control state"
                                                     name="state" id="address-state" onblur="update_invoice_view()"
-                                                    value="{!! isset($customer) ? $customer->address->state : '' !!}">
+                                                    value="{!! isset($customer) ? $customer->address->last()->state : '' !!}">
                                             </div>
 
                                             <label class="col-sm-2 control-label" for="textinput">Zip</label>
                                             <div class="col-sm-4">
                                                 <input type="text" placeholder="Post Code" class="form-control zip"
                                                     name="zip" id="address-zip" onblur="update_invoice_view()"
-                                                    value="{!! isset($customer) ? $customer->address->zip : '' !!}">
+                                                    value="{!! isset($customer) ? $customer->address->last()->zip : '' !!}">
                                             </div>
                                         </div>
                                     </div>
