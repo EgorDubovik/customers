@@ -38,7 +38,7 @@
                         </div>
                     </form>
                     @endcan
-                    <div class="text-center chat-image mb-5">
+                    <div class="text-center chat-image mb-5 pt-5">
                         @if (Auth::user()->company->logo)
                             <img src="{{ asset('storage/'.Auth::user()->company->logo) }}" width="200" />    
                         @else
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="card-body no-padding">
-                    <ul class="list-group no-margin">
+                    <ul class="list-group list-group-flush no-margin">
                         <li class="list-group-item d-flex ps-3">
                             <div class="social social-profile-buttons me-2">
                                 <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-monitor"></i></a>

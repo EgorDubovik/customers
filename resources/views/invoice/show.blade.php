@@ -20,7 +20,9 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <img src="{{ URL::asset('storage/'.Auth::user()->company->logo) }}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">
+                                @if (Auth::user()->company->logo)
+                                    <img src="{{ URL::asset('storage/'.Auth::user()->company->logo) }}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">    
+                                @endif
                                 <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
                                 <div>
                                     <address>

@@ -88,13 +88,16 @@ p{
 <div class="card-body">
     <div class="row">
         <div class="col-6">
-            <img src="{{ URL::asset('storage/'.Auth::user()->company->logo) }}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">
+            @if (Auth::user()->company->logo)
+                                    <img src="{{ URL::asset('storage/'.Auth::user()->company->logo) }}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">    
+                                @endif
             <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
             <div>
-                <address class="pt-3">
+                <address>
                     {{ Auth::user()->company->address->full }}<br>
-                    {{ Auth::user()->company->email }}
                 </address>
+                {{ Auth::user()->company->phone }}<br>
+                {{ Auth::user()->company->email }}
             </div>
         </div>
         <div class="col-6 text-end border-bottom border-lg-0">
