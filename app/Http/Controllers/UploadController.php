@@ -23,7 +23,7 @@ class UploadController extends Controller
 
         // $pictures = $request->file('images');
         foreach ($request->file('images') as $picture) {
-            $filePath = time() . '_' . $picture->hashName();
+            $filePath = 'images/'.time() . '_' . $picture->hashName();
             $image = Image::make($picture);
             if ($image->width() > env('UPLOAD_WIDTH_SIZE'))
                 $image->resize(env('UPLOAD_WIDTH_SIZE'), null, function ($constraint) {

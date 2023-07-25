@@ -24,6 +24,32 @@
         <div class="col-xl-4">
             <div class="card panel-theme">
                 <div class="card-header">
+                    <h3 class="card-title">Company logo</h3>
+                </div>
+                <div class="card-body">
+                    @can('edit-company',['company'=>Auth::user()->company])
+                    <form method="post" action="{{ route('company.upload.logo') }}" enctype="multipart/form-data">
+                        <div class="input-group mb-3">
+                            @csrf
+                            <input class="form-control form-control-sm" name="logo" type="file">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary btn-sm" type="submit">Upload</button>
+                            </div>
+                        </div>
+                    </form>
+                    @endcan
+                    <div class="text-center chat-image mb-5">
+                        @if (Auth::user()->company->logo)
+                            <img src="{{ asset('storage/'.Auth::user()->company->logo) }}" width="200" />    
+                        @else
+                            <img src="{{ asset('assets/images/users/21.jpg') }}" width="200" class="brround"/>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="card panel-theme">
+                <div class="card-header">
                     <h3 class="card-title">Company information</h3>
                     <div class="card-options">
                         @can('edit-company',['company'=>Auth::user()->company])
@@ -65,7 +91,44 @@
                     </ul>
                 </div>
             </div>
+            
+
+        </div>
+        <div class="col-xl-8">
             <div class="card">
+                <form method="post" action="/profile/edit">
+                    @csrf
+                <div class="card-header">
+                    <h3 class="card-title">Edit Profile</h3>
+                </div>
+                <div class="card-body">
+                    @include('layout.success-message',['status'=>'successful_edit'])
+                    @include('layout.modify-errors',['status'=>'error_edit'])
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputname">User name</label>
+                                <input type="text" class="form-control" id="exampleInputname" placeholder="User name" name="user_name" value="{{Auth::user()->name}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="exampleInputname1">Phone number</label>
+                                <input type="text" class="form-control" id="exampleInputname1" placeholder="(555) 555-5555" name="phone" value="{{Auth::user()->phone}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email address" name="email" value="{{Auth::user()->email}}">
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <button type="submit" class="btn btn-success my-1">Update</button>
+                </div>
+                </form>
+            </div>
+            <div class="card col-6">
                 <form action="/profile/change/password" method="post">
                     @csrf
                 <div class="card-header">
@@ -107,42 +170,6 @@
                 </div>
                 <div class="card-footer text-end">
                     <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-                </form>
-            </div>
-
-        </div>
-        <div class="col-xl-8">
-            <div class="card">
-                <form method="post" action="/profile/edit">
-                    @csrf
-                <div class="card-header">
-                    <h3 class="card-title">Edit Profile</h3>
-                </div>
-                <div class="card-body">
-                    @include('layout.success-message',['status'=>'successful_edit'])
-                    @include('layout.modify-errors',['status'=>'error_edit'])
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="exampleInputname">User name</label>
-                                <input type="text" class="form-control" id="exampleInputname" placeholder="User name" name="user_name" value="{{Auth::user()->name}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="exampleInputname1">Phone number</label>
-                                <input type="text" class="form-control" id="exampleInputname1" placeholder="(555) 555-5555" name="phone" value="{{Auth::user()->phone}}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email address" name="email" value="{{Auth::user()->email}}">
-                    </div>
-                </div>
-                <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-success my-1">Update</button>
                 </div>
                 </form>
             </div>

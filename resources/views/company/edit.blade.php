@@ -16,10 +16,10 @@
                     <form method="post" action="{{route('company.update', ['company' => $company])}}">
                         @csrf
                         <div class="card-body">
-                            <div class="category-create-address">Customer </div>
+                            <div class="category-create-address">Company info </div>
                             <div style="margin-left: 20px;">
                                 <div class="row mb-4">
-                                    <label class="col-md-2 control-label">Full Name</label>
+                                    <label class="col-md-2 control-label">Name</label>
                                     <div class="col-md-10">
                                         <input type="text" class="form-control customer_name" placeholder="Customer Full Name" name="customer_name" value="{{$company->name}}">
                                     </div>

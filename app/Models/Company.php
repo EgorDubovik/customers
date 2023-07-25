@@ -17,6 +17,7 @@ class Company extends Model
         'phone',
         'email',
         'address_id',
+        'logo',
     ];
 
     public function address(){

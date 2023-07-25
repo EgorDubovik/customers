@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth','active']],function (){
     // Company
     Route::get('company/edit/{company}' , [CompanyController::class, 'edit'])->name('company.edit');
     Route::post('company/update/{company}', [CompanyController::class,'update'])->name('company.update');
+    Route::post('company/upload/logo',[CompanyController::class,'upload_logo'])->name('company.upload.logo');
 
     // Items
     Route::prefix('services')->group(function (){
