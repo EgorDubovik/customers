@@ -27,7 +27,8 @@ class Customer extends Model
     }
 
     public function address(){
-        return $this->hasMany(Addresses::class)->orderByDesc('created_at');
+        // return $this->hasMany(Addresses::class)->orderByDesc('created_at');
+        return $this->hasOne(Addresses::class,'id','address_id')->orderByDesc('created_at');
     }
 
     public function tags(){
