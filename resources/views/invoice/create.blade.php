@@ -31,9 +31,9 @@
                                             style="font-weight: normal">{{ $customer->email }}</span>
                                         <div class="hr"></div>
                                         <input type="hidden" name="customer_address" id="input-customer-address"
-                                            value="{{ $customer->address->full }}">
+                                            value="{{ $customer->address->last()->full }}">
                                         <address style="margin-top: 10px;" id="customer-card-address">
-                                            {{ $customer->address->full }}
+                                            {{ $customer->address->last()->full }}
                                         </address>
                                         <div class="action"><a href=# onclick="editCustomerCard(); return false;"
                                                 class="text-warning"> <i class="side-menu__icon fe fe-edit"></i></a></div>
@@ -212,10 +212,10 @@
                                     @if (isset($customer))
                                         <p class="fs-18 fw-semibold mb-0">{{ $customer->name }}</p>
                                         <address>
-                                            <span id="invoice-address">{{ $customer->address->line1 }},
-                                                {{ $customer->address->line2 }}<br>
-                                                {{ $customer->address->city }} {{ $customer->address->state }}
-                                                {{ $customer->address->zip }}</span><br>
+                                            <span id="invoice-address">{{ $customer->address->last()->line1 }},
+                                                {{ $customer->address->last()->line2 }}<br>
+                                                {{ $customer->address->last()->city }} {{ $customer->address->last()->state }}
+                                                {{ $customer->address->last()->zip }}</span><br>
                                             <span id="invoice-email">{{ $customer->email }}</span>
                                         </address>
                                     @else
