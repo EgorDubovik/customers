@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -18,9 +17,6 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentNotesController;
 use App\Http\Controllers\AppointmentServiceController;
 use App\Http\Controllers\PaymentController;
-use App\Models\Appointment;
-use App\Models\AppointmentService;
-use App\Models\Customer;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -73,7 +69,7 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::post('note/store/{customer}', [NoteController::class, 'store'])->name('note.store');
     // Images
     Route::post('/images/upload/{customer}', [UploadController::class,'store'])->name('image.store');
-    Route::get('{image}/storage/images/{filename}', [UploadController::class,'view'])->name('image.view');
+    // Route::get('{image}/storage/images/{filename}', [UploadController::class,'view'])->name('image.view');
     Route::get('/images/delete/{image}', [UploadController::class, 'delete'])->name('image.delete');
 
     // Company

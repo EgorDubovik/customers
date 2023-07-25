@@ -21,18 +21,23 @@ class UploadController extends Controller
             'images.*' => 'required|image|mimes:jpeg,png,jpg'
         ]);
 
-        $pictures = $request->file('images');
+        // $pictures = $request->file('images');
         foreach ($request->file('images') as $picture) {
-            $fileName = time() . '_' . $picture->getClientOriginalName();
+            $filePath = time() . '_' . $picture->hashName();
             $image = Image::make($picture);
             if ($image->width() > env('UPLOAD_WIDTH_SIZE'))
                 $image->resize(env('UPLOAD_WIDTH_SIZE'), null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
-            $image->save(storage_path('app/public/images/'.$fileName));
+            $image = $image->encode();
+            // $path = $image->save(storage_path('app/public/images/'.$fileName));
+            $path = Storage::disk('public')->put($filePath, $image);
+            if(!$path)
+                return back()->withErrors('Something went wrong');
+
             NewImage::create([
                 'customer_id' => $customer->id,
-                'path' => 'storage/images/' . $fileName,
+                'path' => $filePath,
                 'owner_id' => Auth::user()->id,
             ]);
         }
@@ -47,7 +52,7 @@ class UploadController extends Controller
 
     public function delete(Request $request, NewImage $image){
         Gate::authorize('delete-images',['image'=>$image]);
-        Storage::disk('public')->delete('images/'.$image->file_name);
+        Storage::disk('public')->delete($image->file_name);
         $image->delete();
         return back();
     }
