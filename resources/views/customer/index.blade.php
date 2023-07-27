@@ -138,28 +138,33 @@
                 search = search.replace(')','\\)');
                 search = search.replace('+','\\+');
                 var regex = new RegExp(search, "i");
+                var search_phone = search.replace(/\D/g, "");
+                    search_phone = (search_phone.length >2) ? new RegExp(search_phone, "i") : search_phone;
                 var count = [];
                 $.each(customers, function(key, val) {
                     var phone = val.phone.replace(/\D/g, "");
-                    var search_phone = search.replace(/\D/g, "");
-                    search_phone = (search_phone.length >2) ? new RegExp(search_phone, "i") : search_phone;
-                    
-                    if ((val.name.search(regex) != -1) 
-                        || (val.address.full.search(regex) != -1)){
-                        
+
+                    if (val.name.search(regex) != -1){
                         count.push(val);
-                    } else {
-                        
-                        if(((phone.search(regex) !=-1) || (phone.search(search_phone) !=-1)) && search_phone.toString().length>2 ){
-                                console.log('add')
-                                count.push(val);
-                            }
+                        return true;
                     }
+                        
+                    if(((phone.search(regex) !=-1) || (phone.search(search_phone) !=-1)) && search_phone.toString().length>2 ){
+                        count.push(val);
+                        return true;
+                    }
+
+                    $.each(val.address, function(key,address){
+                        if (address.full.search(regex) != -1){
+                            count.push(val);
+                            return false;
+                        }
+                    });
 
                 });
                 viewSearchResult(count);
             } else if(search.length == 0){
-                console.log('view old list')
+                
                 view_old_list();
             }
         }
@@ -192,7 +197,7 @@
                 '<div class="media-body border-bottom" style="padding-bottom: 10px;">'+
                 '<div class="d-flex align-items-center">'+
                 '<div class="mt-0">'+
-                '<h5 class="mb-1 fs-13 fw-semibold  " style="color: #1170e4 ">'+customer.address.full+'</h5>'+
+                '<h5 class="mb-1 fs-13 fw-semibold  " style="color: #1170e4 ">'+customer.address[0].full+'</h5>'+
                 '</div>'+
                 '<span class="ms-auto fs-14">'+
                 '<span class="float-end">'+
