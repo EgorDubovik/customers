@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('company_id');
             $table->string('timezone')->nullable();
             $table->timestamps();
         });

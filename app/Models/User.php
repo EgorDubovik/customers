@@ -64,6 +64,10 @@ class User extends Authenticatable
         return $this->hasMany(Tag::class,'company_id','company_id');
     }
 
+    // public function settings(){
+    //     return $this->hasOne(Settings::class);
+    // }
+
     public function phone() : Attribute{
         return Attribute::make(
             get: fn($value) => "+1 ".preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', '($1) $2-$3', $value),
