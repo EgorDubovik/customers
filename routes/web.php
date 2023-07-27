@@ -17,6 +17,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentNotesController;
 use App\Http\Controllers\AppointmentServiceController;
 use App\Http\Controllers\PaymentController;
+use App\Models\AppointmentService;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -107,7 +108,7 @@ Route::group(['middleware' => ['auth','active']],function (){
     // Invoices
     Route::prefix('invoice')->group(function(){
         Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
-        Route::get('create', [InvoiceController::class, 'create'])->name('invoice.create');
+        Route::get('create/{appointment}', [InvoiceController::class, 'create'])->name('invoice.create');
         Route::post('store', [InvoiceController::class, 'store'])->name('invoice.store');
         Route::get('/view/{invoice}', [InvoiceController::class,'show'])->name('invoice.show');
         
@@ -115,3 +116,12 @@ Route::group(['middleware' => ['auth','active']],function (){
     });
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
+
+Route::get('/run',function(){
+    $services = AppointmentService::all();
+    foreach($services as $service){
+        $service->price = $service->price *100;
+        $service->save();
+    }
+    return true;
+});

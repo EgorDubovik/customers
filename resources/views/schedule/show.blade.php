@@ -70,7 +70,7 @@
                             <p>
                                 <span class="fs-14 text-black">{{ $appointment->customer->email }}</span>
                                 <a
-                                    href="{{ route('invoice.create', ['customer_id' => $appointment->customer->id, 'appointment' => $appointment->id]) }}"><i
+                                    href="{{ route('invoice.create', ['appointment' => $appointment]) }}"><i
                                         class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
                             </p>
 

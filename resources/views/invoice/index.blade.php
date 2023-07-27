@@ -14,9 +14,7 @@
             <div class="col-md-8">
                 @include('layout/success-message',['status' => 'successful'])
                 <div class="card">
-                    <div class="card-header">
-                        <a href="{{route('invoice.create')}}" class="btn btn-success" style="margin-left: 20px;"><i class="fa fa-plus"></i> Send new invoice</a>
-                    </div>
+                    
                     <div class="card-body">
                         <div class="table-responsive push">
                             <table class="table table-bordered table-hover mb-0 text-nowrap">

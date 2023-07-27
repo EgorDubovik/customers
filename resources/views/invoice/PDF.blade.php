@@ -131,7 +131,7 @@ p{
                     <th class="text-end" style="width: 80px;">Total</th>
                 </tr>
              
-                @foreach ($invoice->services as $key => $service)
+                @foreach ($invoice->appointment->services as $key => $service)
                     <tr>
                         <td class="text-center">{{ ($key+1) }}</td>
                         <td>

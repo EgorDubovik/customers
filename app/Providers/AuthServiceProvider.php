@@ -140,6 +140,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('can-view-invoice', function(User $user, Invoice $invoice){
             return $user->company_id === $invoice->company_id;
         });
+        Gate::define('create-invoice', function(User $user, Appointment $appointment){
+            return $user->company_id === $appointment->company_id;
+        });
         
         Gate::define('can-send-by-customer', function(User $user, Customer $customer){
             return $user->company_id === $customer->company_id;

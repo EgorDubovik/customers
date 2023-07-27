@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PDO;
 
 class Invoice extends Model
 {
@@ -14,6 +15,7 @@ class Invoice extends Model
         'creator_id',
         'company_id',
         'customer_id',
+        'appointment_id',
         'customer_name',
         'address',
         'email',
@@ -22,8 +24,12 @@ class Invoice extends Model
         'key',
     ];
 
-    function services(){
-        return $this->hasMany(InvoiceServices::class, 'invoice_id');
+    // function services(){
+    //     return $this->hasMany(InvoiceServices::class, 'invoice_id');
+    // }
+
+    function appointment(){
+        return $this->belongsTo(Appointment::class);
     }
 
     function customer(){

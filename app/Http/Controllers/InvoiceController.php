@@ -9,6 +9,7 @@ use App\Models\Appointment;
 use App\Models\InvoiceServices;
 use App\Models\Service;
 use Dflydev\DotAccessData\Data;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -35,36 +36,11 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, Appointment $appointment)
     {
-        $services = Service::where('company_id',Auth::user()->company_id)
-        ->get();
-        $data = ['services'=> $services];
-        if($request->customer_id){
-            $customer = Customer::where('id',$request->customer_id)
-                                ->where('company_id', Auth::user()->company_id)
-                                ->first();
-            if(!$customer)
-                return abort(404);
-            $this->authorize('can-send-by-customer',$customer);
-            $data['customer'] = $customer;
-        }
-
-        if($request->appointment){
-            $appointment = Appointment::where('id',$request->appointment)
-                                      ->where('company_id', Auth::user()->company_id)
-                                      ->first();
-            if(!$appointment)
-                return abort(404);
-
-            $this->authorize('can-send-by-customer',$appointment->customer);
-
-            $data['appointment'] = $appointment;
-        }
-
-        
-       
-        return view("invoice.create", $data);
+        Gate::authorize('create-invoice',['appointment' => $appointment]);
+        $total = number_format($appointment->services->sum('price'),2);
+        return view("invoice.create", ['appointment' => $appointment,'total'=>$total]);
     }
 
     /**
@@ -75,26 +51,20 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $appointment = Appointment::find($request->appointment_id);
+        Gate::authorize('create-invoice',['appointment' => $appointment]);
         $invoice = Invoice::create([
-            'creator_id'    => Auth::user()->id,
-            'company_id'    => Auth::user()->company_id,
-            'customer_id'   => ($request->customer_id) ? $request->customer_id : null,
-            'customer_name' => $request->customer_name,
-            'address' => $request->customer_address,
-            'email' => $request->email,
-            'status' => 0,
-            'pdf_path' => null,
+            'creator_id'        => Auth::user()->id,
+            'company_id'        => Auth::user()->company_id,
+            'customer_id'       => $appointment->customer_id,
+            'appointment_id'    => $appointment->id,
+            'customer_name'     => $appointment->customer->name,
+            'address'           => $appointment->address->full,
+            'email'             => $appointment->customer->email,
+            'status'            => 0,
+            'pdf_path'          => null,
         ]);
 
-        foreach($request->input('service-prices') as $key => $value){
-            InvoiceServices::create([
-                'invoice_id' => $invoice->id,
-                'title' => $request->input('service-title')[$key],
-                'description' => $request->input('service-description')[$key],
-                'price' => $request->input('service-prices')[$key],
-            ]);
-        }
         $pdfname = $this->createPDF($invoice);
         $invoice->pdf_path = $pdfname;
         $invoice->key = Str::random(150);
@@ -115,11 +85,9 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-
         $this->authorize('can-view-invoice', $invoice);
-
-        $total = $this->getServiceTotal($invoice);
-        return view('invoice.show',['invoice' => $invoice,'total' => $total]);
+        $total = number_format($invoice->appointment->services->sum('price'),2);
+        return view('invoice.show',['invoice' => $invoice,'total'=>$total]);
     }
 
     /**
@@ -157,8 +125,9 @@ class InvoiceController extends Controller
     }
 
     private function createPDF(Invoice $invoice){
-        $total = $this->getServiceTotal($invoice);
-        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice, 'total'=>$total]);
+        
+        $total = number_format($invoice->appointment->services->sum('price'),2);
+        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total]);
         $content = $pdf->download()->getOriginalContent();
         $filename = 'Invoice_'.date('m-d-Y').'-'.time().'.pdf';
         Storage::put('public/pdf/invoices/'.$filename,$content);
@@ -209,11 +178,4 @@ class InvoiceController extends Controller
         return redirect()->route('invoice.index');
     }
 
-    private function getServiceTotal(Invoice $invoice){   
-        $total = 0;
-        foreach($invoice->services as $service){
-            $total += $service->price;
-        }
-        return number_format($total,2,'.');
-    }
 }

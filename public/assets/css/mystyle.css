@@ -255,3 +255,7 @@ li.tag-li:hover:not(.active) {
 .btn_cont_type{
     margin-top: 20px;
 }
+
+#search_bar:focus{
+    border:1px solid #05c3fb;
+}
