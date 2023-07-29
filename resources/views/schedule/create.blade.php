@@ -21,9 +21,9 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
-                            @if($errors->any())
-                                @include("layout/error-message")
-                            @endif
+                            
+                            @include("layout/error-message")
+                            
                             <div class="row mb-2">
                                 <label  class="col-md-3 form-label">Customer</label>
                                 <div class="col-md-9">

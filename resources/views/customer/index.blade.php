@@ -14,16 +14,23 @@
 
                 {{--Serch bar--}}
                 <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" id="search_bar" class="form-control" placeholder="Search in customers">
-                        <button class="btn btn-secondary" type="button" onclick="search_f($('#search_bar').val())">
-                            <i class="fa fa-search"></i>
-                        </button>
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="input-group">
+                                <input type="text" id="search_bar" class="form-control" placeholder="Search in customers">
+                                <button class="btn btn-secondary" type="button" onclick="search_f($('#search_bar').val())">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <a href="{{ route('customer.create') }}" class="btn btn-success w-100"><i class="fe fe-user-plus"></i> <span class="d-none d-lg-inline">New customer</span></a>
+                        </div>
                     </div>
                 </div>
-
+               
                 <div class="row" id="customer-list">
-                    @foreach($customers as $customer)
+                    @forelse($customers as $customer)
                         <div class="col-xl-6">
                             <div class="card">
                                 <div class="card-body" style="padding-bottom: 10px;">
@@ -73,7 +80,13 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                    <div class="col">
+                        <div class="alert alert-light text-center" role="alert">
+                            <span class="alert-inner--text">List is eampty... <a style="margin-left: 20px;" href="{{ route('customer.create') }}">Create new customer</a></span>
+                        </div>
+                    </div>
+                    @endforelse
                 </div>
             </div>
             <div class="col-md-6 d-none d-sm-none d-md-block">
@@ -118,9 +131,9 @@
             </div>
         </div>
     </div>
-    <div class="add_new_cont">
+    {{-- <div class="add_new_cont">
         <a href="{{route('customer.create')}}" class="add_new_customer">+</a>
-    </div>
+    </div> --}}
 @stop
 @section('scripts')
     <script>

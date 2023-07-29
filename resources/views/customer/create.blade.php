@@ -11,6 +11,7 @@
         <!-- CONTENT -->
         <div class="row">
             <div class="card col-md-6 m-auto">
+                @include('layout.error-message')
                 <form method="post" action="{{route('customer.store')}}">
                     @csrf
                     <div class="card-body">

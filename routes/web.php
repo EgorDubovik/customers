@@ -18,6 +18,7 @@ use App\Http\Controllers\AppointmentNotesController;
 use App\Http\Controllers\AppointmentServiceController;
 use App\Http\Controllers\PaymentController;
 use App\Models\AppointmentService;
+use App\Models\Settings;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -65,7 +66,13 @@ Route::group(['middleware' => ['auth','active']],function (){
        Route::get('delete/{tag}', [TagController::class, 'delete'])->name('tag.delete');
    });
 
-    Route::get('settings',[SettingsConstroller::class, 'show']);
+    // Settings
+    Route::prefix('settings')->group(function(){
+        Route::get('/',[SettingsConstroller::class, 'show']);
+        Route::post('/deposit',[SettingsConstroller::class,'savePaymentDepositType'])->name('settings.deposit.store');
+    });
+    
+
     // Notes
     Route::post('note/store/{customer}', [NoteController::class, 'store'])->name('note.store');
     // Images
@@ -114,6 +121,8 @@ Route::group(['middleware' => ['auth','active']],function (){
         
         Route::post('/resend/{invoice}', [InvoiceController::class,'resend'])->name('invoice.resend');
     });
+
+    
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
 

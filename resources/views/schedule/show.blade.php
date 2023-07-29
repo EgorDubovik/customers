@@ -250,16 +250,24 @@
                     <div class="row p-2">
                         <div class="col-10">Remainig payment:</div> 
                         <div class="col-2"> <b>${{ $remainingBalance }}</b></div>
+                        <input type='hidden' id="remainingBalance" value="{{ $remainingBalance }}">
                     </div>
                     <div class="modal-body">
                         <div class="amount-pay">
                             <span>$</span><input id="amountPayment" type="text" name="amount" value="{{ $remainingBalance }}">
                         </div>
                         <div class="btn-cont-payment">
-                            @if ($remainingBalance > 100)
-                            <button type="button" onClick="setAmount(this)" data-amount="100" class="btn btn-outline-primary" style="margin-right: 30px;">Deposit ($100)</button>
+                            @if ($remainingBalance > Auth::user()->settings->payment_deposit_amount)
+                            <button 
+                                type="button" 
+                                onClick="setAmount(this)" 
+                                data-amount="{{ Auth::user()->settings->payment_deposit_type==0 ? Auth::user()->settings->payment_deposit_amount : Auth::user()->settings->payment_deposit_amount_prc }}"
+                                data-type="{{ Auth::user()->settings->payment_deposit_type  }}" 
+                                class="btn btn-outline-primary" 
+                                style="margin-right: 30px;">Deposit ( {!! Auth::user()->settings->payment_deposit_type==0 ? '$'.Auth::user()->settings->payment_deposit_amount : Auth::user()->settings->payment_deposit_amount_prc.'%' !!})
+                            </button>
                             @endif
-                            <button type="button" onClick="setAmount(this)" data-amount="{{ $remainingBalance }}" class="btn btn-outline-primary" >Full</button>
+                            <button type="button" onClick="setAmount(this)" data-type=0 data-amount="{{ $remainingBalance }}" class="btn btn-outline-primary" >Full</button>
                         </div>
                         <div class="type-of-payment">
                             Type of payment:
@@ -354,7 +362,15 @@
         }
 
         function setAmount(b){
-            var newAmount = $(b).attr('data-amount');
+            var type = $(b).attr('data-type');
+            var remainingBalance = $('#remainingBalance').val();
+            if(type == 0){
+                var newAmount = $(b).attr('data-amount');
+            } else if(type == 1){
+                var procent = $(b).attr('data-amount');
+                var newAmount = (remainingBalance * procent) / 100;
+            }
+            
             $('#amountPayment').val(newAmount);
             return false;
         }

@@ -23,10 +23,11 @@ class CustomerController extends Controller
             ->orderBy('updated_at','DESC')
             ->get()
             ->makeHidden(['address_id','company_id', 'created_at','updated_at','notes','appointments']);
-        
         foreach($customers as $customer){
             $customer->address->makeHidden(['id','line1','line2','city','state','zip','customer_id','created_at','updated_at']);
         }
+
+        
 
         $appointments = Appointment::where('company_id',Auth::user()->company_id)->get();
 
@@ -51,6 +52,16 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validate = $request->validate([
+            'line1' => 'required',
+            'customer_phone' => 'required',
+        ],[
+            'line1.required' => 'Plese fill at least first line of address',
+        ]);
+
+        $request->customer_name = $request->customer_name ?: "Unknow";
+
         $customer = Customer::create([
             'name' => $request->customer_name,
             'phone' => $request->customer_phone,

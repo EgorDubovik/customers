@@ -13,11 +13,11 @@
         <div class="row">
             
             @include("layout/error-message")
-            
+            @include('layout/success-message', ['status' => 'success'])
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">Payment deposit</div>
-                    <form method="post">
+                    <form method="post" action="{{ route('settings.deposit.store') }}">
                         @csrf
                     <div class="card-body">
                         <div class="form-row">
@@ -29,7 +29,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon" style="background: #ededed;">$</span>
-                                        <input type="text" class="form-control" {!! ($settings->payment_deposit_type==1) ? "disabled" : "" !!} name="payment_deposit_amount" placeholder="Deposit price amount" value="{{ $settings->payment_deposit_amount }}">
+                                        <input type="text" class="form-control" {!! ($settings->payment_deposit_type==1) ? "readOnly" : "" !!} name="payment_deposit_amount" placeholder="Deposit price amount" value="{{ $settings->payment_deposit_amount }}">
                                     </div>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon" style="background: #ededed;">%</span>
-                                        <input type="text" class="form-control" {!! ($settings->payment_deposit_type==0) ? "disabled" : "" !!}  name="payment_deposit_amount_prc" placeholder="Deposit procent amount" value="{{ $settings->payment_deposit_amount_prc }}">
+                                        <input type="text" class="form-control" {!! ($settings->payment_deposit_type==0) ? "readOnly" : "" !!}  name="payment_deposit_amount_prc" placeholder="Deposit procent amount" value="{{ $settings->payment_deposit_amount_prc }}">
                                     </div>
                                 </div>
                             </div>      
@@ -111,11 +111,11 @@
         function changePaymentOption(d){
             var paymnent_type = $(d).val();
             if(paymnent_type == 1){
-                $('input[name="payment_deposit_amount_prc"]').prop('disabled',false);
-                $('input[name="payment_deposit_amount"]').prop('disabled',true);
+                $('input[name="payment_deposit_amount_prc"]').prop('readonly',false);
+                $('input[name="payment_deposit_amount"]').prop('readonly',true);
             } else {
-                $('input[name="payment_deposit_amount_prc"]').prop('disabled',true);
-                $('input[name="payment_deposit_amount"]').prop('disabled',false);
+                $('input[name="payment_deposit_amount_prc"]').prop('readonly',true);
+                $('input[name="payment_deposit_amount"]').prop('readonly',false);
             }
         }
     </script>

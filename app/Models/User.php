@@ -64,9 +64,9 @@ class User extends Authenticatable
         return $this->hasMany(Tag::class,'company_id','company_id');
     }
 
-    // public function settings(){
-    //     return $this->hasOne(Settings::class);
-    // }
+    public function settings(){
+        return $this->hasOne(Settings::class,'company_id','company_id');
+    }
 
     public function phone() : Attribute{
         return Attribute::make(
