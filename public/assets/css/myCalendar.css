@@ -261,3 +261,27 @@ html, body{
 .event-conteiner.done a{
   color: #737373;
 }
+
+
+.time-slots .now-line{
+  border-bottom: 1px solid;
+  border-color: #007aff;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  left: 4.25em;
+  right: 0;
+}
+.time-slots .time-now-ind{
+  font-size: .75em;
+  padding: 0 0.666667em;
+  background: hsla(0,0%,100%,.8);
+  color: #007aff;
+  right: 100%;
+  line-height: 2em;
+  margin-top: 1px;
+  padding: 0 0.8em;
+  position: absolute;
+  top: -1em;
+  white-space: nowrap;
+}
