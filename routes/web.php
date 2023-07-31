@@ -126,11 +126,11 @@ Route::group(['middleware' => ['auth','active']],function (){
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
 
-Route::get('/run',function(){
-    $services = AppointmentService::all();
-    foreach($services as $service){
-        $service->price = $service->price *100;
-        $service->save();
-    }
-    return true;
-});
+// Route::get('/run',function(){
+//     $services = AppointmentService::all();
+//     foreach($services as $service){
+//         $service->price = $service->price *100;
+//         $service->save();
+//     }
+//     return true;
+// });
