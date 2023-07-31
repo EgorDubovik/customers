@@ -40,8 +40,8 @@
                     @foreach ($appointments as $appointment)
                         {
                             title: '{{ $appointment->customer->name }}', 
-                            startTime: moment('{{ $appointment->start }}'), 
-                            endTime: moment('{{ $appointment->end }}'),
+                            startTime: '{{ $appointment->start }}', 
+                            endTime: '{{ $appointment->end }}',
                             background: "{{ ($appointment->status== App\Models\Appointment::ACTIVE) ? ((count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0') : '#ccc' }}",
                             href: "{{ route('appointment.show',['appointment'=>$appointment]) }}",
                             status : "{{ ($appointment->status== App\Models\Appointment::DONE) ? 'done' : 'pedding'}}",
