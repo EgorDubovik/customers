@@ -36,7 +36,7 @@
             $('#calendar').appointmentScheduler({
                 startTime : '06:00',
                 endTime: '21:00',
-                dayOrWeek : ($(document).width() >= 576 ) ? 'week' : 'days';
+                dayOrWeek : ($(document).width() >= 576 ) ? 'week' : 'days',
                 appointments : [
                     @foreach ($appointments as $appointment)
                         {
