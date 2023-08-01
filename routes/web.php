@@ -12,13 +12,12 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\InvoiceController;
-use  App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentNotesController;
 use App\Http\Controllers\AppointmentServiceController;
 use App\Http\Controllers\PaymentController;
-use App\Models\AppointmentService;
-use App\Models\Settings;
+use App\Models\Appointment;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -72,7 +71,6 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::post('/deposit',[SettingsConstroller::class,'savePaymentDepositType'])->name('settings.deposit.store');
     });
     
-
     // Notes
     Route::post('note/store/{customer}', [NoteController::class, 'store'])->name('note.store');
     // Images
@@ -126,11 +124,16 @@ Route::group(['middleware' => ['auth','active']],function (){
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
 
-// Route::get('/run',function(){
-//     $services = AppointmentService::all();
-//     foreach($services as $service){
-//         $service->price = $service->price *100;
-//         $service->save();
-//     }
-//     return true;
-// });
+Route::get('/run', function(){
+    $appointments = Appointment::all();
+    $return = "";
+    foreach($appointments as $appointment){
+        if($appointment->address_id == 0){
+            $address_id = $appointment->customer->address->last()->id;
+            $appointment->address_id = $appointment->customer->address->last()->id;
+            $appointment->save();
+            $return .= $appointment->id."-".$address_id."<br>"; 
+        }
+    }
+    return $return;
+});
