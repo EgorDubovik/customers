@@ -123,17 +123,3 @@ Route::group(['middleware' => ['auth','active']],function (){
     
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
-
-Route::get('/run', function(){
-    $appointments = Appointment::all();
-    $return = "";
-    foreach($appointments as $appointment){
-        if($appointment->address_id == 0){
-            $address_id = $appointment->customer->address->last()->id;
-            $appointment->address_id = $appointment->customer->address->last()->id;
-            $appointment->save();
-            $return .= $appointment->id."-".$address_id."<br>"; 
-        }
-    }
-    return $return;
-});
