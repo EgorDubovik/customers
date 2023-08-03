@@ -43,9 +43,10 @@
                             title: '{{ $appointment->customer->name }}', 
                             startTime: '{{ $appointment->start }}', 
                             endTime: '{{ $appointment->end }}',
-                            background: "{{ ($appointment->status== App\Models\Appointment::ACTIVE) ? ((count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0') : '#ccc' }}",
+                            background: "{{ ($appointment->status == App\Models\Appointment::ACTIVE) ? ((count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0') : '#ccc' }}",
                             href: "{{ route('appointment.show',['appointment'=>$appointment]) }}",
-                            status : "{{ ($appointment->status== App\Models\Appointment::DONE) ? 'done' : 'pedding'}}",
+                            addClass : "{{ ($appointment->status == App\Models\Appointment::DONE) ? 'done' : 'pedding'}}",
+
                         },    
                     @endforeach 
                 ],

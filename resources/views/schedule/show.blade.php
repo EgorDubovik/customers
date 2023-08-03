@@ -162,8 +162,12 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="card-footer">Total: <b
-                                style="margin-left: 30px;">${{ $appointment->services->sum('price') }}</b></div>
+                        <div class="card-footer">
+                            <div>Payment history:
+{{--                             
+                            Total: <b
+                                style="margin-left: 30px;">${{ $appointment->services->sum('price') }}</b> --}}
+                        </div>
                     </div>
 
                     <div class="card">
@@ -304,7 +308,7 @@
         }];
         let map;
         let geocoder;
-        let address = "{{ $appointment->customer->address->last()->full }}";
+        let address = "{{ $appointment->address->full }}";
 
         function initMap() {
             geocoder = new google.maps.Geocoder();
