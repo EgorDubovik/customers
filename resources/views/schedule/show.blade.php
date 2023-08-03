@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fe fe-calendar"></i> Time</h3>
                             <div class="card-options">
@@ -99,7 +99,7 @@
                                                 class="text-muted fs-14 mx-2 fw-normal">
                                                 {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('m-d Y') }}</span>
                                         </h6>
-                                        {{-- <p class="text-muted fs-12"></p> --}}
+                                        
                                     </div>
                                 </li>
                                 <li class="d-sm-flex">
@@ -110,60 +110,69 @@
                                                 class="text-muted fs-14 mx-2 fw-normal">
                                                 {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('m-d Y') }}</span>
                                         </h6>
-                                        {{-- <p class="text-muted fs-12"></p> --}}
+                                        
                                     </div>
                                 </li>
                             </ul>
-
-                            {{-- <p>Start time: <b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i') }}</b> <span class="text-muted">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('d-m Y') }}</span></p>
-                        <p>End time: <b>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i') }}</b> <span class="text-muted">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('d-m Y') }}</span></p> --}}
                         </div>
-                        {{-- <div class="card-footer">
-                        <p class="text-end"><a href="#">View all History ({{ count($appointments) }})</a></p>
                     </div> --}}
-                    </div>
 
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fe fe-list"></i> Services  
-                                @if ($remainingBalance <= 0)
+                            <h3 class="card-title"><i class="fe fe-list"></i> Infromation  
+                                
+                                {{-- @if ($remainingBalance <= 0)
                                     <span class="tag tag-outline-success" style="margin-left: 30px;">Paid full</span>    
-                                @endif
+                                @endif --}}
                             </h3>
                                 
                             <div class="card-options">
-                                <a href="#" onclick="$('#add_new_service_model').modal('show');return false;">
-                                    <i class="fe fe-plus text-success"></i>
-                                </a>
+                                
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="line-services-added row">
-                                @foreach ($appointment->services as $service)
-                                    <div class="col-sm-12 col-md-6 p-1">
-                                        <div class="cont-service-block">
-                                            <div class="row mb-2">
-                                                <div class="col-9"><b>{{ $service->title }}</b></div>
-                                                <div class="col-3"><b>${{ $service->price }}</b></div>
+                            <div class="appointment-time-info">
+                                <b>Appointment time:</b> <span
+                                class="text-muted fs-14 mx-2 fw-normal">
+                                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('M d Y') }}</span>
+                                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i') }} -
+                                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i') }}
+                            </div>
+                            {{-- <div class="services-loading">
+                                <div class="spinner-border text-primary me-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div> --}}
+                            <div class="appointment-services">
+                                <div class="appointment-services-title">
+                                    Services:
+                                </div>
+                                <div class="line-services-added row" style="padding-left: 20px">
+                                    <ul class="list-group list-group-flush services-list">
+                                    @foreach ($appointment->services as $service)
+                                        <li class="list-group-item d-flex">
+                                            <div>   
+                                                <i class="task-icon bg-secondary"></i>
+                                                <h6 class="fw-semibold">{{ $service->title }}<span class="text-muted fs-11 mx-2 fw-normal"> ${{ $service->price }}</span>
+                                                </h6>
+                                                <p class="text-muted fs-12">{{ $service->description }}</p>
                                             </div>
-                                            <div class="hr"></div>
-                                            <div class="row mt-2">
-                                                <div class="col-9 iems-descrition">{{ $service->description }}</div>
-                                                <div class="col-3">
-                                                    <p class="text-end">
-                                                        <a href="{{ route('appointment.service.remove', ['appointmentService' => $service]) }}"
-                                                            onclick="if(confirm('Are you sure?')) return true; else return false; "
-                                                            class=" text-danger"><i class="fa fa-trash"></i></a>
-                                                    </p>
-                                                </div>
+                                            <div class="ms-auto d-flex">
+                                                <a href="javascript:void(0)" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a>
+                                                <a href="{{ route('appointment.service.remove', ['appointmentService' => $service]) }}" onclick="return confirm('Are you sure?');" class="text-muted"><span class="fe fe-trash-2"></span></a>
                                             </div>
-                                        </div>
+                                        </li>
+                                        
+                                    @endforeach
+                                    </ul>
+                                    <div class="text-center">
+                                        <a href="#" onclick="$('#add_new_service_model').modal('show');return false;" class="text-secondary">+ add new service</a>
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <div>Payment history:
+                            <div>Payment history:</div>
 {{--                             
                             Total: <b
                                 style="margin-left: 30px;">${{ $appointment->services->sum('price') }}</b> --}}
