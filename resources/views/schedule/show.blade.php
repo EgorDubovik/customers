@@ -131,26 +131,32 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="appointment-time-info">
-                                <b>Appointment time:</b> <span
-                                class="text-muted fs-14 mx-2 fw-normal">
-                                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('M d Y') }}</span>
-                                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i') }} -
-                                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i') }}
-                            </div>
-                            {{-- <div class="services-loading">
-                                <div class="spinner-border text-primary me-2" role="status">
-                                    <span class="visually-hidden">Loading...</span>
+                            <div class="appointment-time-info d-flex">
+                                <div>
+                                    <b>Appointment time:</b> <span
+                                    class="text-muted fs-14 mx-2 fw-normal">
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('M d Y') }}</span>
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i') }} -
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i') }}
                                 </div>
-                            </div> --}}
+                                <div class="ms-auto d-flex">
+                                    <a href="{{ route('appointment.edit', ['appointment' => $appointment]) }}" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit appointment time" data-bs-original-title="Edit appointment time"><span class="fe fe-edit"></span></a>
+                                </div>
+                            </div>
+                            {{--  --}}
                             <div class="appointment-services">
                                 <div class="appointment-services-title">
                                     Services:
                                 </div>
                                 <div class="line-services-added row" style="padding-left: 20px">
-                                    <ul class="list-group list-group-flush services-list">
+                                    <ul class="list-group list-group-flush services-list" id="services-list">
                                     @foreach ($appointment->services as $service)
                                         <li class="list-group-item d-flex">
+                                            <div class="service-item-loading remove]">
+                                                <div class="spinner-border text-secondary me-2" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
                                             <div>   
                                                 <i class="task-icon bg-secondary"></i>
                                                 <h6 class="fw-semibold">{{ $service->title }}<span class="text-muted fs-11 mx-2 fw-normal"> ${{ $service->price }}</span>
@@ -159,7 +165,7 @@
                                             </div>
                                             <div class="ms-auto d-flex">
                                                 <a href="javascript:void(0)" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a>
-                                                <a href="{{ route('appointment.service.remove', ['appointmentService' => $service]) }}" onclick="return confirm('Are you sure?');" class="text-muted"><span class="fe fe-trash-2"></span></a>
+                                                <a href="#" onclick="removeService(this,{{ $service->id }})" class="text-muted"><span class="fe fe-trash-2"></span></a>
                                             </div>
                                         </li>
                                         
@@ -364,14 +370,73 @@
             navigator.clipboard.writeText(text);
         }
 
-        function confirmRemove() {
-            if (confirm('Are you sure?'))
-                return true;
-            return false;
+        function addNewService(d){
+            var title = $('#title').val();
+            var price = $('#price').val();
+            var description = $('#description').val();
+            
+            if(title == ""){
+                alert("Plese add title");
+                return false;
+            }
+            $.ajax({
+                method:'post',
+                url:"{{ route('appointment.add.serivce', ['appointment'=>$appointment]) }}",
+                data:{
+                    _token : "{{ csrf_token() }}",
+                    title : title,
+                    price : price,
+                    description : description,
+                },
+            }).done(function(data) {
+                
+                if(data.appointment)
+                    addServiceHTML(data.appointment);
+                else
+                    alert('error');
+            })
+            .fail(function() {
+                alert("error");
+            });
         }
 
-        function removeServiceItem(d) {
-            $(d).parent().parent().parent().parent().parent().remove();
+        function addServiceHTML(appointment){
+            $("#services-list").append('<li class="list-group-item d-flex">'+
+                                            '<div class="service-item-loading adding">'+
+                                                '<div class="spinner-border text-secondary me-2" role="status">'+
+                                                    '<span class="visually-hidden">Loading...</span>'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div>'+
+                                                '<i class="task-icon bg-secondary"></i>'+
+                                                '<h6 clas="fw-semibold">'+appointment.title+'<span class="text-muted fs-11 mx-2 fw-normal"> $'+appointment.price+'</span>'+
+                                                '</h6>'+
+                                                '<p class="text-muted fs-12">'+appointment.description+'</p>'+
+                                            '</div>'+
+                                            '<div class="ms-auto d-flex">'+
+                                                '<a href="javascript:void(0)" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a>'+
+                                                '<a href="#" onclick="removeService(this,'+appointment.id+')" class="text-muted"><span class="fe fe-trash-2"></span></a>'+
+                                            '</div>'+
+                                        '</li>');
+            $('#add_new_service_model').modal('hide');
+        }
+
+        function removeService(d,id) {
+            var parent = $(d).parent().parent();
+            parent.find('.service-item-loading').addClass('active').addClass('remove');
+            $.ajax({
+                method:'post',
+                url:"remove-service/"+id,
+                data:{
+                    _token : "{{ csrf_token() }}",
+                },
+                
+            }).done(function(data) {
+                parent.remove();
+            })
+            .fail(function() {
+                alert("error");
+            });
         }
 
         function setAmount(b){

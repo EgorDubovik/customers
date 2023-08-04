@@ -13,21 +13,21 @@ class AppointmentServiceController extends Controller
     {   
         Gate::authorize('add-remove-service-from-appointment',[$appointment]);
          
-        AppointmentService::create([
+        $appointment = AppointmentService::create([
             'appointment_id' => $appointment->id,
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
         ]);
-        return back();
+        return response()->json(['success' => 'success','appointment' => $appointment], 200);
     }
 
     public function delete(Request $request, AppointmentService $appointmentService) {
         
         Gate::authorize('add-remove-service-from-appointment',[$appointmentService->appointment]);
-
         $appointmentService->delete();
-        return back();
+        
+        return response()->json(['success' => 'success'], 200);
 
     }
 }

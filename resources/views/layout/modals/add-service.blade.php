@@ -1,10 +1,10 @@
 <div class="modal fade" id="add_new_service_model" aria-hidden="true">
-    @if (isset($place))
+    {{-- @if (isset($place))
         @if($place == 'show')
-            <form action="{{ route('appointment.add.serivce', ['appointment'=>$appointment]) }}" method="post">
+            <form action="{{ route('appointment.add.serivce', ['appointment'=>$appointment]) }}" method="post" onsubmit="">
                 @csrf
         @endif
-    @endif
+    @endif --}}
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -36,14 +36,14 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button class="btn btn-primary" onclick="add_new_service();$('#add_new_service_model').modal('hide');">Add new service</button>
+                <button class="btn btn-primary" onclick="addNewService(this)">Add new service</button>
             </div>
         </div>
     </div>
-    @if (isset($place))
+    {{-- @if (isset($place))
         @if($place == 'show')
             </form>
         @endif
-    @endif
+    @endif --}}
 
 </div>
