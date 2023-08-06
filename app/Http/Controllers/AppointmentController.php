@@ -104,6 +104,7 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
+        dd($appointment->services->sum('price'));
 
         $remainingBalance = $appointment->services->sum('price') - Payment::where('appointment_id',$appointment->id)->get()->sum('amount');
 
