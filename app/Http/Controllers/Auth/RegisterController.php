@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Company;
 use App\Models\Role;
+use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,10 @@ class RegisterController extends Controller
             'password' => password_hash($request->password, PASSWORD_BCRYPT),
         ]);
 
+        Settings::create([
+            'company_id' => $company->id,
+        ]);
+        
         // Add admin role for first user
         Role::create([
            'user_id' => $user->id,

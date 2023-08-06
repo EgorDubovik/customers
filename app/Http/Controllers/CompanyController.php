@@ -12,14 +12,16 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-    public function edit(Company $company){
+    public function edit(){
+        $company = Auth::user()->company;
         Gate::authorize('edit-company',['company' => $company]);
         
         return view('company.edit',['company' => $company]);
         //return redirect()->route]('profile');
     }
 
-    public function update(Request $request, Company $company){
+    public function update(Request $request){
+        $company = Auth::user()->company;
         Gate::authorize('edit-company',['company' => $company]);
         
         if ($company->address()->exists()) {
@@ -59,11 +61,15 @@ class CompanyController extends Controller
         ]);
 
         $filePath = 'logos/'.time() . '_' . $request->file('logo')->hashName();
+        
         $image = Image::make($request->file('logo'));
+        
         if ($image->width() > env('UPLOAD_WIDTH_SIZE'))
-            $image->resize(env('UPLOAD_WIDTH_SIZE'), null, function ($constraint) {
+        
+            $image->resize(env('UPLOAD_WIDTH_SIZE'), env('UPLOAD_WIDTH_SIZE'), function ($constraint) {
                 $constraint->aspectRatio();
             });
+            
         $image = $image->encode();
         $path = Storage::disk('public')->put($filePath, $image);
         if(!$path)

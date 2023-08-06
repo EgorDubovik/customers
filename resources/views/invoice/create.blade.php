@@ -28,15 +28,20 @@
                                     <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
                                     <div>
                                         <address>
-                                            {{ Auth::user()->company->address->full }}<br>
+                                            @if (Auth::user()->company->address)
+                                                {{ Auth::user()->company->address->full }}<br>    
+                                            @else
+                                                <a href="{{ route('company.edit') }}">add company address</a>
+                                            @endif
+                                            
                                         </address>
-                                        {{ Auth::user()->company->phone }}<br>
-                                        {{ Auth::user()->company->email }}
+                                        {!! (Auth::user()->company->phone) ? Auth::user()->company->phone : ""!!} <br>
+                                        {!! (Auth::user()->company->email) ? Auth::user()->company->email : ""!!} <br>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 text-end border-bottom border-lg-0">
                                     <h3>#INV-000</h3>
-                                    <h5>Date Issued: {{ date('M-d-Y') }}</h5>
+                                    {{-- <h5>Date Issued: {{ Carbon\Carbon::createFromFormat('Y-m-d', $appointment->updated_at)->format('M d Y') }}</h5> --}}
                                 </div>
                             </div>
                             <div class="row pt-5">
@@ -54,7 +59,7 @@
                                 <div class="col-lg-6 text-end">
                                     <p class="h4 fw-semibold">Payment Details:</p>
                                     <p class="mb-1">Total Due: $<span id='total-small-invoice'>00,00</span></p>
-                                    <p class="mb-1">Type of payment: Null</p>
+                                    {{-- <p class="mb-1">Type of payment: Null</p> --}}
                                 </div>
                             </div>
                             <div class="table-responsive push">

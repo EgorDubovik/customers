@@ -79,8 +79,8 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::get('/images/delete/{image}', [UploadController::class, 'delete'])->name('image.delete');
 
     // Company
-    Route::get('company/edit/{company}' , [CompanyController::class, 'edit'])->name('company.edit');
-    Route::post('company/update/{company}', [CompanyController::class,'update'])->name('company.update');
+    Route::get('company/edit' , [CompanyController::class, 'edit'])->name('company.edit');
+    Route::post('company/update', [CompanyController::class,'update'])->name('company.update');
     Route::post('company/upload/logo',[CompanyController::class,'upload_logo'])->name('company.upload.logo');
 
     // Items
