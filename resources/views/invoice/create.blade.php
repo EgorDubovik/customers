@@ -23,20 +23,21 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     @if (Auth::user()->company->logo)
-                                        <img src="{{ URL::asset('storage/'.Auth::user()->company->logo) }}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">    
+                                        <img src="{{ URL::asset('storage/' . Auth::user()->company->logo) }}"
+                                            style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">
                                     @endif
                                     <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
                                     <div>
                                         <address>
                                             @if (Auth::user()->company->address)
-                                                {{ Auth::user()->company->address->full }}<br>    
+                                                {{ Auth::user()->company->address->full }}<br>
                                             @else
                                                 <a href="{{ route('company.edit') }}">add company address</a>
                                             @endif
-                                            
+
                                         </address>
-                                        {!! (Auth::user()->company->phone) ? Auth::user()->company->phone : ""!!} <br>
-                                        {!! (Auth::user()->company->email) ? Auth::user()->company->email : ""!!} <br>
+                                        {!! Auth::user()->company->phone ? Auth::user()->company->phone : '' !!} <br>
+                                        {!! Auth::user()->company->email ? Auth::user()->company->email : '' !!} <br>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 text-end border-bottom border-lg-0">
@@ -104,4 +105,3 @@
     </div>
 
 @stop
-

@@ -80,15 +80,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fe fe-list"></i> Services</h3>
-                            <div class="card-options">
-                                <a href="#" onclick="$('#add_new_service_model').modal('show');return false;">
-                                    <i class="fe fe-plus text-success"></i>
-                                </a>
-                            </div>
                         </div>
                         <div class="card-body">
-                            <div id="line-services-added" class="row">
+                            <ul class="list-group list-group-flush services-list" id="services-list">
                         
+                            </ul>
+                            <div class="text-center">
+                                <a href="#" onclick="$('#add_new_service_model').modal('show');return false;" class="text-secondary">+ add new service</a>
                             </div>
                         </div>
                     </div>
@@ -212,34 +210,40 @@
             $('#exampleModal').modal('hide');
         }
 
-        function add_new_service(){
+                                
+        function addNewService(){
             let title = $('#title').val();
             let price = $('#price').val();
             let description = $('#description').val();
-            $('#line-services-added').append(
-                            '<div class="col-sm-12 col-md-6 mb-2">'+
+            $('#services-list').append(
+                            '<li class="list-group-item d-flex">'+
                                 '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
                                 '<input type="hidden" name="service-title[]" value="'+title+'">'+
                                 '<input type="hidden" name="service-description[]"  value="'+description+'">'+
-                                '<div class="cont-service-block">'+
-                                    '<div class="row mb-2">'+
-                                        '<div class="col-9"><b>'+title+'</b></div>'+
-                                        '<div class="col-3"><b>$'+price+'</b></div>'+
-                                    '</div>'+
-                                    '<div class="hr"></div>'+
-                                    '<div class="row mt-2">'+
-                                        '<div class="col-9 iems-descrition">'+description+'</div>'+
-                                        '<div class="col-3">'+
-                                            '<p class="text-end">'+
-                                                '<a href="#"onclick="removeServiceItem(this); return false;" class=" text-danger"><i class="fa fa-trash"></i></a>'+
-                                            '</p>'+
-                                        '</div>'+
+                                '<div class="service-item-loading adding">'+
+                                    '<div class="spinner-border text-secondary me-2" role="status">'+
+                                        '<span class="visually-hidden">Loading...</span>'+
                                     '</div>'+
                                 '</div>'+
-                            '</div>');
+                                '<div>'+
+                                    '<i class="task-icon bg-secondary"></i>'+
+                                    '<h6 clas="fw-semibold">'+title+'<span class="text-muted fs-11 mx-2 fw-normal"> $'+price+'</span>'+
+                                    '</h6>'+
+                                    '<p class="text-muted fs-12">'+description+'</p>'+
+                                '</div>'+
+                                '<div class="ms-auto d-flex">'+
+                                    
+                                    '<a href="#" onclick="removeService(this)" class="text-muted"><span class="fe fe-trash-2"></span></a>'+
+                                '</div>'+
+                            '</li>');
             $('#title').val('');
             $('#price').val('');
             $('#description').val('');
+            $('#add_new_service_model').modal('hide');
+        }
+
+        function removeService(d){
+            $(d).parent().parent().remove();
         }
 
         

@@ -13,7 +13,7 @@
             <div class="col-12">
                 @include('layout.success-message',['status'=>'successful'])
                 <div class="card col-md-6 m-auto">
-                    <form method="post" action="{{route('company.update', ['company' => $company])}}">
+                    <form method="post" action="{{route('company.update')}}">
                         @csrf
                         <div class="card-body">
                             <div class="category-create-address">Company info </div>

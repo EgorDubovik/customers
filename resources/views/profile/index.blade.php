@@ -72,13 +72,13 @@
                             <div class="social social-profile-buttons me-2">
                                 <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-mail"></i></a>
                             </div>
-                            <span class="my-auto">{!! Auth::user()->company->email ? Auth::user()->company->email : ((Gate::check('edit-company',['company'=>Auth::user()->company])) ? "<a href='".route('company.edit',[Auth::user()->company])."' class='text-muted fs-14' style='margin-left:20px;'>edit</a>" : "") !!}</span>
+                            <span class="my-auto">{!! Auth::user()->company->email ? Auth::user()->company->email : ((Gate::check('edit-company',['company'=>Auth::user()->company])) ? "<a href='".route('company.edit')."' class='text-muted fs-14' style='margin-left:20px;'>edit</a>" : "") !!}</span>
                         </li>
                         <li class="list-group-item d-flex ps-3">
                             <div class="social social-profile-buttons me-2">
                                 <a class="social-icon text-primary" href="javascript:void(0)"><i class="fe fe-phone"></i></a>
                             </div>
-                            <span class="my-auto">{!! Auth::user()->company->phone ? Auth::user()->company->phone : ((Gate::check('edit-company',['company'=>Auth::user()->company])) ? "<a href='".route('company.edit',[Auth::user()->company])."' class='text-muted fs-14' style='margin-left:20px;'>edit</a>" : "") !!}</span>
+                            <span class="my-auto">{!! Auth::user()->company->phone ? Auth::user()->company->phone : ((Gate::check('edit-company',['company'=>Auth::user()->company])) ? "<a href='".route('company.edit')."' class='text-muted fs-14' style='margin-left:20px;'>edit</a>" : "") !!}</span>
                         </li>
                         <li class="list-group-item d-flex ps-3">
                             <div class="social social-profile-buttons me-2">
