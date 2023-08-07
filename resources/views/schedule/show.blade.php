@@ -179,9 +179,7 @@
                         </div>
                         <div class="card-footer">
                             <div>Payment history:</div>
-{{--                             
-                            Total: <b
-                                style="margin-left: 30px;">${{ $appointment->services->sum('price') }}</b> --}}
+                            
                         </div>
                     </div>
 

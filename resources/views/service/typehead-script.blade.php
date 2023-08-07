@@ -17,6 +17,8 @@ $(document).ready(function () {
                 event.preventDefault();
                 $('#price').val(item.price);
                 $('#description').val(item.description);
+                $('#price').focus();
+                $('#price').select();
             },
             
         },
