@@ -165,7 +165,7 @@
                                             </div>
                                             <div class="ms-auto d-flex">
                                                 <a href="javascript:void(0)" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a>
-                                                <a href="#" onclick="removeService(this,{{ $service->id }})" class="text-muted"><span class="fe fe-trash-2"></span></a>
+                                                <a href="#" onclick="removeService(this,{{ $service->id }});return false" class="text-muted"><span class="fe fe-trash-2"></span></a>
                                             </div>
                                         </li>
                                         
@@ -415,9 +415,12 @@
                                             '</div>'+
                                             '<div class="ms-auto d-flex">'+
                                                 '<a href="javascript:void(0)" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a>'+
-                                                '<a href="#" onclick="removeService(this,'+appointment.id+')" class="text-muted"><span class="fe fe-trash-2"></span></a>'+
+                                                '<a href="#" onclick="removeService(this,'+appointment.id+');return false;" class="text-muted"><span class="fe fe-trash-2"></span></a>'+
                                             '</div>'+
                                         '</li>');
+            $('#title').val('');
+            $('#price').val('');
+            $('#description').val('');
             $('#add_new_service_model').modal('hide');
         }
 
