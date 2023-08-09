@@ -140,8 +140,14 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <div>Payment history:</div>
-                            <table style="width: 50%;" align="right" border=0>
+                            <div>Payment history:
+                                @if ($remainingBalance <= 0)
+                                    <span class="tag tag-outline-success" style="margin-left: 30px;">Paid full</span>    
+                                @else
+                                    <span class="tag tag-outline-danger" style="margin-left: 30px;">Total due: ${{ $remainingBalance }}</span>
+                                @endif
+                            </div>
+                            <table style="width: 50%;" align="right" class="table-payment-history">
                                 @foreach ($appointment->payments as $payment)
                                 <tr>
                                     <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d Y') }}</td>
@@ -178,7 +184,7 @@
                                             </div>
                                             <div class="col-2">
                                                 <a href="{{ route('appointment.remove.tech', ['appointment' => $appointment, 'user' => $tech]) }}"
-                                                    style="font-size:18px;color:#ff7979;"><i class="fa fa-trash"></i></a>
+                                                    class="text-muted"><i class="fe fe-trash-2"></i></a>
                                             </div>
                                         </div>
                                     </div>

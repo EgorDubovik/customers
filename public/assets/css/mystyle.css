@@ -305,3 +305,8 @@ li.tag-li:hover:not(.active) {
 .service-item-loading.active{
     display: block;
 }
+
+.table-payment-history tr td{
+    padding: 5px 0;
+    font-size: 12px;
+}
