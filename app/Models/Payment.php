@@ -29,4 +29,10 @@ class Payment extends Model
             set: fn($value) => round($value*100),
         );
     }
+
+    public static function getPaymentTypeText($type){
+        $text = ['undefined','Credit', 'Cash', 'Check','Trasnfer'];
+        $index = (($type > 0) && ($type < count($text))) ? $type : 0; 
+        return $text[$index];
+    }
 }

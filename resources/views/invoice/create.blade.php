@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-lg-6 text-end">
                                     <p class="h4 fw-semibold">Payment Details:</p>
-                                    <p class="mb-1">Total Due: $<span id='total-small-invoice'>00,00</span></p>
+                                    <p class="mb-1">Total Due: $<span id='total-small-invoice'>{{ $due }}</span></p>
                                     {{-- <p class="mb-1">Type of payment: Null</p> --}}
                                 </div>
                             </div>
@@ -91,6 +91,17 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <p style="text-align: center;margin-top:50px;">Payments history:</p>
+                            <table style="width: 50%;" align="right">
+                                @foreach ($appointment->payments as $payment)
+                                <tr>
+                                    <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d Y') }}</td>
+                                    <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('g:i A') }}</td>
+                                    <td>{{ App\Models\Payment::getPaymentTypeText($payment->payment_type) }}</td>
+                                    <td>{{ $number_format($payment->amount,2) }}</td>
+                                </tr>
+                                @endforeach
+                            </table>
                         </div>
                         <div class="card-footer">
                             <div class="input-group">

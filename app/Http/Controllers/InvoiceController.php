@@ -39,8 +39,12 @@ class InvoiceController extends Controller
     public function create(Request $request, Appointment $appointment)
     {
         Gate::authorize('create-invoice',['appointment' => $appointment]);
-        $total = number_format($appointment->services->sum('price'),2);
-        return view("invoice.create", ['appointment' => $appointment,'total'=>$total]);
+        $total = $appointment->services->sum('price');
+        $paid = $appointment->payments->sum('amount');
+        $due = $total - $paid;
+        $due = ($due <= 0) ? '00.00' : number_format($due,2);
+        $total = number_format($total,2); 
+        return view("invoice.create", ['appointment' => $appointment,'total'=>$total,'due' => $due]);
     }
 
     /**
@@ -86,8 +90,12 @@ class InvoiceController extends Controller
     public function show(Invoice $invoice)
     {
         $this->authorize('can-view-invoice', $invoice);
-        $total = number_format($invoice->appointment->services->sum('price'),2);
-        return view('invoice.show',['invoice' => $invoice,'total'=>$total]);
+        $total = $invoice->appointment->services->sum('price');
+        $paid = $invoice->appointment->payments->sum('amount');
+        $due = $total - $paid;
+        $due = ($due <= 0) ? '00.00' : number_format($due,2);
+        $total = number_format($total,2); 
+        return view('invoice.show',['invoice' => $invoice,'total'=>$total,'due'=>$due]);
     }
 
     /**
@@ -126,8 +134,12 @@ class InvoiceController extends Controller
 
     private function createPDF(Invoice $invoice){
         
-        $total = number_format($invoice->appointment->services->sum('price'),2);
-        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total]);
+        $total = $invoice->appointment->services->sum('price');
+        $paid = $invoice->appointment->payments->sum('amount');
+        $due = $total - $paid;
+        $due = ($due <= 0) ? '00.00' : number_format($due,2);
+        $total = number_format($total,2); 
+        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due]);
         $content = $pdf->download()->getOriginalContent();
         $filename = 'Invoice_'.date('m-d-Y').'-'.time().'.pdf';
         Storage::put('public/pdf/invoices/'.$filename,$content);
