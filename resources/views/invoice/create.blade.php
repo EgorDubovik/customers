@@ -98,7 +98,7 @@
                                     <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d Y') }}</td>
                                     <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('g:i A') }}</td>
                                     <td>{{ App\Models\Payment::getPaymentTypeText($payment->payment_type) }}</td>
-                                    <td>{{ $number_format($payment->amount,2) }}</td>
+                                    <td>${{ number_format($payment->amount,2) }}</td>
                                 </tr>
                                 @endforeach
                             </table>

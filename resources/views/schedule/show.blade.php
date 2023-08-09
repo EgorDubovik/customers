@@ -14,10 +14,10 @@
                 <div class="col-md-6">
                     @include('layout/success-message', ['status' => 'success'])
                     <div class="cont-appointment-buttons">
-                        <div class="btn-group d-flex" role="group">
+                        <div class="btn-group d-flex" role="group" style="    background: #fff; padding: 10px; border-radius: 10px;">
                             @if ($appointment->status == App\Models\Appointment::ACTIVE)
                                 <a href="{{ route('appointment.change_status', ['appointment' => $appointment]) }}"
-                                    class="btn btn-success col-5">
+                                    class="btn btn-outline-success col-5">
                                     <i class="fa fa-check"></i> Finish appointment
                                 </a>
                             @else
@@ -27,10 +27,10 @@
                                 </a>
                             @endif
 
-                            <a href="#" class="btn btn-success col-5">
+                            <a href="#" class="btn btn-outline-success col-5">
                                 <i class="fe fe-copy"></i> Create copy
                             </a>
-                            <button onclick="openPayModal();" class="btn btn-secondary col-2">
+                            <button onclick="openPayModal();" class="btn btn-outline-secondary col-2">
                                 <i class="fa fa-credit-card"></i> Pay
                             </button>
                         </div>
@@ -141,7 +141,16 @@
                         </div>
                         <div class="card-footer">
                             <div>Payment history:</div>
-                            
+                            <table style="width: 50%;" align="right" border=0>
+                                @foreach ($appointment->payments as $payment)
+                                <tr>
+                                    <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d Y') }}</td>
+                                    <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('g:i A') }}</td>
+                                    <td>{{ App\Models\Payment::getPaymentTypeText($payment->payment_type) }}</td>
+                                    <td>${{ number_format($payment->amount,2) }}</td>
+                                </tr>
+                                @endforeach
+                            </table>
                         </div>
                     </div>
 
