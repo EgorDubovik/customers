@@ -30,9 +30,9 @@
                             <a href="#" class="btn btn-success col-5">
                                 <i class="fe fe-copy"></i> Create copy
                             </a>
-                            <a data-bs-toggle="modal" href="#payment_model" class="btn btn-secondary col-2">
+                            <button onclick="openPayModal();" class="btn btn-secondary col-2">
                                 <i class="fa fa-credit-card"></i> Pay
-                            </a>
+                            </button>
                         </div>
                     </div>
 
@@ -79,44 +79,6 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    {{-- <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fe fe-calendar"></i> Time</h3>
-                            <div class="card-options">
-                                <a href="{{ route('appointment.edit', ['appointment' => $appointment]) }}">
-                                    <i class="fe fe-edit text-success"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-
-                            <ul class="task-list">
-                                <li class="d-sm-flex">
-                                    <div>
-                                        <i class="task-icon bg-primary"></i>
-                                        <h6 class="fw-semibold fs-16">
-                                            {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('H:i') }}<span
-                                                class="text-muted fs-14 mx-2 fw-normal">
-                                                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->start)->format('m-d Y') }}</span>
-                                        </h6>
-                                        
-                                    </div>
-                                </li>
-                                <li class="d-sm-flex">
-                                    <div>
-                                        <i class="task-icon bg-primary"></i>
-                                        <h6 class="fw-semibold fs-16">
-                                            {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('H:i') }}<span
-                                                class="text-muted fs-14 mx-2 fw-normal">
-                                                {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $appointment->end)->format('m-d Y') }}</span>
-                                        </h6>
-                                        
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> --}}
-
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fe fe-list"></i> Infromation  
@@ -151,7 +113,7 @@
                                 <div class="line-services-added row" style="padding-left: 20px">
                                     <ul class="list-group list-group-flush services-list" id="services-list">
                                     @foreach ($appointment->services as $service)
-                                        <li class="list-group-item d-flex">
+                                        <li class="list-group-item d-flex" data-price="{{ $service->price }}">
                                             <div class="service-item-loading remove]">
                                                 <div class="spinner-border text-secondary me-2" role="status">
                                                     <span class="visually-hidden">Loading...</span>
@@ -260,14 +222,18 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">Payment <span style="color: #5f5f5f; margin-left:20px;">(Total: ${{ $appointment->services->sum('price') }})</span></h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+                    <h6 class="modal-title">Payment
+                        <span style="color: #5f5f5f; margin-left:20px;">(Total: $<span id="paymentTotal">{{ $appointment->services->sum('price') }}</span>)</span>
+                    </h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
                 </div>
                 <form method="post" action="{{ route('appointment.pay', ['appointment' => $appointment]) }}">
                     @csrf
                     <div class="row p-2">
                         <div class="col-10">Remainig payment:</div> 
-                        <div class="col-2"> <b>${{ $remainingBalance }}</b></div>
-                        <input type='hidden' id="remainingBalance" value="{{ $remainingBalance }}">
+                        <div class="col-2"> <b>$<span id="remainingBalanceSpan">{{ $remainingBalance }}</span></b></div>
+                        <input type='hidden' id="remainingBalance" value="{{ $remainingBalance }}" />
+                        <input type="hidden" id="paymentsSum" value="{{ $appointment->payments->sum('amount') }}" />
                     </div>
                     <div class="modal-body">
                         <div class="amount-pay">
@@ -284,7 +250,7 @@
                                 style="margin-right: 30px;">Deposit ( {!! Auth::user()->settings->payment_deposit_type==0 ? '$'.Auth::user()->settings->payment_deposit_amount : Auth::user()->settings->payment_deposit_amount_prc.'%' !!})
                             </button>
                             @endif
-                            <button type="button" onClick="setAmount(this)" data-type=0 data-amount="{{ $remainingBalance }}" class="btn btn-outline-primary" >Full</button>
+                            <button type="button" onClick="setAmount(this)" data-type=0 data-amount="{{ $remainingBalance }}" class="btn btn-outline-primary" id="buttonFull">Full</button>
                         </div>
                         <div class="type-of-payment">
                             Type of payment:
@@ -399,7 +365,7 @@
         }
 
         function addServiceHTML(appointment){
-            $("#services-list").append('<li class="list-group-item d-flex">'+
+            $("#services-list").append('<li class="list-group-item d-flex" data-price="'+appointment.price+'">'+
                                             '<div class="service-item-loading adding">'+
                                                 '<div class="spinner-border text-secondary me-2" role="status">'+
                                                     '<span class="visually-hidden">Loading...</span>'+
@@ -459,6 +425,26 @@
             $(b).addClass('active');
             $(b).parent().parent().find('input').val($(b).attr('data-type'));
         }
+
+        function openPayModal(){
+            var totalPrice = 0;
+            $('#services-list li').each(function(){
+                totalPrice += parseFloat($(this).attr('data-price'));
+            });
+            totalPrice = totalPrice.toFixed(2);
+            var paymentsSum = $('#paymentsSum').val();
+            var remainingBalance = (totalPrice-paymentsSum < 0) ? 0 : totalPrice-paymentsSum;
+            
+            remainingBalance = remainingBalance.toFixed(2);
+            console.log(remainingBalance);
+            $('#remainingBalance').val(remainingBalance);
+            $('#amountPayment').val(remainingBalance);
+            $('#remainingBalanceSpan').html(remainingBalance);
+            $('#buttonFull').attr('data-amount',remainingBalance);
+            $('#paymentTotal').html(totalPrice);
+            $('#payment_model').modal('show');
+        }
+
     </script>
     @include('service.typehead-script')
 @endsection

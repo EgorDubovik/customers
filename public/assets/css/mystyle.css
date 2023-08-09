@@ -237,7 +237,7 @@ li.tag-li:hover:not(.active) {
     outline: 0;
     border: 0;
     border-bottom: 1px solid #ccc;
-    width: 112px;
+    width: 180px;
     font-weight: bold;
     color: #797979;
 }
