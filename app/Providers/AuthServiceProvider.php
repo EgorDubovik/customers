@@ -138,7 +138,9 @@ class AuthServiceProvider extends ServiceProvider
 
         // Invoice
         Gate::define('can-view-invoice', function(User $user, Invoice $invoice){
-            return $user->company_id === $invoice->company_id;
+            if(($invoice->creater_id == Auth::user()->id || in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray())) && $user->company_id == $invoice->company_id)
+                return true;
+            return false;
         });
         Gate::define('create-invoice', function(User $user, Appointment $appointment){
             return $user->company_id === $appointment->company_id;

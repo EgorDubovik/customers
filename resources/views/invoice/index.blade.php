@@ -29,6 +29,7 @@
                                 
                                 
                                     @foreach ($invoices as $invoice)
+                                        @can('can-view-invoice',['invoice'=>$invoice])
                                         <tr>
                                             <td>{{ $invoice->id }}</td>
                                             <td>
@@ -45,6 +46,7 @@
                                                 <a target="_blank" href="{{ route('invoice.view.PDF',['key' => ($invoice->key) ? $invoice->key : "null"]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> PDF</a>
                                             </td>
                                         </tr>
+                                        @endcan
                                     @endforeach
                                 </tbody>
                             </table>
