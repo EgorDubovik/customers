@@ -40,12 +40,10 @@ class SendAppointmentReminder extends Command
                                 ->where('start','<=',$nextHour)
                                 ->get();
         
-        $this->line($currentTime);
-        $this->line(count($appointments));
-        // foreach($appointments as $appointment)
-        //     foreach($appointment->techs as $tech){
-        //         $tech->notify(new AppointmentReminder($appointment));
-        //     }
+        foreach($appointments as $appointment)
+            foreach($appointment->techs as $tech){
+                $tech->notify(new AppointmentReminder($appointment));
+            }
 
 
         return 0;
