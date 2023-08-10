@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace app\Console\Commands;
 
 use App\Models\Appointment;
 use App\Notifications\AppointmentReminder;
