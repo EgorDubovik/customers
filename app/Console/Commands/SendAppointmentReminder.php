@@ -34,13 +34,14 @@ class SendAppointmentReminder extends Command
         $currentTime = Carbon::now();
         $nextHour = Carbon::now()->addHour();
 
-        $this->line($currentTime);
+        
 
-        // $appointments = Appointment::where('start','>=',$currentTime)
-        //                         ->where('start','<=',$nextHour)
-        //                         ->get();
+        $appointments = Appointment::where('start','>=',$currentTime)
+                                ->where('start','<=',$nextHour)
+                                ->get();
         
-        
+        $this->line($currentTime);
+        $this->line(count($appointments));
         // foreach($appointments as $appointment)
         //     foreach($appointment->techs as $tech){
         //         $tech->notify(new AppointmentReminder($appointment));
