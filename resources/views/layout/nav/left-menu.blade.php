@@ -25,7 +25,7 @@
                 </li>
 
                 <li class="slide">
-                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('schedule.index')}}"><i
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('appointment.index')}}"><i
                             class="side-menu__icon fe fe-calendar"></i><span
                             class="side-menu__label">Schedule</span></a>
                 </li>

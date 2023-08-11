@@ -106,6 +106,7 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
+        
         $remainingBalance = $appointment->services->sum('price') - Payment::where('appointment_id',$appointment->id)->get()->sum('amount');
 
         return view('schedule.show',[
@@ -122,6 +123,7 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {   
+        Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
         return  view('schedule.edit', ['appointment' => $appointment]);
     }
 
@@ -134,6 +136,8 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
+        Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
+        
         $validate = $request->validate([
             'customer'        => 'required|integer',
             'time_from' => 'required',
@@ -145,18 +149,19 @@ class AppointmentController extends Controller
         $appointment->update([
             'start' => $request->time_from,
             'end' => $request->time_to,
-            // 'tech_id' => $request->tech_id,
         ]);
         
         $appointment->appointmentTechs()->delete();
 
         if($request->has('tech_ids')){
-            foreach($request->tech_ids as $tech){
-                AppointmentTechs::create([
-                    'appointment_id' => $appointment->id,
-                    'tech_id'        => $tech,
-                    'creator_id'     => Auth::user()->id,
-                ]);
+            foreach($request->tech_ids as $tech_id){
+                $tech = User::find($tech_id);
+                if($tech->company_id == Auth::user()->company_id)
+                    AppointmentTechs::create([
+                        'appointment_id' => $appointment->id,
+                        'tech_id'        => $tech_id,
+                        'creator_id'     => Auth::user()->id,
+                    ]);
             }
         } else 
             return redirect()->back()->withErrors(['msg' => 'Please choose at least one tech']);
@@ -182,14 +187,20 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $Appointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointment $Appointment)
+    public function destroy(Appointment $appointment)
     {
-        //
+        Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
+        $appointment->appointmentTechs()->delete();
+        $appointment->notes()->delete();
+        $appointment->payments()->delete();
+        $appointment->services()->delete();
+        $appointment->delete();
+        return redirect()->route('appointment.index');
     }
 
     public function removeTech(Request $request, Appointment $appointment, User $user){
         
-        // Add gate !!!!!
+        Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
 
         AppointmentTechs::where('appointment_id',$appointment->id)
             ->where('tech_id',$user->id)
@@ -204,7 +215,8 @@ class AppointmentController extends Controller
     }
 
     public function change_status(Appointment $appointment){
-        // Add gate !!!!
+        
+        Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
         
         $appointment->status = ($appointment->status == Appointment::ACTIVE) ? Appointment::DONE : Appointment::ACTIVE;
         $appointment->save();

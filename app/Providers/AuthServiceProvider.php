@@ -105,6 +105,19 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        Gate::define('update-remove-appointment', function(User $user,Appointment $appointment){
+            $roleArray = $user->roles->pluck('role')->toArray();
+            if(
+                (in_array(Role::ADMIN,$roleArray) 
+                    || in_array(Role::DISP,$roleArray) 
+                    || in_array($user->id,$appointment->appointmentTechs->pluck('tech_id')->toArray())
+                ) 
+                && $appointment->company_id == $user->company_id ){
+                return true;
+            }
+            return false;
+        });
+
         // Appointment notes
         Gate::define('appointment-store-note',function (User $user, Appointment $appointment){
             if ($user->company_id == $appointment->company_id)

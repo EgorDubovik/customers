@@ -223,6 +223,13 @@
                             @endforeach
                         </div>
                     </div>
+                    <div class="card">
+                        <form method="post" onsubmit="return confirm('Are you sure?')" action="{{ route('appointment.remove',['appointment'=>$appointment]) }}">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger btn-block">remove appointment</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

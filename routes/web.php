@@ -94,20 +94,21 @@ Route::group(['middleware' => ['auth','active']],function (){
     });
 
     //Schedule
-    Route::prefix('schedule')->group(function (){
-        Route::get('/',[AppointmentController::class,'index'])->name('schedule.index');
+    Route::prefix('appointment')->group(function (){
+        Route::get('/',[AppointmentController::class,'index'])->name('appointment.index');
         Route::get('create', [AppointmentController::class, 'create'])->name('schedule.create');
         Route::post('store', [AppointmentController::class, 'store'])->name('schedule.store');
-        Route::get('appointment/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show');
+        Route::get('show/{appointment}', [AppointmentController::class, 'show'])->name('appointment.show');
         Route::get('edit/{appointment}', [AppointmentController::class,'edit'])->name('appointment.edit');
         Route::post('edit/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
-        Route::get('appointment/tech/remove/{appointment}/{user}', [AppointmentController::class, 'removeTech'])->name('appointment.remove.tech');
+        Route::delete('remove/{appointment}', [AppointmentController::class,'destroy'])->name('appointment.remove');
+        Route::get('tech/remove/{appointment}/{user}', [AppointmentController::class, 'removeTech'])->name('appointment.remove.tech');
         Route::get('viewall/{customer}', [AppointmentController::class, 'viewall'])->name('appointment.viewall');
-        Route::post('appointment/note/store/{appointment}', [AppointmentNotesController::class, 'store'])->name('appointment.note.store');
-        Route::post('appointment/add-service/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.add.serivce');
-        Route::post('appointment/remove-service/{appointmentService}', [AppointmentServiceController::class, 'delete'])->name('appointment.service.remove');
-        Route::get('appointment/status/{appointment}',[AppointmentController::class,'change_status'])->name('appointment.change_status');
-        Route::post('appointment/pay/{appointment}', [PaymentController::class, 'store'])->name('appointment.pay');
+        Route::post('note/store/{appointment}', [AppointmentNotesController::class, 'store'])->name('appointment.note.store');
+        Route::post('add-service/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.add.serivce');
+        Route::post('remove-service/{appointmentService}', [AppointmentServiceController::class, 'delete'])->name('appointment.service.remove');
+        Route::get('status/{appointment}',[AppointmentController::class,'change_status'])->name('appointment.change_status');
+        Route::post('pay/{appointment}', [PaymentController::class, 'store'])->name('appointment.pay');
     });
 
     // Invoices
