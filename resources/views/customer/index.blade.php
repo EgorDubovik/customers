@@ -91,7 +91,7 @@
             </div>
             <div class="col-md-6 d-none d-sm-none d-md-block">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-xl-6">
                         <div class="card">
                             <div class="row">
                                 <div class="col-4">
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-xl-6">
                         <div class="card">
                             <div class="row">
                                 <div class="col-4">

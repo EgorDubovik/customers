@@ -37,11 +37,13 @@ class AppointmentController extends Controller
 
         if ($request->has("customer")){
             $customer = Customer::where(['id' => $request->customer, 'company_id' => Auth::user()->company_id])->first();
-            if ($customer)
-                return view('schedule.create',['customer'=>$customer]);
+            if (!$customer)
+                return back();
+
+            return view('schedule.create',['customer'=>$customer]);    
         }
 
-        return view('schedule.create');
+        return back();
     }
 
     /**
