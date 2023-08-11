@@ -95,7 +95,7 @@ class AppointmentController extends Controller
             }
         }
 
-        return redirect()->route('schedule.index');
+        return redirect()->route('appointment.index');
     }
 
     /**
