@@ -415,7 +415,7 @@
             parent.find('.service-item-loading').addClass('active').addClass('remove');
             $.ajax({
                 method:'post',
-                url:"remove-service/"+id,
+                url:"/appointment/remove-service/"+id,
                 data:{
                     _token : "{{ csrf_token() }}",
                 },
