@@ -40,12 +40,13 @@ class CustomerController extends Controller
 
         // Get payments sum for prev month
         $paymentsPrevMonth = Payment::whereHas('appointment', function ($query) {
-            $query->where('company_id', 1);
-        })->where('created_at', '>=', $curentMonth->subMonth())
-          ->where('created_at','<=', $curentMonth)
+            $query->where('company_id', Auth::user()->company_id);
+        })->where('created_at', '>=', $curentMonth->copy()->subMonth())
+          ->where('created_at','<', $curentMonth)
           ->get();
+          
+        
         $sumPrevMonth = $paymentsPrevMonth->sum('amount');
-
         $procent = ($sumPrevMonth==0) ? $sumCurentMonth : ($sumCurentMonth/$sumPrevMonth-1) * 100;
         
         $appointments = Appointment::where('company_id',Auth::user()->company_id)->get();
