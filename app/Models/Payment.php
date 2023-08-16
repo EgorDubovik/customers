@@ -35,4 +35,8 @@ class Payment extends Model
         $index = (($type > 0) && ($type < count($text))) ? $type : 0; 
         return $text[$index];
     }
+
+    public function appointment() {
+        return $this->belongsTo(Appointment::class);
+    }
 }

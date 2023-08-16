@@ -128,6 +128,32 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="mt-2">
+                                        <h6 class="">Total Cost</h6>
+                                        <h2 class="mb-0 number-font">${{ number_format($sumCurentMonth,2,'.',' ') }}</h2>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="chart-wrapper mt-1">
+                                            <canvas id="costchart"
+                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-muted fs-12">
+                                    <span class="text-{{ ($procent>=0) ? 'success' : 'danger' }}">
+                                        <i class="fe fe-arrow-up-circle text-{{ ($procent>=0) ? 'success' : 'danger' }}"></i> {{ number_format($procent,2) }}%
+                                    </span>
+                                    Last month
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -136,6 +162,7 @@
     </div> --}}
 @stop
 @section('scripts')
+    <script src="{{ URL::asset('assets/plugins/chart/Chart.bundle.js')}}"></script>
     <script>
         var customers = @json($customers);
         var limit = 100;
@@ -241,5 +268,112 @@
             }
             $('#customer-list').html(s);
         }
+
+        var ctx = document.getElementById('costchart').getContext('2d');
+    ctx.height = 10;
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Date 1', 'Date 2', 'Date 3', 'Date 4', 'Date 5', 'Date 6', 'Date 7', 'Date 8', 'Date 9', 'Date 10', 'Date 11', 'Date 12', 'Date 13', 'Date 14', 'Date 15', 'Date 16', 'Date 17'],
+            datasets: [{
+                label: 'Total Sales',
+                data: [28, 56, 36, 32, 48, 54, 37, 58, 66, 53, 21, 24, 14, 45, 0, 32, 67, 49, 52, 55, 46, 54, 130],
+                backgroundColor: 'transparent',
+                borderColor: '#f7ba48',
+                borderWidth: '2.5',
+                pointBorderColor: 'transparent',
+                pointBackgroundColor: 'transparent',
+            }, ]
+        },
+        options: {
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            responsive: true,
+            tooltips: {
+                enabled: false,
+            },
+            scales: {
+                xAxes: [{
+                    categoryPercentage: 1.0,
+                    barPercentage: 1.0,
+                    barDatasetSpacing: 0,
+                    display: false,
+                    barThickness: 5,
+                    gridLines: {
+                        color: 'transparent',
+                        zeroLineColor: 'transparent'
+                    },
+                    ticks: {
+                        fontSize: 2,
+                        fontColor: 'transparent'
+                    }
+                }],
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        display: false,
+                    }
+                }]
+            },
+            title: {
+                display: false,
+            },
+        }
+    });
+    // COST CHART CLOSEDvar ctx = document.getElementById('costchart').getContext('2d');
+    ctx.height = 10;
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Date 1', 'Date 2', 'Date 3', 'Date 4', 'Date 5', 'Date 6', 'Date 7', 'Date 8', 'Date 9', 'Date 10', 'Date 11', 'Date 12', 'Date 13', 'Date 14', 'Date 15', 'Date 16', 'Date 17'],
+            datasets: [{
+                label: 'Total Sales',
+                data: [28, 56, 36, 32, 48, 54, 37, 58, 66, 53, 21, 24, 14, 45, 0, 32, 67, 49, 52, 55, 46, 54, 130],
+                backgroundColor: 'transparent',
+                borderColor: '#f7ba48',
+                borderWidth: '2.5',
+                pointBorderColor: 'transparent',
+                pointBackgroundColor: 'transparent',
+            }, ]
+        },
+        options: {
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            responsive: true,
+            tooltips: {
+                enabled: false,
+            },
+            scales: {
+                xAxes: [{
+                    categoryPercentage: 1.0,
+                    barPercentage: 1.0,
+                    barDatasetSpacing: 0,
+                    display: false,
+                    barThickness: 5,
+                    gridLines: {
+                        color: 'transparent',
+                        zeroLineColor: 'transparent'
+                    },
+                    ticks: {
+                        fontSize: 2,
+                        fontColor: 'transparent'
+                    }
+                }],
+                yAxes: [{
+                    display: false,
+                    ticks: {
+                        display: false,
+                    }
+                }]
+            },
+            title: {
+                display: false,
+            },
+        }
+    });
     </script>
 @endsection

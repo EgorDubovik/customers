@@ -104,7 +104,6 @@
 
 <!-- SIDEBAR JS -->
 <script src="{{ URL::asset('assets/plugins/sidebar/sidebar.js')}}"></script>
-
 <!-- INTERNAL SELECT2 JS -->
 <script src="{{ URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
 
