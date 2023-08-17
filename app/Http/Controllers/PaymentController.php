@@ -20,14 +20,15 @@ class PaymentController extends Controller
 
         $paymentsForGraph = DB::table('payments')
             ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(amount) as total'))
-            ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereBetween('created_at', [$startDate, $endDate->addDay()])
             ->groupBy(DB::raw('DATE(created_at)'))
             ->orderBy(DB::raw('DATE(created_at)'))
             ->pluck('total', 'date')
             ->toArray();
 
-        // Fill in missing dates with 0
-        $datesInRange = Carbon::parse($startDate)->daysUntil($endDate);
+        
+        // $datesInRange = Carbon::parse($startDate)->daysUntil($endDate);
+        $datesInRange = CarbonPeriod::create($startDate,$endDate);
         $resultArray = [];
         foreach ($datesInRange as $date) {
             $formattedDate = $date->toDateString();
@@ -36,9 +37,9 @@ class PaymentController extends Controller
                 'day' => $formattedDate,
                 'total' => $total,
             ];
-            
         }
-        
+        // dd($datesInRange->toArray());
+
         return view('payment.index',[
             'paymentForGraph' => $resultArray, 
         ]);
