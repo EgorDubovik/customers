@@ -120,6 +120,9 @@ Route::group(['middleware' => ['auth','active']],function (){
         
         Route::post('/resend/{invoice}', [InvoiceController::class,'resend'])->name('invoice.resend');
     });
+    
+    // Payments
+    Route::get('payment',[PaymentController::class,'index'])->name('payment.index');
 
     
 });

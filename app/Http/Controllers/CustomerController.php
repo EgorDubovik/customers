@@ -45,7 +45,6 @@ class CustomerController extends Controller
           ->where('created_at','<', $curentMonth)
           ->get();
           
-        
         $sumPrevMonth = $paymentsPrevMonth->sum('amount');
         $procent = ($sumPrevMonth==0) ? $sumCurentMonth : ($sumCurentMonth/$sumPrevMonth-1) * 100;
         
