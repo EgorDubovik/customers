@@ -123,6 +123,7 @@ Route::group(['middleware' => ['auth','active']],function (){
     
     // Payments
     Route::get('payment',[PaymentController::class,'index'])->name('payment.index');
+    Route::get('payment/remove/{payment}',[PaymentController::class,'delete'])->name('payment.remove');
 
     
 });

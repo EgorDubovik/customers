@@ -85,6 +85,36 @@
                </div>               
             </div>
         </div>
+        <div class="row">
+            <div class="card">
+               <div class="card-body">
+                     <table class="table text-nowrap text-md-nowrap mb-0">
+                        <thead>
+                           <th style="width: 100px">id</th>
+                           <th>Customer</th>
+                           <th>Appointment</th>
+                           <th>Amount</th>
+                           <th>Day of payment</th>
+                           <th>Payment type</th>
+                           <th style="width: 50px">Action</th>
+                        </thead>
+                        <tbody>
+                           @foreach ($payments as $payment)
+                              <tr>
+                                 <td>{{ $payment->id }}</td>
+                                 <td><a href="{{ route('customer.show',['customer' =>$payment->appointment->customer ]) }}">{{  $payment->appointment->customer->name }}</a></td>
+                                 <td><a href="{{ route('appointment.show',['appointment' =>$payment->appointment ]) }}">Appointment at <b>{{  $payment->appointment->start }}</b></a></td>
+                                 <td>${{ $payment->amount }}</td>
+                                 <td>{{ $payment->created_at->format('m-d-Y') }}</td>
+                                 <td><span class="badge bg-success-transparent rounded-pill text-success p-2 px-3">{{ \App\Models\Payment::TYPE[$payment->payment_type-1] }}</span></td>
+                                 <td><a href="{{ route('payment.remove',['payment' => $payment]) }}" onclick="return confirm('Are you sure?');" class="btn text-danger btn-sm"><span class="fe fe-trash-2 fs-14"></span></a></td>
+                              </tr>   
+                           @endforeach
+                     </table>
+
+               </div>
+            </div>
+        </div>
 
     @stop
     @section('scripts')

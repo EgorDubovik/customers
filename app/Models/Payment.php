@@ -14,6 +14,7 @@ class Payment extends Model
     public const CASH = 2;
     public const CHECK = 3;
     public const TRANSFER = 4;
+    public const TYPE = ['credit','cash','check','transfer'];
 
     protected $table = 'payments';
     protected $fillable = [
@@ -38,5 +39,9 @@ class Payment extends Model
 
     public function appointment() {
         return $this->belongsTo(Appointment::class);
+    }
+    
+    public function customer(){
+
     }
 }

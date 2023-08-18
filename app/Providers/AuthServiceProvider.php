@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Appointment;
+use App\Models\Payment;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -142,6 +143,10 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->company_id == $appointment->company_id)
                 return true;
             return false;
+        });
+
+        Gate::define('payment-remove', function(User $user, Payment $payment){
+            return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $payment->appointment->company_id );
         });
 
         // Company

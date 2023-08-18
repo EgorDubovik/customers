@@ -17,7 +17,7 @@ class PaymentController extends Controller
     public function index(Request $request){
 
         $endDate = Carbon::now();
-        $startDate = Carbon::now()->subDays(30);
+        $startDate = Carbon::now()->subDays(31);
 
         // $paymentsForGraph = DB::table('payments')
         //     ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(amount) as total'))
@@ -32,14 +32,15 @@ class PaymentController extends Controller
         })
             ->where('created_at', '>=', $startDate)
             ->where('created_at', '<=', $endDate)
-            ->get();
+            ->get()
+            ->sortDesc();
         
         $paymentsSelectedRange->map(function($item){
             $item->date = $item->created_at->format('Y-m-d');
             return $item;
         });      
 
-        $datesInRange = CarbonPeriod::create($startDate,$endDate->addDay());
+        $datesInRange = CarbonPeriod::create($startDate,$endDate->copy()->addDay());
         $paymentForGraph = [];
         $mainTotal = 0;
         foreach ($datesInRange as $date) {
@@ -62,6 +63,7 @@ class PaymentController extends Controller
             'paymentForGraph'   => $paymentForGraph,
             'total'             => $total,
             'period'            => ['startDate' => $startDate->format('m-d-Y'),'endDate' => $endDate->format('m-d-Y')],
+            'payments'          => $paymentsSelectedRange,
         ]);
     }
 
@@ -75,6 +77,14 @@ class PaymentController extends Controller
                 'amount' => $request->amount,
                 'payment_type' => $request->payment_type,
             ]);
+
+        return back();
+    }
+
+    public function delete(Payment $payment){
+
+        Gate::authorize('payment-remove',['payment'=>$payment]);
+        $payment->delete();
 
         return back();
     }
