@@ -6,7 +6,7 @@
         <!-- PAGE-HEADER -->
         <div class="page-header" style="margin-top: 10px; margin-bottom: 10px;">
             <h1 class="page-title">Payments
-               <span style="font-weight: 100;position relative"> <span style="cusrsor:pointer" onclick="$('.data-range-payments').toggle()">date</span>
+               <span style="font-weight: 100;position relative"> <span style="cusrsor:pointer" onclick="$('.data-range-payments').toggle()">{{ $period['startDate'] }} - {{ $period['endDate'] }}</span>
                   <div class="data-range-payments">
                      <div class="row">
                         <div class="col-sm">
@@ -39,10 +39,50 @@
             </div>
         </div>
         <div class="row">
-            <div class="card">
-               <div class="card-body">
-                  
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-4">
+               <div class="card">
+                  <div class="card-body text-center">
+                     <i class="fa fa-line-chart text-secondary fa-2x"></i>
+                     <h6 class="mt-4 mb-2">Total per period</h6>
+                     <h2 class="mb-2  number-font">${{ number_format($total['main'],2,'.',' ') }}</h2>
+                  </div>
                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2">
+               <div class="card">
+                  <div class="card-body text-center">
+                     <i class="fa fa-credit-card text-secondary fa-2x"></i>
+                     <h6 class="mt-4 mb-2">Credit transaction</h6>
+                     <h2 class="mb-2  number-font">${{ number_format($total['credit'],2,'.',' ') }}</h2>
+                  </div>
+               </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2">
+               <div class="card">
+                  <div class="card-body text-center">
+                     <i class="fa fa-mobile text-secondary fa-2x"></i>
+                     <h6 class="mt-4 mb-2">Transfer transaction</h6>
+                     <h2 class="mb-2  number-font">${{ number_format($total['transfer'],2,'.',' ') }}</h2>
+                  </div>
+               </div>               
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2">
+               <div class="card">
+                  <div class="card-body text-center">
+                     <i class="fa fa-dollar text-secondary fa-2x"></i>
+                     <h6 class="mt-4 mb-2">Cash transaction</h6>
+                     <h2 class="mb-2  number-font">${{ number_format($total['cash'],2,'.',' ') }}</h2>
+                  </div>
+               </div>               
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2">
+               <div class="card">
+                  <div class="card-body text-center">
+                     <i class="fa fa-dollar text-secondary fa-2x"></i>
+                     <h6 class="mt-4 mb-2">Check transaction</h6>
+                     <h2 class="mb-2  number-font">${{ number_format($total['check'],2,'.',' ') }}</h2>
+                  </div>
+               </div>               
             </div>
         </div>
 
@@ -63,7 +103,7 @@
             labels: ['amount'],
             xaxisLabel: 'Day',
             xLabelFormat: d => moment(d).format('MMM D'), 
-            yLabelFormat: d => '$'+d/100, 
+            yLabelFormat: d => '$'+d, 
             xLabels: 'day',
             resize: true
          }).on('click', function(i, row) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -18,30 +19,49 @@ class PaymentController extends Controller
         $endDate = Carbon::now();
         $startDate = Carbon::now()->subDays(30);
 
-        $paymentsForGraph = DB::table('payments')
-            ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(amount) as total'))
-            ->whereBetween('created_at', [$startDate, $endDate->addDay()])
-            ->groupBy(DB::raw('DATE(created_at)'))
-            ->orderBy(DB::raw('DATE(created_at)'))
-            ->pluck('total', 'date')
-            ->toArray();
-
+        // $paymentsForGraph = DB::table('payments')
+        //     ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(amount) as total'))
+        //     ->whereBetween('created_at', [$startDate, $endDate->addDay()])
+        //     ->groupBy(DB::raw('DATE(created_at)'))
+        //     ->orderBy(DB::raw('DATE(created_at)'))
+        //     ->pluck('total', 'date')
+        //     ->toArray();
         
-        // $datesInRange = Carbon::parse($startDate)->daysUntil($endDate);
-        $datesInRange = CarbonPeriod::create($startDate,$endDate);
-        $resultArray = [];
+        $paymentsSelectedRange = Payment::whereHas('appointment', function ($query) {
+            $query->where('company_id', Auth::user()->company_id);
+        })
+            ->where('created_at', '>=', $startDate)
+            ->where('created_at', '<=', $endDate)
+            ->get();
+        
+        $paymentsSelectedRange->map(function($item){
+            $item->date = $item->created_at->format('Y-m-d');
+            return $item;
+        });      
+
+        $datesInRange = CarbonPeriod::create($startDate,$endDate->addDay());
+        $paymentForGraph = [];
+        $mainTotal = 0;
         foreach ($datesInRange as $date) {
             $formattedDate = $date->toDateString();
-            $total = (!isset($paymentsForGraph[$formattedDate])) ? 0 : $paymentsForGraph[$formattedDate]; 
-            $resultArray[] = [
+            $total = $paymentsSelectedRange->where('date',$formattedDate)->sum('amount');
+            $mainTotal += $total;
+            $paymentForGraph[] = [
                 'day' => $formattedDate,
                 'total' => $total,
             ];
         }
+        $total = array();
+        $total['main'] = $mainTotal;
+        $total['credit'] = $paymentsSelectedRange->where('payment_type',Payment::CREDIT)->sum('amount');
+        $total['transfer'] = $paymentsSelectedRange->where('payment_type',Payment::TRANSFER)->sum('amount');
+        $total['cash'] = $paymentsSelectedRange->where('payment_type',Payment::CASH)->sum('amount');
+        $total['check'] = $paymentsSelectedRange->where('payment_type',Payment::CHECK)->sum('amount');
         // dd($datesInRange->toArray());
-
         return view('payment.index',[
-            'paymentForGraph' => $resultArray, 
+            'paymentForGraph'   => $paymentForGraph,
+            'total'             => $total,
+            'period'            => ['startDate' => $startDate->format('m-d-Y'),'endDate' => $endDate->format('m-d-Y')],
         ]);
     }
 
