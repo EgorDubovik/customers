@@ -47,6 +47,13 @@
                             class="side-menu__label">Employees</span></a>
                 </li>
                 @endcan
+
+                <li class="slide">
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{ route('payment.index') }}"><i
+                            class="side-menu__icon fe fe-bar-chart-2"></i><span
+                            class="side-menu__label">Payments</span></a>
+                </li>
+
                 <li class="slide">
                     <a class="side-menu__item has-link" data-bs-toggle="slide" href="/settings"><i
                             class="side-menu__icon fe fe-settings"></i><span
