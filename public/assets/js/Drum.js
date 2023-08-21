@@ -366,7 +366,7 @@
 
                 $(selected.elem).css("opacity", 1);
 
-                $("figure:not(.a" + (selected.angle*100) + ", .hidden)", drum).css("opacity", "0.5");
+                $("div.figure:not(.a" + (selected.angle*100) + ", .hidden)", drum).css("opacity", "0.5");
                 if (selected.angle != settings.last_angle && [0,90,180,270].indexOf(selected.angle) >= 0) {
                     settings.last_angle = selected.angle;
                     update(selected);

@@ -68,10 +68,12 @@
                                         style="margin-right: 10px;"></i></a>
                             </p>
                             <p>
+                                @if($appointment->customer->email)
                                 <span class="fs-14 text-black">{{ $appointment->customer->email }}</span>
                                 <a
                                     href="{{ route('invoice.create', ['appointment' => $appointment]) }}"><i
                                         class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
+                                @endif
                             </p>
 
                         </div>
