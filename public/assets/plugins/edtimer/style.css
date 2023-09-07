@@ -1,0 +1,43 @@
+
+.drum-wrapper{
+   height: 120px;
+   overflow: hidden;
+   position: relative;
+}
+.drum-inner{
+   position: relative;
+   top: 50%;
+   height: 44px;
+   border-top: 2px solid #cd38ff;
+   border-bottom: 2px solid #cd38ff;
+   margin-top: -20px;
+   width: 100%;
+   z-index: 999;
+}
+.drum-item{
+   width: 100%;
+   text-align: center;
+   font-size: 18px;
+   opacity: 0.6;
+   height: 40px;
+   line-height: 40px;
+   cursor: pointer;
+   padding: 0 5px;
+}
+.drum-item:hover{
+   background-color: #faebff;
+   border-radius: 7px;
+}
+.drum-item.active{
+   opacity: 1;
+   font-weight: 500;
+}
+.conteiner{
+   margin: 0 10px;
+}
+.day-name .drum-item{
+   text-align: right;
+}
+.minute.conteiner{
+   margin-left: 3px;
+}

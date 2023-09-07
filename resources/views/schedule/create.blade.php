@@ -1,7 +1,8 @@
 @extends('layout.main')
 
 @section('css')
-    <link href="{{ URL::asset('assets/css/drum.css')}}" rel="stylesheet" />
+    {{-- <link href="{{ URL::asset('assets/css/drum.css')}}" rel="stylesheet" /> --}}
+    <link href="{{ URL::asset('assets/plugins/edtimer/style.css')}}" rel="stylesheet" />
     <link href="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.css')}}" rel="stylesheet" />
 @endsection
 
@@ -52,7 +53,7 @@
                                         </div>
                                     </div>
                                     <div class="date_wrapper outside">
-                                        <div class="lines"></div>
+                                        <div class="timePicker" style="display: flex;justify-content: center"></div>
                                     </div>
                                 </div>
                                 <div class="cont_time_to container-datepicker active" style="margin-top: 15px;">
@@ -70,7 +71,7 @@
                                         </div>
                                     </div>
                                     <div class="date_wrapper outside">
-                                        <div class="lines"></div>
+                                        <div class="timePicker" style="display: flex; justify-content: center"></div>
                                     </div>
                                 </div>
                             </div>
@@ -161,32 +162,36 @@
     </div>
 @stop
 @section('scripts')
-    <script src="{{ URL::asset('assets/js/Drum.js')}}"></script>
-    <script src="{{ URL::asset('assets/js/hammer.mini.js')}}"></script>
-    <script>
-        function change_service(){
-            var select = $("#select_service");
-        }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+    <script src="{{ URL::asset('assets/plugins/edtimer/timer.mini.js')}}"></script>
     <script>
         $(document).ready(function () {
-            
-            var dataPickerTo = null;
-            var dataPickerFrom = $(".cont_time_from").DataPicker({
-                onChange : function (dateTime){
-                    if(dataPickerTo){
-                        let newDate = new Date(dateTime.getTime() + 2*60*60*1000)
-                        dataPickerTo.setDateTime(newDate);
+            let timeFromConteiner = $('.cont_time_from');
+            let timeToConteiner = $('.cont_time_to');
+            let timerTo = null;
+            let timerFrom = timeFromConteiner.find('.timePicker').timerD({
+                onChange : function(newTime){
+                    let mtime = moment(newTime);
+                    $('.input_time_from').val(mtime.format('YYYY-MM-DD hh:mm'));
+                    timeFromConteiner.find('.date').html(mtime.format('MMMM DD'));
+                    timeFromConteiner.find('.time_from').html(mtime.format('hh:mm A'));
+                    if(timerTo){
+                        console.log('setImer')
+                        timerTo.setTime(mtime.add(2,'hour'));
                     }
-                    $('.input_time_from').val(toSqlFormat(dateTime));
                 }
             });
-            var dataPickerTo = $(".cont_time_to").DataPicker({
-                onChange : function (dateTime){
-                    $('.input_time_to').val(toSqlFormat(dateTime));
+            
+            timerTo = timeToConteiner.find('.timePicker').timerD({
+                setTime : moment().add(2,'hour'),
+                onChange : function(newTime){
+                    let mtime = moment(newTime);
+                    $('.input_time_to').val(mtime.format('YYYY-MM-DD hh:mm'));
+                    timeToConteiner.find('.date').html(mtime.format('MMMM DD'))
+                    timeToConteiner.find('.time_from').html(mtime.format('hh:mm A'))
                 }
-            });
-            dataPickerTo.setDateTime(new Date(new Date().getTime() + 2*60*60*1000))
+            })
 
             $('.cont_time_to').removeClass('active');
             $('.view_selected_date_time').click(function (){
@@ -199,18 +204,13 @@
             }
         });
 
-        // function openModal(){
-        //     $('#exampleModal').modal('show');
-        // }
-
         function choiseAddress(d,id){
             $('#address_id').val(id)
             var address = $(d).html();
             $("#customer_address").html(address);
             $('#exampleModal').modal('hide');
         }
-
-                                
+       
         function addNewService(){
             let title = $('#title').val();
             let price = $('#price').val();
