@@ -1,7 +1,6 @@
 @extends('layout.main')
 
 @section('css')
-    {{-- <link href="{{ URL::asset('assets/css/drum.css')}}" rel="stylesheet" /> --}}
     <link href="{{ URL::asset('assets/plugins/edtimer/style.css')}}" rel="stylesheet" />
     <link href="{{ URL::asset('assets/plugins/typehead/jquery.typeahead.css')}}" rel="stylesheet" />
 @endsection
@@ -173,7 +172,7 @@
             let timerFrom = timeFromConteiner.find('.timePicker').timerD({
                 onChange : function(newTime){
                     let mtime = moment(newTime);
-                    $('.input_time_from').val(mtime.format('YYYY-MM-DD hh:mm'));
+                    $('.input_time_from').val(mtime.format('YYYY-MM-DD HH:mm'));
                     timeFromConteiner.find('.date').html(mtime.format('MMMM DD'));
                     timeFromConteiner.find('.time_from').html(mtime.format('hh:mm A'));
                     if(timerTo){
@@ -187,7 +186,7 @@
                 setTime : moment().add(2,'hour'),
                 onChange : function(newTime){
                     let mtime = moment(newTime);
-                    $('.input_time_to').val(mtime.format('YYYY-MM-DD hh:mm'));
+                    $('.input_time_to').val(mtime.format('YYYY-MM-DD HH:mm'));
                     timeToConteiner.find('.date').html(mtime.format('MMMM DD'))
                     timeToConteiner.find('.time_from').html(mtime.format('hh:mm A'))
                 }
