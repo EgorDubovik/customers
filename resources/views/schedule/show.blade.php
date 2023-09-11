@@ -238,7 +238,7 @@
     </div>
 
     {{-- Add new service model --}}
-    @include('layout.modals.add-service', ['place' => 'show'])
+    @include('layout.modals.add-service')
     @include('layout.modals.add-tech')
 
     {{--Ppayemnt model--}}

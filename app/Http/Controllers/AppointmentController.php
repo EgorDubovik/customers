@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Appointment;
 use App\Models\Service;
+use App\Models\Addresses;
 use App\Models\AppointmentService;
 use App\Models\AppointmentTechs;
 use App\Models\Payment;
@@ -139,45 +140,20 @@ class AppointmentController extends Controller
         Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
         
         $validate = $request->validate([
-            'customer'        => 'required|integer',
+            'address_id'        => 'required|integer',
             'time_from' => 'required',
             'time_to' => 'required',
-            'tech_ids' => 'required',
         ]);
 
-        // check if this is my customer
+        $address = Addresses::find($request->address_id);
+        if(!$address || $address->customer_id != $appointment->customer->id )
+            abort(404);
+
         $appointment->update([
             'start' => $request->time_from,
             'end' => $request->time_to,
+            'address_id' => $request->address_id,
         ]);
-        
-        $appointment->appointmentTechs()->delete();
-
-        if($request->has('tech_ids')){
-            foreach($request->tech_ids as $tech_id){
-                $tech = User::find($tech_id);
-                if($tech->company_id == Auth::user()->company_id)
-                    AppointmentTechs::create([
-                        'appointment_id' => $appointment->id,
-                        'tech_id'        => $tech_id,
-                        'creator_id'     => Auth::user()->id,
-                    ]);
-            }
-        } else 
-            return redirect()->back()->withErrors(['msg' => 'Please choose at least one tech']);
-
-        $appointment->services()->delete();
-
-        if($request->has('service-prices')){
-            foreach($request->input('service-prices') as $key => $value){
-                AppointmentService::create([
-                    'appointment_id' => $appointment->id,
-                    'title' => $request->input('service-title')[$key],
-                    'description' => $request->input('service-description')[$key],
-                    'price' => $request->input('service-prices')[$key],
-                ]);
-            }
-        }
         return redirect()->route('appointment.show',['appointment'=>$appointment]);
     }
 

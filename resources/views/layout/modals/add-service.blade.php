@@ -1,10 +1,4 @@
 <div class="modal fade" id="add_new_service_model" aria-hidden="true">
-    {{-- @if (isset($place))
-        @if($place == 'show')
-            <form action="{{ route('appointment.add.serivce', ['appointment'=>$appointment]) }}" method="post" onsubmit="">
-                @csrf
-        @endif
-    @endif --}}
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -40,10 +34,4 @@
             </div>
         </div>
     </div>
-    {{-- @if (isset($place))
-        @if($place == 'show')
-            </form>
-        @endif
-    @endif --}}
-
 </div>
