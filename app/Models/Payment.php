@@ -21,6 +21,7 @@ class Payment extends Model
         'appointment_id',
         'amount',
         'payment_type',
+        'company_id',
     ];
 
     public function amount(): Attribute
@@ -41,7 +42,4 @@ class Payment extends Model
         return $this->belongsTo(Appointment::class);
     }
     
-    public function customer(){
-
-    }
 }

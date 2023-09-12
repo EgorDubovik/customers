@@ -2,30 +2,222 @@
 
 @section('content')
 
-<div class="main-container container-fluid">
-    <!-- PAGE-HEADER -->
-    <div class="page-header">
-        <h1 class="page-title">Dashboard</h1>
-        <div>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Apps</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-            </ol>
+    <div class="main-container container-fluid">
+        <!-- PAGE-HEADER -->
+        <div class="page-header" style="margin-top: 10px; margin-bottom: 10px;">
+            <h1 class="page-title">Dashboard</h1>
+        </div>
+        <!-- PAGE-HEADER END -->
+        <!-- CONTENT -->
+        <div class="row">
+            <div class="col-md-6 d-none d-sm-none d-md-block">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card-img-absolute circle-icon bg-primary text-center align-self-center box-primary-shadow bradius">
+                                        <img src="../assets/images/svgs/circle.svg" alt="img" class="card-img-absolute">
+                                        <i class="lnr lnr-user fs-30  text-white mt-4"></i>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body p-4">
+                                        <h2 class="mb-2 fw-normal mt-2">{{ $customers_count }}</h2>
+                                        <h5 class="fw-normal mb-0">Total Customers</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card-img-absolute circle-icon bg-secondary align-items-center text-center box-secondary-shadow bradius">
+                                        <img src="../assets/images/svgs/circle.svg" alt="img" class="card-img-absolute">
+                                        <i class="lnr lnr-briefcase fs-30 text-white mt-4"></i>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body p-4">
+                                        <h2 class="mb-2 fw-normal mt-2">{{ count($appointments) }}</h2>
+                                        <h5 class="fw-normal mb-0">Total Appointments</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="mt-2">
+                                        <h6 class="">Total Cost</h6>
+                                        <h2 class="mb-0 number-font">${{ number_format($sumCurentMonth,2,'.',' ') }}</h2>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="chart-wrapper mt-1">
+                                            <canvas id="costchart"
+                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-muted fs-12">
+                                    {{-- <span class="text-{{ ($procent>=0) ? 'success' : 'danger' }}">
+                                        <i class="fe fe-arrow-up-circle text-{{ ($procent>=0) ? 'success' : 'danger' }}"></i> {{ number_format($procent,2) }}%
+                                    </span> --}}
+                                    Last month
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="mt-2">
+                                        <h6 class="">Total Expenses</h6>
+                                        <h2 class="mb-0 number-font">$76,965</h2>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="chart-wrapper mt-1">
+                                            <canvas id="profitchart"
+                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-muted fs-12"><span class="text-green"><i
+                                            class="fe fe-arrow-up-circle text-green"></i> 0.9%</span>
+                                    Last 9 days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- PAGE-HEADER END -->
-    <!-- CONTENT -->
-    <div class="row">
-
-        <div class="col-md-12  col-xl-6">
-
-
-        </div>
-
-
-
-    </div>
-
-</div>
 
 @stop
+@section('scripts')
+    <script src="{{ URL::asset('assets/plugins/chart/Chart.bundle.js')}}"></script>
+    <script>
+        
+        var ctx = document.getElementById('profitchart').getContext('2d');
+        ctx.height = 10;
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Total Sales',
+                    barGap: 0,
+                    barSizeRatio: 1,
+                    data: [14, 17, 12, 13, 11, 15, 16],
+                    backgroundColor: '#4ecc48',
+                    borderColor: '#4ecc48',
+                    pointBackgroundColor: '#fff',
+                    pointHoverBackgroundColor: '#4ecc48',
+                    pointBorderColor: '#4ecc48',
+                    pointHoverBorderColor: '#4ecc48',
+                    pointBorderWidth: 2,
+                    pointRadius: 2,
+                    pointHoverRadius: 2,
+                    borderWidth: 1
+                }, ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                tooltips: {
+                    enabled: false,
+                },
+                scales: {
+                    xAxes: [{
+                        categoryPercentage: 1.0,
+                        barPercentage: 1.0,
+                        barDatasetSpacing: 0,
+                        display: false,
+                        barThickness: 5,
+                        gridLines: {
+                            color: 'transparent',
+                            zeroLineColor: 'transparent'
+                        },
+                        ticks: {
+                            fontSize: 2,
+                            fontColor: 'transparent'
+                        }
+                    }],
+                    yAxes: [{
+                        display: false,
+                        ticks: {
+                            display: false,
+                        }
+                    }]
+                },
+                title: {
+                    display: false,
+                },
+            }
+        });
+
+        var ctx = document.getElementById('costchart').getContext('2d');
+        ctx.height = 10;
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Date 1', 'Date 2', 'Date 3', 'Date 4', 'Date 5', 'Date 6', 'Date 7', 'Date 8', 'Date 9', 'Date 10', 'Date 11', 'Date 12', 'Date 13', 'Date 14', 'Date 15', 'Date 16', 'Date 17'],
+                datasets: [{
+                    label: 'Total Sales',
+                    data: [28, 56, 36, 32, 48, 54, 37, 58, 66, 53, 21, 24, 14, 45, 0, 32, 67, 49, 52, 55, 46, 54, 130],
+                    backgroundColor: 'transparent',
+                    borderColor: '#f7ba48',
+                    borderWidth: '2.5',
+                    pointBorderColor: 'transparent',
+                    pointBackgroundColor: 'transparent',
+                }, ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                tooltips: {
+                    enabled: false,
+                },
+                scales: {
+                    xAxes: [{
+                        categoryPercentage: 1.0,
+                        barPercentage: 1.0,
+                        barDatasetSpacing: 0,
+                        display: false,
+                        barThickness: 5,
+                        gridLines: {
+                            color: 'transparent',
+                            zeroLineColor: 'transparent'
+                        },
+                        ticks: {
+                            fontSize: 2,
+                            fontColor: 'transparent'
+                        }
+                    }],
+                    yAxes: [{
+                        display: false,
+                        ticks: {
+                            display: false,
+                        }
+                    }]
+                },
+                title: {
+                    display: false,
+                },
+            }
+        });
+    </script>
+@endsection

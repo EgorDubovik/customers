@@ -16,8 +16,10 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentNotesController;
 use App\Http\Controllers\AppointmentServiceController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Appointment;
+use FontLib\Table\Type\name;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);
@@ -28,15 +30,13 @@ Route::prefix("auth")->group(function(){
 });
 
 Route::group(['middleware' => ['auth','active']],function (){
-   Route::get('/',function(){
-       return redirect()->route('customer.list');
-   });
-
-   Route::prefix('profile')->group(function (){
-      Route::get('/',[ProfileController::class, 'index'])->name('profile');
-      Route::post('/edit',[ProfileController::class, 'update']);
-      Route::post('/change/password', [ProfileController::class,'change_password']);
-   });
+   
+    Route::get('/',[DashboardController::class,'index'])->name('dashboard');
+    Route::prefix('profile')->group(function (){
+        Route::get('/',[ProfileController::class, 'index'])->name('profile');
+        Route::post('/edit',[ProfileController::class, 'update']);
+        Route::post('/change/password', [ProfileController::class,'change_password']);
+    });
 
    Route::prefix('users')->group(function (){
        Route::get('/', [UserController::class, 'list'])->name('users');

@@ -73,9 +73,10 @@ class PaymentController extends Controller
         
         if($request->amount > 0)
             Payment::create([
-                'appointment_id' => $appointment->id,
-                'amount' => $request->amount,
-                'payment_type' => $request->payment_type,
+                'appointment_id'    => $appointment->id,
+                'amount'            => $request->amount,
+                'payment_type'      => $request->payment_type,
+                'company_id'        => Auth::user()->company_id,
             ]);
 
         return back();

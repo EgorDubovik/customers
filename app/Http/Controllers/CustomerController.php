@@ -29,32 +29,8 @@ class CustomerController extends Controller
             $customer->address->makeHidden(['id','line1','line2','city','state','zip','customer_id','created_at','updated_at']);
         }
 
-        // Get payments sum for curent month
-        $curentMonth = Carbon::now()->startOfMonth();
-        
-        $paymentsCurentMonth = Payment::whereHas('appointment', function ($query) {
-            $query->where('company_id', 1);
-        })->where('created_at', '>=', $curentMonth)
-          ->get();
-        $sumCurentMonth = $paymentsCurentMonth->sum('amount');
-
-        // Get payments sum for prev month
-        $paymentsPrevMonth = Payment::whereHas('appointment', function ($query) {
-            $query->where('company_id', Auth::user()->company_id);
-        })->where('created_at', '>=', $curentMonth->copy()->subMonth())
-          ->where('created_at','<', $curentMonth)
-          ->get();
-          
-        $sumPrevMonth = $paymentsPrevMonth->sum('amount');
-        $procent = ($sumPrevMonth==0) ? $sumCurentMonth : ($sumCurentMonth/$sumPrevMonth-1) * 100;
-        
-        $appointments = Appointment::where('company_id',Auth::user()->company_id)->get();
-
         return view('customer.index', [
             'customers'=>$customers, 
-            'appointments' => $appointments,
-            'sumCurentMonth' => $sumCurentMonth,
-            'procent' => $procent,
         ]);
     }
 

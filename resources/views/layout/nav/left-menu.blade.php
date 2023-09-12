@@ -18,16 +18,23 @@
                     <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" />
                 </svg></div>
             <ul class="side-menu">
+                
                 <li class="slide">
-                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('customer.list')}}">
-                        <i class="side-menu__icon fe fe-users"></i><span
-                            class="side-menu__label">Customers</span></a>
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('dashboard')}}"><i
+                            class="side-menu__icon fe fe-grid"></i><span
+                            class="side-menu__label">Dashboard</span></a>
                 </li>
 
                 <li class="slide">
                     <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('appointment.index')}}"><i
                             class="side-menu__icon fe fe-calendar"></i><span
                             class="side-menu__label">Schedule</span></a>
+                </li>
+
+                <li class="slide">
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="{{route('customer.list')}}">
+                        <i class="side-menu__icon fe fe-users"></i><span
+                            class="side-menu__label">Customers</span></a>
                 </li>
 
                 <li class="slide">

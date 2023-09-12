@@ -89,72 +89,7 @@
                     @endforelse
                 </div>
             </div>
-            <div class="col-md-6 d-none d-sm-none d-md-block">
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="card-img-absolute circle-icon bg-primary text-center align-self-center box-primary-shadow bradius">
-                                        <img src="../assets/images/svgs/circle.svg" alt="img" class="card-img-absolute">
-                                        <i class="lnr lnr-user fs-30  text-white mt-4"></i>
-                                    </div>
-                                </div>
-                                <div class="col-8">
-                                    <div class="card-body p-4">
-                                        <h2 class="mb-2 fw-normal mt-2">{{ count($customers) }}</h2>
-                                        <h5 class="fw-normal mb-0">Total Customers</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="card-img-absolute circle-icon bg-secondary align-items-center text-center box-secondary-shadow bradius">
-                                        <img src="../assets/images/svgs/circle.svg" alt="img" class="card-img-absolute">
-                                        <i class="lnr lnr-briefcase fs-30 text-white mt-4"></i>
-                                    </div>
-                                </div>
-                                <div class="col-8">
-                                    <div class="card-body p-4">
-                                        <h2 class="mb-2 fw-normal mt-2">{{ count($appointments) }}</h2>
-                                        <h5 class="fw-normal mb-0">Total Appointments</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="card overflow-hidden">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="mt-2">
-                                        <h6 class="">Total Cost</h6>
-                                        <h2 class="mb-0 number-font">${{ number_format($sumCurentMonth,2,'.',' ') }}</h2>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <div class="chart-wrapper mt-1">
-                                            <canvas id="costchart"
-                                                class="h-8 w-9 chart-dropshadow"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="text-muted fs-12">
-                                    <span class="text-{{ ($procent>=0) ? 'success' : 'danger' }}">
-                                        <i class="fe fe-arrow-up-circle text-{{ ($procent>=0) ? 'success' : 'danger' }}"></i> {{ number_format($procent,2) }}%
-                                    </span>
-                                    Last month
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
     {{-- <div class="add_new_cont">
@@ -204,7 +139,6 @@
                 });
                 viewSearchResult(count);
             } else if(search.length == 0){
-                
                 view_old_list();
             }
         }
