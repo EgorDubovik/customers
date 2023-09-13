@@ -30,7 +30,7 @@ class CustomerController extends Controller
         }
 
         return view('customer.index', [
-            'customers'=>$customers, 
+            'customers'=>$customers,
         ]);
     }
 

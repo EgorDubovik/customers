@@ -10,7 +10,7 @@
         <!-- PAGE-HEADER END -->
         <!-- CONTENT -->
         <div class="row">
-            <div class="col-md-6 d-none d-sm-none d-md-block">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-xl-6">
                         <div class="card">
@@ -55,7 +55,7 @@
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div class="mt-2">
-                                        <h6 class="">Total Cost</h6>
+                                        <h6 class="">Total this month</h6>
                                         <h2 class="mb-0 number-font">${{ number_format($sumCurentMonth,2,'.',' ') }}</h2>
                                     </div>
                                     <div class="ms-auto">
@@ -94,6 +94,37 @@
                                     Last 9 days</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        Open appointments ({{ count($appointments->where('status',0)) }})
+                    </div>
+                    <div class="card-body">
+                        @forelse ($appointments->where('status',0)->slice(0, 5) as $open_appointment)                
+                            @if ($loop->last && count($appointments->where('status',0))>5)
+                                <div class="open-appointment-more">
+                                    <a href="{{ route('appointment.index') }}"> View all ({{ count($appointments->where('status',0)) }})</a>
+                                </div>
+                            @else
+                            <a href="{{ route('appointment.show',['appointment'=>$open_appointment]) }}" class="a-open-appointment">
+                                <div class="row open-app-item align-items-center">
+                                    <div class="col-2 tech-color"><div class="user_circule" style="background: {{ ((count($open_appointment->techs) > 0) ? $open_appointment->techs[0]->color : '#1565C0') }}"></div></div>
+                                    <div class="col-4">
+                                        <div class="customer-name">{{ $open_appointment->customer->name }}</div>
+                                        <div class="customer-phone">{{ $open_appointment->customer->phone }}</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="customer-address">{{ $open_appointment->address->full }}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            @endif
+                        @empty
+                            <div class="empty_open_appointments">You don`t have any open appointments</div>
+                        @endforelse
                     </div>
                 </div>
             </div>

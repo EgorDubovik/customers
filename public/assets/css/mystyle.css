@@ -326,3 +326,42 @@ li.tag-li:hover:not(.active) {
     cursor: pointer;
     color: #000;
 }
+
+.open-app-item{
+    height: 55px;
+    box-shadow: 0 0 5px #ccc;
+    border-radius: 27px;
+    background: #f1f1f1;
+    margin: 10px 0;
+}
+.open-app-item .customer-name{
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.open-app-item .customer-phone{
+    color: #7c7c7c;
+}
+.open-app-item .customer-address{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.a-open-appointment{
+    color: #000;
+}
+.a-open-appointment:hover{
+    color: #000;
+}
+.open-app-item .tech-color{
+    margin-left: -10px;
+}
+.empty_open_appointments{
+    text-align: center;
+    color: #9f9f9f;
+}
+.open-appointment-more{
+    text-align: center;
+    margin-top: 18px;
+}
