@@ -13,6 +13,53 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-xl-6">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="mt-2">
+                                        <h6 class="">Total this month</h6>
+                                        <h2 class="mb-0 number-font">${{ number_format($sumCurentMonth,2,'.',' ') }}</h2>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="chart-wrapper mt-1">
+                                            <canvas id="costchart"
+                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-muted fs-12">
+                                    {{-- <span class="text-{{ ($procent>=0) ? 'success' : 'danger' }}">
+                                        <i class="fe fe-arrow-up-circle text-{{ ($procent>=0) ? 'success' : 'danger' }}"></i> {{ number_format($procent,2) }}%
+                                    </span> --}}
+                                    {{-- Last month --}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="mt-2">
+                                        <h6 class="">Total for today</h6>
+                                        <h2 class="mb-0 number-font">${{ $sumCurentDay }}</h2>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="chart-wrapper mt-1">
+                                            <canvas id="profitchart"
+                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <span class="text-muted fs-12"><span class="text-green"><i
+                                            class="fe fe-arrow-up-circle text-green"></i> 0.9%</span>
+                                    Last 9 days</span> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
                         <div class="card">
                             <div class="row">
                                 <div class="col-4">
@@ -49,53 +96,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="card overflow-hidden">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="mt-2">
-                                        <h6 class="">Total this month</h6>
-                                        <h2 class="mb-0 number-font">${{ number_format($sumCurentMonth,2,'.',' ') }}</h2>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <div class="chart-wrapper mt-1">
-                                            <canvas id="costchart"
-                                                class="h-8 w-9 chart-dropshadow"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="text-muted fs-12">
-                                    {{-- <span class="text-{{ ($procent>=0) ? 'success' : 'danger' }}">
-                                        <i class="fe fe-arrow-up-circle text-{{ ($procent>=0) ? 'success' : 'danger' }}"></i> {{ number_format($procent,2) }}%
-                                    </span> --}}
-                                    Last month
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="card overflow-hidden">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="mt-2">
-                                        <h6 class="">Total Expenses</h6>
-                                        <h2 class="mb-0 number-font">$76,965</h2>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <div class="chart-wrapper mt-1">
-                                            <canvas id="profitchart"
-                                                class="h-8 w-9 chart-dropshadow"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="text-muted fs-12"><span class="text-green"><i
-                                            class="fe fe-arrow-up-circle text-green"></i> 0.9%</span>
-                                    Last 9 days</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div class="col-md-3">
                 <div class="card">
@@ -111,7 +112,7 @@
                             @else
                             <a href="{{ route('appointment.show',['appointment'=>$open_appointment]) }}" class="a-open-appointment">
                                 <div class="row open-app-item align-items-center">
-                                    <div class="col-2 tech-color"><div class="user_circule" style="background: {{ ((count($open_appointment->techs) > 0) ? $open_appointment->techs[0]->color : '#1565C0') }}"></div></div>
+                                    <div class="col-2 tech-color"><div class="user_circule" style="opacity:0.7;background: {{ ((count($open_appointment->techs) > 0) ? $open_appointment->techs[0]->color : '#1565C0') }}"></div></div>
                                     <div class="col-4">
                                         <div class="customer-name">{{ $open_appointment->customer->name }}</div>
                                         <div class="customer-phone">{{ $open_appointment->customer->phone }}</div>

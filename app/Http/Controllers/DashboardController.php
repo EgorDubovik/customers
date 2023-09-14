@@ -26,12 +26,15 @@ class DashboardController extends Controller
             ->get();
         $sumCurentMonth = number_format($paymentsCurentMonth->sum('sum')/100,2);
         
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $paymentsCurentDay = Payment::whereDate('created_at', $currentDate)->get();
+        $sumCurentDay = number_format($paymentsCurentDay->sum('amount'),2);
         $appointments = Appointment::where('company_id',Auth::user()->company_id)->get();
         return view('dashboard',[
             'customers_count'=>$customers_count, 
             'appointments' => $appointments,
             'sumCurentMonth' => $sumCurentMonth,
-            
+            'sumCurentDay' => $sumCurentDay,
         ]);
     }
 }

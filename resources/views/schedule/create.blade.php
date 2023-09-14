@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="row mb-2">
-                                <label  class="col-md-3 form-label">DateTime</label>
+                                <label  class="col-md-3 form-label">Choose time:</label>
                                 <div class="cont_time_from container-datepicker active">
                                     <input type="hidden" class="input_time_from" name="time_from" value="">
                                     <div class="view_selected_date_time">

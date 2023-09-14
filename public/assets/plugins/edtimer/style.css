@@ -8,8 +8,8 @@
    position: relative;
    top: 50%;
    height: 44px;
-   border-top: 2px solid #cd38ff;
-   border-bottom: 2px solid #cd38ff;
+   border-top: 2px solid #6c5ffc;
+   border-bottom: 2px solid #6c5ffc;
    margin-top: -20px;
    width: 100%;
    z-index: 999;
@@ -25,7 +25,7 @@
    padding: 0 5px;
 }
 .drum-item:hover{
-   background-color: #faebff;
+   background-color: #f5f4ff;
    border-radius: 7px;
 }
 .drum-item.active{
