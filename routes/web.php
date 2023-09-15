@@ -30,8 +30,10 @@ Route::prefix("auth")->group(function(){
 });
 
 Route::group(['middleware' => ['auth','active']],function (){
-   
-    Route::get('/',[DashboardController::class,'index'])->name('dashboard');
+    Route::get('/',function(){
+        return redirect()->route('dashboard');
+    });
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
     Route::prefix('profile')->group(function (){
         Route::get('/',[ProfileController::class, 'index'])->name('profile');
         Route::post('/edit',[ProfileController::class, 'update']);
