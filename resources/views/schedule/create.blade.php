@@ -35,44 +35,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-2">
-                                <label  class="col-md-3 form-label">Choose time:</label>
-                                <div class="cont_time_from container-datepicker active">
+                            
+                            <div class="container time-picker-header">
+                                <div class="row timer-picker-row ">
                                     <input type="hidden" class="input_time_from" name="time_from" value="">
-                                    <div class="view_selected_date_time">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <span class="text-muted"> From:</span>
-                                                <span class="date" style="margin-left: 30px;"></span>
-                                            </div>
-                                            <div class="col-6">
-                                                <span class="text-muted"> Time:</span>
-                                                <span class="time_from"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="date_wrapper outside">
-                                        <div class="timePicker" style="display: flex;justify-content: center"></div>
-                                    </div>
-                                </div>
-                                <div class="cont_time_to container-datepicker active" style="margin-top: 15px;">
                                     <input type="hidden" class="input_time_to" name="time_to" value="">
-                                    <div class="view_selected_date_time">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <span class="text-muted"> To:</span>
-                                                <span class="date" style="margin-left: 30px;">{{date('M-d-Y')}}</span>
-                                            </div>
-                                            <div class="col-6">
-                                                <span class="text-muted"> Time:</span>
-                                                <span class="time_from">9:00 AM</span>
+                                    <div class="col-6 header-item active" data-active = "from">
+                                        <div class="row align-items-center">
+                                            <div class="col-4 time-picker-title">From:</div>
+                                            <div class="col-8 time-picker-date-cont set-time-from">
+                                                <div class="time-picker-date">Sep 24</div>
+                                                <div class="time-picker-time">11:00 AM</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="date_wrapper outside">
-                                        <div class="timePicker" style="display: flex; justify-content: center"></div>
+                                    <div class="col-6 header-item " data-active = "to">
+                                        <div class="row align-items-center">
+                                            <div class="col-4 time-picker-title">To:</div>
+                                            <div class="col-8 time-picker-date-cont set-time-to">
+                                                <div class="time-picker-date">Sep 24</div>
+                                                <div class="time-picker-time">11:00 AM</div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </div>                                
+                            </div>
+                            <div class="date_wrapper">
+                                <div class="timePicker" style="display: flex;justify-content: center"></div>
                             </div>
                         </div>
                     </div>
@@ -169,33 +158,44 @@
             let timeFromConteiner = $('.cont_time_from');
             let timeToConteiner = $('.cont_time_to');
             let timerTo = null;
-            let timerFrom = timeFromConteiner.find('.timePicker').timerD({
+            let nowActive = 'from';
+            let timeToIsChanged = false;
+            let timerFrom = $('.timePicker').timerD({
                 onChange : function(newTime){
                     let mtime = moment(newTime);
-                    $('.input_time_from').val(mtime.format('YYYY-MM-DD HH:mm'));
-                    timeFromConteiner.find('.date').html(mtime.format('MMMM DD'));
-                    timeFromConteiner.find('.time_from').html(mtime.format('hh:mm A'));
-                    if(timerTo){
-                        console.log('setImer')
-                        timerTo.setTime(mtime.add(2,'hour'));
+                    if(nowActive == 'from'){
+                        $('.input_time_from').val(mtime.format('YYYY-MM-DD HH:mm'));
+                        viewSetTime($('.set-time-from'),mtime);
+                        if(!timeToIsChanged){
+                            $('.input_time_to').val(mtime.add(2,'hour').format('YYYY-MM-DD HH:mm'));
+                            viewSetTime($('.set-time-to'),mtime);
+                        }
+                    } else if(nowActive == 'to'){
+                        timeToIsChanged = true;
+                        $('.input_time_to').val(mtime.format('YYYY-MM-DD HH:mm'));
+                        viewSetTime($('.set-time-to'),mtime);
                     }
                 }
             });
+            function viewSetTime(conteiner,time){
+                conteiner.find('.time-picker-date').html(time.format('MMM DD'))
+                conteiner.find('.time-picker-time').html(time.format('hh:mm A'))
+            }
             
-            timerTo = timeToConteiner.find('.timePicker').timerD({
-                setTime : moment().add(2,'hour'),
-                onChange : function(newTime){
-                    let mtime = moment(newTime);
-                    $('.input_time_to').val(mtime.format('YYYY-MM-DD HH:mm'));
-                    timeToConteiner.find('.date').html(mtime.format('MMMM DD'))
-                    timeToConteiner.find('.time_from').html(mtime.format('hh:mm A'))
-                }
-            })
+            $('.header-item').click(function (){
+                nowActive = $(this).attr('data-active');
+                if(!timerFrom)
+                    return;
 
-            $('.cont_time_to').removeClass('active');
-            $('.view_selected_date_time').click(function (){
-                $('.container-datepicker').removeClass('active');
-                $(this).parent().addClass('active');
+                if(nowActive == 'to'){
+                    var timeTo = $('.input_time_to').val()
+                    timerFrom.setTime(timeTo);
+                } else if(nowActive == 'from'){
+                    var timeFrom = $('.input_time_from').val()
+                    timerFrom.setTime(timeFrom);
+                }
+                $('.header-item').removeClass('active');
+                $(this).addClass('active');
             });
 
             function toSqlFormat(date){
