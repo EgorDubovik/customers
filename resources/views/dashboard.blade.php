@@ -18,7 +18,7 @@
                                 <div class="d-flex">
                                     <div class="mt-2">
                                         <h6 class="">Total this month</h6>
-                                        <h2 class="mb-0 number-font">${{ number_format($sumCurentMonth,2,'.',' ') }}</h2>
+                                        <h2 class="mb-0 number-font">${{ $sumCurentMonth }}</h2>
                                     </div>
                                     <div class="ms-auto">
                                         <div class="chart-wrapper mt-1">
