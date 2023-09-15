@@ -370,6 +370,9 @@ li.tag-li:hover:not(.active) {
     margin-top: 18px;
 }
 
+.time-picker-header{
+    margin-top: 20px;
+}
 .time-picker-header .header-item.active{
     background: #fff;
     opacity: 1;

@@ -23,20 +23,24 @@
                         <div class="card-body">
                             
                             @include("layout/error-message")
-                            
-                            <div class="row mb-2">
-                                <label  class="col-md-3 form-label">Customer</label>
-                                <div class="col-md-9">
-                                    <div class="content-customer-scheduling" onclick="$('#exampleModal').modal('show')" >
-                                        <input type="hidden" value="{{$customer->id}}" name="customer_id" id="input_customer_id">
-                                        <input type="hidden" value="{{$customer->address->last()->id}}" name="address_id" id="address_id">
-                                        <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$customer->name}}</span></div>
-                                        <div class="text-muted" id="customer_address">{{$customer->address->last()->full}}</div>
+                            <div class="conteiner">
+                                <div class="row mb-2">
+                                    <div class="col-md-3">
+                                        <div class="card-title">Customer</div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="content-customer-scheduling" onclick="$('#exampleModal').modal('show')" >
+                                            <input type="hidden" value="{{$customer->id}}" name="customer_id" id="input_customer_id">
+                                            <input type="hidden" value="{{$customer->address->last()->id}}" name="address_id" id="address_id">
+                                            <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$customer->name}}</span></div>
+                                            <div class="text-muted" id="customer_address">{{$customer->address->last()->full}}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="container time-picker-header">
+                                <div class="card-title">Choose a time</div>
                                 <div class="row timer-picker-row ">
                                     <input type="hidden" class="input_time_from" name="time_from" value="">
                                     <input type="hidden" class="input_time_to" name="time_to" value="">
