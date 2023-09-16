@@ -132,7 +132,7 @@
 {{--<script src="{{ URL::asset('assets/js/typehead.js')}}"></script>--}}
 
 <!-- INTERNAL INDEX JS -->
-<script src="{{ URL::asset('assets/js/index1.js')}}"></script>
+{{-- <script src="{{ URL::asset('assets/js/index1.js')}}"></script> --}}
 
 <!-- Color Theme js -->
 <script src="{{ URL::asset('assets/js/themeColors.js')}}"></script>

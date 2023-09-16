@@ -44,19 +44,37 @@
     </div>
     <!-- ROW-1 CLOSED -->
 </div>
-
+<div class="modal fade" id="smallmodal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change appointment time</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want change appointment time?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Save changes</button>
+                <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-<script src="{{ URL::asset('assets/js/appointmentScheduler.mini.js')}}"></script>
+<script src="{{ URL::asset('assets/js/ealena.mini.js')}}"></script>
     <script>
         $(document).ready(function(){
-            $('#calendar').appointmentScheduler({
+            $('#calendar').edEvents({
                 startTime : '06:00',
                 endTime: '21:00',
                 dayOrWeek : ($(document).width() >= 576 ) ? 'week' : 'days',
-                appointments : [
+                events : [
                     @foreach ($appointments as $appointment)
                         {
                             title: '{{ $appointment->customer->name }}', 
@@ -65,11 +83,15 @@
                             background: "{{ ($appointment->status == App\Models\Appointment::ACTIVE) ? ((count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0') : '#ccc' }}",
                             href: "{{ route('appointment.show',['appointment'=>$appointment]) }}",
                             addClass : "{{ ($appointment->status == App\Models\Appointment::DONE) ? 'done' : 'pedding'}}",
+                            id : {{ $appointment->id }},
 
                         },    
                     @endforeach 
                 ],
-                
+                onEndDrag : function(appointment){
+                    // console.log(appointment);
+                    // $('#smallmodal').modal('show');
+                }
             });
         });
       </script>
