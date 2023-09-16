@@ -1,5 +1,6 @@
 <div class="modal fade" id="add_new_service_model" aria-hidden="true">
     <div class="modal-dialog" role="document">
+        <input type="hidden" id="service-id">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add new service</h5>
@@ -30,7 +31,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button class="btn btn-primary" onclick="addNewService(this)">Add new service</button>
+                <button class="btn btn-primary" onclick="serviceModalAction(this)">Add new service</button>
             </div>
         </div>
     </div>

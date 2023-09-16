@@ -107,8 +107,13 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('tech/remove/{appointment}/{user}', [AppointmentController::class, 'removeTech'])->name('appointment.remove.tech');
         Route::get('viewall/{customer}', [AppointmentController::class, 'viewall'])->name('appointment.viewall');
         Route::post('note/store/{appointment}', [AppointmentNotesController::class, 'store'])->name('appointment.note.store');
-        Route::post('add-service/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.add.serivce');
-        Route::post('remove-service/{appointmentService}', [AppointmentServiceController::class, 'delete'])->name('appointment.service.remove');
+
+        Route::prefix('service')->group(function(){
+            Route::post('store/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.serivce.store');
+            Route::post('remove/{appointmentService}', [AppointmentServiceController::class, 'delete'])->name('appointment.service.remove');
+            Route::post('update',[AppointmentServiceController::class,'update'])->name('appointment.service.update');
+        });
+
         Route::get('status/{appointment}',[AppointmentController::class,'change_status'])->name('appointment.change_status');
         Route::post('pay/{appointment}', [PaymentController::class, 'store'])->name('appointment.pay');
     });
