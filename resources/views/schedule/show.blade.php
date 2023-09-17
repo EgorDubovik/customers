@@ -149,9 +149,9 @@
                         <div class="card-footer">
                             <div>Payment history:
                                 @if ($remainingBalance <= 0)
-                                    <span class="tag tag-outline-success" style="margin-left: 30px;">Paid full</span>    
+                                    <span class="tag tag-outline-success" id="total_on_span" style="margin-left: 30px;">Paid full </span>    
                                 @else
-                                    <span class="tag tag-outline-danger" style="margin-left: 30px;">Total due: ${{ $remainingBalance }}</span>
+                                    <span class="tag tag-outline-danger" id="total_on_span" style="margin-left: 30px;">Total due: ${{ $remainingBalance }}</span>
                                 @endif
                             </div>
                             <table style="width: 50%;" align="right" class="table-payment-history">
@@ -444,6 +444,7 @@
                     $("#services-list > li:nth-child(" + (index) + ")").after(returnServiceHtml(service));
                 }
             }
+            viewTotal();
             
         }
 
@@ -451,7 +452,6 @@
             var title = $('#title').val();
             var price = $('#price').val();
             var description = $('#description').val();
-            
             if(title == ""){
                 alert("Plese add title");
                 return false;
@@ -470,8 +470,8 @@
                     alert('error');
                     return ;
                 }
-
                 addServiceHTML(data.service);    
+                viewTotal();
             })
             .fail(function() {
                 alert("error");
@@ -483,7 +483,6 @@
             $('#title').val('');
             $('#price').val('');
             $('#description').val('');
-            // $('#add_new_service_model').modal('hide');
         }
 
         function returnServiceHtml(service){
@@ -517,8 +516,8 @@
                 },
                 
             }).done(function(data) {
-
-                //parent.remove();
+                parent.remove();
+                viewTotal();
             })
             .fail(function() {
                 alert("error");
@@ -546,6 +545,27 @@
         }
 
         function openPayModal(){
+            
+            let remainingBalance = getRemainingBalance();
+            
+            $('#remainingBalance').val(remainingBalance.rem);
+            $('#amountPayment').val(remainingBalance.rem);
+            $('#remainingBalanceSpan').html(remainingBalance.rem);
+            $('#buttonFull').attr('data-amount',remainingBalance.rem);
+            $('#paymentTotal').html(remainingBalance.total);
+            $('#payment_model').modal('show');
+        }
+        
+        function viewTotal(){
+            let remainingBalance = getRemainingBalance();
+            if(remainingBalance.rem <= 0){
+                $('#total_on_span').html('Paid full').addClass('tag-outline-success').removeClass('tag-outline-danger')
+            } else {
+                $('#total_on_span').html('Total due: $'+remainingBalance.rem).removeClass('tag-outline-success').addClass('tag-outline-danger')
+            }
+        }
+
+        function getRemainingBalance(){
             var totalPrice = 0;
             $('#services-list li').each(function(){
                 totalPrice += parseFloat($(this).attr('data-price'));
@@ -555,15 +575,8 @@
             var remainingBalance = (totalPrice-paymentsSum < 0) ? 0 : totalPrice-paymentsSum;
             
             remainingBalance = remainingBalance.toFixed(2);
-            console.log(remainingBalance);
-            $('#remainingBalance').val(remainingBalance);
-            $('#amountPayment').val(remainingBalance);
-            $('#remainingBalanceSpan').html(remainingBalance);
-            $('#buttonFull').attr('data-amount',remainingBalance);
-            $('#paymentTotal').html(totalPrice);
-            $('#payment_model').modal('show');
+            return {'rem':remainingBalance,'total':totalPrice};
         }
-
     </script>
     @include('service.typehead-script')
 @endsection
