@@ -130,7 +130,7 @@
                                                 <i class="task-icon bg-secondary"></i>
                                                 <h6 class="fw-semibold">{{ $service->title }}<span class="text-muted fs-11 mx-2 fw-normal"> ${{ $service->price }}</span>
                                                 </h6>
-                                                <p class="text-muted fs-12">{{ $service->description }}</p>
+                                                <p class="text-muted fs-12">{{ nl2br($service->description) }}</p>
                                             </div>
                                             <div class="ms-auto d-flex">
                                                 <a href="#" onclick="openServiceModal('edit',this); return false" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a>
