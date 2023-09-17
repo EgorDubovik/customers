@@ -159,8 +159,6 @@
     <script src="{{ URL::asset('assets/plugins/edtimer/timer.mini.js')}}"></script>
     <script>
         $(document).ready(function () {
-            let timeFromConteiner = $('.cont_time_from');
-            let timeToConteiner = $('.cont_time_to');
             let timerTo = null;
             let nowActive = 'from';
             let timeToIsChanged = false;
@@ -201,10 +199,6 @@
                 $('.header-item').removeClass('active');
                 $(this).addClass('active');
             });
-
-            function toSqlFormat(date){
-                return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":00";
-            }
         });
 
         function choiseAddress(d,id){

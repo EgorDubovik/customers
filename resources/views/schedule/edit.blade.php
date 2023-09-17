@@ -21,19 +21,50 @@
                         @csrf
                         <div class="card-body">    
                             @include("layout/error-message")
-                            
-                            <div class="row mb-2">
-                                <label  class="col-md-3 form-label">Customer</label>
-                                <div class="col-md-9">
-                                    <div class="content-customer-scheduling" onclick="openModal()">
-                                        <input type="hidden" value="{{$appointment->address->id}}" name="address_id" id="input_address_id">
-                                        <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$appointment->customer->name}}</span></div>
-                                        <div class="text-muted" id="customer_address">{{$appointment->address->full}}</div>
-                                        <div class="click-to-change">Click to change</div>
+                            <div class="conteiner">
+                                <div class="row mb-2">
+                                    <div class="col-md-3">
+                                        <div class="card-title">Customer</div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="content-customer-scheduling" onclick="openModal()">
+                                            <input type="hidden" value="{{$appointment->address->id}}" name="address_id" id="input_address_id">
+                                            <div> <span class="font-weight-bold" style="font-weight: bold" id="customer_name">{{$appointment->customer->name}}</span></div>
+                                            <div class="text-muted" id="customer_address">{{$appointment->address->full}}</div>
+                                            <div class="click-to-change">Click to change</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="container time-picker-header">
+                                <div class="card-title">Choose a time</div>
+                                <div class="row timer-picker-row ">
+                                    <input type="hidden" class="input_time_from" name="time_from" value="{{ $appointment->start }}">
+                                    <input type="hidden" class="input_time_to" name="time_to" value=" {{ $appointment->end }}">
+                                    <div class="col-6 header-item active" data-active = "from">
+                                        <div class="row align-items-center">
+                                            <div class="col-4 time-picker-title">From:</div>
+                                            <div class="col-8 time-picker-date-cont set-time-from">
+                                                <div class="time-picker-date">Jun 19</div>
+                                                <div class="time-picker-time">11:00 AM</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 header-item " data-active = "to">
+                                        <div class="row align-items-center">
+                                            <div class="col-4 time-picker-title">To:</div>
+                                            <div class="col-8 time-picker-date-cont set-time-to">
+                                                <div class="time-picker-date">Jun 19</div>
+                                                <div class="time-picker-time">11:00 AM</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="date_wrapper">
+                                <div class="timePicker" style="display: flex;justify-content: center"></div>
+                            </div>
+                            {{-- <div class="row mb-2">
                                 <label  class="col-md-3 form-label">DateTime</label>
                                 <div class="cont_time_from container-datepicker active">
                                     <input type="hidden" class="input_time_from" name="time_from" value="">
@@ -71,7 +102,7 @@
                                         <div class="timePicker" style="display: flex;justify-content: center"></div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             
                         </div>
                         <div class="card-footer">
@@ -114,35 +145,46 @@
     <script>
         $(document).ready(function () {
             
-            let timeFromConteiner = $('.cont_time_from');
-            let timeToConteiner = $('.cont_time_to');
             let timerTo = null;
-            let timerFrom = timeFromConteiner.find('.timePicker').timerD({
+            let nowActive = 'from';
+            let timeToIsChanged = false;
+            let timerFrom = $('.timePicker').timerD({
                 setTime : "{{ $appointment->start }}",
                 onChange : function(newTime){
                     let mtime = moment(newTime);
-                    $('.input_time_from').val(mtime.format('YYYY-MM-DD HH:mm'));
-                    timeFromConteiner.find('.date').html(mtime.format('MMMM DD'));
-                    timeFromConteiner.find('.time_from').html(mtime.format('hh:mm A'));
-                    if(timerTo){
-                        timerTo.setTime(mtime.add(2,'hour'));
+                    if(nowActive == 'from'){
+                        $('.input_time_from').val(mtime.format('YYYY-MM-DD HH:mm'));
+                        viewSetTime($('.set-time-from'),mtime);
+                        if(!timeToIsChanged){
+                            $('.input_time_to').val(mtime.add(2,'hour').format('YYYY-MM-DD HH:mm'));
+                            viewSetTime($('.set-time-to'),mtime);
+                        }
+                    } else if(nowActive == 'to'){
+                        timeToIsChanged = true;
+                        $('.input_time_to').val(mtime.format('YYYY-MM-DD HH:mm'));
+                        viewSetTime($('.set-time-to'),mtime);
                     }
                 }
             });
+            function viewSetTime(conteiner,time){
+                conteiner.find('.time-picker-date').html(time.format('MMM DD'))
+                conteiner.find('.time-picker-time').html(time.format('hh:mm A'))
+            }
             
-            timerTo = timeToConteiner.find('.timePicker').timerD({
-                setTime : "{{ $appointment->end }}",
-                onChange : function(newTime){
-                    let mtime = moment(newTime);
-                    $('.input_time_to').val(mtime.format('YYYY-MM-DD HH:mm'));
-                    timeToConteiner.find('.date').html(mtime.format('MMMM DD'))
-                    timeToConteiner.find('.time_from').html(mtime.format('hh:mm A'))
+            $('.header-item').click(function (){
+                nowActive = $(this).attr('data-active');
+                if(!timerFrom)
+                    return;
+
+                if(nowActive == 'to'){
+                    var timeTo = $('.input_time_to').val()
+                    timerFrom.setTime(timeTo);
+                } else if(nowActive == 'from'){
+                    var timeFrom = $('.input_time_from').val()
+                    timerFrom.setTime(timeFrom);
                 }
-            });
-            $('.cont_time_to').removeClass('active');
-            $('.view_selected_date_time').click(function (){
-                $('.container-datepicker').removeClass('active');
-                $(this).parent().addClass('active');
+                $('.header-item').removeClass('active');
+                $(this).addClass('active');
             });
         });
 
