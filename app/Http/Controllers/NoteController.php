@@ -40,6 +40,10 @@ class NoteController extends Controller
     public function store(Customer $customer, Request $request)
     {
         Gate::authorize('store-note',['customer' => $customer]);
+
+        if(empty($request->text))
+            return back();
+
         Note::create([
             'creator_id' => Auth::user()->id,
             'customer_id' => $customer->id,

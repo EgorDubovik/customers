@@ -18,10 +18,10 @@ class UploadController extends Controller
         Gate::authorize('upload-images', ['customer' => $customer]);
 
         $request->validate([
-            'images.*' => 'required|image|mimes:jpeg,png,jpg'
+            'images' => 'required',
+            'images.*' => 'image|mimes:jpeg,png,jpg',
         ]);
 
-        // $pictures = $request->file('images');
         foreach ($request->file('images') as $picture) {
             $filePath = 'images/'.time() . '_' . $picture->hashName();
             $image = Image::make($picture);
