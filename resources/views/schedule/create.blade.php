@@ -212,27 +212,14 @@
             let title = $('#title').val();
             let price = $('#price').val();
             let description = $('#description').val();
-            $('#services-list').append(
-                            '<li class="list-group-item d-flex">'+
-                                '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+price+'">'+
-                                '<input type="hidden" name="service-title[]" value="'+title+'">'+
-                                '<input type="hidden" name="service-description[]"  value="'+description+'">'+
-                                '<div class="service-item-loading adding">'+
-                                    '<div class="spinner-border text-secondary me-2" role="status">'+
-                                        '<span class="visually-hidden">Loading...</span>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div>'+
-                                    '<i class="task-icon bg-secondary"></i>'+
-                                    '<h6 clas="fw-semibold">'+title+'<span class="text-muted fs-11 mx-2 fw-normal"> $'+price+'</span>'+
-                                    '</h6>'+
-                                    '<p class="text-muted fs-12">'+description+'</p>'+
-                                '</div>'+
-                                '<div class="ms-auto d-flex">'+
-                                    
-                                    '<a href="#" onclick="removeService(this)" class="text-muted"><span class="fe fe-trash-2"></span></a>'+
-                                '</div>'+
-                            '</li>');
+            let service = {
+                price : price,
+                description : description,
+                title : title,
+                id : '0',
+            }
+            $("#services-list").append(returnServiceHtml(service));
+
             $('#title').val('');
             $('#price').val('');
             $('#description').val('');
@@ -241,6 +228,33 @@
 
         function removeService(d){
             $(d).parent().parent().remove();
+        }
+
+        function serviceModalAction(d){
+            addNewService();
+        }
+
+        function returnServiceHtml(service){
+            return '<li class="list-group-item d-flex" data-price="'+service.price+'" data-title = "'+service.title+'" data-description = "'+service.description+'" data-id = "'+service.id+'">'+
+                        '<input type="hidden" name="service-prices[]" class = "service-prices" value="'+service.price+'">'+
+                        '<input type="hidden" name="service-title[]" value="'+service.title+'">'+
+                        '<input type="hidden" name="service-description[]"  value="'+service.description+'">'+
+                        '<div class="service-item-loading adding">'+
+                            '<div class="spinner-border text-secondary me-2" role="status">'+
+                                '<span class="visually-hidden">Loading...</span>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div>'+
+                            '<i class="task-icon bg-secondary"></i>'+
+                            '<h6 class="fw-semibold">'+service.title+'<span class="text-muted fs-11 mx-2 fw-normal"> $'+service.price+'</span>'+
+                            '</h6>'+
+                            '<p class="text-muted fs-12">'+service.description+'</p>'+
+                        '</div>'+
+                        '<div class="ms-auto d-flex">'+
+                            '<a href="#" onclick="openServiceModal(\'edit\',this); return false" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a>'+
+                            '<a href="#" onclick="removeService(this,'+service.id+');return false;" class="text-muted"><span class="fe fe-trash-2"></span></a>'+
+                        '</div>'+
+                    '</li>';
         }
 
         
