@@ -333,10 +333,11 @@ li.tag-li:hover:not(.active) {
 .open-app-item{
     height: 55px;
     box-shadow: 0 0 5px #ccc;
-    border-radius: 27px;
+    border-radius: 5px;
     background: #f1f1f1;
     margin: 10px 0;
     font-size: 0.8rem;
+    border-top: 3px solid #578fce;
 }
 .open-app-item .customer-name{
     font-weight: bold;

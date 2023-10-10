@@ -23,8 +23,8 @@
                 <div class="card-body">
                     @forelse ($appointments->where('status',0) as $open_appointment)                
                         <a href="{{ route('appointment.show',['appointment'=>$open_appointment]) }}" class="a-open-appointment">
-                            <div class="row open-app-item align-items-center">
-                                <div class="col-2 tech-color"><div class="user_circule" style="opacity:0.7;background: {{ ((count($open_appointment->techs) > 0) ? $open_appointment->techs[0]->color : '#1565C0') }}"></div></div>
+                            <div class="row open-app-item align-items-center" style="border-top: 3px solid {{ ((count($open_appointment->techs) > 0) ? $open_appointment->techs[0]->color : '#1565C0') }}">
+                                {{-- <div class="col-2 tech-color"><div class="user_circule" style="opacity:0.7;background: {{ ((count($open_appointment->techs) > 0) ? $open_appointment->techs[0]->color : '#1565C0') }}"></div></div> --}}
                                 <div class="col-4">
                                     <div class="customer-name">{{ $open_appointment->customer->name }}</div>
                                     <div class="customer-phone">{{ $open_appointment->customer->phone }}</div>
