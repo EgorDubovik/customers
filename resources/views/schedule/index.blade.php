@@ -6,7 +6,12 @@
 
 @section('content')
 <div class="main-container container-fluid">
-    <!-- ROW-1 OPEN -->
+    <!-- PAGE-HEADER -->
+    <div class="page-header">
+        <h2 class="page-title">Schedule calendar</h2>
+    </div>
+    <!-- PAGE-HEADER END -->
+    <!-- CONTENT -->
     <div class="row">
         <div class="col-md-9">
             <div class="card">
@@ -18,6 +23,12 @@
             </div>
         </div>
         <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{{ route('appointment.map') }}"><i class="fe fe-map"></i></a>
+                </div>
+            
+            </div>
             <div class="card">
                 <div class="card-header">Open appointments ({{ count($appointments->where('status',0)) }})</div>
                 <div class="card-body">

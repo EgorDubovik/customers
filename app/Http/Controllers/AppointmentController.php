@@ -198,4 +198,20 @@ class AppointmentController extends Controller
         return back();
     }
 
+    public function map(){
+        $appoinments = Appointment::where('company_id',Auth::user()->company_id)
+            ->with('address')
+            ->with('customer')
+            ->groupBy('address_id')
+            ->orderBy('end','desc')
+            ->get()
+            ->makeHidden(['start','end','company_id','status','created_at','updated_at']);
+
+        foreach($appoinments as $appoinment){
+            $appoinment->address->makeHidden(['id','line1','line2','city','state','zip','customer_id','created_at','updated_at']);
+            $appoinment->customer->makeHidden(['phone','email','address_id','company_id','created_at','updated_at']);
+        }
+
+        return view('schedule.map',['appointments' => $appoinments]);
+    }
 }

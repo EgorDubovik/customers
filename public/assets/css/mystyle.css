@@ -346,6 +346,9 @@ li.tag-li:hover:not(.active) {
 }
 .open-app-item .customer-phone{
     color: #7c7c7c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .open-app-item .customer-address{
     white-space: nowrap;

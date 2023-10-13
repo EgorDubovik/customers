@@ -116,6 +116,7 @@ Route::group(['middleware' => ['auth','active']],function (){
 
         Route::get('status/{appointment}',[AppointmentController::class,'change_status'])->name('appointment.change_status');
         Route::post('pay/{appointment}', [PaymentController::class, 'store'])->name('appointment.pay');
+        Route::get('map',[AppointmentController::class,'map'])->name('appointment.map');
     });
 
     // Invoices
