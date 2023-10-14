@@ -6,7 +6,7 @@
         <!-- PAGE-HEADER -->
         <div class="page-header" style="margin-top: 10px; margin-bottom: 10px;">
             <h1 class="page-title">Payments
-               <span style="font-weight: 100;position relative"> <span style="cusrsor:pointer" onclick="$('.data-range-payments').toggle()">{{ $period['startDate'] }} - {{ $period['endDate'] }}</span>
+               <span style="font-weight: 100;position relative"> <span style="cusrsor:pointer" onclick="$('.data-range-payments').toggle();$('.overlay-data-rage').show()">{{ $period['startDate'] }} - {{ $period['endDate'] }}</span>
                   <div class="data-range-payments">
                      <div class="row">
                         <div class="col-sm">
@@ -24,6 +24,7 @@
                      </div>
                   </div>
                </span>
+               
             </h1>
         </div>
         <!-- PAGE-HEADER END -->
@@ -115,7 +116,7 @@
                </div>
             </div>
         </div>
-
+        <div class="overlay-data-rage" onclick="$('.data-range-payments').hide(); $(this).hide()"></div>
     @stop
     @section('scripts')
       <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -173,8 +174,8 @@
 
                case 'last30Days':
                   var result = {
-                     startDate : moment().format('YYYY-MM-DD'),
-                     endDate   : moment().add(-30, 'days').format('YYYY-MM-DD'),
+                     startDate : moment().add(-30, 'days').format('YYYY-MM-DD'),
+                     endDate   : moment().format('YYYY-MM-DD'),
                   }
                break;
                
@@ -183,7 +184,13 @@
          }
          
          function getNewData(range){
-            console.log(range);
+            window.location = "?startDate="+range.startDate+"&endDate="+range.endDate
          }
+      </script>
+      
+      <script>
+         // $('body').click(function(){
+         //    $('.data-range-payments').hide();
+         // })
       </script>
     @endsection

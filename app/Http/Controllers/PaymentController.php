@@ -15,9 +15,9 @@ class PaymentController extends Controller
 {
 
     public function index(Request $request){
-
-        $endDate = Carbon::now();
-        $startDate = Carbon::now()->subDays(31);
+        
+        $endDate = ($request->endDate) ? Carbon::parse($request->endDate) : Carbon::now();
+        $startDate = ($request->startDate) ? Carbon::parse($request->startDate) : Carbon::now()->subDays(31);
 
         // $paymentsForGraph = DB::table('payments')
         //     ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(amount) as total'))

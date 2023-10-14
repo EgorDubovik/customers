@@ -27,7 +27,22 @@
                             <span class="fs-14 fw-bold">{{$customer->address->last()->full}}</span>
                             <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
                             <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
+                            
                         </p>
+                        {{-- Потом надо подумать как сделать 
+                             
+                            @if(count($customer->address)>1)
+                            <div style="margin-left: 20px;margin-bottom:10px;">
+                                <a href="#">({{ count($customer->address) }}) more addresses</a>
+                                <div>
+                                    @foreach ($customer->address as $address)
+                                        @if(!$loop->last)
+                                            <div>{{ $address->full }}</div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif --}}
                         <p>
                             <span class="fs-14 text-info fw-bold">{{$customer->phone}}</span>
                             <i class="fe fe-copy pull-right text-secondary" onclick="copy_to({{$customer->phone}})" style="cursor: pointer"></i>

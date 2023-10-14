@@ -313,6 +313,16 @@ li.tag-li:hover:not(.active) {
     padding: 5px 0;
     font-size: 12px;
 }
+.overlay-data-rage{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background: #cccccc4f;
+    cursor: pointer;
+    display: none;
+}
 .data-range-payments{
     position: absolute;
     left:0px;

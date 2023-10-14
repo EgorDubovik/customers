@@ -25,7 +25,7 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
-                    <a href="{{ route('appointment.map') }}"><i class="fe fe-map"></i></a>
+                    <a href="{{ route('appointment.map') }}"><i class="fe fe-map-pin"></i> view all on map</a>
                 </div>
             
             </div>
