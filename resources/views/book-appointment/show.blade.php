@@ -54,7 +54,7 @@
                <div class='row'>
                   <div class="col-md-5 col-10 mt-5 d-grid gap-2 m-auto">
                      <a href="#" class="btn btn-primary">Change appointment time</a>
-                     <a href="appointment/book/cancel/{{ $key }}" class="btn btn-primary">Cancel appointment</a>
+                     <a href="/appointment/book/cancel/{{ $key }}" class="btn btn-primary">Cancel appointment</a>
                   </div>
                </div>
             </div>

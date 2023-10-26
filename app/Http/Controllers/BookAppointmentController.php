@@ -99,4 +99,27 @@ class BookAppointmentController extends Controller
         
         return view('book-appointment.show',['appointment'=>$bookAppointmentProvider->appointment,'key'=>$key]);
     }
+
+    public function delete(Request $request, $key){
+        
+        $bookAppointmentProvider = BookAppointmentProvider::where('key',$key)->first();
+
+        if(!$bookAppointmentProvider)
+            abort(404);
+        
+
+        $bookAppointment = BookAppointment::where('company_id',$bookAppointmentProvider->appointment->company_id)->first();
+        $key = ($bookAppointment) ? $bookAppointment->key : null;
+        $appointment = $bookAppointmentProvider->appointment;
+        $appointment->services()->delete();
+        $appointment->appointmentTechs()->delete();
+        $appointment->delete();
+        $bookAppointmentProvider->delete();
+
+        return redirect('/appointment/book/delete/complete')->with('key',$key);
+    }
+
+    public function remove(Request $request){
+        return view('book-appointment.delete');
+    }
 }

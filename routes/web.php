@@ -142,3 +142,4 @@ Route::get('appointment/book/{key}', [BookAppointmentController::class,'index'])
 Route::post('appointment/book/create/{key}', [BookAppointmentController::class,'store']);
 Route::get('appointment/book/view/{key}',[BookAppointmentController::class,'view']);
 Route::get('appointment/book/cancel/{key}',[BookAppointmentController::class,'delete']);
+Route::get('appointment/book/delete/complete',[BookAppointmentController::class,'remove']);
