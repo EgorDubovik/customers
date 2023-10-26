@@ -1,0 +1,82 @@
+.conteiner-tab{
+   margin-top: 50px;
+}
+
+.service-description{
+   font-size: 13px;
+   color: #787878;
+   margin-bottom: 0;
+}
+
+.service-price{
+   text-align: right;
+   margin-bottom: 0;
+}
+.card-box{
+   cursor: pointer;
+   margin-bottom: 20px;
+}
+
+.card-box.border-primary{
+   background-color: #f9faff;
+}
+.button-next{
+   margin-top: 20px;
+   padding: 0 20px;
+}
+
+.choose-conteiner{
+   padding: 20px;
+   background: #f4f4f4;
+   border-radius: 10px;
+   font-size: 15px;
+}
+
+.hourBtn{
+   margin: 0 5px 10px 5px;
+}
+.hours-conteiner .hours{
+   margin-top: 10px;
+}
+.time-title{
+   margin-top: 20px;
+   font-size: 18px;
+   font-weight: bold;
+   margin-bottom: 10px;
+}
+
+.appointment_infor_conteiner{
+   text-align: center;
+}
+
+.appointment_infor_conteiner .title{
+   margin-top: 30px;
+   font-weight: bold;
+}
+.appointment_infor_conteiner .title-line2{
+   margin-top: 10px;
+   color: #666666;
+}
+.customer-information{
+   margin-top: 10px;
+}
+.customer-information .customer-name{
+   font-size: 20px;
+}
+.customer-information .appointment-time{
+   margin-top: 15px;
+   font-weight: bold;
+   font-size: 14px;
+}
+.customer-information .customer-address{
+   margin-top: 20px;
+   color: #666666;
+}
+
+.appointment-services{
+   margin-top: 15px;
+}
+.appointment-service{
+   font-size: 15px;
+   color: #666666;
+}

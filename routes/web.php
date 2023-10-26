@@ -16,6 +16,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentNotesController;
 use App\Http\Controllers\AppointmentServiceController;
+use App\Http\Controllers\BookAppointmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Appointment;
@@ -136,3 +137,8 @@ Route::group(['middleware' => ['auth','active']],function (){
     
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
+
+Route::get('appointment/book/{key}', [BookAppointmentController::class,'index']);
+Route::post('appointment/book/create/{key}', [BookAppointmentController::class,'store']);
+Route::get('appointment/book/view/{key}',[BookAppointmentController::class,'view']);
+Route::get('appointment/book/cancel/{key}',[BookAppointmentController::class,'delete']);

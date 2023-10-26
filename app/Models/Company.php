@@ -30,4 +30,8 @@ class Company extends Model
             set: fn($value) => substr(preg_replace("/[^0-9]/", "", $value),-10)
         );
     }
+
+    public function services(){
+        return $this->hasMany(Service::class);
+    }
 }

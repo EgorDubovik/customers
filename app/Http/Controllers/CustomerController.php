@@ -57,7 +57,7 @@ class CustomerController extends Controller
             'line1' => 'required',
             'customer_phone' => 'required',
         ],[
-            'line1.required' => 'Plese fill at least first line of address',
+            'line1.required' => 'Please fill at least first line of address',
         ]);
 
         $request->customer_name = $request->customer_name ?: "Unknow";
