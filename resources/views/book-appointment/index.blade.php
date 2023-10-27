@@ -105,6 +105,12 @@
                              <input type="text" name="phone_number" class="form-control" placeholder="Phone number">
                            </div>
                            <div class="col-12">
+                              <input type="text" name="email" class="form-control" placeholder="Email">
+                           </div>
+
+                           <div style="font-size: 14px;margin-top: 24px;color: #666;">Address information</div>
+
+                           <div class="col-12">
                              <input type="text" name="address_line1" class="form-control" placeholder="Address line">
                            </div>
                            <div class="col-12">

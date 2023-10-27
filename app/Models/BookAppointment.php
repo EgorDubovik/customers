@@ -10,7 +10,7 @@ class BookAppointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'comapny_id',
+        'company_id',
         'key',
     ];
 

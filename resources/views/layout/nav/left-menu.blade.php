@@ -62,9 +62,17 @@
                 </li>
 
                 <li class="slide">
-                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="/settings"><i
+                    <a class="side-menu__item has-link" data-bs-toggle="slide" href="#"><i
                             class="side-menu__icon fe fe-settings"></i><span
                             class="side-menu__label">Settings</span></a>
+
+                    <ul class="slide-menu">
+                        <li><a href="{{ route('settings.tags') }}" class="slide-item">Tags</a></li>
+                        <li><a href="{{ route('settings.tags') }}" class="slide-item">Deposit</a></li>
+                        @can('book-online')
+                            <li><a href="{{ route('settings.book-online') }}" class="slide-item">Book online</a></li>
+                        @endcan
+                    </ul>
                 </li>
 
 

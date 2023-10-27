@@ -39,6 +39,7 @@ class BookAppointmentController extends Controller
         $customer = Customer::create([
             'name' => $request->name,
             'phone' => $request->phone_number,
+            'email' => $request->email,
             'company_id' => $company->id,
         ]);
 
@@ -62,6 +63,11 @@ class BookAppointmentController extends Controller
             'end' => $endTime,
         ]);
 
+        // Add techs
+
+
+
+        // Add services
         if($request->has('service')){
             foreach($request->input('service') as $key => $value){
                 $company_service = Service::where('company_id',$company->id)

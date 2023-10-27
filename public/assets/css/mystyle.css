@@ -411,3 +411,8 @@ li.tag-li:hover:not(.active) {
 .time-picker-date-cont{
     font-weight: bold;
 }
+.link-conteiner{
+    margin-top: 20px;
+    text-align: center;
+    
+}

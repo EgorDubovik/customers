@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookAppointment;
 use Illuminate\Http\Request;
 use App\Models\Settings;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 class SettingsConstroller extends Controller
 {
@@ -21,8 +24,6 @@ class SettingsConstroller extends Controller
     public function savePaymentDepositType(Request $request){
         
         $validate = $request->validate([
-            'payment_deposit_type' => 'required|numeric',
-            'payment_deposit_type' => 'required|numeric',
             'payment_deposit_type' => 'required|numeric',
         ]);
 
@@ -42,5 +43,35 @@ class SettingsConstroller extends Controller
         $settings->save();
 
         return back()->with('success', 'Deposit inforation have been updated successfull');
+    }
+
+    public function bookOnline(Request $request){
+        Gate::authorize('book-online');
+        
+        $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
+        return view('settings.book-online',['bookAppointment'=>$bookAppointment]);
+    }
+
+    public function bookOnlineCreate(Request $request){
+        Gate::authorize('book-online');
+        
+        $bookOnline = BookAppointment::firstOrCreate([
+            'company_id' => Auth::user()->company_id,
+            'key' => Str::random(30),
+        ]);
+
+        return back();
+    }
+
+    public function bookOnlineDelete(Request $request){
+        Gate::authorize('book-online');
+
+        $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
+        if(!$bookAppointment)
+            return back();
+        
+        $bookAppointment->delete();
+
+        return back();
     }
 }

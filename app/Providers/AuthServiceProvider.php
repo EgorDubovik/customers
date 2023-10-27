@@ -185,5 +185,12 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        //Book online
+        Gate::define('book-online', function(User $user){
+            if(in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray())){
+                return true;
+            }
+            return false;
+        });
     }
 }

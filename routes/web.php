@@ -70,8 +70,11 @@ Route::group(['middleware' => ['auth','active']],function (){
 
     // Settings
     Route::prefix('settings')->group(function(){
-        Route::get('/',[SettingsConstroller::class, 'show']);
+        Route::get('/',[SettingsConstroller::class, 'show'])->name('settings.tags');
         Route::post('/deposit',[SettingsConstroller::class,'savePaymentDepositType'])->name('settings.deposit.store');
+        Route::get('/book-online',[SettingsConstroller::class,'bookOnline'])->name('settings.book-online');
+        Route::get('/book-online/create',[SettingsConstroller::class,'bookOnlineCreate'])->name('settings.book-online.create');
+        Route::get('/book-online/delete',[SettingsConstroller::class,'bookOnlineDelete'])->name('settings.book-online.delete');
     });
     
     // Notes
