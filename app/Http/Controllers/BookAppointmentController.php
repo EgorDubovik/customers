@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BookOnline;
 use App\Models\Addresses;
 use App\Models\Appointment;
 use App\Models\BookAppointment;
@@ -12,6 +13,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 class BookAppointmentController extends Controller
 {
@@ -40,7 +42,7 @@ class BookAppointmentController extends Controller
             'name' => $request->name,
             'phone' => $request->phone_number,
             'email' => $request->email,
-            'company_id' => $company->id,
+            'company_id' => $company->company_id,
         ]);
 
         $address = Addresses::create([
@@ -57,7 +59,7 @@ class BookAppointmentController extends Controller
 
         $appointment = Appointment::create([
             'customer_id' => $customer->id,
-            'company_id' => $company->id,
+            'company_id' => $company->company_id,
             'address_id' => $address->id,
             'start' => $startTime,
             'end' => $endTime,
@@ -93,6 +95,9 @@ class BookAppointmentController extends Controller
             'key'               => $key,
         ]);
         
+        if($request->has('email'))
+            Mail::to($request->email)->send(new BookOnline($appointment,$bookAppointmentProvider->key));
+
         return redirect('appointment/book/view/'.$bookAppointmentProvider->key);
     }
 

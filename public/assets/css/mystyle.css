@@ -414,5 +414,8 @@ li.tag-li:hover:not(.active) {
 .link-conteiner{
     margin-top: 20px;
     text-align: center;
-    
+    opacity: 0.5;
+}
+.link-conteiner.active{
+    opacity: 1;
 }

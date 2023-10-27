@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->integer('company_id');
             $table->string('key');
+            $table->integer('active')->default(0);
         });
     }
 

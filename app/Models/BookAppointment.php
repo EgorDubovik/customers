@@ -12,6 +12,7 @@ class BookAppointment extends Model
     protected $fillable = [
         'company_id',
         'key',
+        'active',
     ];
 
     public function company(){
