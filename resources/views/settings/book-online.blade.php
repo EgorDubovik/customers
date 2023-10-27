@@ -36,7 +36,7 @@
                                  </div>
                               </div>
                               <div class="col-2">
-                                 <a href="{{  route('settings.book-online.delete') }}" data-href="{{ route('settings.book-online.delete') }}" class="btn btn-danger"><i class="fe fe-trash"></i></a>
+                                 <a href="{{  route('settings.book-online.delete') }}" onclick="if(confirm('Are you sure?')) return true; else return false;" data-href="{{ route('settings.book-online.delete') }}" class="btn btn-danger"><i class="fe fe-trash"></i></a>
                               </div>
                            </div>
                         @else
