@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\BookOnline;
+use App\Mail\BookOnlineForCompany;
 use App\Models\Addresses;
 use App\Models\Appointment;
 use App\Models\BookAppointment;
@@ -97,6 +98,7 @@ class BookAppointmentController extends Controller
         
         if($request->has('email'))
             Mail::to($request->email)->send(new BookOnline($appointment,$bookAppointmentProvider->key));
+        Mail::to($company->email)->send(new BookOnlineForCompany($appointment));
 
         return redirect('appointment/book/view/'.$bookAppointmentProvider->key);
     }

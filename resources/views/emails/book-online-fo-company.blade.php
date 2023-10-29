@@ -8,10 +8,8 @@
 
    {{-- Body --}}
    <!-- Body here -->
-   <p>Dear {{ $appointment->customer->name}}, </p>
+   <p>{{ $appointment->customer->name}}, made appointment</p>
     
-   <p>Thank you for making appoinment with as</p>
-   
    <div class="appointment-time">
       {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('l, F d, Y') }}<br>
       {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('g:i A') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->end)->format('g:i A') }}
@@ -27,9 +25,7 @@
       {{ $appointment->address->city }}, {{ $appointment->address->state }} {{ $appointment->address->zip }}<br>
       {{ $appointment->customer->phone }}
    </div>
-
-   <p>To view or manage your appointment use link below</p>
-   <p style="margin-top:20px;text-align: center"><a style="background: #4772ff;color: #fff; padding: 10px; text-decoration: none;border-radius: 9px;" href="{{  Request::root().'/appointment/book/view/'.$key }}">Open appointment info</a>
+   
    {{-- Footer --}}
    @slot('footer')
       @component('mail::footer')

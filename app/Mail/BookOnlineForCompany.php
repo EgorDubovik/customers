@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class BookOnline extends Mailable
+class BookOnlineForCompany extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,14 +17,11 @@ class BookOnline extends Mailable
      *
      * @return void
      */
-
     public $appointment;
-    public $key;
     
-    public function __construct($appointment,$key)
+    public function __construct($appointment)
     {
         $this->appointment = $appointment;
-        $this->key = $key;
     }
 
     /**
@@ -35,7 +32,7 @@ class BookOnline extends Mailable
     public function build()
     {
         $company = $this->appointment->company;
-        return $this->markdown('emails.book-online')
+        return $this->markdown('emails.book-online-fo-company')
                     ->subject('New appointment online')
                     ->from($company->email,$company->name);
     }
