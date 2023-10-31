@@ -25,36 +25,37 @@
                            <span class="custom-switch-description">Activate booking online</span>
                         </label> --}}
                      </div>
+                  
+                     @if($bookAppointment)
 
-                     <div class="link-conteiner active">
-                        @if($bookAppointment)
-
-                           <div class="row mt-3 mb-4">
-                              <div class="col-6 " style="text-align: left">
-                                 <label class="custom-switch form-switch mb-0" style="cursor: pointer">
-                                    <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" checked onclick="toogleActivate(this)">
-                                    <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
-                                    <span class="custom-switch-description">Activate booking online</span>
-                                 </label>
-                              </div>
+                        <div class="row mt-3 mb-4">
+                           <div class="col-6 " style="text-align: left">
+                              <label class="custom-switch form-switch mb-0" style="cursor: pointer">
+                                 <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" {{ $bookAppointment->active ? 'checked' : '' }} onclick="toogleActivate(this)">
+                                 <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                 <span class="custom-switch-description">Activate booking online</span>
+                              </label>
                            </div>
-                           
+                        </div>
+                        <div class="link-conteiner {{ $bookAppointment->active ? 'active' : '' }}">
                            <div class="row">
                               <div class="col-10">
                                  <div class="input-group">
-                                    <input type="text" class="form-control input-key" placeholder="" value="{{ Request::root().'/appointment/book/'.$bookAppointment->key }}" />
-                                    <button class="btn btn-light copy-key" type="button" id="button-addon2"><i class="fe fe-copy"></i></button>
+                                    <input type="text" class="form-control input-key" placeholder="" value="{{ Request::root().'/appointment/book/'.$bookAppointment->key }}" {{ !$bookAppointment->active ? 'disabled' : '' }} />
+                                    <button class="btn btn-light copy-key" type="button" id="button-addon2" {{ !$bookAppointment->active ? 'disabled' : '' }}><i class="fe fe-copy"></i></button>
                                  </div>
                               </div>
                               <div class="col-2">
-                                 <a href="{{  route('settings.book-online.delete') }}" onclick="if(confirm('Are you sure?')) return true; else return false;" data-href="{{ route('settings.book-online.delete') }}" class="btn btn-danger"><i class="fe fe-trash"></i></a>
+                                 <a  href="{{  route('settings.book-online.delete') }}" onclick="if(confirm('Are you sure?')) return true; else return false;" data-href="{{ route('settings.book-online.delete') }}" class="btn btn-danger remove-book"><i class="fe fe-trash"></i></a>
                               </div>
                            </div>
-                           
-                        @else
+                        </div>      
+                     @else
+                        <div class="link-conteiner active">
                            <a href="{{ route('settings.book-online.create')}}" data-href="{{ route('settings.book-online.create') }}" class="btn btn-primary">Create new link</a>
-                        @endif
-                     </div>
+                        </div>
+                     @endif
+                     
                   </div>
                </div>
             </div>
@@ -79,8 +80,8 @@
                   $(this).removeAttr('href');
                })
                   
-
                $('.link-conteiner').removeClass('active');
+
             } else {
                $('.link-conteiner').find('input').each(function(){
                   $(this).prop('disabled', false);
@@ -93,10 +94,20 @@
                   $(this).attr('href',$(this).attr('data-href'));
                })
 
-               
-
                $('.link-conteiner').addClass('active');
             }
+            $.ajax({
+                method:'post',
+                url:"{{ route('settings.book-online.activate') }}",
+                data:{
+                    _token : "{{ csrf_token() }}",
+                    status : status,
+                },
+            }).done(function(data) {
+                console.log(data);
+            }).fail(function() {
+                alert("error");
+            });
          }
 
          $('.input-key').on('focus', function() {

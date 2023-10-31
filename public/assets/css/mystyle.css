@@ -419,3 +419,9 @@ li.tag-li:hover:not(.active) {
 .link-conteiner.active{
     opacity: 1;
 }
+.link-conteiner.active a.remove-book{
+    display: inline-block;
+}
+.link-conteiner a.remove-book{
+    display: none;
+}

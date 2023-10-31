@@ -20,6 +20,7 @@ use App\Http\Controllers\BookAppointmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Appointment;
+use App\Models\Settings;
 use FontLib\Table\Type\name;
 
 Route::prefix("auth")->group(function(){
@@ -75,6 +76,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('/book-online',[SettingsConstroller::class,'bookOnline'])->name('settings.book-online');
         Route::get('/book-online/create',[SettingsConstroller::class,'bookOnlineCreate'])->name('settings.book-online.create');
         Route::get('/book-online/delete',[SettingsConstroller::class,'bookOnlineDelete'])->name('settings.book-online.delete');
+        Route::post('/book-online/activate',[SettingsConstroller::class, 'bookOnlineActivate'])->name('settings.book-online.activate');
     });
     
     // Notes

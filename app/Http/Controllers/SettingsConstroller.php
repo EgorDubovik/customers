@@ -55,9 +55,14 @@ class SettingsConstroller extends Controller
     public function bookOnlineCreate(Request $request){
         Gate::authorize('book-online');
         
+        $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
+        if(!$bookAppointment)
+            return abort(400);
+
         $bookOnline = BookAppointment::firstOrCreate([
             'company_id' => Auth::user()->company_id,
             'key' => Str::random(30),
+            'active' => 1,
         ]);
 
         return back();
@@ -73,5 +78,21 @@ class SettingsConstroller extends Controller
         $bookAppointment->delete();
 
         return back();
+    }
+
+    public function bookOnlineActivate(Request $request){
+        Gate::authorize('book-online');
+        $status = $request->status == 'true' ? 1 : 0;
+
+        $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
+        if(!$bookAppointment)
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+
+        $bookAppointment->update([
+            'active' => $status,
+        ]);
+
+        return response()->json(['saccess'=>'Updated saccessfull'],200);
+
     }
 }
