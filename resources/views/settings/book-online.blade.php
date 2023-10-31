@@ -28,6 +28,17 @@
 
                      <div class="link-conteiner active">
                         @if($bookAppointment)
+
+                           <div class="row mt-3 mb-4">
+                              <div class="col-6 " style="text-align: left">
+                                 <label class="custom-switch form-switch mb-0" style="cursor: pointer">
+                                    <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" checked onclick="toogleActivate(this)">
+                                    <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                                    <span class="custom-switch-description">Activate booking online</span>
+                                 </label>
+                              </div>
+                           </div>
+                           
                            <div class="row">
                               <div class="col-10">
                                  <div class="input-group">
@@ -39,6 +50,7 @@
                                  <a href="{{  route('settings.book-online.delete') }}" onclick="if(confirm('Are you sure?')) return true; else return false;" data-href="{{ route('settings.book-online.delete') }}" class="btn btn-danger"><i class="fe fe-trash"></i></a>
                               </div>
                            </div>
+                           
                         @else
                            <a href="{{ route('settings.book-online.create')}}" data-href="{{ route('settings.book-online.create') }}" class="btn btn-primary">Create new link</a>
                         @endif

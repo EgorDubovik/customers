@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use App\Models\Invoice;
 use App\Mail\InvoiceMail;
 use App\Models\Appointment;
 use App\Models\InvoiceServices;
-use App\Models\Service;
-use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PDF;
+// use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class InvoiceController extends Controller

@@ -32,8 +32,11 @@
             <div class="card">
                 <div class="card-header">Open appointments ({{ count($appointments->where('status',0)) }})</div>
                 <div class="card-body">
-                    @forelse ($appointments->where('status',0) as $open_appointment)                
-                        @include('schedule.inludes.open-appointments',['appointment' => $open_appointment])
+                    @forelse ($appointments->where('status',0) as $open_appointment)  
+                        @if ($open_appointment && $open_appointment->customer)
+                            @include('schedule.inludes.open-appointments',['appointment' => $open_appointment])    
+                        @endif              
+                        
                     @empty
                         <div class="empty_open_appointments">You don`t have any open appointments</div>
                     @endforelse
@@ -76,16 +79,18 @@
                 dayOrWeek : ($(document).width() >= 576 ) ? 'week' : 'days',
                 events : [
                     @foreach ($appointments as $appointment)
-                        {
-                            title: '{{ $appointment->customer->name }}', 
-                            startTime: '{{ $appointment->start }}', 
-                            endTime: '{{ $appointment->end }}',
-                            background: "{{ ($appointment->status == App\Models\Appointment::ACTIVE) ? ((count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0') : '#ccc' }}",
-                            href: "{{ route('appointment.show',['appointment'=>$appointment]) }}",
-                            addClass : "{{ ($appointment->status == App\Models\Appointment::DONE) ? 'done' : 'pedding'}}",
-                            id : {{ $appointment->id }},
+                        @if ($appointment && $appointment->customer)
+                            {
+                                title: '{{ $appointment->customer->name }}', 
+                                startTime: '{{ $appointment->start }}', 
+                                endTime: '{{ $appointment->end }}',
+                                background: "{{ ($appointment->status == App\Models\Appointment::ACTIVE) ? ((count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0') : '#ccc' }}",
+                                href: "{{ route('appointment.show',['appointment'=>$appointment]) }}",
+                                addClass : "{{ ($appointment->status == App\Models\Appointment::DONE) ? 'done' : 'pedding'}}",
+                                id : {{ $appointment->id }},
 
-                        },    
+                            },
+                        @endif
                     @endforeach 
                 ],
                 onEndDrag : function(appointment){
