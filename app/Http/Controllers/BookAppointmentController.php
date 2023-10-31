@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Mail;
 class BookAppointmentController extends Controller
 {
     public function index(Request $request, $key){
-        $company = BookAppointment::where('key',$key)->first();
+        $company = BookAppointment::where('key',$key)
+                                    ->where('active',1)
+                                    ->first();
         if(!$company)
             return abort(404);
         
