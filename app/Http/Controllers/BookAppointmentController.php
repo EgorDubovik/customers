@@ -98,9 +98,12 @@ class BookAppointmentController extends Controller
             'key'               => $key,
         ]);
         
+        
+
         if($request->has('email'))
             Mail::to($request->email)->send(new BookOnline($appointment,$bookAppointmentProvider->key));
-        Mail::to($company->email)->send(new BookOnlineForCompany($appointment));
+        if($appointment->company->email)
+            Mail::to($appointment->company->email)->send(new BookOnlineForCompany($appointment));
 
         return redirect('appointment/book/view/'.$bookAppointmentProvider->key);
     }

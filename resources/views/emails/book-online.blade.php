@@ -10,7 +10,7 @@
    <!-- Body here -->
    <p>Dear {{ $appointment->customer->name}}, </p>
     
-   <p>Thank you for making appoinment with as</p>
+   <p>Thank you for making appoinment with us</p>
    
    <div class="appointment-time">
       {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('l, F d, Y') }}<br>
