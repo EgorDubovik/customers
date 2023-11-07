@@ -80,3 +80,22 @@
    font-size: 15px;
    color: #666666;
 }
+.service-head{
+   font-weight: 500;
+   display: flex;
+}
+.cont-icon{
+   display: none;
+   margin-right: -0.5rem;
+   margin-left: auto;
+}
+.border-primary .cont-icon{
+   display: flex;
+}
+.cont-icon svg{
+   color : #0d6efd;
+}
+
+#service-list li{
+   background:#f6f6f6;
+}
