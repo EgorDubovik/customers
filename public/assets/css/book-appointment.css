@@ -99,3 +99,37 @@
 #service-list li{
    background:#f6f6f6;
 }
+.double-price{
+   display: none;
+}
+
+@media (max-width: 1000px) 
+{
+   .button-next{
+      position: fixed;
+      bottom: 0px;
+      right: 0px;
+      background: #fff;
+      padding: 5px 0;
+      width: 100%;
+      padding-top: 15px;
+      border-top: 1px solid #eeeeee;
+   }
+   .button-next button{
+      margin-right: 20px;
+      margin-bottom: 10px;
+   }
+   /* .service-description{
+      display: none;
+   } */
+   .service-price{
+      display: none;
+   }
+   .double-price{
+      display: inline-block;
+      margin-left: 20px;
+   }
+   .pignose-calendar {
+      width: 90%;
+   }
+}

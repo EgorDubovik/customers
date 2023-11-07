@@ -41,7 +41,7 @@
             </ul>
             <form action="/appointment/book/create/{{ $key }}" method="post">
                @csrf
-            <div class="tab-content" id="pills-tabContent">
+            <div class="tab-content" id="pills-tabContent" style="padding-bottom: 40px">
                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                   <div class="row">
                      <div class="col-md-3 mb-2 d-none d-sm-block">
@@ -55,7 +55,10 @@
                               <div class="col-md-3">
                                  <div class="card card-box" data-check = "false" data-service-title='{{ $service->title }}'  data-service-id="{{ $service->id }}" onclick="checkService(this)">
                                     <div class="card-header service-head">
-                                       <div class="card-title mb-0">{{ $service->title }} </div>
+                                       <div class="card-title mb-0">
+                                          {{ $service->title }} 
+                                          <span class="double-price">${{ $service->price }}</span>
+                                       </div>
                                        <div class="cont-icon">
                                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
                                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -86,7 +89,6 @@
                      <div class="col-md-9">
                         <div class="time-title">Select your preferred date and time</div>
                         <div id="calendar"></div>
-                        {{-- <div id="timer" style="display: flex;justify-content: center"></div> --}}
                         <input type="hidden" name="datetime" id="datetime" value=""/>
                         <div class="hours-conteiner">
                            <div class="time-title">Time:</div>
