@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CustomersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; 
@@ -33,11 +34,16 @@ Route::prefix('v1')->group(function (){
         Route::get('user', function(Request $request){
             return $request->user();
         });
+
+        Route::prefix('customers')->group(function(){
+            Route::get("/",[CustomersController::class,'index']);
+        });
     });
 
     Route::get('/test', function(){
         return response()->json(['name'=>'test'],200);
     });
+
 });
 
 

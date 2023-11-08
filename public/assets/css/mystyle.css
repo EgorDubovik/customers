@@ -425,3 +425,11 @@ li.tag-li:hover:not(.active) {
 .link-conteiner a.remove-book{
     display: none;
 }
+.payments-dates{
+    font-weight: 100;
+    
+    background: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    
+}

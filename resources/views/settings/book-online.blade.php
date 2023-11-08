@@ -49,13 +49,44 @@
                                  <a  href="{{  route('settings.book-online.delete') }}" onclick="if(confirm('Are you sure?')) return true; else return false;" data-href="{{ route('settings.book-online.delete') }}" class="btn btn-danger remove-book"><i class="fe fe-trash"></i></a>
                               </div>
                            </div>
-                        </div>      
+                        </div> 
+
+
+                        <div class="card-title mt-7">
+                           Statistics
+                        </div>
+                        
+                        <div class="table-responsive">
+                           <table class="table table-bordered text-nowrap border-bottom" id="basic-datatable">
+                               <thead>
+                                   <tr>
+                                       <th class="wd-15p border-bottom-0">id</th>
+                                       <th class="wd-15p border-bottom-0">Prev url</th>
+                                       <th class="wd-20p border-bottom-0">Created at</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                 @foreach ($bookOnlineStats as $bookOnlineStat)
+                                   <tr>
+                                       <td>{{ $bookOnlineStat->id }}</td>
+                                       <td>{{ $bookOnlineStat->prev_url }}</td>
+                                       <td>{{ $bookOnlineStat->created_at }}</td>
+                                   </tr>
+                                 @endforeach
+                               </tbody>
+                           </table>
+                       </div>
+                        
+
+
                      @else
                         <div class="link-conteiner active">
                            <a href="{{ route('settings.book-online.create')}}" data-href="{{ route('settings.book-online.create') }}" class="btn btn-primary">Create new link</a>
                         </div>
                      @endif
                      
+                     
+
                   </div>
                </div>
             </div>
@@ -65,6 +96,9 @@
 @stop
 
 @section("scripts")
+   <script src="../assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+   <script src="../assets/plugins/datatable/js/dataTables.bootstrap5.js"></script>
+   <script src="../assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
     <script>
          function toogleActivate(d){
             let radio = $(d);
@@ -117,5 +151,14 @@
             $('.input-key').select();
 
          })
+
+
+         $('#basic-datatable').DataTable({
+            language: {
+                  searchPlaceholder: 'Search...',
+                  sSearch: '',
+            },
+            "bSort": false,
+         });
     </script>
 @endsection

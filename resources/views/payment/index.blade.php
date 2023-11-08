@@ -6,7 +6,7 @@
         <!-- PAGE-HEADER -->
         <div class="page-header" style="margin-top: 10px; margin-bottom: 10px;">
             <h1 class="page-title">Payments
-               <span style="font-weight: 100;position relative"> <span style="cusrsor:pointer" onclick="$('.data-range-payments').toggle();$('.overlay-data-rage').show()">{{ $period['startDate'] }} - {{ $period['endDate'] }}</span>
+               <span class="payments-dates"> <span style="cusrsor:pointer" onclick="$('.data-range-payments').toggle();$('.overlay-data-rage').show()">{{ $period['startDate'] }} - {{ $period['endDate'] }}</span>
                   <div class="data-range-payments">
                      <div class="row">
                         <div class="col-sm">

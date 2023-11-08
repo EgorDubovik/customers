@@ -9,6 +9,7 @@ use App\Models\Appointment;
 use App\Models\BookAppointment;
 use App\Models\BookAppointmentProvider;
 use App\Models\AppointmentService;
+use App\Models\BookOnlineCounterStatistics;
 use App\Models\Customer;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -24,6 +25,12 @@ class BookAppointmentController extends Controller
                                     ->first();
         if(!$company)
             return abort(404);
+        
+        
+        BookOnlineCounterStatistics::create([
+            'book_online_id' => $company->id,
+            'prev_url' => url()->previous(),
+        ]);
         
         return view('book-appointment.index',['company' => $company->company,'key' => $key]);
     }

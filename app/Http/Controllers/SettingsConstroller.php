@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BookAppointment;
+use App\Models\BookOnlineCounterStatistics;
 use Illuminate\Http\Request;
 use App\Models\Settings;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +50,15 @@ class SettingsConstroller extends Controller
         Gate::authorize('book-online');
         
         $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
-        return view('settings.book-online',['bookAppointment'=>$bookAppointment]);
+
+        $bookOnlineStats = BookOnlineCounterStatistics::where('book_online_id',$bookAppointment->id)
+            ->orderBy('created_at','desc')
+            ->get();
+        
+        return view('settings.book-online',[
+            'bookAppointment'=>$bookAppointment,
+            'bookOnlineStats' => $bookOnlineStats,
+        ]);
     }
 
     public function bookOnlineCreate(Request $request){
