@@ -29,7 +29,7 @@ class BookAppointmentController extends Controller
         
         BookOnlineCounterStatistics::create([
             'book_online_id' => $company->id,
-            'prev_url' => url()->previous(),
+            'prev_url' => ($request->prev) ? $request->prev : "null",
         ]);
         
         return view('book-appointment.index',['company' => $company->company,'key' => $key]);
