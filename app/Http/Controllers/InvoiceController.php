@@ -25,7 +25,9 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::where('company_id',Auth::user()->company_id)->orderBy('created_at','DESC')->get();
+        $invoices = Invoice::where('company_id',Auth::user()->company_id)
+            ->orderBy('created_at','DESC')
+            ->paginate(15);
         return view("invoice.index",['invoices' => $invoices]);
     }
 
