@@ -14,26 +14,7 @@
                 <div class="col-md-6">
                     @include('layout/success-message', ['status' => 'success'])
                     <div class="cont-appointment-buttons">
-                        <div class="btn-group d-flex" role="group" style="    background: #fff; padding: 10px; border-radius: 10px;">
-                            @if ($appointment->status == App\Models\Appointment::ACTIVE)
-                                <a href="{{ route('appointment.change_status', ['appointment' => $appointment]) }}"
-                                    class="btn btn-outline-success col-5">
-                                    <i class="fa fa-check"></i> Finish appointment
-                                </a>
-                            @else
-                                <a href="{{ route('appointment.change_status', ['appointment' => $appointment]) }}"
-                                    class="btn  btn-default col-5">
-                                    <i class="fa fa-angle-double-left"></i> Back to Active
-                                </a>
-                            @endif
-
-                            <a href="#" class="btn btn-outline-success col-5">
-                                <i class="fe fe-copy"></i> Create copy
-                            </a>
-                            <button onclick="openPayModal();" class="btn btn-outline-secondary col-2">
-                                <i class="fa fa-credit-card"></i> Pay
-                            </button>
-                        </div>
+                        <livewire:button-finish-appointment :appointment=$appointment />
                     </div>
 
                     <div class="card">
@@ -305,7 +286,7 @@
 @stop
 
 @section('scripts')
-
+    @livewireScripts
     <script async src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP') }}&callback=initMap"></script>
     <script>
         let noPoi = [{
