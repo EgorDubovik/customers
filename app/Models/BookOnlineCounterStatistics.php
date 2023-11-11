@@ -12,5 +12,7 @@ class BookOnlineCounterStatistics extends Model
     protected $fillable = [
         'book_online_id',
         'prev_url',
+        'device_type',
+        'ip',
     ];
 }

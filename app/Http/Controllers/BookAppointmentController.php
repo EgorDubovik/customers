@@ -26,10 +26,16 @@ class BookAppointmentController extends Controller
         if(!$company)
             return abort(404);
         
+        $agent = new \Jenssegers\Agent\Agent;
+
+        $device_type = $agent->isMobile() ? 'mobile' : 'desctop';
         
+        // dd($device_type,$request->ip());
         BookOnlineCounterStatistics::create([
             'book_online_id' => $company->id,
             'prev_url' => ($request->prev) ? $request->prev : "null",
+            'device_type' => $device_type,
+            'ip' => $request->ip(),
         ]);
         
         return view('book-appointment.index',['company' => $company->company,'key' => $key]);

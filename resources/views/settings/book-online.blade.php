@@ -62,6 +62,8 @@
                                    <tr>
                                        <th class="wd-15p border-bottom-0">id</th>
                                        <th class="wd-15p border-bottom-0">Prev url</th>
+                                       <th class="wd-15p border-bottom-0">Device type</th>
+                                       <th class="wd-15p border-bottom-0">IP address</th>
                                        <th class="wd-20p border-bottom-0">Created at</th>
                                    </tr>
                                </thead>
@@ -70,6 +72,8 @@
                                    <tr>
                                        <td>{{ $bookOnlineStat->id }}</td>
                                        <td>{{ $bookOnlineStat->prev_url }}</td>
+                                       <td>{{ $bookOnlineStat->device_type }}</td>
+                                       <td>{{ $bookOnlineStat->ip }}</td>
                                        <td>{{ $bookOnlineStat->created_at }}</td>
                                    </tr>
                                  @endforeach
