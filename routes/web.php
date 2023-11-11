@@ -120,7 +120,6 @@ Route::group(['middleware' => ['auth','active']],function (){
             Route::post('update',[AppointmentServiceController::class,'update'])->name('appointment.service.update');
         });
 
-        Route::get('status/{appointment}',[AppointmentController::class,'change_status'])->name('appointment.change_status');
         Route::post('pay/{appointment}', [PaymentController::class, 'store'])->name('appointment.pay');
         Route::get('map',[AppointmentController::class,'map'])->name('appointment.map');
     });

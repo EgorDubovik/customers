@@ -189,15 +189,6 @@ class AppointmentController extends Controller
         return view('schedule.viewall',['customer'=>$customer,'appointments'=>$appointments]);
     }
 
-    public function change_status(Appointment $appointment){
-        
-        Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
-        
-        $appointment->status = ($appointment->status == Appointment::ACTIVE) ? Appointment::DONE : Appointment::ACTIVE;
-        $appointment->save();
-        return back();
-    }
-
     public function map(){
         $appoinments = Appointment::where('company_id',Auth::user()->company_id)
             ->with('address')

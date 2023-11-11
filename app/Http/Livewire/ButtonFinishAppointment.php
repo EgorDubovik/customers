@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Appointment;
 use Livewire\Component;
+use Illuminate\Support\Facades\Gate;
 
 class ButtonFinishAppointment extends Component
 {
@@ -11,6 +12,8 @@ class ButtonFinishAppointment extends Component
     public $appointment;
 
     public function activateOrDiactivate(){
+        Gate::authorize('update-remove-appointment',['appointment'=>$this->appointment]);
+
         $status = $this->appointment->status == Appointment::ACTIVE ? Appointment::DONE : Appointment::ACTIVE;
         $this->appointment->update([
             'status' => $status,
