@@ -53,6 +53,7 @@ class SettingsConstroller extends Controller
 
         $bookOnlineStats = BookOnlineCounterStatistics::where('book_online_id',$bookAppointment->id)
             ->orderBy('created_at','desc')
+            ->limit(100)
             ->get();
         
         return view('settings.book-online',[

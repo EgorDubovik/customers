@@ -1,16 +1,4 @@
 <div>
-    {{-- @if ($appointment->status == App\Models\Appointment::ACTIVE)
-        <a href="{{ route('appointment.change_status', ['appointment' => $appointment]) }}"
-            class="btn btn-outline-success col-5">
-            <i class="fa fa-check"></i> Finish appointment
-        </a>
-    @else
-        <a href="{{ route('appointment.change_status', ['appointment' => $appointment]) }}"
-            class="btn  btn-default col-5">
-            <i class="fa fa-angle-double-left"></i> Back to Active
-        </a>
-    @endif --}}
-    
     <div class="btn-group d-flex" role="group" style="    background: #fff; padding: 10px; border-radius: 10px;">
         @if ($appointment->status == App\Models\Appointment::ACTIVE)
             <button class="btn btn-outline-success col-5" type="button" wire:click="activateOrDiactivate">

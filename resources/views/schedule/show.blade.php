@@ -14,7 +14,7 @@
                 <div class="col-md-6">
                     @include('layout/success-message', ['status' => 'success'])
                     <div class="cont-appointment-buttons">
-                        <livewire:button-finish-appointment :appointment=$appointment />
+                        <livewire:button-finish-appointment :appointment=$appointment ></livewire:button-finish-appointment>
                     </div>
 
                     <div class="card">
