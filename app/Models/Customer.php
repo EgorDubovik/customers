@@ -26,6 +26,13 @@ class Customer extends Model
         );
     }
 
+    public function scopeSearch($query, $search=''){
+        return $query->where('name', 'LIKE', "%$search%")
+              ->orWhere('email', 'LIKE', "%$search%")
+              
+              ->orWhere('phone', 'LIKE', "%$search%");
+    }
+
     public function address(){
         return $this->hasMany(Addresses::class)->orderByDesc('created_at');
     }
