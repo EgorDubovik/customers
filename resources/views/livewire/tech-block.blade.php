@@ -10,6 +10,9 @@
         </div>
         <div class="card-body">
             @foreach ($appointment_techs as $tech)
+                @if($mode == 'create') 
+                    <input type="hidden" name="tech_ids[]" value="{{ $tech->id }}" class="tech-ids"> 
+                @endif
                 <div class="media m-0 mt-0">
                     <div class="avatar_cirle" style="background: {{ $tech->color }}"></div>
                     <div class="media-body">
@@ -43,6 +46,7 @@
                 </div>
                 <div class="modal-body">
                     @foreach ($techs as $tech)
+                        
                         <div class="row add-new-tech-line-model" wire:click="add({{ $tech->id }})" >
                             <div class="media m-0 mt-0">
                                 <div class="avatar_cirle" style="background: {{ $tech->color }}"></div>

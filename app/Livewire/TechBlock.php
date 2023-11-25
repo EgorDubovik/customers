@@ -12,17 +12,16 @@ use Illuminate\Support\Facades\Auth;
 class TechBlock extends Component
 {
 
-    public $appointment;
+    public $appointment = null;
     public $techs;
-    public $appointment_techs;
+    public $appointment_techs = [];
     public $mode = "save";
 
     public function mount(){
-        $this->refreshAppointmenttechs();
-    }
-
-    private function refreshAppointmenttechs(){
-        $this->appointment_techs = $this->appointment->techs;
+        if($this->mode == 'save')
+            $this->appointment_techs = $this->appointment->techs;
+        else if($this->mode == 'create')
+            $this->appointment_techs[] = Auth::user();
     }
 
     public function render()
@@ -39,18 +38,22 @@ class TechBlock extends Component
 
     public function add($tech_id){
 
-        Gate::authorize('add-tech-to-appointment',['appointment'=>$this->appointment,'tech_id'=>$tech_id]);
-        if(!$this->appointment_techs->contains('id',$tech_id)){
+        if($this->appointment != null)
+            Gate::authorize('add-tech-to-appointment',['appointment'=>$this->appointment,'tech_id'=>$tech_id]);
+        
+        if(!$this->isConteins($tech_id)){
+
             if($this->mode == 'save'){
+
                 AppointmentTechs::create([
                     'appointment_id' => $this->appointment->id,
                     'tech_id'        => $tech_id,
                     'creator_id'     => Auth::user()->id,
                 ]);
-                $this->refreshAppointmenttechs();
-            } else {
-                $this->appointment_techs[] = User::find($tech_id);
+                
             }
+
+            $this->appointment_techs[] = User::find($tech_id);
             
         }
 
@@ -59,12 +62,25 @@ class TechBlock extends Component
 
     public function delete($tech_id){
 
-        Gate::authorize('update-remove-appointment',['appointment'=>$this->appointment]);
+        if($this->appointment != null){
+            Gate::authorize('update-remove-appointment',['appointment'=>$this->appointment]);
+            AppointmentTechs::where('appointment_id',$this->appointment->id)
+                ->where('tech_id',$tech_id)
+                ->delete();
+        }
 
-        AppointmentTechs::where('appointment_id',$this->appointment->id)
-            ->where('tech_id',$tech_id)
-            ->delete();
+        foreach($this->appointment_techs as $key => $tech){
+            if($tech->id == $tech_id){
+                unset($this->appointment_techs[$key]);
+            }
+        }
+    }
 
-        $this->refreshAppointmenttechs();
+    private function isConteins($id){
+        foreach($this->appointment_techs as $tech){
+            if($tech->id == $id)
+                return true;
+        }
+        return false;
     }
 }

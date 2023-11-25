@@ -84,7 +84,7 @@
                         </div>
                     </div>
 
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
                             <div class="card-options">
@@ -116,7 +116,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    <livewire:tech-block mode='create' />
+
                     <div class="card">
                         <div class="card-footer">
                             <button class="btn btn-success" type="submit">Create</button>
@@ -130,7 +133,7 @@
 
     {{--Add new service model--}}
     @include('layout.modals.add-service')
-    @include('layout.modals.add-tech')
+    {{-- @include('layout.modals.add-tech') --}}
 
     <div class="modal fade" id="exampleModal"  role="dialog">
         <div class="modal-dialog" role="document">
@@ -259,5 +262,12 @@
 
         
     </script>
+
+    <script>
+        window.addEventListener('close-modal', event => {
+            $('#add_new_tech_model').modal('hide');
+        })
+    </script>
+
     @include('service.typehead-script')
 @endsection
