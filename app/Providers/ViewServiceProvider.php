@@ -45,7 +45,7 @@ class ViewServiceProvider extends ServiceProvider
         //     });
 
         Facades\View::composer(
-            ['schedule.create', 'schedule.edit','schedule.show'],
+            ['schedule.create'],
             function (View $view){
                 $techs = User::where('company_id',Auth::user()->company_id)
                                 ->where('active',1)

@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="card-body">
-            @foreach ($appointment->techs as $tech)
+            @foreach ($appointment_techs as $tech)
                 <div class="media m-0 mt-0">
                     <div class="avatar_cirle" style="background: {{ $tech->color }}"></div>
                     <div class="media-body">
@@ -22,9 +22,7 @@
                                 </p>
                             </div>
                             <div class="col-2">
-                                {{-- <a href="{{ route('appointment.remove.tech', ['appointment' => $appointment, 'user' => $tech]) }}"
-                                    class="text-muted"><i class="fe fe-trash-2"></i></a> --}}
-                                <a href="#" wire:click.prevent="delete({{ $appointment->id }},{{ $tech->id }})"
+                                <a href="#" wire:click.prevent="delete({{ $tech->id }})"
                                     class="text-muted"><i class="fe fe-trash-2"></i></a>
                             </div>
                         </div>
@@ -45,10 +43,9 @@
                 </div>
                 <div class="modal-body">
                     @foreach ($techs as $tech)
-                        {{-- <div class="row add-new-tech-line-model" onclick="add_new_tech(this)" data-techid="{{ $tech->id }}" data-techname="{{ $tech->name }}" data-techphone="{{ $tech->phone }}"> --}}
-                        <div class="row add-new-tech-line-model" wire:click="add({{ $tech->id }})" data-toggle="modal" data-target="#add_new_tech_model" >
+                        <div class="row add-new-tech-line-model" wire:click="add({{ $tech->id }})" >
                             <div class="media m-0 mt-0">
-                                <img class="avatar brround avatar-md me-3" alt="avatra-img" src="../../assets/images/users/18.jpg">
+                                <div class="avatar_cirle" style="background: {{ $tech->color }}"></div>
                                 <div class="media-body">
                                     <a href="#" class="text-default fw-semibold">{{ $tech->name }}</a>
                                     <p class="text-muted ">
