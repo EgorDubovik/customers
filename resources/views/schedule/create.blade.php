@@ -133,7 +133,6 @@
 
     {{--Add new service model--}}
     @include('layout.modals.add-service')
-    {{-- @include('layout.modals.add-tech') --}}
 
     <div class="modal fade" id="exampleModal"  role="dialog">
         <div class="modal-dialog" role="document">

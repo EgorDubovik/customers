@@ -110,7 +110,6 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('edit/{appointment}', [AppointmentController::class,'edit'])->name('appointment.edit');
         Route::post('edit/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
         Route::delete('remove/{appointment}', [AppointmentController::class,'destroy'])->name('appointment.remove');
-        Route::get('tech/remove/{appointment}/{user}', [AppointmentController::class, 'removeTech'])->name('appointment.remove.tech');
         Route::get('viewall/{customer}', [AppointmentController::class, 'viewall'])->name('appointment.viewall');
         Route::post('note/store/{appointment}', [AppointmentNotesController::class, 'store'])->name('appointment.note.store');
 

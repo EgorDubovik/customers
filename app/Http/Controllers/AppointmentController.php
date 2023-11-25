@@ -9,7 +9,6 @@ use App\Models\Addresses;
 use App\Models\AppointmentService;
 use App\Models\AppointmentTechs;
 use App\Models\Payment;
-use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -171,16 +170,6 @@ class AppointmentController extends Controller
         $appointment->services()->delete();
         $appointment->delete();
         return redirect()->route('appointment.index');
-    }
-
-    public function removeTech(Request $request, Appointment $appointment, User $user){
-        
-        Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
-
-        AppointmentTechs::where('appointment_id',$appointment->id)
-            ->where('tech_id',$user->id)
-            ->delete();
-        return back();
     }
 
     public function viewall(Customer $customer)
