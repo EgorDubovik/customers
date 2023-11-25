@@ -33,11 +33,12 @@
                                 </a>
                             </p>
                             <p>
-                                @if($appointment->address_id == 0)
-                                <span class="fs-14 fw-bold">{{ $appointment->customer->address->last()->full }}</span>
+                                {{-- @if($appointment->address_id == 0)
+                                    <span class="fs-14 fw-bold">{{ $appointment->customer->address->last()->full }}</span>
                                 @else
+                                    <span class="fs-14 fw-bold">{{ $appointment->address->full }}</span>
+                                @endif --}}
                                 <span class="fs-14 fw-bold">{{ $appointment->address->full }}</span>
-                                @endif
                                 <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
                                 <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
                             </p>
@@ -152,11 +153,11 @@
 
                     <livewire:appointment.notes :appointment=$appointment />
                     
-                    <div class="card">
+                    <div class="remove-appointment-block">
                         <form method="post" onsubmit="return confirm('Are you sure?')" action="{{ route('appointment.remove',['appointment'=>$appointment]) }}">
                             @csrf
                             @method('delete')
-                            <button type="submit" class="btn btn-danger btn-block">remove appointment</button>
+                            <button type="submit" class="btn btn-link" style="text-decoration: none">remove appointment</button>
                         </form>
                     </div>
                 </div>

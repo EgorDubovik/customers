@@ -216,8 +216,8 @@ input.coloris{
     width: 110px;
 }
 .avatar_cirle{
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 20px;
     margin-right: 10px;
 }
@@ -432,4 +432,13 @@ li.tag-li:hover:not(.active) {
     padding: 5px 10px;
     border-radius: 5px;
     
+}
+
+.remove-appointment-block{
+    text-align: center;
+    
+}
+.remove-appointment-block button{
+    color: #ff3434;
+    font-size: 16px;
 }

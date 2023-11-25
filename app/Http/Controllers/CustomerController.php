@@ -110,9 +110,10 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit(Request $request, Customer $customer)
     {
         Gate::authorize('update-customer', $customer);
+        
         return view('customer.edit', ['customer' => $customer]);
     }
 
@@ -146,6 +147,7 @@ class CustomerController extends Controller
         ]);
 
         return redirect()->route('customer.show', ['customer' => $customer])->with('success','Update customer have been successful');
+        
     }
 
     /**
