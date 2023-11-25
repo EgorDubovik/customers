@@ -4,9 +4,9 @@
             <div class="col-9">
                 <div class="input-group">
                     <input wire:model.live.debounce.300ms='search' type="text" id="search_bar" class="form-control" placeholder="Search in customers">
-                    <button class="btn btn-secondary" type="button" onclick="search_f($('#search_bar').val())">
+                    {{-- <button class="btn btn-secondary" type="button" onclick="search_f($('#search_bar').val())">
                         <i class="fa fa-search"></i>
-                    </button>
+                    </button> --}}
                 </div>
             </div>
             <div class="col-3">

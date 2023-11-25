@@ -14,7 +14,7 @@
                 <div class="col-md-6">
                     @include('layout/success-message', ['status' => 'success'])
                     <div class="cont-appointment-buttons">
-                        <livewire:button-finish-appointment :appointment=$appointment ></livewire:button-finish-appointment>
+                        <livewire:button-finish-appointment :appointment=$appointment />
                     </div>
 
                     <div class="card">
@@ -148,38 +148,8 @@
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fe fe-user"></i> Technical</h3>
-                            <div class="card-options">
-                                <a href="#" onclick="$('#add_new_tech_model').modal('show');return false;">
-                                    <i class="fe fe-plus text-success"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            @foreach ($appointment->techs as $tech)
-                                <div class="media m-0 mt-0">
-                                    <div class="avatar_cirle" style="background: {{ $tech->color }}"></div>
-                                    <div class="media-body">
-                                        <div class="row">
-                                            <div class="col-10">
-                                                <a href="#"
-                                                    class="text-default fw-semibold">{{ $tech->name }}</a>
-                                                <p class="text-muted ">
-                                                    {{ $tech->phone }}
-                                                </p>
-                                            </div>
-                                            <div class="col-2">
-                                                <a href="{{ route('appointment.remove.tech', ['appointment' => $appointment, 'user' => $tech]) }}"
-                                                    class="text-muted"><i class="fe fe-trash-2"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    <livewire:tech-block :appointment=$appointment />
+
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fe fe-note"></i> Notes</h3>
@@ -225,7 +195,7 @@
 
     {{-- Add new service model --}}
     @include('layout.modals.add-service')
-    @include('layout.modals.add-tech')
+    
 
     {{--Ppayemnt model--}}
     <div class="modal fade" id="payment_model" aria-hidden="true">
@@ -286,8 +256,9 @@
 @stop
 
 @section('scripts')
-    @livewireScripts
+
     <script async src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP') }}&callback=initMap"></script>
+    
     <script>
         let noPoi = [{
             featureType: "poi",
@@ -559,5 +530,13 @@
             return {'rem':remainingBalance,'total':totalPrice};
         }
     </script>
+    
+    <script>
+        window.addEventListener('close-modal', event => {
+            $('#add_new_tech_model').modal('hide');
+        })
+    </script>
+    
     @include('service.typehead-script')
+    
 @endsection

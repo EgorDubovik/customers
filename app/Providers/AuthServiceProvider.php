@@ -133,6 +133,24 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        // Appointment tech
+
+        Gate::define('add-tech-to-appointment',function(User $user, Appointment $appointment, $tech_id){
+            $roleArray = $user->roles->pluck('role')->toArray();
+            if(
+                (in_array(Role::ADMIN,$roleArray) 
+                    || in_array(Role::DISP,$roleArray) 
+                    || in_array($user->id,$appointment->appointmentTechs->pluck('tech_id')->toArray())
+                ) 
+                && $appointment->company_id == $user->company_id ){
+                $techs = User::where('company_id',Auth::user()->company_id)->pluck('id')->toArray();
+                if(in_array($tech_id,$techs)){
+                    return true;
+                }
+            }
+            return false;
+        });
+
         //Services
         Gate::define('update-service', function (User $user, Service $service){
             return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $service->company_id );
