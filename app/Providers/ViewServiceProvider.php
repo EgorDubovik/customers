@@ -35,22 +35,7 @@ class ViewServiceProvider extends ServiceProvider
             function (View $view){
                 $services = Service::where('company_id',Auth::user()->company_id)->get();
                 $view->with('services',$services);
-            });
-
-        // Facades\View::composer(
-        //     ['schedule.create', 'schedule.edit'],
-        //     function (View $view){
-        //         $customers = Customer::where('company_id',Auth::user()->company_id)->get();
-        //         $view->with('customers', $customers);
-        //     });
-
-        Facades\View::composer(
-            ['schedule.create'],
-            function (View $view){
-                $techs = User::where('company_id',Auth::user()->company_id)
-                                ->where('active',1)
-                                ->get();
-                $view->with('techs', $techs);
-            });
+            }
+        );
     }
 }

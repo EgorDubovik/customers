@@ -150,37 +150,8 @@
 
                     <livewire:tech-block :appointment=$appointment />
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i class="fe fe-note"></i> Notes</h3>
-                        </div>
-                        <div class="card-body">
-                            <form method="post"
-                                action="{{ route('appointment.note.store', ['appointment' => $appointment]) }}">
-                                @csrf
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <textarea type="text" id="add-new-note" class="form-control" placeholder="Add new note to customer"
-                                            name="text"></textarea>
-                                        <button class="btn btn-secondary" type="send">
-                                            <i class="fa fa-save"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                            @foreach ($appointment->notes as $note)
-                                <div class="media m-0 mt-2 border-bottom">
-                                    <img class="avatar brround avatar-md me-3" alt="avatra-img"
-                                        src="{{ URL::asset('/assets/images/users/18.jpg') }}">
-                                    <div class="media-body">
-                                        <a href="javascript:void(0)"
-                                            class="text-default fw-semibold">{{ $note->creator->name }}</a>
-                                        <p class="text-muted ">{!! $note->text !!}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    <livewire:appointment.notes :appointment=$appointment />
+                    
                     <div class="card">
                         <form method="post" onsubmit="return confirm('Are you sure?')" action="{{ route('appointment.remove',['appointment'=>$appointment]) }}">
                             @csrf
