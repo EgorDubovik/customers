@@ -15,6 +15,9 @@
                 <div class="card col-md-6 m-auto">
                     <form method="post" action="{{route('customer.update', ['customer' => $customer])}}">
                         @csrf
+                        @if (request()->has('redirect'))
+                            <input type="hidden" value="{{ request()->get('redirect') }}" name="redirect" />
+                        @endif
                         
                         <div class="card-body">
                             <div class="category-create-address">Customer </div>

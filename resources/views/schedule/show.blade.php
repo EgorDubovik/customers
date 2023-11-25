@@ -28,7 +28,7 @@
                             <p>
                                 <span style="font-size:20px;"><a
                                         href="{{ route('customer.show', ['customer' => $appointment->customer]) }}">{{ $appointment->customer->name }}</a></span>
-                                <a href="{{ route('customer.edit', ['customer' => $appointment->customer]) }}">
+                                <a href="{{ route('customer.edit', ['customer' => $appointment->customer]) }}?redirect={{ route('appointment.show',$appointment) }}">
                                     <i class="fe fe-edit text-success pull-right"></i>
                                 </a>
                             </p>

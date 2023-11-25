@@ -146,6 +146,10 @@ class CustomerController extends Controller
             'email' => $request->email,
         ]);
 
+        if($request->has('redirect')){
+            return redirect($request->redirect);
+        }
+        
         return redirect()->route('customer.show', ['customer' => $customer])->with('success','Update customer have been successful');
         
     }
