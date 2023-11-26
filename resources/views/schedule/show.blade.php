@@ -25,20 +25,39 @@
 
                         </div>
                         <div class="card-body">
-                            <p>
+                            
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <a href="{{ route('customer.show', ['customer' => $appointment->customer]) }}" class="appointment-cutomer-name">{{ $appointment->customer->name }}</a>
+                                    <a href="{{ route('customer.edit', ['customer' => $appointment->customer]) }}?redirect={{ route('appointment.show',$appointment) }}">
+                                        <i class="fe fe-edit text-success pull-right"></i>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">{{ $appointment->address->full }}</li>
+                                <li class="list-group-item">{{ $appointment->customer->phone }}</li>
+                                <li class="list-group-item">{{ $appointment->customer->email }} 
+                                    <a href="{{ route('invoice.create', ['appointment' => $appointment]) }}"><i
+                                       class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
+                                </li>
+                                
+                            </ul>
+                            
+                            {{-- <p>
                                 <span style="font-size:20px;"><a
                                         href="{{ route('customer.show', ['customer' => $appointment->customer]) }}">{{ $appointment->customer->name }}</a></span>
                                 <a href="{{ route('customer.edit', ['customer' => $appointment->customer]) }}?redirect={{ route('appointment.show',$appointment) }}">
                                     <i class="fe fe-edit text-success pull-right"></i>
                                 </a>
                             </p>
-                            <p>
+                            <p> --}}
+                                
                                 {{-- @if($appointment->address_id == 0)
                                     <span class="fs-14 fw-bold">{{ $appointment->customer->address->last()->full }}</span>
                                 @else
                                     <span class="fs-14 fw-bold">{{ $appointment->address->full }}</span>
                                 @endif --}}
-                                <span class="fs-14 fw-bold">{{ $appointment->address->full }}</span>
+
+                                {{-- <span class="fs-14 fw-bold">{{ $appointment->address->full }}</span>
                                 <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
                                 <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
                             </p>
@@ -56,7 +75,7 @@
                                     href="{{ route('invoice.create', ['appointment' => $appointment]) }}"><i
                                         class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
                                 @endif
-                            </p>
+                            </p> --}}
 
                         </div>
 
@@ -65,16 +84,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fe fe-list"></i> Infromation  
-                                
-                                {{-- @if ($remainingBalance <= 0)
-                                    <span class="tag tag-outline-success" style="margin-left: 30px;">Paid full</span>    
-                                @endif --}}
-                            </h3>
-                                
-                            <div class="card-options">
-                                
-                            </div>
+                            <h3 class="card-title"><i class="fe fe-list"></i> Infromation </h3>
                         </div>
                         <div class="card-body">
                             <div class="appointment-time-info d-flex">

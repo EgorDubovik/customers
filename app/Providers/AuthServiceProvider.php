@@ -152,6 +152,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         //Services
+        Gate::define('create-service', function (User $user){
+            return in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray());
+        });
+
         Gate::define('update-service', function (User $user, Service $service){
             return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $service->company_id );
         });
