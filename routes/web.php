@@ -91,14 +91,9 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::post('company/update', [CompanyController::class,'update'])->name('company.update');
     Route::post('company/upload/logo',[CompanyController::class,'upload_logo'])->name('company.upload.logo');
 
-    // Items
+    // Services
     Route::prefix('services')->group(function (){
         Route::get('index', [ServiceController::class, 'index'])->name('service.index');
-        Route::get('create',[ServiceController::class, 'create'])->name('service.create');
-        Route::delete('delete/{service}', [ServiceController::class, 'destroy'])->name('service.delete');
-        Route::post('update/{service}', [ServiceController::class, 'update'])->name('service.update');
-        Route::post('store', [ServiceController::class, 'store'])->name('service.store');
-        Route::get('edit/{service}', [ServiceController::class , 'edit'])->name('service.edit');
     });
 
     //Schedule
@@ -111,7 +106,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::post('edit/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
         Route::delete('remove/{appointment}', [AppointmentController::class,'destroy'])->name('appointment.remove');
         Route::get('viewall/{customer}', [AppointmentController::class, 'viewall'])->name('appointment.viewall');
-        
+
         Route::prefix('service')->group(function(){
             Route::post('store/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.serivce.store');
             Route::post('remove/{appointmentService}', [AppointmentServiceController::class, 'delete'])->name('appointment.service.remove');
