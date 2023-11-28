@@ -15,8 +15,9 @@
         </div>
     </div>
    
-    <div class="row" id="customer-list">
-        @forelse($customers as $customer)
+    <div class="row">
+        
+        @foreach($customers as $customer)
             <div class="col-xl-6">
                 <div class="card">
                     <div class="card-body" style="padding-bottom: 10px;">
@@ -66,12 +67,15 @@
                     </div>
                 </div>
             </div>
-        @empty
-        <div class="col">
-            <div class="alert alert-light text-center" role="alert">
-                <span class="alert-inner--text">List is eampty... <a style="margin-left: 20px;" href="{{ route('customer.create') }}">Create new customer</a></span>
+        @endforeach
+            
+        @if ($customers->isEmpty())
+            <div class="col">
+                <div class="alert alert-light text-center" role="alert">
+                    <span class="alert-inner--text">List is eampty... <a style="margin-left: 20px;" href="{{ route('customer.create') }}">Create new customer</a></span>
+                </div>
             </div>
-        </div>
-        @endforelse
+        @endif
+            
     </div>
 </div>

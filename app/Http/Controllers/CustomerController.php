@@ -20,18 +20,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-
-        $customers = Customer::where('company_id',Auth::user()->company_id)
-            ->orderBy('updated_at','DESC')
-            ->get()
-            ->makeHidden(['address_id','company_id', 'created_at','updated_at','notes','appointments']);
-        foreach($customers as $customer){
-            $customer->address->makeHidden(['id','line1','line2','city','state','zip','customer_id','created_at','updated_at']);
-        }
-
-        return view('customer.index', [
-            'customers'=>$customers,
-        ]);
+        return view('customer.index');
     }
 
     /**

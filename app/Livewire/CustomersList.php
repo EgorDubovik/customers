@@ -15,11 +15,12 @@ class CustomersList extends Component
     
     public function render()
     {
-        $this->customers = Customer::search($this->search)
-            ->orderBy('updated_at','DESC')
+        $this->customers = Customer::where('company_id',1)
+            ->search($this->search)
+            ->orderByDesc('updated_at')
             ->limit(50)
             ->get();
-
-        return view('livewire.customers-list',['customers' => $this->customers]);
+        
+        return view('livewire.customers-list');
     }
 }

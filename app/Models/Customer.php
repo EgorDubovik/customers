@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Auth;
 
 class Customer extends Model
 {
@@ -28,9 +29,11 @@ class Customer extends Model
 
     public function scopeSearch($query, $search=''){
         return $query->where('name', 'LIKE', "%$search%")
-              ->orWhere('email', 'LIKE', "%$search%")
-              
-              ->orWhere('phone', 'LIKE', "%$search%");
+            ->orWhere('email', 'LIKE', "%$search%")
+            ->orWhere('phone', 'LIKE', "%$search%")
+            ->orWhereHas('address',function($a_query) use($search){
+                $a_query->where('line1','LIKE',"%$search%");
+            });
     }
 
     public function address(){
