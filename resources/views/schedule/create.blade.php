@@ -118,7 +118,7 @@
                         </div>
                     </div> --}}
 
-                    <livewire:tech-block mode='create' />
+                    <livewire:appointment.tech-block mode='create' />
 
                     <div class="card">
                         <div class="card-footer">
