@@ -49,10 +49,10 @@ class CustomerController extends Controller
             'line1.required' => 'Please fill at least first line of address',
         ]);
 
-        $request->customer_name = $request->customer_name ?: "Unknow";
+        $customer_name = $request->customer_name ?? "Unknow";
 
         $customer = Customer::create([
-            'name' => $request->customer_name,
+            'name' => $customer_name,
             'phone' => $request->customer_phone,
             'email' => $request->email,
             'company_id' => Auth::user()->company_id,

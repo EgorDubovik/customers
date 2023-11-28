@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Appointment;
 
 use App\Models\Appointment;
 use Livewire\Component;
@@ -30,7 +30,7 @@ class TechBlock extends Component
             ->where('active','1')
             ->get();
 
-        return view('livewire.tech-block',[
+        return view('livewire.appointment.tech-block',[
             'techs'=>$this->techs,
             'appointment_techs' => $this->appointment_techs
         ]);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Appointment;
 
 use App\Models\Appointment;
 use Livewire\Component;
@@ -22,6 +22,6 @@ class ButtonFinishAppointment extends Component
 
     public function render()
     {
-        return view('livewire.button-finish-appointment');
+        return view('livewire.appointment.button-finish-appointment');
     }
 }
