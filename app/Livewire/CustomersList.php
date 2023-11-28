@@ -15,7 +15,7 @@ class CustomersList extends Component
     
     public function render()
     {
-        $this->customers = Customer::where('company_id',1)
+        $this->customers = Customer::where('company_id',Auth::user()->company_id)
             ->search($this->search)
             ->orderByDesc('updated_at')
             ->limit(50)
