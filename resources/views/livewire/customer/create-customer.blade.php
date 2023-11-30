@@ -32,13 +32,13 @@
                 <div class="row mb-4">
                     <label class="col-sm-2 control-label" for="textinput">Line 1</label>
                     <div class="col-sm-10">
-                        <input type="text" placeholder="House number, street" class="form-control line1" name="line1">
+                        <input wire:model.live.debounce.300ms='address' type="text" placeholder="House number, street" class="form-control line1" name="line1">
                     </div>
                 </div>
                 <div class="row mb-4">
                     <label class="col-sm-2 control-label" for="textinput">Line 2</label>
                     <div class="col-sm-10">
-                        <input type="text" placeholder="apt. number" class="form-control line2" name="line2">
+                        <input  type="text" placeholder="apt. number" class="form-control line2" name="line2">
                     </div>
                 </div>
 
@@ -64,11 +64,21 @@
                 </div>
             </div>
         </div>
-        <div class="sugestion">
-            @foreach ($customers as $customer)
-                <div class="">{{ $customer->name }}</div>
-            @endforeach
-        </div>
+        {{-- {{ $customers }} --}}
+        @if (count($customers) > 0)
+            <div class="suggested">
+                <div class="suggested_title">Suggested:</div>
+                @foreach ($customers as $customer)
+                    <div class="suggested_customer">
+                        <div class="customer_info">
+                            <div class="customer_name"><a href="{{ route('customer.show',$customer) }}" >{{ $customer->name }}</a></div>
+                            <div class="customer_phone_number"> {{ $customer->phone }} </div>
+                        </div>
+                        <div class="customer_address ">{{ $customer->address->last()->full }}</div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
         <div class="card-footer">
             <button class="btn btn-success" type="submit">Create new customer</button>
 

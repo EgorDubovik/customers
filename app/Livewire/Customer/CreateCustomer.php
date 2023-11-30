@@ -11,15 +11,23 @@ class CreateCustomer extends Component
     public $phone;
     public $address;
     public $customers = [];
+    
 
     public function render()
     {
 
-        if(!empty($this->phone) || !empty($this->address))
+        if(strlen($this->phone) > 5 || strlen($this->address) > 5)
             $this->customers = Customer::where('company_id', Auth::user()->company_id)
                 ->where(function($query){
-                    $query->orWhere('phone','LIKE',"%$this->phone%");
-                })->get();
+                    if(strlen($this->phone) > 5)
+                        $query->orWhere('phone','LIKE',"%$this->phone%");
+                    if(strlen($this->address) > 5)
+                        $query->orWhereHas('address',function($a_query){
+                            $a_query->where('line1','LIKE',"%$this->address%");
+                        });
+                })
+                ->get();
+        else $this->customers= [];
 
         return view('livewire.customer.create-customer');
     }

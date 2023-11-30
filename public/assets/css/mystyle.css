@@ -447,3 +447,17 @@ li.tag-li:hover:not(.active) {
     font-size: 16px;
     font-weight: bold;
 }
+.suggested_customer{
+    display: flex;
+    margin-left: 15px;
+    padding: 5px 0;
+}
+.suggested_customer .customer_address{
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+.suggested_title{
+    font-weight: bold;
+}
