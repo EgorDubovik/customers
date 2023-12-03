@@ -47,23 +47,30 @@
     </div>
     <!-- ROW-1 CLOSED -->
 </div>
-<div class="modal fade" id="smallmodal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="update-appintment-time" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Change appointment time</h5>
-                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+        <form method="POST" onsubmit="return updateAppointmentTime(this)">
+            <input type="hidden" id="appointment_id" name="appointment_id">
+            <input type="hidden" id="time_from" name="startTime">
+            <input type="hidden" id="time_to" name="endTime">
+            
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change appointment time</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <p>Appointment with: <spam id="customerName" style="font-weight: bold">Yahor Dubovik</spam></p>
+                    <p>Change to: <br><spam id="changeTimeTo" style="font-weight: bold"></spam></p>
+                </div>
+                <div class="modal-footer">
+                    <button type='button' class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <p>Do you want change appointment time?</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary">Save changes</button>
-                <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 @stop
@@ -94,10 +101,39 @@
                     @endforeach 
                 ],
                 onEndDrag : function(appointment){
-                    // console.log(appointment);
-                    // $('#smallmodal').modal('show');
+                    $('#customerName').html(appointment.title);
+                    $('#changeTimeTo').html(moment(appointment.startTime).format('hh:mm A DD MMM') + " - "+moment(appointment.endTime).format('hh:mm A DD MMM'));
+                    $('#appointment_id').val(appointment.id);
+                    $('#time_from').val(appointment.startTime);
+                    $('#time_to').val(appointment.endTime);
+                    $('#update-appintment-time').modal('show');
                 }
             });
         });
+
+        function updateAppointmentTime(form){
+            $.ajax({
+                method:'post',
+                url:"{{ route('appointment.update.time') }}",
+                data:{
+                    _token : "{{ csrf_token() }}",
+                    appointment_id : form.appointment_id.value,
+                    startTime : form.startTime.value,
+                    endTime : form.endTime.value,
+                    
+                },
+            }).done(function(data) {
+                console.log(data);
+                $('#update-appintment-time').modal('hide');
+                return false;
+                
+            })
+            .fail(function() {
+                alert("error");
+                return false;
+            });
+
+            return false;
+        }
       </script>
 @endsection

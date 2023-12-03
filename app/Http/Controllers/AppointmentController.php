@@ -194,4 +194,17 @@ class AppointmentController extends Controller
 
         return view('schedule.map',['appointments' => $appoinments]);
     }
+
+    public function update_time(Request $request){
+        $appointment = Appointment::find($request->appointment_id);
+        Gate::authorize('update-remove-appointment',['appointment'=>$appointment]);
+
+        $appointment->update([
+            'start' => $request->startTime,
+            'end'   => $request->endTime,
+        ]);
+
+        return response()->json(['success' => 'success'], 200);
+
+    }
 }

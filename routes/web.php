@@ -83,8 +83,8 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::post('note/store/{customer}', [NoteController::class, 'store'])->name('note.store');
     // Images
     Route::post('/images/upload/{customer}', [UploadController::class,'store'])->name('image.store');
-    // Route::get('{image}/storage/images/{filename}', [UploadController::class,'view'])->name('image.view');
     Route::get('/images/delete/{image}', [UploadController::class, 'delete'])->name('image.delete');
+    Route::get('/images/show/{filename}',[UploadController::class,'view'])->name('images.show');
 
     // Company
     Route::get('company/edit' , [CompanyController::class, 'edit'])->name('company.edit');
@@ -106,6 +106,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::post('edit/{appointment}', [AppointmentController::class, 'update'])->name('appointment.update');
         Route::delete('remove/{appointment}', [AppointmentController::class,'destroy'])->name('appointment.remove');
         Route::get('viewall/{customer}', [AppointmentController::class, 'viewall'])->name('appointment.viewall');
+        Route::post('update/time',[AppointmentController::class,'update_time'])->name('appointment.update.time');
 
         Route::prefix('service')->group(function(){
             Route::post('store/{appointment}', [AppointmentServiceController::class, 'store'])->name('appointment.serivce.store');

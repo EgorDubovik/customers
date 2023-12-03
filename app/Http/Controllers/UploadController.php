@@ -30,8 +30,8 @@ class UploadController extends Controller
                     $constraint->aspectRatio();
                 });
             $image = $image->encode();
-            // $path = $image->save(storage_path('app/public/images/'.$fileName));
-            $path = Storage::disk('public')->put($filePath, $image);
+            
+            $path = Storage::disk('s3')->put($filePath, $image);
             if(!$path)
                 return back()->withErrors('Something went wrong');
 
@@ -45,9 +45,13 @@ class UploadController extends Controller
         return redirect()->back()->with('status', 'Pictures uploaded successfully!');
     }
 
-    public function view(Request $request, NewImage $image, $filename){
+    public function view(Request $request, $filename){
+        $image = NewImage::where('path','images/'.$filename)->first();
+
         Gate::authorize('show-images',['image' => $image]);
-        return Image::make(storage_path('app/public/images/'.$filename))->response();
+        
+        return Storage::disk('s3')->response('images/'.$filename);
+        // return Image::make(storage_path('app/public/images/'.$filename))->response();
     }
 
     public function delete(Request $request, NewImage $image){

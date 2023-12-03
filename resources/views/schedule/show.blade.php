@@ -177,7 +177,6 @@
 
     {{-- Add new service model --}}
     @include('layout.modals.add-service')
-    
 
     {{--Ppayemnt model--}}
     <div class="modal fade" id="payment_model" aria-hidden="true">
