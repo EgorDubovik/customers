@@ -40,7 +40,7 @@
                     @endcan
                     <div class="text-center chat-image mb-5 pt-5">
                         @if (Auth::user()->company->logo)
-                            <img src="{{ asset('storage/'.Auth::user()->company->logo) }}" width="200" />    
+                            <img src="{{ env('AWS_FILE_ACCESS_URL').Auth::user()->company->logo }}" width="200" />    
                         @else
                             <img src="{{ asset('assets/images/users/21.jpg') }}" width="200" class="brround"/>
                         @endif

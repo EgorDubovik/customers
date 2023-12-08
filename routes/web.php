@@ -20,6 +20,7 @@ use App\Http\Controllers\BookAppointmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Models\Appointment;
+use App\Models\Invoice;
 use App\Models\Settings;
 use FontLib\Table\Type\name;
 
@@ -84,7 +85,7 @@ Route::group(['middleware' => ['auth','active']],function (){
     // Images
     Route::post('/images/upload/{customer}', [UploadController::class,'store'])->name('image.store');
     Route::get('/images/delete/{image}', [UploadController::class, 'delete'])->name('image.delete');
-    Route::get('/images/show/{filename}',[UploadController::class,'view'])->name('images.show');
+    Route::get('/images/show/{image}',[UploadController::class,'view'])->name('images.show');
 
     // Company
     Route::get('company/edit' , [CompanyController::class, 'edit'])->name('company.edit');
@@ -132,7 +133,10 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::get('payment',[PaymentController::class,'index'])->name('payment.index');
     Route::get('payment/remove/{payment}',[PaymentController::class,'delete'])->name('payment.remove');
 
-    
+    Route::get('email',function(){
+        $invoice = Invoice::where('creator_id',Auth::user()->id)->first();
+        return view('emails.invoice',['invoice'=>$invoice,'due'=>0,'total'=>0]);
+    });
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
 
@@ -141,3 +145,4 @@ Route::post('appointment/book/create/{key}', [BookAppointmentController::class,'
 Route::get('appointment/book/view/{key}',[BookAppointmentController::class,'view']);
 Route::get('appointment/book/cancel/{key}',[BookAppointmentController::class,'delete']);
 Route::get('appointment/book/delete/complete',[BookAppointmentController::class,'remove']);
+

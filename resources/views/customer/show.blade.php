@@ -104,8 +104,7 @@
                             @foreach($customer->images as $image)
                                 <div class="col-4 col-sm-2 customer-img-bl">
                                     <a href="{{route('image.delete',['image'=>$image])}}" onclick="return confirm('Are you sure?');"><span class="close">&times;</span></a>
-                                    {{-- <img src="{{url($image->id.'/'.$image->path)}}" /> --}}
-                                    <img src="{{ route('images.show',basename($image->path)) }}" />
+                                    <img src="{{ env('AWS_FILE_ACCESS_URL').$image->path }}" />
                                 </div>
                             @endforeach
                         </div>

@@ -65,7 +65,7 @@
                                 </div>                                
                             </div>
                             <div class="date_wrapper">
-                                <div class="timePicker" style="display: flex;justify-content: center"></div>
+                                <div class="timePicker" style="justify-content: center"></div>
                             </div>
                         </div>
                     </div>

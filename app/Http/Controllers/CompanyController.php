@@ -71,12 +71,12 @@ class CompanyController extends Controller
             });
             
         $image = $image->encode();
-        $path = Storage::disk('public')->put($filePath, $image);
+        $path = Storage::disk('s3')->put($filePath, $image);
         if(!$path)
             return back()->withErrors('Something went wrong');
         
         if($company->logo){
-            Storage::disk('public')->delete($company->logo);
+            Storage::disk('s3')->delete($company->logo);
         }
         
         $company->logo = $filePath;

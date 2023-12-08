@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     @if (Auth::user()->company->logo)
-                                        <img src="{{ URL::asset('storage/' . Auth::user()->company->logo) }}"
+                                        <img src="{{ env('AWS_FILE_ACCESS_URL').Auth::user()->company->logo }}"
                                             style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">
                                     @endif
                                     <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
@@ -42,7 +42,6 @@
                                 </div>
                                 <div class="col-lg-6 text-end border-bottom border-lg-0">
                                     <h3>#INV-000</h3>
-                                    {{-- <h5>Date Issued: {{ Carbon\Carbon::createFromFormat('Y-m-d', $appointment->updated_at)->format('M d Y') }}</h5> --}}
                                 </div>
                             </div>
                             <div class="row pt-5">
@@ -60,7 +59,6 @@
                                 <div class="col-lg-6 text-end">
                                     <p class="h4 fw-semibold">Payment Details:</p>
                                     <p class="mb-1">Total Due: $<span id='total-small-invoice'>{{ $due }}</span></p>
-                                    {{-- <p class="mb-1">Type of payment: Null</p> --}}
                                 </div>
                             </div>
                             <div class="table-responsive push">

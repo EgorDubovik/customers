@@ -45,18 +45,16 @@ class UploadController extends Controller
         return redirect()->back()->with('status', 'Pictures uploaded successfully!');
     }
 
-    public function view(Request $request, $filename){
-        $image = NewImage::where('path','images/'.$filename)->first();
+    public function view(Request $request, NewImage $image){
 
         Gate::authorize('show-images',['image' => $image]);
         
-        return Storage::disk('s3')->response('images/'.$filename);
-        // return Image::make(storage_path('app/public/images/'.$filename))->response();
+        return Storage::disk('s3')->response($image->path);
     }
 
     public function delete(Request $request, NewImage $image){
         Gate::authorize('delete-images',['image'=>$image]);
-        Storage::disk('public')->delete($image->file_name);
+        Storage::disk('s3')->delete($image->path);
         $image->delete();
         return back();
     }

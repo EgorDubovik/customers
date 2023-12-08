@@ -20,7 +20,7 @@ class Image extends Model
     ];
 
     public function getFileNameAttribute(){
-        return substr($this->path,strrpos($this->path,'/')+1);
+        return basename($this->path);
     }
 
     public function owner(){

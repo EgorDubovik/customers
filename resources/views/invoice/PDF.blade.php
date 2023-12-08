@@ -89,7 +89,7 @@ p{
     <div class="row">
         <div class="col-6">
             @if (Auth::user()->company->logo)
-                                    <img src="{{ URL::asset('storage/'.Auth::user()->company->logo) }}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">    
+                                    <img src="{{ env('AWS_FILE_ACCESS_URL').Auth::user()->company->logo }}" style="width: 170px;" class="header-brand-img logo-3" alt="Sash logo">    
                                 @endif
             <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
             <div>
