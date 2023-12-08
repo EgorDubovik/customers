@@ -71,12 +71,10 @@ class InvoiceController extends Controller
 
         $pdfname = $this->createPDF($invoice);
         $invoice->pdf_path = $pdfname;
-        $invoice->key = Str::random(150);
         $invoice->save();
 
         // send invocie
-        $file = storage_path('app/public/pdf/invoices/'.$pdfname);
-        Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
+        $this->sendEmail($invoice);
 
         return redirect()->route('invoice.index');
     }
@@ -98,40 +96,6 @@ class InvoiceController extends Controller
         return view('invoice.show',['invoice' => $invoice,'total'=>$total,'due'=>$due]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Invoice $invoice)
-    {
-        //
-    }
-
     private function createPDF(Invoice $invoice){
         
         $total = $invoice->appointment->services->sum('price');
@@ -141,23 +105,23 @@ class InvoiceController extends Controller
         $total = number_format($total,2); 
         $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due]);
         $content = $pdf->download()->getOriginalContent();
-        $filename = 'Invoice_'.date('m-d-Y').'-'.time().'.pdf';
-        Storage::put('public/pdf/invoices/'.$filename,$content);
+        $filename = 'Invoice_'.date('m-d-Y').'-'.time().Str::random(50).'.pdf';
+        Storage::disk('s3')->put('invoices/'.$filename, $content);
         return $filename;
     }
 
-    public function viewPDF($key){
+    // public function viewPDF($key){
 
-        $invoice = Invoice::where('key',$key)->first();
-        if(!$invoice)
-            abort(404);
+    //     $invoice = Invoice::where('key',$key)->first();
+    //     if(!$invoice)
+    //         abort(404);
 
-        $file = storage_path('app/public/pdf/invoices/'.$invoice->pdf_path);
-        if(!file_exists($file))
-            abort(404);
+    //     $file = storage_path('app/public/pdf/invoices/'.$invoice->pdf_path);
+    //     if(!file_exists($file))
+    //         abort(404);
         
-        return response()->file($file);
-    }
+    //     return response()->file($file);
+    // }
 
     public function resend(Request $request, Invoice $invoice)
     {
@@ -184,10 +148,14 @@ class InvoiceController extends Controller
         $newInvoice->pdf_path = $pdfname;
         $newInvoice->save();
 
-        $file = storage_path('app/public/pdf/invoices/'.$pdfname);
-        Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
+        $this->sendEmail($invoice);
 
         return redirect()->route('invoice.index');
+    }
+
+    private function sendEmail(Invoice $invoice){
+        $file = env('AWS_FILE_ACCESS_URL').'invoices/'.$invoice->pdf_path;
+        Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
     }
 
 }

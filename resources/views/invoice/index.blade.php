@@ -43,7 +43,7 @@
                                             <td>{{ \Carbon\Carbon::parse($invoice->created_at)->diffForHumans() }}</td>
                                             <td>
                                                 <a href="{{ route('invoice.show',['invoice' => $invoice->id]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> View</a>
-                                                <a target="_blank" href="{{ route('invoice.view.PDF',['key' => ($invoice->key) ? $invoice->key : "null"]) }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> PDF</a>
+                                                <a target="_blank" href="{{ env('AWS_FILE_ACCESS_URL').'invoices/'.$invoice->pdf_path }}" class="btn btn-info btn-sm"><i class="fe fe-eye"></i> PDF</a>
                                             </td>
                                         </tr>
                                         @endcan

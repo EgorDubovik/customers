@@ -133,10 +133,10 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::get('payment',[PaymentController::class,'index'])->name('payment.index');
     Route::get('payment/remove/{payment}',[PaymentController::class,'delete'])->name('payment.remove');
 
-    Route::get('email',function(){
-        $invoice = Invoice::where('creator_id',Auth::user()->id)->first();
-        return view('emails.invoice',['invoice'=>$invoice,'due'=>0,'total'=>0]);
-    });
+    // Route::get('email',function(){
+    //     $invoice = Invoice::where('creator_id',Auth::user()->id)->first();
+    //     return view('emails.invoice',['invoice'=>$invoice,'due'=>0,'total'=>0]);
+    // });
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
 

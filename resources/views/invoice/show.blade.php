@@ -15,7 +15,7 @@
                 <div class="card">
                     <div class="card-header">
                         <spam class="text-muted">Access by link</spam>
-                        <input type="text" class="form-control" value="{{ route('invoice.view.PDF',['key' => ($invoice->key) ? $invoice->key : "null"]) }}" readonly>
+                        <input type="text" class="form-control" value="{{ env('AWS_FILE_ACCESS_URL').'invoices/'.$invoice->pdf_path }}" readonly>
                     </div>
                     <div class="card-body">
                         @include('invoice.layout.invoice',$invoice)
