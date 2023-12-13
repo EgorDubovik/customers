@@ -15,7 +15,6 @@ class Services extends Component
     public $formTitle = 'Add new service';
     public Appointment $appointment;
 
-
     public $title;
     public $price;
     public $description;

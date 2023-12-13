@@ -41,8 +41,6 @@
                             <p class="text-muted fs-12">{!! nl2br($service->description) !!}</p>
                         </div>
                         <div class="ms-auto d-flex">
-                            {{-- <a href="#" onclick="openServiceModal('edit',this); return false" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a> --}}
-                            {{-- <a href="#" onclick="removeService(this,{{ $service->id }});return false" class="text-muted"><span class="fe fe-trash-2"></span></a> --}}
                             <a href="#" wire:click.prevent='edit({{ $service->id }})' class="text-muted me-2" data-bs-toggle="modal" data-bs-target="#add_new_service_model"><span class="fe fe-edit"></span></a>
                             <a href="#" wire:click.prevent="delete({{ $service->id }})" class="text-muted"><span class="fe fe-trash-2"></span></a>
                         </div>
@@ -75,13 +73,5 @@
             @endforeach
         </table>
     </div>
-
     @include('livewire.layout.service-add-modal')
-    <script>
-        
-        // document.addEventListener('livewire:initialized', function () {
-            // console.log(@this.title);
-            // @this.title='test title';
-        // });
-    </script>
 </div>

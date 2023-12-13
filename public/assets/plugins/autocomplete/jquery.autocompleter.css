@@ -5,6 +5,11 @@
 
 .autocompleter-show {
   display: block;
+  top: 39px;
+  z-index: 999;
+  margin-left: 0px;
+  background: #fff;
+  border: 1px solid #ccc;
 }
 
 .autocompleter,
@@ -18,6 +23,13 @@
   padding: 0;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+}
+.autocompleter-list li{
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+.autocompleter-list li:hover{
+  background: #f5f5f5;
 }
 
 .autocompleter-item {
