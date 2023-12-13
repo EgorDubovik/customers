@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Appointment;
 
-use App\Models\Appointment;
 use App\Models\AppointmentService;
 use Livewire\Component;
 use Illuminate\Support\Facades\Gate;
@@ -11,49 +10,56 @@ use App\Models\Payment;
 class Services extends Component
 {
 
-    public $mode = 'create';
+    public $mode = 'save'; 
     public $formTitle = 'Add new service';
-    public Appointment $appointment;
+    public $appointment;
 
     public $title;
     public $price;
     public $description;
+    public $isViewTaxable;
+    public $isTaxable = false;
     public $editableServiceId = null;
 
-    public $remainingBalance = 250;
+    private $taxVal = 8.25;
+
+    public $total = 0;
+    public $tax = 0;
+    public $remainingBalance;
 
     public function mount(){
-        $this->setRemainigBalance();
+        $this->isTaxable = $this->isTaxableSave();
     }
 
     public function render()
     {
+        $this->setMoneyValue();
         return view('livewire.appointment.services');
     }
-
 
     public function store(){
         
         Gate::authorize('add-remove-service-from-appointment',[$this->appointment]);
 
-        $appointmentService = AppointmentService::create([
+        // Validate
+
+        AppointmentService::create([
             'appointment_id' => $this->appointment->id,
             'title' => $this->title,
             'description' => $this->description,
             'price' => $this->price,
+            'taxable' => $this->isTaxable,
         ]);
-        $this->setRemainigBalance();
 
         $this->dispatch('close-modal');
     }
 
     public function delete(AppointmentService $service){
+
         Gate::authorize('add-remove-service-from-appointment',[$this->appointment]);
         
         if($service->appointment_id == $this->appointment->id)
             $service->delete();
-        $this->setRemainigBalance();
-
     }
 
     public function edit(AppointmentService $service){
@@ -67,6 +73,7 @@ class Services extends Component
         $this->title = $service->title;
         $this->price = $service->price;
         $this->description = $service->description;
+        $this->isTaxable = ($service->taxable) ? true : false;
     }
 
     public function update(){
@@ -84,24 +91,44 @@ class Services extends Component
             'title' => $this->title,
             'price' => $this->price,
             'description' => $this->description,
+            'taxable' => $this->isTaxable,
         ]);
-
-        $this->setRemainigBalance();
 
         $this->dispatch('close-modal');
         
     }
 
     public function create(){
-        $this->mode = 'create';
+        $this->mode = 'save';
         $this->formTitle = 'Add new service';
 
         $this->title = "";
         $this->price = "";
         $this->description = "";
+        $this->isTaxable = $this->isTaxableSave();
     }
 
-    private function setRemainigBalance(){
-        $this->remainingBalance = $this->appointment->services->sum('price') - Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
+    private function isTaxableSave(){
+        return true;
     }
+
+    private function setMoneyValue(){
+        $tax = 0;
+        $total = 0;
+        foreach($this->appointment->services as $service){
+            if($service->taxable){
+                $tax += round($service->price * ($this->taxVal / 100),2);
+            }
+            $total+=$service->price;
+        }
+
+        $this->tax = $tax;
+        $this->total = $total + $tax;
+        $this->remainingBalance = $this->getRemainigBalance() + $this->tax;
+    }
+
+    private function getRemainigBalance(){
+        return $this->appointment->services->sum('price') - Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
+    }
+
 }

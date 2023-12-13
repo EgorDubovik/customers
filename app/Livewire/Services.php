@@ -69,6 +69,7 @@ class Services extends Component
     }
 
     public function delete(Service $service){
-        $service->delete();   
+        if($service->company_id == Auth::user()->company_id)
+            $service->delete();
     }
 }

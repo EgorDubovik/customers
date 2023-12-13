@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-md-6">
                     
-                    <livewire:appointment.services :appointment=$appointment />
+                    <livewire:appointment.services :appointment=$appointment isViewTaxable='true'/>
                     
                     <livewire:appointment.tech-block :appointment=$appointment />
 
@@ -100,10 +100,6 @@
             </div>
         </div>
     </div>
-
-    {{-- Add new service model --}}
-    {{-- @include('layout.modals.add-service') --}}
-    
 
     {{--Ppayemnt model--}}
     <div class="modal fade" id="payment_model" aria-hidden="true">
@@ -224,166 +220,7 @@
             navigator.clipboard.writeText(text);
         }
 
-        function openServiceModal(action,d){
-            typeOfServiceAction = action;
-            if(typeOfServiceAction=='edit'){
-                let li = $(d).parent().parent();
-                $('#title').val(li.attr('data-title'));
-                $('#price').val(li.attr('data-price'));
-                $('#description').val(li.attr('data-description'));
-                $('#service-id').val(li.attr('data-id'));
-
-            } else if(typeOfServiceAction == 'add'){
-                $('#title').val('');
-                $('#price').val('');
-                $('#description').val('');
-                $('#service-id').val('');
-            }
-            $('#add_new_service_model').modal('show');
-        }
-
-        function serviceModalAction(d){
-            if(typeOfServiceAction == 'add')
-                addNewService(d);
-
-            if(typeOfServiceAction == 'edit')
-                edditService(d);
-
-            $('#add_new_service_model').modal('hide');
-        }
-
-        function edditService(d){
-            var title = $('#title').val();
-            var price = $('#price').val();
-            var description = $('#description').val();
-            var serviceId = $('#service-id').val();
-            $.ajax({
-                method:'post',
-                url:"{{ route('appointment.service.update') }}",
-                data:{
-                    _token : "{{ csrf_token() }}",
-                    title : title,
-                    price : price,
-                    description : description,
-                    serviceId : serviceId,
-                },
-            }).done(function(data) {
-                if(!data.service){
-                    alert('Error, reload the page');
-                    return;
-                }
-                changeServiceHTML(data.service);
-
-            })
-            .fail(function() {
-                alert("error");
-            });
-        }
-
-        function changeServiceHTML(service){
-            let ul = $('#services-list');
-            let lis = ul.find('li');
-            if(lis.length == 0) return ;
-            if(lis.length == 1){
-                lis[0].remove();
-                ul.append(returnServiceHtml(service));
-            } else {
-                let index = null;
-                lis.each(function(){
-                    if($(this).attr('data-id') == service.id){
-                        index = $(this).index();
-                    }
-                });
-                if(typeof index === "null")
-                    return ;
-
-                ul.find('li').eq(index).remove();
-                if(index == 0){
-                    ul.prepend(returnServiceHtml(service))
-                } else {
-                    $("#services-list > li:nth-child(" + (index) + ")").after(returnServiceHtml(service));
-                }
-            }
-            viewTotal();
-            
-        }
-
-        function addNewService(d){
-            var title = $('#title').val();
-            var price = $('#price').val();
-            var description = $('#description').val();
-            if(title == ""){
-                alert("Plese add title");
-                return false;
-            }
-            $.ajax({
-                method:'post',
-                url:"{{ route('appointment.serivce.store', ['appointment'=>$appointment]) }}",
-                data:{
-                    _token : "{{ csrf_token() }}",
-                    title : title,
-                    price : price,
-                    description : description,
-                },
-            }).done(function(data) {
-                if(!data.service){
-                    alert('error');
-                    return ;
-                }
-                addServiceHTML(data.service);    
-                viewTotal();
-            })
-            .fail(function() {
-                alert("error");
-            });
-        }
-
-        function addServiceHTML(service){
-            $("#services-list").append(returnServiceHtml(service));
-            $('#title').val('');
-            $('#price').val('');
-            $('#description').val('');
-        }
-
-        function returnServiceHtml(service){
-            return '<li class="list-group-item d-flex" data-price="'+service.price+'" data-title = "'+service.title+'" data-description = "'+service.description+'" data-id = "'+service.id+'">'+
-                        '<div class="service-item-loading adding">'+
-                            '<div class="spinner-border text-secondary me-2" role="status">'+
-                                '<span class="visually-hidden">Loading...</span>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div>'+
-                            '<i class="task-icon bg-secondary"></i>'+
-                            '<h6 class="fw-semibold">'+service.title+'<span class="text-muted fs-11 mx-2 fw-normal"> $'+service.price+'</span>'+
-                            '</h6>'+
-                            '<p class="text-muted fs-12">'+service.description+'</p>'+
-                        '</div>'+
-                        '<div class="ms-auto d-flex">'+
-                            '<a href="#" onclick="openServiceModal(\'edit\',this); return false" class="text-muted me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="" aria-label="Edit" data-bs-original-title="Edit"><span class="fe fe-edit"></span></a>'+
-                            '<a href="#" onclick="removeService(this,'+service.id+');return false;" class="text-muted"><span class="fe fe-trash-2"></span></a>'+
-                        '</div>'+
-                    '</li>';
-        }
-
-        function removeService(d,id) {
-            var parent = $(d).parent().parent();
-            parent.find('.service-item-loading').addClass('active').addClass('remove');
-            $.ajax({
-                method:'post',
-                url:"/appointment/service/remove/"+id,
-                data:{
-                    _token : "{{ csrf_token() }}",
-                },
-                
-            }).done(function(data) {
-                parent.remove();
-                viewTotal();
-            })
-            .fail(function() {
-                alert("error");
-            });
-        }
-
+        
         function setAmount(b){
             var type = $(b).attr('data-type');
             var remainingBalance = $('#remainingBalance').val();

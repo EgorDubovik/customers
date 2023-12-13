@@ -17,6 +17,7 @@ class TechBlock extends Component
     public $appointment_techs = [];
     public $mode = "save";
 
+
     public function mount(){
         if($this->mode == 'save')
             $this->appointment_techs = $this->appointment->techs;

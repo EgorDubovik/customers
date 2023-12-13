@@ -21,22 +21,22 @@
                 <div class="input-group custom">
                     <textarea wire:model='description' class="custom-input" placeholder="DESCRIPTION" id="description" name="description"></textarea>
                 </div>
-                @if(isset($isTaxable))
+                @if(isset($isViewTaxable))
                 <div class="input-group">
                     <label class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1" checked="">
-                        <span class="custom-control-label">Option 1</span>
+                        <input type="checkbox" class="custom-control-input" wire:model='isTaxable' value="Taxable" >
+                        <span class="custom-control-label">Taxable</span>
                     </label>
                 </div>
                 @endif
            </div>
            <div class="modal-footer">
-               @if($mode == "create")
-                   <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                   <button class="btn btn-primary" wire:click='store()'>Add new service</button>
+               @if($mode == "save")
+                   <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                   <button type="button" class="btn btn-primary" wire:click.prevent='store()'>Add new service</button>
                @elseif ($mode == 'edit')
-                   <button class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                   <button class="btn btn-primary" wire:click='update()'>Save</button>
+                   <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                   <button type="button" class="btn btn-primary" wire:click.prevent='update()'>Save</button>
                @endif
            </div>
        </div>

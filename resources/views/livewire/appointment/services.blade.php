@@ -3,6 +3,7 @@
         <h3 class="card-title"><i class="fe fe-list"></i> Infromation </h3>
     </div>
     <div class="card-body">
+        
         <div class="appointment-time-info d-flex">
             <div>
                 <b>Appointment time:</b> <span
@@ -27,7 +28,6 @@
                         data-price="{{ $service->price }}" 
                         data-title="{{ $service->title }}"
                         data-description="{{ $service->description }}"
-                        data-id="{{ $service->id }}"
                     >
                         <div class="service-item-loading remove">
                             <div class="spinner-border text-secondary me-2" role="status">
@@ -51,6 +51,22 @@
                 <div class="text-center">
                     <a href="#" wire:click='create()' data-bs-toggle="modal" data-bs-target="#add_new_service_model" class="text-secondary">+ add new service</a>
                 </div>
+            </div>
+            <div class="subtotal">
+                <table class="table table-borderless text-nowrap mb-0">
+                    <tbody>
+                        
+                        <tr>
+                            <td class="text-end p-1">Tax</td>
+                            <td class="text-end p-1" width='20%'><span class="fw-bold text-danger">+ ${{ number_format($tax,2) }}</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-end p-1">Total</td>
+                            <td class="text-end p-1"><span class="fw-bold text-success">${{ number_format($total,2) }}</span></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
