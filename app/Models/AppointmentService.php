@@ -14,6 +14,7 @@ class AppointmentService extends Model
     protected $fillable = [
         'title',
         'price',
+        'taxalbe',
         'description',
         'appointment_id',
     ];
