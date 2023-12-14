@@ -39,46 +39,8 @@
                                     <a href="{{ route('invoice.create', ['appointment' => $appointment]) }}"><i
                                        class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
                                 </li>
-                                
                             </ul>
-                            
-                            {{-- <p>
-                                <span style="font-size:20px;"><a
-                                        href="{{ route('customer.show', ['customer' => $appointment->customer]) }}">{{ $appointment->customer->name }}</a></span>
-                                <a href="{{ route('customer.edit', ['customer' => $appointment->customer]) }}?redirect={{ route('appointment.show',$appointment) }}">
-                                    <i class="fe fe-edit text-success pull-right"></i>
-                                </a>
-                            </p>
-                            <p> --}}
-                                
-                                {{-- @if($appointment->address_id == 0)
-                                    <span class="fs-14 fw-bold">{{ $appointment->customer->address->last()->full }}</span>
-                                @else
-                                    <span class="fs-14 fw-bold">{{ $appointment->address->full }}</span>
-                                @endif --}}
-
-                                {{-- <span class="fs-14 fw-bold">{{ $appointment->address->full }}</span>
-                                <i class="fe fe-copy pull-right text-secondary" style="cursor: pointer"></i>
-                                <a href="#"> <i class="fe fe-map-pin pull-right" style="margin-right: 10px;"></i></a>
-                            </p>
-                            <p>
-                                <span class="fs-14 text-info fw-bold">{{ $appointment->customer->phone }}</span>
-                                <i class="fe fe-copy pull-right text-secondary"
-                                    onclick="copy_to({{ $appointment->customer->phone }})" style="cursor: pointer"></i>
-                                <a href="#"> <i class="fe fe-phone-call pull-right"
-                                        style="margin-right: 10px;"></i></a>
-                            </p>
-                            <p>
-                                @if($appointment->customer->email)
-                                <span class="fs-14 text-black">{{ $appointment->customer->email }}</span>
-                                <a
-                                    href="{{ route('invoice.create', ['appointment' => $appointment]) }}"><i
-                                        class="fe fe-send pull-right text-secondary" style="cursor: pointer"></i></a>
-                                @endif
-                            </p> --}}
-
                         </div>
-
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -102,60 +64,7 @@
     </div>
 
     {{--Ppayemnt model--}}
-    <div class="modal fade" id="payment_model" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title">Payment
-                        <span style="color: #5f5f5f; margin-left:20px;">(Total: $<span id="paymentTotal">{{ $appointment->services->sum('price') }}</span>)</span>
-                    </h6>
-                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
-                </div>
-                <form method="post" action="{{ route('appointment.pay', ['appointment' => $appointment]) }}">
-                    @csrf
-                    <div class="row p-2">
-                        <div class="col-10">Remainig payment:</div> 
-                        <div class="col-2"> <b>$<span id="remainingBalanceSpan">{{ $remainingBalance }}</span></b></div>
-                        <input type='hidden' id="remainingBalance" value="{{ $remainingBalance }}" />
-                        <input type="hidden" id="paymentsSum" value="{{ $appointment->payments->sum('amount') }}" />
-                    </div>
-                    <div class="modal-body">
-                        <div class="amount-pay">
-                            <span>$</span><input id="amountPayment" type="text" name="amount" value="{{ $remainingBalance }}">
-                        </div>
-                        <div class="btn-cont-payment">
-                            @if ($remainingBalance > Auth::user()->settings->payment_deposit_amount)
-                            <button 
-                                type="button" 
-                                onClick="setAmount(this)" 
-                                data-amount="{{ Auth::user()->settings->payment_deposit_type==0 ? Auth::user()->settings->payment_deposit_amount : Auth::user()->settings->payment_deposit_amount_prc }}"
-                                data-type="{{ Auth::user()->settings->payment_deposit_type  }}" 
-                                class="btn btn-outline-primary" 
-                                style="margin-right: 30px;">Deposit ( {!! Auth::user()->settings->payment_deposit_type==0 ? '$'.Auth::user()->settings->payment_deposit_amount : Auth::user()->settings->payment_deposit_amount_prc.'%' !!})
-                            </button>
-                            @endif
-                            <button type="button" onClick="setAmount(this)" data-type=0 data-amount="{{ $remainingBalance }}" class="btn btn-outline-primary" id="buttonFull">Full</button>
-                        </div>
-                        <div class="type-of-payment">
-                            Type of payment:
-                            <div class="btn_cont_type">
-                                <input type="hidden" name="payment_type" value="{{ \App\Models\Payment::CREDIT }}">
-                                <div class="btn-group d-flex">
-                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CREDIT }}" class="btn btn-outline-primary w-100 active">Credit</button>
-                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::TRANSFER }}" class="btn btn-outline-primary w-100">Transfer</button>
-                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CASH }}" class="btn btn-outline-primary w-100">Cash</button>
-                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CHECK }}" class="btn btn-outline-primary w-100">Check</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" type="submit">Pay</button> <button class="btn btn-light" data-bs-dismiss="modal" onclick="return false;">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    
 
 @stop
 

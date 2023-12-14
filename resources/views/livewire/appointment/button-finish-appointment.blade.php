@@ -13,9 +13,11 @@
         <button href="#" class="btn btn-outline-success col-5">
             <i class="fe fe-copy"></i> Create copy
         </button>
-        <button onclick="openPayModal();" class="btn btn-outline-secondary col-2">
+        <button type="button" data-bs-toggle="modal" data-bs-target="#payment_model" class="btn btn-outline-secondary col-2">
             <i class="fa fa-credit-card"></i> Pay
         </button>
     </div>
 
+
+    @include('livewire.layout.payment-modal')
 </div>

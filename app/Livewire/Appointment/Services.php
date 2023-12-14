@@ -115,6 +115,8 @@ class Services extends Component
     private function setMoneyValue(){
         $tax = 0;
         $total = 0;
+        $payments = Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
+
         foreach($this->appointment->services as $service){
             if($service->taxable){
                 $tax += round($service->price * ($this->taxVal / 100),2);
@@ -124,11 +126,9 @@ class Services extends Component
 
         $this->tax = $tax;
         $this->total = $total + $tax;
-        $this->remainingBalance = $this->getRemainigBalance() + $this->tax;
-    }
+        $this->remainingBalance = $total + $this->tax - $payments;
 
-    private function getRemainigBalance(){
-        return $this->appointment->services->sum('price') - Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
+        $this->dispatch('update-total',$this->total,$this->remainingBalance);
     }
-
+    
 }
