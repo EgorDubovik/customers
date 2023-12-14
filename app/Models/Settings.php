@@ -14,5 +14,6 @@ class Settings extends Model
         'payment_deposit_type',
         'payment_deposit_amount',
         'payment_deposit_amount_prc',
+        'tax',
     ];
 }

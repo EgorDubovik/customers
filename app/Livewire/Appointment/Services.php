@@ -6,6 +6,7 @@ use App\Models\AppointmentService;
 use Livewire\Component;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
 
 class Services extends Component
 {
@@ -20,8 +21,6 @@ class Services extends Component
     public $isViewTaxable;
     public $isTaxable = false;
     public $editableServiceId = null;
-
-    private $taxVal = 8.25;
 
     public $total = 0;
     public $tax = 0;
@@ -115,18 +114,19 @@ class Services extends Component
     private function setMoneyValue(){
         $tax = 0;
         $total = 0;
+        $taxValue = Auth::user()->settings->tax;
         $payments = Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
 
         foreach($this->appointment->services as $service){
             if($service->taxable){
-                $tax += round($service->price * ($this->taxVal / 100),2);
+                $tax += round($service->price * ($taxValue / 100),2);
             }
             $total+=$service->price;
         }
 
         $this->tax = $tax;
         $this->total = $total + $tax;
-        $this->remainingBalance = $total + $this->tax - $payments;
+        $this->remainingBalance = $this->total - $payments;
 
         $this->dispatch('update-total',$this->total,$this->remainingBalance);
     }

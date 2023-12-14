@@ -58,7 +58,7 @@ class PaymentController extends Controller
         $total['transfer'] = $paymentsSelectedRange->where('payment_type',Payment::TRANSFER)->sum('amount');
         $total['cash'] = $paymentsSelectedRange->where('payment_type',Payment::CASH)->sum('amount');
         $total['check'] = $paymentsSelectedRange->where('payment_type',Payment::CHECK)->sum('amount');
-        // dd($datesInRange->toArray());
+
         return view('payment.index',[
             'paymentForGraph'   => $paymentForGraph,
             'total'             => $total,

@@ -13,7 +13,6 @@
                    <div class="col-10">Remainig payment:</div> 
                    <div class="col-2"> <b>$<span id="remainingBalanceSpan">{{ $remainingBalance }}</span></b></div>
                    <input type='hidden' id="remainingBalance" value="{{ $remainingBalance }}" />
-                   <input type="hidden" id="paymentsSum" value="{{ $appointment->payments->sum('amount') }}" />
                </div>
                <div class="modal-body">
                    <div class="amount-pay">
