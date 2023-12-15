@@ -145,39 +145,6 @@
             $(b).parent().parent().find('input').val($(b).attr('data-type'));
         }
         
-        // function openPayModal(){
-            
-        //     let remainingBalance = getRemainingBalance();
-            
-        //     $('#remainingBalance').val(remainingBalance.rem);
-        //     $('#amountPayment').val(remainingBalance.rem);
-        //     $('#remainingBalanceSpan').html(remainingBalance.rem);
-        //     $('#buttonFull').attr('data-amount',remainingBalance.rem);
-        //     $('#paymentTotal').html(remainingBalance.total);
-        //     $('#payment_model').modal('show');
-        // }
-        
-        // function viewTotal(){
-        //     let remainingBalance = getRemainingBalance();
-        //     if(remainingBalance.rem <= 0){
-        //         $('#total_on_span').html('Paid full').addClass('tag-outline-success').removeClass('tag-outline-danger')
-        //     } else {
-        //         $('#total_on_span').html('Total due: $'+remainingBalance.rem).removeClass('tag-outline-success').addClass('tag-outline-danger')
-        //     }
-        // }
-
-        // function getRemainingBalance(){
-        //     var totalPrice = 0;
-        //     $('#services-list li').each(function(){
-        //         totalPrice += parseFloat($(this).attr('data-price'));
-        //     });
-        //     totalPrice = totalPrice.toFixed(2);
-        //     var paymentsSum = $('#paymentsSum').val();
-        //     var remainingBalance = (totalPrice-paymentsSum < 0) ? 0 : totalPrice-paymentsSum;
-            
-        //     remainingBalance = remainingBalance.toFixed(2);
-        //     return {'rem':remainingBalance,'total':totalPrice};
-        // }
     </script>
     
     <script>
@@ -186,6 +153,6 @@
         })
     </script>
     
-    @include('service.typehead-script')
+    @include('service.typehead-script',['componentName' => 'appointment.services'])
     
 @endsection

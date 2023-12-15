@@ -8,7 +8,7 @@ $(document).ready(function () {
         limit: 10,
         customLabel : 'title',
         callback: function (index, selected) {
-            let wire = window.Livewire.getByName("appointment.services")[0];
+            let wire = window.Livewire.getByName("{{ $componentName }}")[0];
             wire.title = selected.title;
             wire.price = selected.price;
             wire.description = selected.description;
