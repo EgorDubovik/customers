@@ -87,9 +87,10 @@ class AppointmentController extends Controller
             foreach($request->input('service-prices') as $key => $value){
                 AppointmentService::create([
                     'appointment_id' => $appointment->id,
-                    'title' => $request->input('service-title')[$key],
+                    'title' => $request->input('service-title')[$key] ?: 'unknown',
                     'description' => $request->input('service-description')[$key],
-                    'price' => $request->input('service-prices')[$key],
+                    'price' => $request->input('service-prices')[$key] ?: 0,
+                    'taxable' => $request->input('service-isTaxable')[$key] ?: 0,
                 ]);
             }
         }

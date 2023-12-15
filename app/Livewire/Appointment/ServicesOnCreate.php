@@ -33,11 +33,14 @@ class ServicesOnCreate extends Component
 
     public function store(){
         
+        if($this->title == null || $this->price == null)
+            return false;
+
         $this->services[] = [
             'title' => $this->title,
             'price' => $this->price,
             'description' => $this->description,
-            'taxable' => $this->isTaxable,
+            'taxable' => $this->isTaxable ?: false,
             'id' => count($this->services),
         ];
         

@@ -40,14 +40,15 @@ class Services extends Component
         
         Gate::authorize('add-remove-service-from-appointment',[$this->appointment]);
 
-        // Validate
+        if($this->title == null || $this->price == null)
+            return false;
 
         AppointmentService::create([
             'appointment_id' => $this->appointment->id,
             'title' => $this->title,
             'description' => $this->description,
-            'price' => $this->price,
-            'taxable' => $this->isTaxable,
+            'price' => $this->price ?: 0,
+            'taxable' => $this->isTaxable ?: false,
         ]);
 
         $this->dispatch('close-modal');
