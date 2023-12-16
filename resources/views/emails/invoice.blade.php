@@ -146,7 +146,12 @@ h3, .h3 {
         </div>
         <div class="card">
             <div class="card-body">
-                @include('invoice.layout.invoice',$invoice)
+                @include('invoice.layout.head')
+                <div class="table-responsive push">
+                    @include('invoice.layout.services-table',['services' => $invoice->appointment->services])
+                </div>
+                <p style="text-align: center;margin-top:50px;">Payments history:</p>
+                @include('invoice.layout.payment-table',['payments' => $invoice->appointment->payments])
             </div>
         </div>
     </div>

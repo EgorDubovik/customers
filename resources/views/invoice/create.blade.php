@@ -62,44 +62,10 @@
                                 </div>
                             </div>
                             <div class="table-responsive push">
-                                <table class="table table-bordered table-hover mb-0 text-nowrap">
-                                    <tbody>
-                                        <tr id="tr-header-invoice-table">
-                                            <th class="text-center"></th>
-                                            <th>Item</th>
-                                            <th class="text-end">Total</th>
-                                        </tr>
-                                        @foreach ($appointment->services as $service)
-                                            <tr class="table-invoice-line">
-                                                <td class="text-center">1</td>
-                                                <td>
-                                                    <p class="font-w600 mb-1">{{ $service->title }}</p>
-                                                    <div class="text-muted">
-                                                        <div class="text-muted">{{ $service->description }}</div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-end">${{ $service->price }}</td>
-                                            </tr>
-                                        @endforeach
-                                        <tr>
-                                            <td colspan="2" class="fw-bold text-uppercase text-end">Total</td>
-                                            <td class="fw-bold text-end h4"><span id="total-invoice">$
-                                                    {!! $total !!}</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                @include('invoice.layout.services-table', ['services' => $appointment->services])
                             </div>
                             <p style="text-align: center;margin-top:50px;">Payments history:</p>
-                            <table style="width: 50%;" align="right">
-                                @foreach ($appointment->payments as $payment)
-                                <tr>
-                                    <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d Y') }}</td>
-                                    <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('g:i A') }}</td>
-                                    <td>{{ App\Models\Payment::getPaymentTypeText($payment->payment_type) }}</td>
-                                    <td>${{ number_format($payment->amount,2) }}</td>
-                                </tr>
-                                @endforeach
-                            </table>
+                            @include('invoice.layout.payment-table', ['payments' => $appointment->payments])
                         </div>
                         <div class="card-footer">
                             <div class="input-group">

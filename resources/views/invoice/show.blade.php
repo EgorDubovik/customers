@@ -18,7 +18,12 @@
                         <input type="text" class="form-control" value="{{ env('AWS_FILE_ACCESS_URL').'invoices/'.$invoice->pdf_path }}" readonly>
                     </div>
                     <div class="card-body">
-                        @include('invoice.layout.invoice',$invoice)
+                        @include('invoice.layout.head')
+                        <div class="table-responsive push">
+                            @include('invoice.layout.services-table',['services' => $invoice->appointment->services])
+                        </div>
+                        <p style="text-align: center;margin-top:50px;">Payments history:</p>
+                        @include('invoice.layout.payment-table',['payments' => $invoice->appointment->payments])
                     </div>
                     <div class="card-footer text-end">
                         <form method="post" action="{{ route('invoice.resend',['invoice' => $invoice]) }}">
