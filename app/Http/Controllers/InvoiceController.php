@@ -39,12 +39,20 @@ class InvoiceController extends Controller
     public function create(Request $request, Appointment $appointment)
     {
         Gate::authorize('create-invoice',['appointment' => $appointment]);
-        $total = $appointment->services->sum('price');
+        $res = $this->getTaxAndTotal($appointment);
+        $tax = $res['tax'];
+        $total = $res['total'];
+
         $paid = $appointment->payments->sum('amount');
         $due = $total - $paid;
         $due = ($due <= 0) ? '00.00' : number_format($due,2);
         $total = number_format($total,2); 
-        return view("invoice.create", ['appointment' => $appointment,'total'=>$total,'due' => $due]);
+        return view("invoice.create", [
+            'appointment' => $appointment,
+            'total'=>$total,
+            'due' => $due,
+            'tax' => $tax,
+        ]);
     }
 
     /**
@@ -57,6 +65,7 @@ class InvoiceController extends Controller
     {
         $appointment = Appointment::find($request->appointment_id);
         Gate::authorize('create-invoice',['appointment' => $appointment]);
+        
         $invoice = Invoice::create([
             'creator_id'        => Auth::user()->id,
             'company_id'        => Auth::user()->company_id,
@@ -68,7 +77,7 @@ class InvoiceController extends Controller
             'status'            => 0,
             'pdf_path'          => null,
         ]);
-
+        
         $pdfname = $this->createPDF($invoice);
         $invoice->pdf_path = $pdfname;
         $invoice->save();
@@ -88,40 +97,39 @@ class InvoiceController extends Controller
     public function show(Invoice $invoice)
     {
         $this->authorize('can-view-invoice', $invoice);
-        $total = $invoice->appointment->services->sum('price');
+        
+        $res = $this->getTaxAndTotal($invoice->appointment);
+        $tax = $res['tax'];
+        $total = $res['total'];
+
         $paid = $invoice->appointment->payments->sum('amount');
         $due = $total - $paid;
         $due = ($due <= 0) ? '00.00' : number_format($due,2);
         $total = number_format($total,2); 
-        return view('invoice.show',['invoice' => $invoice,'total'=>$total,'due'=>$due]);
+        return view('invoice.show',[
+            'invoice' => $invoice,
+            'total'=>$total,
+            'due'=>$due,
+            'tax'=>$tax,
+        ]);
     }
 
     private function createPDF(Invoice $invoice){
         
-        $total = $invoice->appointment->services->sum('price');
+        $res = $this->getTaxAndTotal($invoice->appointment);
+        $tax = $res['tax'];
+        $total = $res['total'];
+
         $paid = $invoice->appointment->payments->sum('amount');
         $due = $total - $paid;
         $due = ($due <= 0) ? '00.00' : number_format($due,2);
         $total = number_format($total,2); 
-        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due]);
+        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due,'tax'=>$tax]);
         $content = $pdf->download()->getOriginalContent();
         $filename = 'Invoice_'.date('m-d-Y').'-'.time().Str::random(50).'.pdf';
         Storage::disk('s3')->put('invoices/'.$filename, $content);
         return $filename;
     }
-
-    // public function viewPDF($key){
-
-    //     $invoice = Invoice::where('key',$key)->first();
-    //     if(!$invoice)
-    //         abort(404);
-
-    //     $file = storage_path('app/public/pdf/invoices/'.$invoice->pdf_path);
-    //     if(!file_exists($file))
-    //         abort(404);
-        
-    //     return response()->file($file);
-    // }
 
     public function resend(Request $request, Invoice $invoice)
     {
@@ -129,21 +137,13 @@ class InvoiceController extends Controller
             'creator_id'    => $invoice->creator_id,
             'company_id'    => $invoice->company_id,
             'customer_id'   => $invoice->customer_id,
+            'appointment_id'=> $invoice->appointment_id,
             'customer_name' => $invoice->customer_name,
             'address' => $invoice->address,
             'email' => $request->email,
             'status' => 0,
             'pdf_path' => null,
         ]);
-        
-        foreach($invoice->services as $key => $service){
-            InvoiceServices::create([
-                'invoice_id' => $newInvoice->id,
-                'title' => $service->title,
-                'description' => $service->description,
-                'price' => $service->price,
-            ]);
-        }
         $pdfname = $this->createPDF($newInvoice);
         $newInvoice->pdf_path = $pdfname;
         $newInvoice->save();
@@ -156,6 +156,21 @@ class InvoiceController extends Controller
     private function sendEmail(Invoice $invoice){
         $file = env('AWS_FILE_ACCESS_URL').'invoices/'.$invoice->pdf_path;
         Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
+    }
+
+    private function getTaxAndTotal(Appointment $appointment){
+        $tax = 0;
+        $total = 0;
+        foreach($appointment->services as $service){
+            $total += $service->price;
+            if($service->taxable)
+                $tax += $service->price * (Auth::user()->settings->tax/100);
+        }
+        $total += $tax;
+        return [
+            'tax' => $tax,
+            'total' => $total,
+        ];
     }
 
 }

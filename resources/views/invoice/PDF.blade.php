@@ -123,7 +123,7 @@ p{
     </div>
     <div style="clear: both"></div>
     <div class="table-responsive push row">
-        <table class="table table-bordered table-hover mb-0 text-nowrap">
+        {{-- <table class="table table-bordered table-hover mb-0 text-nowrap">
             <tbody>
                 <tr id="tr-header-invoice-table">
                     <th class="text-center" style="width: 50px;"></th>
@@ -150,7 +150,8 @@ p{
                     <td class="fw-bold text-end h4"><span id="total-invoice"><b>${{ $total }}</b></span></td>
                 </tr>
             </tbody>
-        </table>
+        </table> --}}
+        @include('invoice.layout.services-table', ['services' => $invoice->appointment->services])
     </div>
     <p style="text-align: center;margin-top:50px;">Payments history:</p>
     <table style="width: 50%;border-spacing: 0px;border-collapse: collapse; border-style: outset;" align="right" border=0 >

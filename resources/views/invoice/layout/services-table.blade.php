@@ -18,6 +18,10 @@
             </tr>    
          @endforeach
          <tr>
+            <td colspan="2" class="text-uppercase text-end">Tax ({{ Auth::user()->settings->tax }}%)</td>
+            <td class="text-end h4"><span id="total-invoice" style="font-size: 16px">${{ $tax }}</span></td>
+         </tr>
+         <tr>
             <td colspan="2" class="fw-bold text-uppercase text-end">Total</td>
             <td class="fw-bold text-end h4"><span id="total-invoice">${{ $total }}</span></td>
          </tr>
