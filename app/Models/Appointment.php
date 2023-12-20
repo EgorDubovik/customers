@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Appointment extends Model
 {
@@ -54,6 +55,30 @@ class Appointment extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function totalPaid()
+    {
+        return $this->payments->sum('amount');
+    }
+
+    public function totalTax()
+    {
+        $tax = 0;
+        foreach($this->services as $service){
+            if($service->taxable)
+                $tax += $service->price * (Auth::user()->settings->tax/100);
+        }
+        return $tax;
+    }
+
+    public function totalAmount()
+    {
+        $total = 0;
+        foreach($this->services as $service){
+            $total += $service->price;
+        }
+        return $total;
     }
 
     public function company() {

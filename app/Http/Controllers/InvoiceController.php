@@ -39,14 +39,9 @@ class InvoiceController extends Controller
     public function create(Request $request, Appointment $appointment)
     {
         Gate::authorize('create-invoice',['appointment' => $appointment]);
-        $res = $this->getTaxAndTotal($appointment);
-        $tax = $res['tax'];
-        $total = $res['total'];
+        
+        list($tax, $total, $paid, $due) = $this->getTaxAndTotal($appointment);
 
-        $paid = $appointment->payments->sum('amount');
-        $due = $total - $paid;
-        $due = ($due <= 0) ? '00.00' : number_format($due,2);
-        $total = number_format($total,2); 
         return view("invoice.create", [
             'appointment' => $appointment,
             'total'=>$total,
@@ -98,14 +93,8 @@ class InvoiceController extends Controller
     {
         $this->authorize('can-view-invoice', $invoice);
         
-        $res = $this->getTaxAndTotal($invoice->appointment);
-        $tax = $res['tax'];
-        $total = $res['total'];
-
-        $paid = $invoice->appointment->payments->sum('amount');
-        $due = $total - $paid;
-        $due = ($due <= 0) ? '00.00' : number_format($due,2);
-        $total = number_format($total,2); 
+        list($tax, $total, $paid, $due) = $this->getTaxAndTotal($invoice->appointment);
+        
         return view('invoice.show',[
             'invoice' => $invoice,
             'total'=>$total,
@@ -116,14 +105,8 @@ class InvoiceController extends Controller
 
     private function createPDF(Invoice $invoice){
         
-        $res = $this->getTaxAndTotal($invoice->appointment);
-        $tax = $res['tax'];
-        $total = $res['total'];
+        list($tax, $total, $paid, $due) = $this->getTaxAndTotal($invoice->appointment);
 
-        $paid = $invoice->appointment->payments->sum('amount');
-        $due = $total - $paid;
-        $due = ($due <= 0) ? '00.00' : number_format($due,2);
-        $total = number_format($total,2); 
         $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due,'tax'=>$tax]);
         $content = $pdf->download()->getOriginalContent();
         $filename = 'Invoice_'.date('m-d-Y').'-'.time().Str::random(50).'.pdf';
@@ -159,18 +142,18 @@ class InvoiceController extends Controller
     }
 
     private function getTaxAndTotal(Appointment $appointment){
-        $tax = 0;
-        $total = 0;
-        foreach($appointment->services as $service){
-            $total += $service->price;
-            if($service->taxable)
-                $tax += $service->price * (Auth::user()->settings->tax/100);
-        }
+
+        $tax = $appointment->totalTax() ?: 0;
+        $total = $appointment->totalAmount() ?: 0;
         $total += $tax;
-        return [
-            'tax' => $tax,
-            'total' => $total,
-        ];
+        $paid = $appointment->totalPaid();
+        $due = $total - $paid;
+
+        $due = ($due <= 0) ? '00.00' : number_format($due,2);
+        $total = number_format($total,2); 
+        $tax = number_format($tax,2);
+        
+        return [$tax, $total, $paid, $due];
     }
 
 }
