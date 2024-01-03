@@ -427,11 +427,10 @@ li.tag-li:hover:not(.active) {
 }
 .payments-dates{
     font-weight: 100;
-    
     background: #fff;
     padding: 5px 10px;
     border-radius: 5px;
-    
+    cursor: pointer;
 }
 
 .remove-appointment-block{

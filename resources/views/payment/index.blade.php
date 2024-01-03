@@ -89,6 +89,7 @@
         <div class="row">
             <div class="card">
                <div class="card-body">
+                  <div class="table-responsive push">
                      <table class="table text-nowrap text-md-nowrap mb-0">
                         <thead>
                            <th style="width: 100px">id</th>
@@ -112,7 +113,7 @@
                               </tr>   
                            @endforeach
                      </table>
-
+                  </div>
                </div>
             </div>
         </div>
