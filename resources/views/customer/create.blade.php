@@ -25,7 +25,6 @@
         function parse_my_address(d){
             var address  = $(d).val();
             var parsed = parseAddress.parseLocation(address);
-            console.log(parsed.hasOwnProperty('prefix'));
             $('.line1').val(
                 ((parsed.hasOwnProperty('number')) ? parsed.number+ " " : "")  +
                 ((parsed.hasOwnProperty('prefix')) ? parsed.prefix+ " " : "")  +
