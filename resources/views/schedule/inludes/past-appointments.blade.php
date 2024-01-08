@@ -1,5 +1,5 @@
 <a href="{{ route('appointment.show',['appointment'=>$appointment]) }}" class="a-open-appointment">
-   <div class="row open-app-item align-items-center" style="border-top: 3px solid #ccc">
+   <div class="row open-app-item align-items-center" style="border-top: 3px solid {{ ($appointment->status == App\Models\Appointment::ACTIVE) ? ((count($appointment->techs) > 0) ? $appointment->techs[0]->color : '#1565C0') : '#ccc' }}">
       <div class="col-5">
          <div class="customer-name">{{ $appointment->services[0]->title }}</div>
          <div class="customer-phone">

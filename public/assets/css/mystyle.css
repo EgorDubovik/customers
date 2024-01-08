@@ -347,6 +347,22 @@ li.tag-li:hover:not(.active) {
     background: #f1f1f1;
     margin: 10px 0;
     font-size: 0.8rem;
+    position: relative;
+}
+.open-app-item .paid-status{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    padding: 0;
+}
+.open-app-item .paid-status.full{
+    background: #28a745;
+}
+.open-app-item .paid-status.due{
+    background: #e82646;
 }
 .open-app-item .customer-name{
     font-weight: bold;
