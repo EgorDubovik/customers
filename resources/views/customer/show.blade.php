@@ -65,6 +65,14 @@
                         @else
                             <p class="text-muted">No upcoming appointment</p>
                         @endif
+
+                        @if (count($appointments)>0)
+                            <p class="text-muted">Last appointment</p>
+                            
+                            @include('schedule.inludes.past-appointments',['appointment' => $appointments->last()])
+                        @else
+                            <p class="text-muted">No past appointment</p>
+                        @endif
                         
                         <p class="text-end"><a href="{{ route('appointment.viewall',['customer'=>$customer]) }}">View all History ({{ count($appointments) }})</a></p>
                     </div>

@@ -81,6 +81,11 @@ class Appointment extends Model
         return $total;
     }
 
+    public function remainingBalance()
+    {
+        return round($this->totalAmount() + $this->totalTax() - $this->totalPaid(),2);
+    }
+
     public function company() {
         return $this->belongsTo(Company::class);
     }
