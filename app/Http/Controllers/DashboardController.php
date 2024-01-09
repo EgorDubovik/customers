@@ -33,7 +33,7 @@ class DashboardController extends Controller
             ->get();
         
         $sumLast30Days = number_format($paymentsLast30Days->sum('sum')/100,2);
-        $avarageLast30Days = number_format($sumLast30Days/30,2);
+        $avarageLast30Days = number_format($paymentsLast30Days->sum('sum')/30,2);
 
         $currentDate = Carbon::now()->format('Y-m-d');
         $paymentsCurentDay = Payment::whereDate('created_at', $currentDate)->get();
