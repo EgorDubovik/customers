@@ -45,13 +45,14 @@ class ButtonFinishAppointment extends Component
 
         $payments = Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
         $this->remainingBalance = round($total - $payments,2);
+        $this->remainingBalance = $this->remainingBalance < 0 ? 0 : $this->remainingBalance;
         $this->total = $total;
     }
 
     #[On('update-total')]
     public function refresh($total, $remainingBalance){
         $this->total = $total;
-        $this->remainingBalance = $remainingBalance;
+        $this->remainingBalance = $remainingBalance < 0 ? 0 : $remainingBalance;
         $this->render();
     }
 }

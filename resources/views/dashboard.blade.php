@@ -27,12 +27,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <span class="text-muted fs-12">
-                                    {{-- <span class="text-{{ ($procent>=0) ? 'success' : 'danger' }}">
-                                        <i class="fe fe-arrow-up-circle text-{{ ($procent>=0) ? 'success' : 'danger' }}"></i> {{ number_format($procent,2) }}%
-                                    </span> --}}
-                                    {{-- Last month --}}
-                                </span>
+                                
                             </div>
                         </div>
                     </div>
@@ -51,13 +46,46 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <span class="text-muted fs-12"><span class="text-green"><i
-                                            class="fe fe-arrow-up-circle text-green"></i> 0.9%</span>
-                                    Last 9 days</span> --}}
+                                
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-widget">
+                                    <!-- <h6 class="mb-2">Total Profit</h6> -->
+                                    <h2 class="text-end"><i class="icon-size mdi mdi-currency-usd float-start text-primary text-primary-shadow border-solid border-primary brround p-3"></i><span>${{ $avarageLast30Days }}</span></h2>
+                                    <p class="mb-0 pt-5"><span class="float-end"> Avarage day check for last 30 days</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <div class="col-xl-6">
+                        <div class="card overflow-hidden">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div class="mt-2">
+                                        <h6 class="">Total for today</h6>
+                                        <h2 class="mb-0 number-font">${{ $sumCurentDay }}</h2>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <div class="chart-wrapper mt-1">
+                                            <canvas id="profitchart"
+                                                class="h-8 w-9 chart-dropshadow"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div> --}}
+                </div>
+
                 <div class="row">
                     <div class="col-xl-6">
                         <div class="card">
