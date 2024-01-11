@@ -37,6 +37,7 @@ class BookOnline extends Mailable
         $company = $this->appointment->company;
         return $this->markdown('emails.book-online')
                     ->subject('New appointment online')
-                    ->from($company->email,$company->name);
+                    ->replyTo(Auth::user()->company->email,Auth::user()->company->name)
+                    ->from(Auth::user()->company->email,Auth::user()->company->name);
     }
 }

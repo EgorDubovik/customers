@@ -38,7 +38,8 @@ class InvoiceMail extends Mailable
                         'as' => $this->invoice->pdf_path,
                         'mime' => 'application/pdf'
                     ])
-                    ->from('edservicetx@gmail.com','EDService Appliance repair');
+                    ->replyTo(Auth::user()->company->email,Auth::user()->company->name)
+                    ->from(Auth::user()->company->email,Auth::user()->company->name);
     }
 
     private function setDue(){
