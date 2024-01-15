@@ -11,7 +11,7 @@ use Livewire\Attributes\On;
 class ButtonFinishAppointment extends Component
 {
 
-    private $appointment;
+    public $appointment;
     private $remainingBalance = 0;
     private $total = 0;
 
