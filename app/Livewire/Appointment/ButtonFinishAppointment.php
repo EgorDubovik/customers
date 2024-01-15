@@ -11,9 +11,9 @@ use Livewire\Attributes\On;
 class ButtonFinishAppointment extends Component
 {
 
-    protected $appointment;
-    protected $remainingBalance = 0;
-    protected $total = 0;
+    public $appointment;
+    public $remainingBalance = 0;
+    public $total = 0;
 
     public function activateOrDiactivate(){
         Gate::authorize('update-remove-appointment',['appointment'=>$this->appointment]);
