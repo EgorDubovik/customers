@@ -27,7 +27,10 @@ class ButtonFinishAppointment extends Component
     public function render()
     {
         $this->remainigBalance();
-        return view('livewire.appointment.button-finish-appointment');
+
+        return view('livewire.appointment.button-finish-appointment',[
+                'appointment' => $this->appointment,
+        ]);
     }
 
     public function remainigBalance(){
