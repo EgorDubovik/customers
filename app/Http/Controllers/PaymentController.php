@@ -70,14 +70,34 @@ class PaymentController extends Controller
     public function store(Request $request, Appointment $appointment){
         
         Gate::authorize('pay-service',['appointment' => $appointment]);
+        $this->validate($request,[
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        Payment::create([
+            'appointment_id'    => $appointment->id,
+            'amount'            => $request->amount,
+            'payment_type'      => $request->payment_type,
+            'company_id'        => Auth::user()->company_id,
+        ]);
+
+        return back();
+    }
+
+    public function refund(Request $request, Appointment $appointment){
         
-        if($request->amount > 0)
-            Payment::create([
-                'appointment_id'    => $appointment->id,
-                'amount'            => $request->amount,
-                'payment_type'      => $request->payment_type,
-                'company_id'        => Auth::user()->company_id,
-            ]);
+        Gate::authorize('pay-service',['appointment' => $appointment]);
+        $this->validate($request,[
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        $ammount = $request->amount*-1;
+        Payment::create([
+            'appointment_id'    => $appointment->id,
+            'amount'            => $ammount,
+            'payment_type'      => $request->payment_type,
+            'company_id'        => Auth::user()->company_id,
+        ]);
 
         return back();
     }

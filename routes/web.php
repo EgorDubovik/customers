@@ -116,6 +116,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         });
 
         Route::post('pay/{appointment}', [PaymentController::class, 'store'])->name('appointment.pay');
+        Route::post('refund/{appointment}', [PaymentController::class, 'refund'])->name('appointment.refund');
         Route::get('map',[AppointmentController::class,'map'])->name('appointment.map');
     });
 

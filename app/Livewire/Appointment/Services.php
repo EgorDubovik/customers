@@ -25,6 +25,7 @@ class Services extends Component
     public $total = 0;
     public $tax = 0;
     public $remainingBalance;
+    public $totalPaid = 0;
 
     public function mount(){
         $this->isTaxable = $this->isTaxableSave();
@@ -116,7 +117,7 @@ class Services extends Component
         $tax = 0;
         $total = 0;
         $taxValue = Auth::user()->settings->tax;
-        $payments = Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
+        $this->totalPaid = Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
 
         foreach($this->appointment->services as $service){
             if($service->taxable){
@@ -127,7 +128,7 @@ class Services extends Component
 
         $this->tax = $tax;
         $this->total = $total + $tax;
-        $this->remainingBalance = $this->total - $payments;
+        $this->remainingBalance = $this->total - $this->totalPaid;
 
         $this->dispatch('update-total',$this->total,$this->remainingBalance);
     }

@@ -38,5 +38,44 @@
             @endforeach
         </table>
     </div>
+    <div class="card-footer text-end">
+        <button type="button" class="btn btn-sm btn-outline-default float-right" data-bs-toggle="modal" data-bs-target="#create-refund">Issue refund</button>        
+    </div>
     @include('livewire.layout.service-add-modal')
+    
+    <div class="modal fade" id="create-refund" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Issue Refund</h6>
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">×</span></button>
+                </div>
+                <form method="post" action="{{ route('appointment.refund', ['appointment' => $appointment]) }}">
+                    @csrf
+                    
+                    <div class="modal-body">
+                        <div class="amount-pay">
+                            <span>$</span><input id="amountPayment" type="text" name="amount" value="{{ $totalPaid }}">
+                        </div>
+                        <div class="type-of-payment">
+                            Type of payment:
+                            <div class="btn_cont_type">
+                                <input type="hidden" name="payment_type" value="{{ \App\Models\Payment::CREDIT }}">
+                                <div class="btn-group d-flex">
+                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CREDIT }}" class="btn btn-outline-primary w-100 active">Credit</button>
+                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::TRANSFER }}" class="btn btn-outline-primary w-100">Transfer</button>
+                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CASH }}" class="btn btn-outline-primary w-100">Cash</button>
+                                    <button type="button" onClick="setPaymentType(this)" data-type="{{ \App\Models\Payment::CHECK }}" class="btn btn-outline-primary w-100">Check</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit">Refund</button> <button class="btn btn-light" data-bs-dismiss="modal" onclick="return false;">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+     </div>
+
 </div>
