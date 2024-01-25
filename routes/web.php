@@ -19,6 +19,7 @@ use App\Http\Controllers\AppointmentServiceController;
 use App\Http\Controllers\BookAppointmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReferralController;
 use App\Models\Appointment;
 use App\Models\Invoice;
 use App\Models\Settings;
@@ -78,6 +79,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('/book-online/create',[SettingsConstroller::class,'bookOnlineCreate'])->name('settings.book-online.create');
         Route::get('/book-online/delete',[SettingsConstroller::class,'bookOnlineDelete'])->name('settings.book-online.delete');
         Route::post('/book-online/activate',[SettingsConstroller::class, 'bookOnlineActivate'])->name('settings.book-online.activate');
+        Route::get('/referral',[SettingsConstroller::class,'referral'])->name('settings.referral');
     });
     
     // Notes
@@ -136,9 +138,14 @@ Route::group(['middleware' => ['auth','active']],function (){
 });
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
 
+// Book Appointment
 Route::get('appointment/book/{key}', [BookAppointmentController::class,'index']);
 Route::post('appointment/book/create/{key}', [BookAppointmentController::class,'store']);
 Route::get('appointment/book/view/{key}',[BookAppointmentController::class,'view']);
 Route::get('appointment/book/cancel/{key}',[BookAppointmentController::class,'delete']);
 Route::get('appointment/book/delete/complete',[BookAppointmentController::class,'remove']);
+
+// Referral program
+Route::get('referral/{code}',[ReferralController::class,'index'])->name('referral');
+Route::get('referral/stat/{code}',[ReferralController::class,'stat'])->name('referral.stat');
 

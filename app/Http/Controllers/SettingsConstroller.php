@@ -110,4 +110,12 @@ class SettingsConstroller extends Controller
         return response()->json(['saccess'=>'Updated saccessfull'],200);
 
     }
+
+    public function referral(Request $request){
+        $company = Auth::user()->company;
+        Gate::authorize('edit-company',$company);     
+        
+        
+        return view('settings.referral',['company'=>$company]);
+    }
 }

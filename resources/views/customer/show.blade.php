@@ -39,6 +39,9 @@
                             <span class="fs-14 text-black">{{$customer->email}}</span>
                         </p>
                     </div>
+                    <div class="card-footer">
+                        <p>Referral stat: <span class="text-success">{{ count($customer->referralStat) }}</span></p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">

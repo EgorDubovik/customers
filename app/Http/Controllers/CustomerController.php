@@ -6,10 +6,13 @@ use App\Models\Addresses;
 use App\Models\Appointment;
 use App\Models\Customer;
 use App\Models\Payment;
+use App\Models\ReferalCustomerStat;
+use App\Models\ReferalLinksCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -66,6 +69,12 @@ class CustomerController extends Controller
             'state' => $request->state,
             'zip' => $request->zip,
             'customer_id' => $customer->id,
+        ]);
+
+        $referalCode = ReferalLinksCode::create([
+            'company_id' => Auth::user()->company_id,
+            'customer_id' => $customer->id,
+            'code' => Str::random(10),
         ]);
 
         return redirect()->route('customer.show',['customer'=>$customer])->with('success','Added successful');
@@ -175,4 +184,6 @@ class CustomerController extends Controller
         return back()->with('success','Address has been removed successfull');
 
     }
+
+    
 }

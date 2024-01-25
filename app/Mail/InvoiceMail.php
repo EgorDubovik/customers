@@ -8,6 +8,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 use App\Model\Invoice;
+use Illuminate\Support\Str;
+use App\Models\ReferalLinksCode;
 class InvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -17,11 +19,13 @@ class InvoiceMail extends Mailable
     public $total = 0;
     public $tax = 0;
     public $due = 0;
+    public $referralCode = null;
     
     public function __construct($invoice, $file)
     {
         $this->file = $file;
         $this->invoice = $invoice;
+        $this->referralCode = $this->getReferralCode();
         $this->setDue();
     }
 
@@ -57,5 +61,21 @@ class InvoiceMail extends Mailable
         $this->due = ($due <= 0) ? '00.00' : number_format($due,2);
         $this->total = number_format($total,2);
         $this->tax = number_format($tax,2);
+    }
+
+    private function getReferralCode(){
+        $referal = ReferalLinksCode::where('company_id',Auth::user()->company_id)
+                                    ->where('customer_id',$this->invoice->appointment->customer_id)        
+                                    ->first();
+        if($referal){
+            return $referal->code;
+        } else {
+            $referalCode = ReferalLinksCode::create([
+                'company_id' => $this->invoice->appointment->company_id,
+                'customer_id' => $this->invoice->appointment->customer_id,
+                'code' => Str::random(10),
+            ]);
+            return $referalCode->code;
+        }
     }
 }

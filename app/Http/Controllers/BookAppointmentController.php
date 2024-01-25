@@ -80,11 +80,6 @@ class BookAppointmentController extends Controller
             'end' => $endTime,
         ]);
 
-        // Add techs
-
-
-
-        // Add services
         if($request->has('service')){
             foreach($request->input('service') as $key => $value){
                 $company_service = Service::where('company_id',$company->id)

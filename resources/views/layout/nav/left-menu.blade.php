@@ -63,11 +63,11 @@
                             class="side-menu__icon fe fe-bar-chart-2"></i><span
                             class="side-menu__label">Payments</span></a>
                 </li>
-
+                @can('edit-company',['company' => Auth::user()->company])
                 <li class="slide">
                     <a class="side-menu__item has-link" data-bs-toggle="slide" href="#"><i
                             class="side-menu__icon fe fe-settings"></i><span
-                            class="side-menu__label">Settings</span></a>
+                            class="side-menu__label">Company Settings</span></a>
 
                     <ul class="slide-menu">
                         <li><a href="{{ route('settings.tags') }}" class="slide-item">Tags</a></li>
@@ -75,9 +75,10 @@
                         @can('book-online')
                             <li><a href="{{ route('settings.book-online') }}" class="slide-item">Book online</a></li>
                         @endcan
+                        <li><a href="{{ route('settings.referral') }}" class="slide-item">Referral</a></li>
                     </ul>
                 </li>
-
+                @endcan
 
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"

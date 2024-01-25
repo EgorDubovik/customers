@@ -56,5 +56,9 @@ class Customer extends Model
     {
         return $this->hasMany(Appointment::class,'customer_id','id');
     }
+    public function referralStat()
+    {
+        return $this->hasMany(ReferalCustomerStat::class,'customer_id','id');
+    }
 
 }
