@@ -18,14 +18,6 @@ class PaymentController extends Controller
         
         $endDate = ($request->endDate) ? Carbon::parse($request->endDate) : Carbon::now();
         $startDate = ($request->startDate) ? Carbon::parse($request->startDate) : Carbon::now()->subDays(31);
-
-        // $paymentsForGraph = DB::table('payments')
-        //     ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(amount) as total'))
-        //     ->whereBetween('created_at', [$startDate, $endDate->addDay()])
-        //     ->groupBy(DB::raw('DATE(created_at)'))
-        //     ->orderBy(DB::raw('DATE(created_at)'))
-        //     ->pluck('total', 'date')
-        //     ->toArray();
         
         $paymentsSelectedRange = Payment::whereHas('appointment', function ($query) {
             $query->where('company_id', Auth::user()->company_id);

@@ -33,7 +33,7 @@ class Services extends Component
 
     public function render()
     {
-        $this->setMoneyValue();
+        $this->setRemainigAndTotalBalance();
         return view('livewire.appointment.services');
     }
 
@@ -113,24 +113,15 @@ class Services extends Component
         return true;
     }
 
-    private function setMoneyValue(){
-        $tax = 0;
-        $total = 0;
-        $taxValue = Auth::user()->settings->tax;
-        $this->totalPaid = Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
-
-        foreach($this->appointment->services as $service){
-            if($service->taxable){
-                $tax += round($service->price * ($taxValue / 100),2);
-            }
-            $total+=$service->price;
-        }
-
-        $this->tax = $tax;
-        $this->total = $total + $tax;
-        $this->remainingBalance = $this->total - $this->totalPaid;
-
-        $this->dispatch('update-total',$this->total,$this->remainingBalance);
+    /*
+    * This function is used to set the total and remaining balance
+    */
+    private function setRemainigAndTotalBalance(){
+        $totalAmount = $this->appointment->totalAmount();
+        $this->tax = $this->appointment->totalTax();
+        $this->total = $totalAmount + $this->tax;
+        $this->remainingBalance = $this->appointment->remainingBalance();
+        $this->remainingBalance = $this->remainingBalance < 0 ? 0 : $this->remainingBalance;
     }
     
 }

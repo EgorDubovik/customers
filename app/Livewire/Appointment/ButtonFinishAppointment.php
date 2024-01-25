@@ -14,6 +14,7 @@ class ButtonFinishAppointment extends Component
     public $appointment;
     private $remainingBalance = 0;
     private $total = 0;
+    private $tax = 0;
 
     public function activateOrDiactivate(){
         Gate::authorize('update-remove-appointment',['appointment'=>$this->appointment]);
@@ -26,7 +27,7 @@ class ButtonFinishAppointment extends Component
 
     public function render()
     {
-        $this->remainigBalance();
+        $this->setRemainigAndTotalBalance();
         
         return view('livewire.appointment.button-finish-appointment',[
             'appointment' => $this->appointment,
@@ -35,23 +36,16 @@ class ButtonFinishAppointment extends Component
         ]);
     }
 
-    public function remainigBalance(){
-        $tax = 0;
-        $total = 0;
-        $taxVal = Auth::user()->settings->tax;
-        foreach($this->appointment->services as $service){
-            if($service->taxable){
-                $tax += round($service->price * ($taxVal / 100),2);
-            }
-            $total+=$service->price;
-        }
-        
-        $total += $tax;
-
-        $payments = Payment::where('appointment_id',$this->appointment->id)->get()->sum('amount');
-        $this->remainingBalance = round($total - $payments,2);
+    /*
+    * This function is used to set the total and remaining balance
+    * of the appointment
+    */
+    private function setRemainigAndTotalBalance(){
+        $totalAmount = $this->appointment->totalAmount();
+        $this->tax = $this->appointment->totalTax();
+        $this->total = $totalAmount + $this->tax;
+        $this->remainingBalance = $this->appointment->remainingBalance();
         $this->remainingBalance = $this->remainingBalance < 0 ? 0 : $this->remainingBalance;
-        $this->total = $total;
     }
 
     #[On('update-total')]

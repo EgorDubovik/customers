@@ -41,11 +41,11 @@
        <table class="table table-borderless text-nowrap mb-0">
            <tbody>
                <tr>
-                   <td class="text-end p-1">Tax</td>
+                   <td class="text-end p-1">Tax:</td>
                    <td class="text-end p-1" width='20%'><span class="fw-bold text-danger">+ ${{ number_format($tax,2) }}</span></td>
                </tr>
                <tr>
-                   <td class="text-end p-1">Total</td>
+                   <td class="text-end p-1">Total:</td>
                    <td class="text-end p-1"><span class="fw-bold text-success">${{ number_format($total,2) }}</span></td>
                </tr>
            </tbody>
