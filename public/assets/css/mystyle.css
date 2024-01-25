@@ -476,3 +476,34 @@ li.tag-li:hover:not(.active) {
 .suggested_title{
     font-weight: bold;
 }
+
+.referral-progress-bar ul{
+    display: flex;
+}
+
+.referral-progress-bar ul li{
+    flex: 1;
+    text-align: right;
+    font-size: 14px;
+    color: #474747;
+    font-weight: bold;
+    position: relative;
+}
+.referral-progress-bar .discout-price{
+    padding-bottom: 10px;
+}
+.referral-progress-bar .discout-price span{
+    background: #f4f4f4;
+    padding: 5px;
+    border-radius: 20%;
+}
+.referral-progress-bar .discout-price span.active{
+    background: #65d074;
+    color: #fff;
+    padding: 5px;
+    border-radius: 20%;
+}
+.referal-range-text{
+    background:#e7e7e7;
+    color:#828282;
+}

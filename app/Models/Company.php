@@ -34,4 +34,8 @@ class Company extends Model
     public function services(){
         return $this->hasMany(Service::class);
     }
+
+    public function settings(){
+        return $this->hasOne(Settings::class);
+    }
 }

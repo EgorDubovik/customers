@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BookAppointment;
 use App\Models\BookOnlineCounterStatistics;
+use App\Models\ReferralRange;
 use Illuminate\Http\Request;
 use App\Models\Settings;
 use Illuminate\Support\Facades\Auth;
@@ -113,9 +114,36 @@ class SettingsConstroller extends Controller
 
     public function referral(Request $request){
         $company = Auth::user()->company;
+        Gate::authorize('edit-company',$company);
+        $referralRange = ReferralRange::where('company_id',$company->id)->get(); 
+        return view('settings.referral',['company'=>$company,'referralRange'=>$referralRange]);
+    }
+
+    public function referralActivate(){
+        $company = Auth::user()->company;
         Gate::authorize('edit-company',$company);     
-        
-        
-        return view('settings.referral',['company'=>$company]);
+        $company->settings->referral_active = !$company->settings->referral_active;
+        $company->settings->save();
+        return response()->json(['saccess'=>'Updated saccessfull'],200);
+    }
+
+    public function referralChangeRange(Request $request){
+        $company = Auth::user()->company;
+        Gate::authorize('edit-company',$company);     
+
+        $referralRange = ReferralRange::where('company_id',$company->id)->get();
+        foreach($referralRange as $range){
+            $range->delete();
+        }
+
+        foreach($request->referral_count as $key => $count){
+            ReferralRange::create([
+                'company_id' => $company->id,
+                'referral_count' => $request->referral_count[$key],
+                'discount' => $request->referral_discount[$key],
+            ]);
+        }
+
+        return back()->with('success','Range have been updated successfull');
     }
 }

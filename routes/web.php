@@ -75,11 +75,15 @@ Route::group(['middleware' => ['auth','active']],function (){
     Route::prefix('settings')->group(function(){
         Route::get('/',[SettingsConstroller::class, 'show'])->name('settings.tags');
         Route::post('/deposit',[SettingsConstroller::class,'savePaymentDepositType'])->name('settings.deposit.store');
+        // Book Online
         Route::get('/book-online',[SettingsConstroller::class,'bookOnline'])->name('settings.book-online');
         Route::get('/book-online/create',[SettingsConstroller::class,'bookOnlineCreate'])->name('settings.book-online.create');
         Route::get('/book-online/delete',[SettingsConstroller::class,'bookOnlineDelete'])->name('settings.book-online.delete');
         Route::post('/book-online/activate',[SettingsConstroller::class, 'bookOnlineActivate'])->name('settings.book-online.activate');
+        // Referral
         Route::get('/referral',[SettingsConstroller::class,'referral'])->name('settings.referral');
+        Route::post('/referral/activate',[SettingsConstroller::class,'referralActivate'])->name('settings.referral.activate');
+        Route::post('/referral/changerange',[SettingsConstroller::class,'referralChangeRange'])->name('settings.referral.changerange');
     });
     
     // Notes

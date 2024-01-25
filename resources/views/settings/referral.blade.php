@@ -22,13 +22,74 @@
                      <div class="row mt-3 mb-4">
                         <div class="col-6 " style="text-align: left">
                            <label class="custom-switch form-switch mb-0" style="cursor: pointer">
-                              <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" {{ 1 ? 'checked' : '' }} onclick="toogleActivate(this)">
+                              <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" {{ $company->settings->referral_active ? 'checked' : '' }} onclick="toogleActivate(this)">
                               <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
                               <span class="custom-switch-description">Activate referral program</span>
                            </label>
                         </div>
                      </div>
-
+                     
+                     <div class="cont-referral-range">
+                        <p>Referral range:</p>
+                        <p>
+                           <div class="row">
+                              <form method="POST" action="{{ route('settings.referral.changerange') }}">
+                              @csrf
+                              <div class="col-md-6 m-auto">
+                                 <div id="referral-items">
+                                    @foreach ($referralRange as $range)   
+                                       <div class="row">
+                                          <div class="col-5">
+                                             <div class="input-group input-group-sm mb-3">
+                                                <span class="input-group-text referal-range-text">Count:</span>
+                                                <input type="text" class="form-control" name="referral_count[]" value="{{ $range->referral_count }}">
+                                             </div>
+                                          </div>
+                                          <div class="col-5">
+                                             <div class="input-group input-group-sm mb-3">
+                                                <span class="input-group-text referal-range-text">Discount:</span>
+                                                <input type="text" class="form-control" name="referral_discount[]" value="{{ $range->discount }}">
+                                             </div>
+                                          </div>
+                                          <div class="col-2">
+                                             <a class="btn text-danger btn-sm" onclick="removeLine(this);return false;" ><span class="fe fe-trash-2 fs-14"></span></a>
+                                          </div>
+                                       </div>
+                                    @endforeach
+                                 </div>
+                                 <div class="row mt-2">
+                                    <button class="btn btn-default btn-sm" type="button" id="button-addon2" onclick="addLine();return false"><i class="fe fe-plus"></i> add more</button>
+                                    
+                                 </div>
+                                 <div class="row mt-6">
+                                    <button class="btn btn-success btn-sm" type="submit" id="button-addon2"><i class="fe fe-save"></i> Save changes</button>
+                                 </div>
+                              </div>
+                              </form>
+                           </div>
+                        </p>
+                     </div>
+                     
+                     {{-- <div class="referral-progress-bar">
+                        <ul>
+                           <li>
+                              <div class="discout-price">
+                                 <span class="active">$10</span>
+                              </div>
+                              <div class="progress progress-sm mb-3">
+                                 <div class="progress-bar bg-primary" style="width: 100%;"></div>
+                             </div>
+                           </li>
+                           <li>
+                              <div class="discout-price">
+                                 <span>$20</span>
+                              </div>
+                              <div class="progress progress-sm mb-3">
+                                 <div class="progress-bar bg-primary" style="width: 20%;"></div>
+                             </div>
+                           </li>
+                        </ul>
+                     </div> --}}
                   </div>
                </div>
             </div>
@@ -40,4 +101,47 @@
    <script src="../assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
    <script src="../assets/plugins/datatable/js/dataTables.bootstrap5.js"></script>
    <script src="../assets/plugins/datatable/js/dataTables.buttons.min.js"></script>
+   <script>
+      function toogleActivate(d){
+            let radio = $(d);
+            let status = radio.is(':checked');
+           
+            $.ajax({
+                method:'post',
+                url:"{{ route('settings.referral.activate') }}",
+                data:{
+                    _token : "{{ csrf_token() }}",
+                    status : status,
+                },
+            }).done(function(data) {
+                console.log(data);
+            }).fail(function() {
+                alert("error");
+            });
+      }
+      
+      function removeLine(d){
+         $(d).parent().parent().remove();
+      }
+
+      function addLine(){
+         $('#referral-items').append('<div class="row">' +
+                                       '<div class="col-5">' +
+                                          '<div class="input-group input-group-sm mb-3">' +
+                                             '<span class="input-group-text referal-range-text">Count:</span>'+
+                                             '<input type="text" class="form-control" name="referral_count[]">'+
+                                          '</div>'+
+                                       '</div>'+
+                                       '<div class="col-5">'+
+                                          '<div class="input-group input-group-sm mb-3">'+
+                                             '<span class="input-group-text referal-range-text">Discount:</span>'+
+                                             '<input type="text" class="form-control" name="referral_discount[]">'+
+                                          '</div>'+
+                                       '</div>'+
+                                       '<div class="col-2">'+
+                                          '<a class="btn text-danger btn-sm" onclick="removeLine(this);return false;" data-bs-toggle="tooltip" data-bs-original-title="Delete"><span class="fe fe-trash-2 fs-14"></span></a>'+
+                                       '</div>'+
+                                    '</div>');
+      }
+   </script>
 @endsection
