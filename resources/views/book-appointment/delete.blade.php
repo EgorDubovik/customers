@@ -11,7 +11,7 @@
    <title>view appointment online</title>
 </head>
 <body>
-   
+   @include('book-appointment.layout.header', ['company'=>$company,'title' => 'View Appointment Online'])
    <main>
       <div class="container mb-4">
          <div class="appointment_infor_conteiner">

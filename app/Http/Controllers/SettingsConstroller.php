@@ -50,7 +50,12 @@ class SettingsConstroller extends Controller
         Gate::authorize('book-online');
         
         $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
-
+        if(!$bookAppointment)
+            $bookAppointment = BookAppointment::create([
+                'company_id' => Auth::user()->company_id,
+                'key' => Str::random(30),
+                'active' => 1,
+            ]);
         $bookOnlineStats = BookOnlineCounterStatistics::where('book_online_id',$bookAppointment->id)
             ->orderBy('created_at','desc')
             ->limit(100)
@@ -62,21 +67,21 @@ class SettingsConstroller extends Controller
         ]);
     }
 
-    public function bookOnlineCreate(Request $request){
-        Gate::authorize('book-online');
+    // public function bookOnlineCreate(Request $request){
+    //     Gate::authorize('book-online');
         
-        $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
-        if(!$bookAppointment)
-            return abort(400);
+    //     $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
+    //     if(!$bookAppointment)
+    //         return abort(400);
 
-        $bookOnline = BookAppointment::firstOrCreate([
-            'company_id' => Auth::user()->company_id,
-            'key' => Str::random(30),
-            'active' => 1,
-        ]);
+    //     $bookOnline = BookAppointment::firstOrCreate([
+    //         'company_id' => Auth::user()->company_id,
+    //         'key' => Str::random(30),
+    //         'active' => 1,
+    //     ]);
 
-        return back();
-    }
+    //     return back();
+    // }
 
     public function bookOnlineDelete(Request $request){
         Gate::authorize('book-online');

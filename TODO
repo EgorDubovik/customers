@@ -1,9 +1,10 @@
 
 Todo:
-   ✔ Make refound on appointment page @done(24-01-15 23:02)
+   
    ☐ In payment page view paymewnts with - as refound, makr red
    ☐ Create page with Salary and taxes by period 
-   ☐ Fix price view in appointment page (error Total due: $5.6843418860808E-14)
+   ✔ Make refound on appointment page @done(24-01-15 23:02)
+   ✔ Fix price view in appointment page (error Total due: $5.6843418860808E-14) @done(24-01-25 08:37)
 Not nessesary:
    ☐ Add price for parts in appointment
    ☐ View payments only user if it just tech and all payments if it admin

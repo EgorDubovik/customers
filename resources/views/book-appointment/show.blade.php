@@ -11,19 +11,7 @@
    <title>view appointment online</title>
 </head>
 <body>
-   <header>
-      <nav class="navbar bg-body-tertiary">
-         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-               <img src="{{ asset('storage/'.$appointment->company->logo) }}" alt="Logo" height="24" class="d-inline-block align-text-top">
-               {{ $appointment->company->name }}
-            </a>
-            <span class="navbar-text">
-               View an appointment
-            </span>
-         </div>
-       </nav>
-   </header>
+   @include('book-appointment.layout.header', ['company'=>$appointment->company,'title' => 'View Appointment Online'])
    <main>
       <div class="container mb-4">
          @include('layout.error-message')

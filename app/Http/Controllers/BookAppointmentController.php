@@ -30,7 +30,6 @@ class BookAppointmentController extends Controller
 
         $device_type = $agent->isMobile() ? 'mobile' : 'desctop';
         
-        // dd($device_type,$request->ip());
         BookOnlineCounterStatistics::create([
             'book_online_id' => $company->id,
             'prev_url' => ($request->prev) ? $request->prev : "null",
@@ -151,6 +150,13 @@ class BookAppointmentController extends Controller
     }
 
     public function remove(Request $request){
-        return view('book-appointment.delete');
+        $key = $request->session()->get('key');
+        $company = BookAppointment::where('key',$key)
+                                    ->where('active',1)
+                                    ->first();
+        if(!$company)
+            return abort(404);
+
+        return view('book-appointment.delete',['company' => $company->company]);
     }
 }
