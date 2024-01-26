@@ -7,7 +7,12 @@
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
    <link href="{{ URL::asset('assets/css/book-appointment.css')}}" rel="stylesheet" />
    <link href="{{ URL::asset('assets/plugins/edtimer/style.css')}}" rel="stylesheet" />
-   <link href="{{ URL::asset('assets/plugins/datetime-picker/css/pignose.calendar.css')}}" rel="stylesheet" />
+   <link href="{{ URL::asset('assets/css/mystyle.css')}}" rel="stylesheet" />
+   <link href="{{ URL::asset('assets/css/style.css')}}" rel="stylesheet" />
+    
+    
+    
+   
    <title>Book appointment online</title>
 </head>
 <body>
@@ -15,9 +20,25 @@
    <main>
       <div class="container mb-4">
          @include('layout.error-message')
-         @php
-            var_dump($stats);
-         @endphp
+         <div class="referral-stat" style="margin-top: 100px">
+            <p>You have <span class="referral-count"><b>{{ count($stats) }}</b></span> referrals</p>
+         </div>
+         <div class="referral-progress-bar" style="margin-top: 100px">
+            <ul>
+               @foreach ($referralRange as $range)
+                  <li>
+                     <div class="discout-price">
+                        <span class="{{ ($range->procent >= 100 ) ? "active" : "" }}">${{ $range->discount }}</span>
+                     </div>
+                     <div class="progress progress-sm mb-3">
+                        <div class="progress-bar bg-primary" style="width: {{ $range->procent }}%;"></div>
+                     </div>
+                  </li>   
+               @endforeach
+            </ul>
+            
+         </div>
+         
       </div>
    </main>
 

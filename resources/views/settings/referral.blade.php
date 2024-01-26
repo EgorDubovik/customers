@@ -70,26 +70,6 @@
                         </p>
                      </div>
                      
-                     {{-- <div class="referral-progress-bar">
-                        <ul>
-                           <li>
-                              <div class="discout-price">
-                                 <span class="active">$10</span>
-                              </div>
-                              <div class="progress progress-sm mb-3">
-                                 <div class="progress-bar bg-primary" style="width: 100%;"></div>
-                             </div>
-                           </li>
-                           <li>
-                              <div class="discout-price">
-                                 <span>$20</span>
-                              </div>
-                              <div class="progress progress-sm mb-3">
-                                 <div class="progress-bar bg-primary" style="width: 20%;"></div>
-                             </div>
-                           </li>
-                        </ul>
-                     </div> --}}
                   </div>
                </div>
             </div>

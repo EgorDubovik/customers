@@ -479,6 +479,9 @@ li.tag-li:hover:not(.active) {
 
 .referral-progress-bar ul{
     display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .referral-progress-bar ul li{
