@@ -13,15 +13,19 @@
     
     
    
-   <title>Book appointment online</title>
+   <title>Referral statistics</title>
 </head>
 <body>
    @include('book-appointment.layout.header', ['company' => $company, 'title' => 'Your referral statistics'])
    <main>
-      <div class="container mb-4">
+      <div class="container mb-4 referral_text">
          @include('layout.error-message')
          <div class="referral-stat" style="margin-top: 100px">
             <p>You have <span class="referral-count"><b>{{ count($stats) }}</b></span> referrals</p>
+            <p>You can share this referral link: 
+               <a style="margin-left: 30px" href="{{ route('referral',$code) }}"><span class="referral-link"><b>{{ route('referral', ['code' => $code]) }}</b></span></a>
+               <br>with your friends and get up to <b>${{ $upto }}</b></p>
+
          </div>
          <div class="referral-progress-bar" style="margin-top: 100px">
             <ul>
@@ -33,12 +37,24 @@
                      <div class="progress progress-sm mb-3">
                         <div class="progress-bar bg-primary" style="width: {{ $range->procent }}%;"></div>
                      </div>
+                     <div class="referral-count">
+                        <span>{{ $range->referral_count }} share</span>
+                     </div>
                   </li>   
                @endforeach
             </ul>
             
          </div>
-         
+         <div class="hr"></div>
+         <div class="row call-action">
+            <div class="col-md-6 m-auto">
+               <a href="tel:{{ $company->phone }}" class="btn btn-primary btn-block" >Call {{ $company->phone }}</a>
+            </div>
+
+            <div class="col-md-6">
+               <a href="#" class="btn btn-primary btn-block" >Book appointment</a>
+            </div>
+         </div>
       </div>
    </main>
 

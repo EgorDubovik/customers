@@ -510,3 +510,11 @@ li.tag-li:hover:not(.active) {
     background:#e7e7e7;
     color:#828282;
 }
+.referral_text{
+    font-size: 18px;
+}
+.referral_text .hr{
+    border-top: 1px solid #cfcfcf;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

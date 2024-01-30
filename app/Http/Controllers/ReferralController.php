@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\ReferalCustomerStat;
 use App\Models\ReferalLinksCode;
@@ -34,7 +35,10 @@ class ReferralController extends Controller
         $referalCode = ReferalLinksCode::where('code',$code)->first();
         if(!$referalCode)
             return abort(404);
-        $company = Auth::user()->company;
+        $company = Company::find($referalCode->company_id);
+        if(!$company)
+            return abort(404);
+        
         $stats = ReferalCustomerStat::where('company_id',$company->id)
                                         ->where('customer_id',$referalCode->customer_id)
                                         ->get();
@@ -42,6 +46,7 @@ class ReferralController extends Controller
         
         $rangeCount = 0;
         $statCount = $stats->count();
+        $upto = 0;
         foreach($referralRange as $range){
             if($range->referral_count <= $statCount)
                 $range->procent = 100;
@@ -56,12 +61,15 @@ class ReferralController extends Controller
                 
             }
             $rangeCount += $range->referral_count;    
+            $upto = $range->discount;
         }
 
         return view('referral.stat',[
             'stats' => $stats,
             'company'=>$company,
             'referralRange' => $referralRange,
+            'upto' => $upto,
+            'code' => $code,
         ]);
     }
 }
