@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\ReferalCustomerStat;
 use App\Models\ReferalLinksCode;
+use App\Models\ReferralRange;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -96,9 +97,14 @@ class CustomerController extends Controller
         $upcoming_appoinments = Appointment::where('customer_id', $customer->id)
                                             ->where('end','>', date('Y-m-d H:i:s'))
                                             ->get();
+        
+        $referal_info = get_referral_info($customer);
+
         return view('customer.show', ['customer'=>$customer, 
                                     'appointments' => $appointments,
                                     'upcoming_appoinments' => $upcoming_appoinments,
+                                    'referal_count' => $referal_info['referal_count'],
+                                    'referal_discount' => $referal_info['referal_discount'],
                                 ]);
     }
 

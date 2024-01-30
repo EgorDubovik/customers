@@ -109,9 +109,13 @@ class AppointmentController extends Controller
         
         $remainingBalance = $appointment->services->sum('price') - Payment::where('appointment_id',$appointment->id)->get()->sum('amount');
 
+
+        $referralInfo = get_referral_info($appointment->customer);
         return view('schedule.show',[
             'appointment'       => $appointment,
             'remainingBalance'   => $remainingBalance,
+            'referral_count'    => $referralInfo['referal_count'],
+            'referral_discount' => $referralInfo['referal_discount'],
         ]);
     }
 

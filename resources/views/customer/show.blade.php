@@ -39,9 +39,13 @@
                             <span class="fs-14 text-black">{{$customer->email}}</span>
                         </p>
                     </div>
-                    <div class="card-footer">
-                        <p>Referral stat: <span class="text-success">{{ count($customer->referralStat) }}</span></p>
-                    </div>
+                    @if (Auth::user()->company->settings->referral_active)
+                        <div class="card-footer">
+                            <p>Referral stat: <span class="text-success">{{ count($customer->referralStat) }}/{{ $referal_count }} -> ${{ $referal_discount }}</span></p>
+                        </div>
+                        
+                    @endif
+                    
                 </div>
             </div>
             <div class="col-md-6">
