@@ -64,18 +64,28 @@ class InvoiceMail extends Mailable
     }
 
     private function getReferralCode(){
-        $referal = ReferalLinksCode::where('company_id',Auth::user()->company_id)
-                                    ->where('customer_id',$this->invoice->appointment->customer_id)        
-                                    ->first();
-        if($referal){
-            return $referal->code;
-        } else {
-            $referalCode = ReferalLinksCode::create([
+
+        if(!$this->invoice->appointment->customer->referralCode)
+            $this->invoice->appointment->customer->referralCode = ReferalLinksCode::create([
                 'company_id' => $this->invoice->appointment->company_id,
                 'customer_id' => $this->invoice->appointment->customer_id,
                 'code' => Str::random(10),
             ]);
-            return $referalCode->code;
-        }
+
+        return $this->invoice->appointment->customer->referralCode->code;
+
+        // $referal = ReferalLinksCode::where('company_id',Auth::user()->company_id)
+        //                             ->where('customer_id',$this->invoice->appointment->customer_id)        
+        //                             ->first();
+        // if($referal){
+        //     return $referal->code;
+        // } else {
+        //     $referalCode = ReferalLinksCode::create([
+        //         'company_id' => $this->invoice->appointment->company_id,
+        //         'customer_id' => $this->invoice->appointment->customer_id,
+        //         'code' => Str::random(10),
+        //     ]);
+        //     return $referalCode->code;
+        // }
     }
 }

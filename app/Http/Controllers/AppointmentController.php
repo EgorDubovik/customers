@@ -114,8 +114,8 @@ class AppointmentController extends Controller
         return view('schedule.show',[
             'appointment'       => $appointment,
             'remainingBalance'   => $remainingBalance,
-            'referral_count'    => $referralInfo['referal_count'],
-            'referral_discount' => $referralInfo['referal_discount'],
+            'referral_count'    => $referralInfo['referral_count'],
+            'referral_discount' => $referralInfo['referral_discount'],
         ]);
     }
 
