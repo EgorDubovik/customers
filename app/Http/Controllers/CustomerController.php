@@ -98,13 +98,13 @@ class CustomerController extends Controller
                                             ->where('end','>', date('Y-m-d H:i:s'))
                                             ->get();
         
-        $referal_info = get_referral_info($customer);
+        $referral_info = get_referral_info($customer);
 
         return view('customer.show', ['customer'=>$customer, 
                                     'appointments' => $appointments,
                                     'upcoming_appoinments' => $upcoming_appoinments,
-                                    'referal_count' => $referal_info['referal_count'],
-                                    'referal_discount' => $referal_info['referal_discount'],
+                                    'referral_count' => $referral_info['referral_count'],
+                                    'referral_discount' => $referral_info['referral_discount'],
                                 ]);
     }
 

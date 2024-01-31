@@ -39,12 +39,7 @@
                             <span class="fs-14 text-black">{{$customer->email}}</span>
                         </p>
                     </div>
-                    @if (Auth::user()->company->settings->referral_active)
-                        <div class="card-footer">
-                            <p>Referral stat: <span class="text-success">{{ count($customer->referralStat) }}/{{ $referal_count }} -> ${{ $referal_discount }}</span></p>
-                        </div>
-                        
-                    @endif
+                    @include('customer.layout.referral-block',['customer' => $customer, 'referral_count' => $referral_count, 'referral_discount' => $referral_discount])
                     
                 </div>
             </div>

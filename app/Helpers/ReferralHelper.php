@@ -23,8 +23,8 @@ if (! function_exists('get_referral_info')) {
         }
 
         return [
-            'referal_count' => $referal_count,
-            'referal_discount' => $referal_discount
+            'referral_count' => $referal_count,
+            'referral_discount' => $referal_discount
         ];
    }
 }
