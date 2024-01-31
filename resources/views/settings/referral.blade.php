@@ -22,13 +22,29 @@
                      <div class="row mt-3 mb-4">
                         <div class="col-6 " style="text-align: left">
                            <label class="custom-switch form-switch mb-0" style="cursor: pointer">
-                              <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" {{ $company->settings->referral_active ? 'checked' : '' }} onclick="toogleActivate(this)">
+                              <input type="checkbox" name="custom-switch-radio" class="custom-switch-input" {{ ($company->companySettings->referral_enable) ? 'checked' : '' }} onclick="toogleActivate(this)">
                               <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
                               <span class="custom-switch-description">Activate referral program</span>
                            </label>
                         </div>
                      </div>
-                     
+                     <div class="referral_link">
+                        <form action="{{ route('settings.referral.savelink') }}" method="POST">
+                           @csrf
+                           <div class="row">
+                              <div class="col-md-2">
+                                 <p>Referral link to:</p>
+                              </div>
+                              <div class="col-md-8">
+                                 <input type="text" class="form-control" name="referral_link" value="{{ $company->companySettings->referral_link ?? ""  }}">
+                              </div>
+                              <div class="col-md-2">
+                                 <button type="submit" class="btn btn-primary">Update</button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                     <div class="hr mt-6 mb-6"></div>
                      <div class="cont-referral-range">
                         <p>Referral range:</p>
                         <p>
@@ -95,8 +111,8 @@
                 },
             }).done(function(data) {
                 console.log(data);
-            }).fail(function() {
-                alert("error");
+            }).fail(function(error) {
+               console.log(error);
             });
       }
       

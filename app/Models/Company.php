@@ -38,4 +38,8 @@ class Company extends Model
     public function settings(){
         return $this->hasOne(Settings::class);
     }
+
+    public function companySettings(){
+        return $this->hasOne(CompanySettings::class);
+    }
 }

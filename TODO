@@ -5,6 +5,11 @@ Todo:
    ☐ Create page with Salary and taxes by period 
    ✔ Make refound on appointment page @done(24-01-15 23:02)
    ✔ Fix price view in appointment page (error Total due: $5.6843418860808E-14) @done(24-01-25 08:37)
+   ☐ Add create comoany settings row on create company 
+Referral:
+   ☐ Add link to landing page for company settings @started(24-01-31 10:35)
+   ☐ Change view stat page with more information or change 
+   ☐ Send referral link in invoice if settings is ACTIVE
 
 Not nessesary:
    ☐ Add price for parts in appointment

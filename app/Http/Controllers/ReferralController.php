@@ -10,6 +10,7 @@ use App\Models\ReferalLinksCode;
 use App\Models\Customer;
 use App\Models\ReferralRange;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ReferralController extends Controller
 {
@@ -57,8 +58,6 @@ class ReferralController extends Controller
                     $range->procent = 0;
                 else
                     $range->procent = round($statDif*100/$dif);
-                
-                
             }
             $rangeCount += $range->referral_count;    
             $upto = $range->discount;
@@ -72,4 +71,6 @@ class ReferralController extends Controller
             'code' => $code,
         ]);
     }
+
+    
 }

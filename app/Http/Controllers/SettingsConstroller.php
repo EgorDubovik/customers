@@ -10,6 +10,7 @@ use App\Models\Settings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
+use App\Models\CompanySettings;
 
 class SettingsConstroller extends Controller
 {
@@ -68,22 +69,7 @@ class SettingsConstroller extends Controller
         ]);
     }
 
-    // public function bookOnlineCreate(Request $request){
-    //     Gate::authorize('book-online');
-        
-    //     $bookAppointment = BookAppointment::where('company_id', Auth::user()->company_id)->first();
-    //     if(!$bookAppointment)
-    //         return abort(400);
-
-    //     $bookOnline = BookAppointment::firstOrCreate([
-    //         'company_id' => Auth::user()->company_id,
-    //         'key' => Str::random(30),
-    //         'active' => 1,
-    //     ]);
-
-    //     return back();
-    // }
-
+   
     public function bookOnlineDelete(Request $request){
         Gate::authorize('book-online');
 
@@ -115,15 +101,20 @@ class SettingsConstroller extends Controller
     public function referral(Request $request){
         $company = Auth::user()->company;
         Gate::authorize('edit-company',$company);
+        $company->companySettings = CompanySettings::firstOrCreate(['company_id'=>$company->id]);
+
         $referralRange = ReferralRange::where('company_id',$company->id)->get(); 
         return view('settings.referral',['company'=>$company,'referralRange'=>$referralRange]);
     }
 
     public function referralActivate(){
         $company = Auth::user()->company;
-        Gate::authorize('edit-company',$company);     
-        $company->settings->referral_active = !$company->settings->referral_active;
-        $company->settings->save();
+        Gate::authorize('edit-company',$company);
+        
+        $company->companySettings->referral_enable = !$company->companySettings->referral_enable;
+        $company->companySettings->save();
+
+        
         return response()->json(['saccess'=>'Updated saccessfull'],200);
     }
 
@@ -145,5 +136,17 @@ class SettingsConstroller extends Controller
         }
 
         return back()->with('success','Range have been updated successfull');
+    }
+
+    public function referralSaveLink(Request $request){
+        $company = Auth::user()->company;
+        Gate::authorize('edit-company',$company);
+        $validate = $request->validate([
+            'referral_link' => 'required|url',
+        ]);
+
+        $company->companySettings->referral_link = $request->referral_link;
+        $company->companySettings->save();
+        return back()->with('success','Referral link have been updated successfull');
     }
 }

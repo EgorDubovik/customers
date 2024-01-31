@@ -84,6 +84,7 @@ Route::group(['middleware' => ['auth','active']],function (){
         Route::get('/referral',[SettingsConstroller::class,'referral'])->name('settings.referral');
         Route::post('/referral/activate',[SettingsConstroller::class,'referralActivate'])->name('settings.referral.activate');
         Route::post('/referral/changerange',[SettingsConstroller::class,'referralChangeRange'])->name('settings.referral.changerange');
+        Route::post('/referral/savelink',[SettingsConstroller::class,'referralSaveLink'])->name('settings.referral.savelink');
     });
     
     // Notes
