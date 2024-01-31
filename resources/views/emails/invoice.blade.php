@@ -143,9 +143,10 @@ h3, .h3 {
         <div class="top-invoice">
             Dear <b>{{ $invoice->customer_name}}</b>,<br><br>
             Thanks for choosing us!  We're glad to help get your appliances back in tip-top shape.
-
-            <p style="margin-top: 20px;">Your referal link is: {{ route('referral',['code'=>$referralCode]) }}</p>
-            <p style="margin-top: 20px;">You can share this link with your friend and get 10% discount on your next appointment. <a href="{{ route('referral.stat',['code'=>$referralCode]) }}">Read more</a> </p>
+            @if($invoice->company->companySettings && $invoice->company->companySettings->referral_enable)
+                <p style="margin-top: 20px;">Your referal link is: {{ route('referral',['code'=>$referralCode]) }}</p>
+                <p style="margin-top: 20px;">You can share this link with your friends to get discount on your next appointment. <a href="{{ route('referral.stat',['code'=>$referralCode]) }}">Read more</a> </p>
+            @endif
         </div>
         <div class="card">
             <div class="card-body">
