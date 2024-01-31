@@ -109,7 +109,7 @@ class InvoiceController extends Controller
 
         $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due,'tax'=>$tax]);
         $content = $pdf->download()->getOriginalContent();
-        $filename = 'Invoice_'.date('m-d-Y').'-'.time().Str::random(50).'.pdf';
+        $filename = (env('APP_DEBUG') ? 'debug-' : "").'Invoice_'.date('m-d-Y').'-'.time().Str::random(50).'.pdf';
         Storage::disk('s3')->put('invoices/'.$filename, $content);
         return $filename;
     }
