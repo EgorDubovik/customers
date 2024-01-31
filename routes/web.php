@@ -144,7 +144,7 @@ Route::group(['middleware' => ['auth','active']],function (){
 Route::get('invoice/pdf/view/{key}',[InvoiceController::class,'viewPDF'])->name('invoice.view.PDF');
 
 // Book Appointment
-Route::get('appointment/book/{key}', [BookAppointmentController::class,'index']);
+Route::get('appointment/book/{key}', [BookAppointmentController::class,'index'])->name('appointment.book');
 Route::post('appointment/book/create/{key}', [BookAppointmentController::class,'store']);
 Route::get('appointment/book/view/{key}',[BookAppointmentController::class,'view']);
 Route::get('appointment/book/cancel/{key}',[BookAppointmentController::class,'delete']);

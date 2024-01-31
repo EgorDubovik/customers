@@ -51,9 +51,12 @@
                <a href="tel:{{ $company->phone }}" class="btn btn-primary btn-block" >Call {{ $company->phone }}</a>
             </div>
 
-            <div class="col-md-6">
-               <a href="#" class="btn btn-primary btn-block" >Book appointment</a>
-            </div>
+            @if ($company->bookAppointment && $company->bookAppointment->active)
+                <div class="col-md-6">
+                    <a href="{{ route('appointment.book', ['key' => $company->bookAppointment->key]) }}" class="btn btn-primary btn-block" >Book appointment</a>
+                </div>
+            @endif
+           
          </div>
       </div>
    </main>
