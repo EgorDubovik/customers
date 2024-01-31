@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\CompanySettings;
 use Illuminate\Http\Request;
 use App\Models\ReferalCustomerStat;
 use App\Models\ReferalLinksCode;
@@ -29,7 +30,17 @@ class ReferralController extends Controller
             'ip' => $request->ip(),
         ]);
 
-        return redirect('https://edservicetx.com/?ref='.$code);
+        $companySettings = CompanySettings::where('company_id',$referalCode->company_id)->first();
+        if($companySettings && 
+            $companySettings->referral_link && 
+            $companySettings->referral_link != '' &&
+            $companySettings->referral_enable)
+
+            $redirectLink = $companySettings->referral_link.'?ref='.$code;
+        else
+            $redirectLink = 'companyPage';
+
+        return redirect($redirectLink);
     }
 
     public function stat(Request $request,$code){
