@@ -518,3 +518,13 @@ li.tag-li:hover:not(.active) {
     margin-top: 50px;
     margin-bottom: 50px;
 }
+
+.appointment-create.loading{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    /* background: #ffffff80; */
+    backdrop-filter: blur(5px);
+    z-index: 1;
+}

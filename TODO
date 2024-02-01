@@ -7,7 +7,8 @@ Todo:
    ✔ Fix price view in appointment page (error Total due: $5.6843418860808E-14) @done(24-01-25 08:37)
    ☐ Add create company settings row on create company 
    ☐ Add Upload images on appointment page
-   ☐ Fix "Open appointment" in reminder email url
+   ✔ Fix "Open appointment" in reminder email url @done(24-02-01 08:30)
+   
 Referral:
    ✔ Add link to landing page for company settings @started(24-01-31 10:35) @done(24-01-31 11:49) @lasted(1h14m27s)
    ☐ Create company Page for view in case if not provide in settings

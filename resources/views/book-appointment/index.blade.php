@@ -6,6 +6,8 @@
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
    <link href="{{ URL::asset('assets/css/book-appointment.css')}}" rel="stylesheet" />
+   <link href="{{ URL::asset('assets/css/mystyle.css')}}" rel="stylesheet" />
+   <link href="{{ URL::asset('assets/css/style.css')}}" rel="stylesheet" />
    <link href="{{ URL::asset('assets/plugins/edtimer/style.css')}}" rel="stylesheet" />
    <link href="{{ URL::asset('assets/plugins/datetime-picker/css/pignose.calendar.css')}}" rel="stylesheet" />
    <title>Book appointment online</title>
@@ -89,7 +91,13 @@
                   
                </div>
                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
-                  <div class="row">
+                  <div class="row" style="position: relative; padding-bottom:20px">
+                     <div class="appointment-create loading" style="display: none">
+                        <div class="spinner-border text-primary" role="status" style="position: relative;top:50%">
+                           <span class="visually-hidden">Loading...</span>
+                        </div>
+                        
+                     </div>
                      <div class="col-sm-7 col-9 m-auto">
                         <div class="time-title">Enter your details below</div>
                         
@@ -126,7 +134,7 @@
                            </div>
                         </div>
                         <div class="d-grid gap-2 mt-4">
-                           <button class="btn btn-primary" type="submit">Create appointment</button>
+                           <button class="btn btn-primary" type="submit" onclick="sendform(this)">Create appointment</button>
                         </div>
                      </div>
                   </div>
@@ -144,6 +152,12 @@
    <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
    <script src="{{ URL::asset('assets/plugins/edtimer/timer.mini.js')}}"></script>
    <script>
+
+      function sendform(d){
+         $(d).addClass('disable');
+         $('.appointment-create.loading').show();
+      }
+
       let services = [];
       function checkService(d){
          
