@@ -25,7 +25,9 @@
       {{ $appointment->address->city }}, {{ $appointment->address->state }} {{ $appointment->address->zip }}<br>
       {{ $appointment->customer->phone }}
    </div>
-   
+   <p style="margin-top:20px;text-align: center">
+      <a style="background: #4772ff;color: #fff; padding: 10px; text-decoration: none;border-radius: 9px;" href="{{  route('appointment.show',$appointment->id) }}">Open appointment</a>
+   </p>
    {{-- Footer --}}
    @slot('footer')
       @component('mail::footer')
