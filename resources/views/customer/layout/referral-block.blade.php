@@ -1,4 +1,4 @@
-@if (Auth::user()->company->companySettings->referal_enable)
+@if (Auth::user()->company->companySettings->referral_enable)
       <div class="card-footer">
          <p>Referral stat: <span class="text-success">{{ count($customer->referralStat) }}/{{ $referral_count }} -> ${{ $referral_discount }}</span></p>
          <p>
