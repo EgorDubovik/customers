@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Gate;
 class ReferralController extends Controller
 {
     public function index(Request $request, $code){
+
+        return $request->ip();
+
         $referalCode = ReferalLinksCode::where('code',$code)->first();
         if(!$referalCode)
             return abort(404);
