@@ -17,7 +17,7 @@ class ReferralController extends Controller
 {
     public function index(Request $request, $code){
 
-        return $request->ip();
+        
 
         $referalCode = ReferalLinksCode::where('code',$code)->first();
         if(!$referalCode)
@@ -27,11 +27,16 @@ class ReferralController extends Controller
         if(!$customer)
             return abort(404);
 
-        ReferalCustomerStat::firstOrCreate([
+
+        
+
+        $newReferral = ReferalCustomerStat::firstOrCreate([
             'company_id' => $referalCode->company_id,
             'customer_id' => $referalCode->customer_id,
             'ip' => $request->ip(),
         ]);
+
+        return $newReferral;
 
         $companySettings = CompanySettings::where('company_id',$referalCode->company_id)->first();
         if($companySettings && 
