@@ -15,7 +15,6 @@ class CreateCustomer extends Component
 
     public function mount()
     {
-        dd(old('customer_phone'));
         $this->phone = old('customer_phone');
     }
 

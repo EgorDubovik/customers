@@ -73,15 +73,15 @@ class CustomerController extends Controller
                 'customer_id' => $customer->id,
             ]);
 
-            // $referalCode = ReferalLinksCode::create([
-            //     'company_id' => Auth::user()->company_id,
-            //     'customer_id' => $customer->id,
-            //     'code' => Str::random(10),
-            // ]);
             $referalCode = ReferalLinksCode::create([
-                'company_id' => null,
-                
+                'company_id' => Auth::user()->company_id,
+                'customer_id' => $customer->id,
+                'code' => Str::random(10),
             ]);
+            // $referalCode = ReferalLinksCode::create([
+            //     'company_id' => null,
+                
+            // ]);
 
             DB::commit();
         }catch(\Exception $e){
