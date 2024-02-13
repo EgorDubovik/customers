@@ -49,9 +49,7 @@ class ButtonFinishAppointment extends Component
     }
 
     #[On('update-total')]
-    public function refresh($total, $remainingBalance){
-        $this->total = $total;
-        $this->remainingBalance = $remainingBalance < 0 ? 0 : $remainingBalance;
+    public function refresh(){
         $this->render();
     }
 }

@@ -5,8 +5,6 @@ namespace App\Livewire\Appointment;
 use App\Models\AppointmentService;
 use Livewire\Component;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Payment;
-use Illuminate\Support\Facades\Auth;
 
 class Services extends Component
 {
@@ -52,6 +50,7 @@ class Services extends Component
             'taxable' => $this->isTaxable ?: false,
         ]);
 
+        $this->dispatch('update-total');
         $this->dispatch('close-modal');
     }
 
@@ -61,6 +60,8 @@ class Services extends Component
         
         if($service->appointment_id == $this->appointment->id)
             $service->delete();
+        
+        $this->dispatch('update-total');
     }
 
     public function edit(AppointmentService $service){
@@ -75,6 +76,8 @@ class Services extends Component
         $this->price = $service->price;
         $this->description = $service->description;
         $this->isTaxable = ($service->taxable) ? true : false;
+
+        
     }
 
     public function update(){
@@ -95,6 +98,7 @@ class Services extends Component
             'taxable' => $this->isTaxable,
         ]);
 
+        $this->dispatch('update-total');
         $this->dispatch('close-modal');
         
     }
