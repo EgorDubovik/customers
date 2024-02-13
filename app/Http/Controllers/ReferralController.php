@@ -30,13 +30,13 @@ class ReferralController extends Controller
 
         
 
-        $newReferral = ReferalCustomerStat::firstOrCreate([
+        ReferalCustomerStat::firstOrCreate([
             'company_id' => $referalCode->company_id,
             'customer_id' => $referalCode->customer_id,
             'ip' => $request->ip(),
         ]);
 
-        return $newReferral;
+        
 
         $companySettings = CompanySettings::where('company_id',$referalCode->company_id)->first();
         if($companySettings && 
