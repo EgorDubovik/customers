@@ -13,6 +13,12 @@ class CreateCustomer extends Component
     public $customers = [];
     
 
+    public function mount()
+    {
+        dd(old('customer_phone'));
+        $this->phone = old('customer_phone');
+    }
+
     public function render()
     {
 

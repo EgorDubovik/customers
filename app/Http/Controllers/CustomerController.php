@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Addresses;
 use App\Models\Appointment;
 use App\Models\Customer;
-use App\Models\Payment;
-use App\Models\ReferalCustomerStat;
 use App\Models\ReferalLinksCode;
-use App\Models\ReferralRange;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -50,33 +47,47 @@ class CustomerController extends Controller
             'line1' => 'required',
             'customer_phone' => 'required',
         ],[
+            'customer_phone.required' => 'Please fill your phone number',
             'line1.required' => 'Please fill at least first line of address',
         ]);
 
         $customer_name = $request->customer_name ?? "Unknow";
 
-        $customer = Customer::create([
-            'name' => $customer_name,
-            'phone' => $request->customer_phone,
-            'email' => $request->email,
-            'company_id' => Auth::user()->company_id,
-            'address_id' => 0,
-        ]);
+        DB::beginTransaction();
 
-        $address = Addresses::create([
-            'line1' => $request->line1,
-            'line2' => $request->line2,
-            'city' => $request->city,
-            'state' => $request->state,
-            'zip' => $request->zip,
-            'customer_id' => $customer->id,
-        ]);
+        try{
+            $customer = Customer::create([
+                'name' => $customer_name,
+                'phone' => $request->customer_phone,
+                'email' => $request->email,
+                'company_id' => Auth::user()->company_id,
+                'address_id' => 0,
+            ]);
 
-        $referalCode = ReferalLinksCode::create([
-            'company_id' => Auth::user()->company_id,
-            'customer_id' => $customer->id,
-            'code' => Str::random(10),
-        ]);
+            $address = Addresses::create([
+                'line1' => $request->line1,
+                'line2' => $request->line2,
+                'city' => $request->city,
+                'state' => $request->state,
+                'zip' => $request->zip,
+                'customer_id' => $customer->id,
+            ]);
+
+            // $referalCode = ReferalLinksCode::create([
+            //     'company_id' => Auth::user()->company_id,
+            //     'customer_id' => $customer->id,
+            //     'code' => Str::random(10),
+            // ]);
+            $referalCode = ReferalLinksCode::create([
+                'company_id' => null,
+                
+            ]);
+
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+            return back()->withErrors('Something went wrong');
+        }
 
         return redirect()->route('customer.show',['customer'=>$customer])->with('success','Added successful');
     }

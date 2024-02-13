@@ -11,7 +11,6 @@
         <!-- CONTENT -->
         <div class="row">
             <div class="card col-md-6 m-auto">
-                @include('layout.error-message')
                 <livewire:customer.create-customer />
             </div>
             

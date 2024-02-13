@@ -1,9 +1,9 @@
 <div>
-    
     <form method="post" action="{{route('customer.store')}}">
         @csrf
         <div class="card-body">
             <h5 class="card-title">Customer Information</h5>
+            @include('layout.error-message')
             <div style="margin-left: 20px;">
                 <div class="row mb-4">
                     <label class="col-md-2 control-label">Full Name</label>
@@ -14,7 +14,7 @@
                 <div class="row mb-4">
                     <label class="col-md-2 control-label">Phone</label>
                     <div class="col-md-10">
-                        <input type="text" wire:model.live.debounce.300ms='phone' class="form-control customer_phone" placeholder="Phone number" name="customer_phone" value="">
+                        <input type="text" wire:model.live.debounce.300ms='phone' class="form-control customer_phone" placeholder="Phone number" name="customer_phone" value="{{ old('customer_phone') }}">
                     </div>
                 </div>
                 <div class="row mb-4">
