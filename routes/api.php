@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
+use App\Models\BookAppointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; 
@@ -44,9 +46,10 @@ Route::prefix('v1')->group(function (){
         return response()->json(['name'=>'test'],200);
     });
 
+    Route::get('/appointment/book/{key}',[BookAppointmentOnlineController::class,'index']);
+    
+
 });
-
-
 
 // Route::middleware('auth:sanctum')->get('/v1/user', function (Request $request) {
 //     return $request->user();

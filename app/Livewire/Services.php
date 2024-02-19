@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Gate;
 class Services extends Component
 {
     public $services;
-    public $mode = 'create';
+    public $mode = 'save';
     public $formTitle = 'Add new service';
 
     public Service $service;

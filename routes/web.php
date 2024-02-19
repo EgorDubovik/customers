@@ -150,6 +150,7 @@ Route::get('appointment/book/view/{key}',[BookAppointmentController::class,'view
 Route::get('appointment/book/cancel/{key}',[BookAppointmentController::class,'delete']);
 Route::get('appointment/book/delete/complete',[BookAppointmentController::class,'remove']);
 
+
 // Referral program
 Route::get('referral/{code}',[ReferralController::class,'index'])->name('referral');
 Route::get('referral/stat/{code}',[ReferralController::class,'stat'])->name('referral.stat');
