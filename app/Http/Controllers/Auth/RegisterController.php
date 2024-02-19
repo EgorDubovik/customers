@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Company;
+use App\Models\CompanySettings;
 use App\Models\Role;
 use App\Models\Settings;
 use App\Models\User;
@@ -33,6 +34,10 @@ class RegisterController extends Controller
         ]);
 
         Settings::create([
+            'company_id' => $company->id,
+        ]);
+        
+        CompanySettings::create([
             'company_id' => $company->id,
         ]);
         
