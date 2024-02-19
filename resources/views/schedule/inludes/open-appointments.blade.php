@@ -7,7 +7,9 @@
            <div class="customer-phone">{{ $appointment->customer->phone }}</div>
        </div>
        <div class="col-7">
-           <div class="customer-address"><b>{{ $appointment->services[0]->title }}</b></div>
+            @if(count($appointment->services)>0)
+               <div class="customer-address"><b>{{ $appointment->services[0]->title }}</b></div>
+            @endif
            <div class="customer-address" style="color: #7c7c7c">{{ $appointment->address->full }}</div>
        </div>
    </div>
