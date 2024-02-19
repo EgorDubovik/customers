@@ -31,7 +31,7 @@
                 @endif
            </div>
            <div class="modal-footer">
-               @if($mode == "save")
+               @if($mode == "create")
                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                    <button type="button" class="btn btn-primary" wire:click.prevent='store()'>Add new service</button>
                @elseif ($mode == 'edit')
