@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
-use App\Models\BookAppointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; 
@@ -42,11 +41,7 @@ Route::prefix('v1')->group(function (){
         });
     });
 
-    Route::get('test',function(){
-        return response()->json(['test' => 'test'],200);
-    });
-
-    Route::get('/appointment/book/{key}',[BookAppointmentOnlineController::class,'index']);
+    Route::get('/appointments/book/{key}',[BookAppointmentOnlineController::class,'index']);
     Route::post('/appointment/book/{key}',[BookAppointmentOnlineController::class,'store']);
     Route::get('/appointment/book/view/{providerkey}',[BookAppointmentOnlineController::class,'view']);
     Route::get('/appointment/book/remove/{providerkey}',[BookAppointmentOnlineController::class,'remove']);
