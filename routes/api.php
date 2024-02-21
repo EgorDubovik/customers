@@ -42,6 +42,10 @@ Route::prefix('v1')->group(function (){
         });
     });
 
+    Route::get('test',function(){
+        return response()->json(['test' => 'test'],200);
+    });
+
     Route::get('/appointment/book/{key}',[BookAppointmentOnlineController::class,'index']);
     Route::post('/appointment/book/{key}',[BookAppointmentOnlineController::class,'store']);
     Route::get('/appointment/book/view/{providerkey}',[BookAppointmentOnlineController::class,'view']);
