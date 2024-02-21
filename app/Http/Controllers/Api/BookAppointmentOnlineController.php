@@ -14,6 +14,9 @@ use App\Models\AppointmentService;
 use App\Models\BookAppointmentProvider;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Mail\BookOnline;
+use App\Mail\BookOnlineForCompany;
+use Illuminate\Support\Facades\Mail;
 
 class BookAppointmentOnlineController extends Controller
 {
@@ -114,6 +117,14 @@ class BookAppointmentOnlineController extends Controller
                 'key'               => $key,
             ]);
 
+            // Send email to customer
+            if($request->customer['email'])
+                Mail::to($request->customer['email'])->send(new BookOnline($appointment,$bookAppointmentProvider->key));
+            
+            // Send email to company
+            if($appointment->company->email)
+                Mail::to($appointment->company->email)->send(new BookOnlineForCompany($appointment));
+
             DB::commit();
             return response()->json(['providerKey'=>$key],200);
         }
@@ -163,8 +174,27 @@ class BookAppointmentOnlineController extends Controller
         ];
 
         return response()->json($return,200);
-        
+    }
 
+    public function remove(Request $request,$providerkey){
+        $bookAppointmentProvider = BookAppointmentProvider::where('key',$providerkey)->first();
+        if(!$bookAppointmentProvider)
+            return response()->json(['error' => 'Appointment not found'],404);
+
+        $appointment = $bookAppointmentProvider->appointment;
+        if(!$appointment)
+            return response()->json(['error' => 'Appointment not found'],404);
+
+        $bookAppointment = BookAppointment::where('company_id',$bookAppointmentProvider->appointment->company_id)->first();
+        $key = ($bookAppointment) ? $bookAppointment->key : null;
         
+        $appointment->services()->delete();
+        $appointment->appointmentTechs()->delete();
+        $appointment->delete();
+        $appointment->address->delete();
+        $appointment->customer->delete();
+        $bookAppointmentProvider->delete();
+            
+        return response()->json(['success' => 'Appointment removed','key'=>$key],200);
     }
 }
