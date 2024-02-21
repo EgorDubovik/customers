@@ -41,6 +41,8 @@ Route::prefix('v1')->group(function (){
         });
     });
 
+    Route::get('/testappointment/book',function(){ return 'true'; });
+
     Route::prefix('appointment/book')->group(function(){
         Route::get('/{key}',[BookAppointmentOnlineController::class,'index']);
         Route::post('/{key}',[BookAppointmentOnlineController::class,'store']);
