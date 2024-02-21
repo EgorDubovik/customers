@@ -41,8 +41,13 @@ Route::prefix('v1')->group(function (){
         });
     });
 
-    Route::get('/appointments/book/{key}',[BookAppointmentOnlineController::class,'index']);
-    Route::post('/appointment/book/{key}',[BookAppointmentOnlineController::class,'store']);
+    Route::prefix('appointment/book')->group(function(){
+        Route::get('/{key}',[BookAppointmentOnlineController::class,'index']);
+        Route::post('/{key}',[BookAppointmentOnlineController::class,'store']);
+    });
+
+    // Route::get('/appointments/book/{key}',[BookAppointmentOnlineController::class,'index']);
+    // Route::post('/appointment/book/{key}',[BookAppointmentOnlineController::class,'store']);
     Route::get('/appointment/book/view/{providerkey}',[BookAppointmentOnlineController::class,'view']);
     Route::get('/appointment/book/remove/{providerkey}',[BookAppointmentOnlineController::class,'remove']);
 
