@@ -46,4 +46,8 @@ class Company extends Model
     public function bookAppointment(){
         return $this->hasOne(BookAppointment::class);
     }
+
+    public function techs(){
+        return $this->hasMany(User::class);
+    }
 }

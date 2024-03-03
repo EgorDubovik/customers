@@ -106,6 +106,10 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        Gate::define('view-appointment', function(User $user, Appointment $appointment){
+            return $user->company_id === $appointment->company_id;
+        });
+
         Gate::define('update-remove-appointment', function(User $user,Appointment $appointment){
             $roleArray = $user->roles->pluck('role')->toArray();
             if(
@@ -138,13 +142,16 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('add-tech-to-appointment',function(User $user, Appointment $appointment, $tech_id){
             $roleArray = $user->roles->pluck('role')->toArray();
             if(
-                (in_array(Role::ADMIN,$roleArray) 
-                    || in_array(Role::DISP,$roleArray) 
-                    || in_array($user->id,$appointment->appointmentTechs->pluck('tech_id')->toArray())
+                (   
+                    in_array(Role::ADMIN,$roleArray) ||
+                    in_array(Role::DISP,$roleArray) 
                 ) 
                 && $appointment->company_id == $user->company_id ){
-                $techs = User::where('company_id',Auth::user()->company_id)->pluck('id')->toArray();
-                if(in_array($tech_id,$techs)){
+
+                $isTechFromMyCompany = User::where('company_id',$user->company_id)
+                    ->where('id',$tech_id)
+                    ->first();
+                if($isTechFromMyCompany){
                     return true;
                 }
             }

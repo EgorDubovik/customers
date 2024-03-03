@@ -40,6 +40,7 @@ class UserController extends Controller
             'color' => $request->user_color,
         ]);
 
+        // Add roles to user if not selected
         foreach ($request->role as $role){
             if(in_array($role, Role::ROLES_ID)){
                 Role::create([

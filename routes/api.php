@@ -5,6 +5,10 @@ use App\Http\Controllers\Api\CustomersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; 
+use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\Company\CompanyServicesController;
+use App\Http\Controllers\Api\Company\CompanyTechController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +33,7 @@ Route::prefix('v1')->group(function (){
         { 
             return response()->json(['error'=>'Unauthorised'], 401); 
         } 
+        
     });
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
@@ -38,6 +43,28 @@ Route::prefix('v1')->group(function (){
 
         Route::prefix('customers')->group(function(){
             Route::get("/",[CustomersController::class,'index']);
+        });
+
+        // Company Services
+        Route::prefix('company/settings/services')->group(function(){
+            Route::get('/',[CompanyServicesController::class,'index']);
+            Route::post('/',[CompanyServicesController::class,'store']);
+            Route::delete('/{id}',[CompanyServicesController::class,'delete']);
+            Route::put('/{id}',[CompanyServicesController::class,'update']);
+        });
+
+        // Comopany Techs
+        Route::prefix('company/techs')->group(function(){
+            Route::get('/',[CompanyTechController::class,'index']);
+            
+        });
+
+        Route::prefix('appointment')->group(function(){
+            Route::get('/{id}',[AppointmentController::class,'index']);
+
+            //Appointment Techs
+            Route::delete('tech/{appointment_id}/{tech_id}',[AppointmentController::class,'removeTech']);
+            Route::post('tech/{appointment_id}',[AppointmentController::class,'addTech']);
         });
     });
 
