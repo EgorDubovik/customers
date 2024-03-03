@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use App\Models\AppointmentNotes;
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -47,5 +49,37 @@ class AppointmentController extends Controller
         }        
 
         return response()->json(['message' => 'Tech added to appointment'], 200);
+    }
+
+    public function addNote(Request $request, $appointment_id){
+        $appointment = Appointment::find($appointment_id);
+        if(!$appointment)
+            return response()->json(['error' => 'Appointment not found'], 404);
+
+        $this->authorize('appointment-store-note', $appointment);
+
+        $note = AppointmentNotes::create([
+            'appointment_id' => $appointment->id,
+            'creator_id'    => $request->user()->id,
+            'text'          => $request->text,
+        ]);
+
+        return response()->json(['message' => 'Note added to appointment','note'=>$note], 200);
+    }
+
+    public function removeNote(Request $request, $appointment_id, $note_id){
+        $appointment = Appointment::find($appointment_id);
+        if(!$appointment)
+            return response()->json(['error' => 'Appointment not found'], 404);
+
+        $note = AppointmentNotes::find($note_id);
+        if(!$note)
+            return response()->json(['error' => 'Note not found'], 404);
+
+        $this->authorize('appointment-store-note', $appointment);
+
+        $note->delete();
+
+        return response()->json(['message' => 'Note removed from appointment'], 200);
     }
 }

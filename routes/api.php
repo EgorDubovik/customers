@@ -65,6 +65,10 @@ Route::prefix('v1')->group(function (){
             //Appointment Techs
             Route::delete('tech/{appointment_id}/{tech_id}',[AppointmentController::class,'removeTech']);
             Route::post('tech/{appointment_id}',[AppointmentController::class,'addTech']);
+            
+            // Appointment notes
+            Route::post('notes/{appointment_id}',[AppointmentController::class,'addNote']);
+            Route::delete('notes/{appointment_id}/{note_id}',[AppointmentController::class,'removeNote']);
         });
     });
 
