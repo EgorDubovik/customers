@@ -60,6 +60,10 @@ Route::prefix('v1')->group(function (){
         });
 
         Route::prefix('appointment')->group(function(){
+
+            // All appointments for calendar
+            Route::get('/',[AppointmentController::class,'view']);
+
             Route::get('/{id}',[AppointmentController::class,'index']);
 
             //Appointment Techs
@@ -69,6 +73,12 @@ Route::prefix('v1')->group(function (){
             // Appointment notes
             Route::post('notes/{appointment_id}',[AppointmentController::class,'addNote']);
             Route::delete('notes/{appointment_id}/{note_id}',[AppointmentController::class,'removeNote']);
+
+            // Appointment services
+            Route::post('service/{appointment_id}',[AppointmentController::class,'addService']);
+            Route::delete('service/{appointment_id}/{service_id}',[AppointmentController::class,'removeService']);
+            Route::put('service/{appointment_id}/{service_id}',[AppointmentController::class,'updateService']);
+
         });
     });
 
