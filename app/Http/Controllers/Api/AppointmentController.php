@@ -50,6 +50,19 @@ class AppointmentController extends Controller
         return response()->json(['appointments' => $returnAppointments], 200);
     }
 
+    // Appointment status
+    public function updateStatus(Request $request, $id){
+        $appointment = $this->isValidAppointment($id);
+
+        $this->authorize('update-remove-appointment', $appointment);
+
+        $appointment->update([
+            'status' => !$appointment->status,
+        ]);
+
+        return response()->json(['message' => 'Appointment status updated'], 200);
+    }
+
     // Appointment Techs
     public function removeTech(Request $request, $appointment_id, $tech_id){
         $appointment = Appointment::find($appointment_id);
@@ -144,7 +157,7 @@ class AppointmentController extends Controller
         $service = $appointment->services()->where('id',$service_id)->first();
         if(!$service)
             return response()->json(['error' => 'Service not found'], 404);
-        
+
         $service->update([
             'title' => $request->title,
             'description' => $request->description,

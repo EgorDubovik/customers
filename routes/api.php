@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Appointment\PaymentController;
 use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
 use Illuminate\Http\Request;
@@ -65,7 +66,7 @@ Route::prefix('v1')->group(function (){
             Route::get('/',[AppointmentController::class,'view']);
 
             Route::get('/{id}',[AppointmentController::class,'index']);
-
+            Route::put('/{id}/status',[AppointmentController::class,'updateStatus']);
             //Appointment Techs
             Route::delete('tech/{appointment_id}/{tech_id}',[AppointmentController::class,'removeTech']);
             Route::post('tech/{appointment_id}',[AppointmentController::class,'addTech']);
@@ -79,6 +80,8 @@ Route::prefix('v1')->group(function (){
             Route::delete('service/{appointment_id}/{service_id}',[AppointmentController::class,'removeService']);
             Route::put('service/{appointment_id}/{service_id}',[AppointmentController::class,'updateService']);
 
+            // Appointment payments
+            Route::post('payment/{appointment_id}',[PaymentController::class,'store']);
         });
     });
 
