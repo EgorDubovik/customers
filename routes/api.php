@@ -39,11 +39,19 @@ Route::prefix('v1')->group(function (){
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('user', function(Request $request){
-            return $request->user();
+            $user = $request->user();
+            $user->rolesArray = $user->roles->pluck('role');
+            return response()->json(['user' => $user], 200);
         });
 
         Route::prefix('customers')->group(function(){
             Route::get("/",[CustomersController::class,'index']);
+            Route::get('/{id}',[CustomersController::class,'show']);
+            Route::post("/",[CustomersController::class,'store']);
+            Route::put('/{id}',[CustomersController::class,'update']);
+            Route::put('/{customer_id}/address/{address_id}',[CustomersController::class,'updateAddress']);
+            Route::post('/{customer_id}/address',[CustomersController::class,'storeAddress']);
+            Route::delete('/{customer_id}/address/{address_id}',[CustomersController::class,'deleteAddress']);
         });
 
         // Company Services

@@ -15,7 +15,6 @@ class Customer extends Model
         'name',
         'phone',
         'email',
-        'address_id',
         'company_id',
     ];
 
