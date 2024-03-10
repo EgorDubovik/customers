@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\Company\CompanyServicesController;
 use App\Http\Controllers\Api\Company\CompanyTechController;
-
+use App\Http\Controllers\Api\InvoiceController;
+use App\Http\Controllers\Api\Auth\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,19 +24,7 @@ use App\Http\Controllers\Api\Company\CompanyTechController;
 
 
 Route::prefix('v1')->group(function (){
-    Route::post('/signin',function(Request $request){
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
-            $user = Auth::user();
-            $user->tokens()->delete();
-            $success['token'] =  $user->createToken('API token')->plainTextToken;
-            return response()->json(['success' => $success], 200); 
-        } 
-        else
-        { 
-            return response()->json(['error'=>'Unauthorised'], 401); 
-        } 
-        
-    });
+    Route::post('/signin',[AuthController::class,'login']);
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('user', function(Request $request){
@@ -90,6 +79,16 @@ Route::prefix('v1')->group(function (){
 
             // Appointment payments
             Route::post('payment/{appointment_id}',[PaymentController::class,'store']);
+
+            // Appointment invoice
+            Route::get('invoice/{appointment_id}',[InvoiceController::class,'create']);
+            Route::post('{appointment_id}/invoice-send',[InvoiceController::class,'send']);
+        });
+
+        // Invoices
+        Route::prefix('invoice')->group(function(){
+            Route::get('/',[InvoiceController::class,'index']);
+            Route::get('/{id}',[InvoiceController::class,'show']);
         });
     });
 
