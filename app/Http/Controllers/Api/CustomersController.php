@@ -14,10 +14,9 @@ class CustomersController extends Controller
 {
     public function index(Request $request){
         $customers = Customer::where('company_id', Auth::user()->company->id)
+            ->orderBy('created_at','DESC')
             ->with('address')
-            ->get()
-            ->makeHidden(['address_id','company_id','created_at','updated_at']);
-
+            ->paginate($request->limit ?? 10);
         
         return response()->json($customers);
     }
