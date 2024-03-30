@@ -8,6 +8,9 @@ use App\Models\AppointmentNotes;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 class AppointmentController extends Controller
 {
     public function index(Request $request, $id){
@@ -43,11 +46,59 @@ class AppointmentController extends Controller
                 'start' => $appointment->start,
                 'end' => $appointment->end,
                 'title' => $appointment->customer->name,
-                'bg' => $appointment->techs->first()->color,
+                'status' => $appointment->status,
+                'addClass' => $appointment->status === 0 ? 'text-white' : 'text-gray-600',
+                'bg' => $appointment->status === 0 ? $appointment->techs->first()->color ?? '#1565c0' : '#ccc',
             ];
         }
 
         return response()->json(['appointments' => $returnAppointments], 200);
+    }
+
+    public function store(Request $request){
+        $validate = $request->validate([
+            'customerId'   => 'required|integer',
+            'addressId'    => 'required|integer',
+            'timeFrom'     => 'required',
+            'timeTo'       => 'required',
+        ]);
+
+        $this->authorize('make-appointment', [$request->customerId, $request->addressId]);
+
+        DB::beginTransaction();
+        try{
+            $appointment = Appointment::create([
+                'company_id' => $request->user()->company_id,
+                'customer_id' => $request->customerId,
+                'address_id' => $request->addressId,
+                'start' => Carbon::parse($request->timeFrom),
+                'end' => Carbon::parse($request->timeTo),
+                'status' => 0,
+            ]);
+
+            // add techs to appointment
+            foreach($request->techs as $tech){
+                $appointment->techs()->attach($tech);
+            }
+
+            // Add services to appointment
+            if($request->has('services')){
+                foreach($request->services as $service){
+                    $appointment->services()->create([
+                        'title' => $service['title'],
+                        'description' => $service['description'],
+                        'price' => $service['price'],
+                        'taxable' => $service['taxable'],
+                    ]);
+                }
+            }
+            DB::commit();
+        } catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['error' => 'Error creating appointment'], 500);
+        }
+
+        return response()->json(['message' => 'Appointment created','appointment' => $appointment], 200);
     }
 
     // Appointment status

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Company\CompanyServicesController;
 use App\Http\Controllers\Api\Company\CompanyTechController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -62,7 +63,11 @@ Route::prefix('v1')->group(function (){
             // All appointments for calendar
             Route::get('/',[AppointmentController::class,'view']);
 
+            // Base appointment API
             Route::get('/{id}',[AppointmentController::class,'index']);
+            Route::post('/',[AppointmentController::class,'store']);
+
+            // Update Appointment Status
             Route::put('/{id}/status',[AppointmentController::class,'updateStatus']);
             //Appointment Techs
             Route::delete('tech/{appointment_id}/{tech_id}',[AppointmentController::class,'removeTech']);
@@ -89,6 +94,13 @@ Route::prefix('v1')->group(function (){
         Route::prefix('invoice')->group(function(){
             Route::get('/',[InvoiceController::class,'index']);
             Route::get('/{id}',[InvoiceController::class,'show']);
+        });
+
+        // Employees
+        Route::prefix('employees')->group(function(){
+            Route::get('/',[EmployeeController::class,'index']);
+            Route::post('/',[EmployeeController::class,'store']);
+            Route::put('/{id}',[EmployeeController::class,'update']);
         });
     });
 

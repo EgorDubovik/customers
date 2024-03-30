@@ -20,10 +20,6 @@ use App\Http\Controllers\BookAppointmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReferralController;
-use App\Models\Appointment;
-use App\Models\Invoice;
-use App\Models\Settings;
-use FontLib\Table\Type\name;
 
 Route::prefix("auth")->group(function(){
     Route::get("/register",[RegisterController::class,'create']);

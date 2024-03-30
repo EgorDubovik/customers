@@ -63,7 +63,7 @@ class AppointmentController extends Controller
 
         Gate::authorize('make-appointment',[$request->customer_id, $request->address_id]);
         
-        // check if this is my customer
+        
         $appointment = Appointment::create([
             'customer_id' => $request->customer_id,
             'company_id' => Auth::user()->company_id,
