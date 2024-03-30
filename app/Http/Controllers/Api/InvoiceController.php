@@ -18,12 +18,17 @@ use Illuminate\Support\Str;
 class InvoiceController extends Controller
 {
     public function index(Request $request){
-        // $request->merge(['page' => 1]);
+        
+        // !! В слючае удаления апойнтмента, должен остатся, для этого нужно все данные сохронять отдельно а не высчитвать, а именно сумму
+
         $invoices = Invoice::where('company_id',Auth::user()->company_id)
             ->orderBy('created_at','DESC')
             ->paginate($request->limit ?? 10);
         foreach($invoices as $invoice){
-            $invoice->amount = $invoice->appointment->totalPaid();
+            if($invoice->appointment)
+                $invoice->amount = $invoice->appointment->totalPaid();
+            else 
+                $invoice->amount = 0;
         }
         return response()->json(['invoices' => $invoices], 200);
     }
