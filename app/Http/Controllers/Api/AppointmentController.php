@@ -101,6 +101,21 @@ class AppointmentController extends Controller
         return response()->json(['message' => 'Appointment created','appointment' => $appointment], 200);
     }
 
+    public function delete(Request $request, $id){
+        $appointment = Appointment::find($id);
+        if(!$appointment)
+            return response()->json(['error' => 'Appointment not found'], 404);
+
+        $this->authorize('update-remove-appointment', $appointment);
+
+        $appointment->techs()->detach();
+        $appointment->services()->delete();
+        $appointment->notes()->delete();
+        $appointment->delete();
+
+        return response()->json(['message' => 'Appointment deleted'], 200);
+    }
+
     // Appointment status
     public function updateStatus(Request $request, $id){
         $appointment = $this->isValidAppointment($id);
