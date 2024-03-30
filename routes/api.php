@@ -25,7 +25,7 @@ use App\Http\Controllers\Api\EmployeeController;
 
 
 Route::prefix('v1')->group(function (){
-    // Route::post('/signin',[AuthController::class,'login']);
+    Route::post('/signin',[AuthController::class,'login']);
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('user', function(Request $request){
