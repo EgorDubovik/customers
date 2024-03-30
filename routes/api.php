@@ -25,7 +25,7 @@ use App\Http\Controllers\Api\EmployeeController;
 
 
 Route::prefix('v1')->group(function (){
-    Route::post('/signin',[AuthController::class,'login']);
+    // Route::post('/signin',[AuthController::class,'login']);
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('user', function(Request $request){
@@ -112,7 +112,3 @@ Route::prefix('v1')->group(function (){
         Route::get('/remove/{providerkey}',[BookAppointmentOnlineController::class,'remove']);
     });
 });
-
-// Route::middleware('auth:sanctum')->get('/v1/user', function (Request $request) {
-//     return $request->user();
-// });
