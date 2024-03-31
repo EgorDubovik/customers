@@ -67,6 +67,7 @@ Route::prefix('v1')->group(function (){
             Route::get('/{id}',[AppointmentController::class,'index']);
             Route::post('/',[AppointmentController::class,'store']);
             Route::delete('/{id}',[AppointmentController::class,'delete']);
+            Route::put('/{id}',[AppointmentController::class,'update']);
 
             // Update Appointment Status
             Route::put('/{id}/status',[AppointmentController::class,'updateStatus']);

@@ -47,8 +47,7 @@ class AppointmentController extends Controller
                 'end' => $appointment->end,
                 'title' => $appointment->customer->name,
                 'status' => $appointment->status,
-                'addClass' => $appointment->status === 0 ? 'text-white' : 'text-gray-600',
-                'bg' => $appointment->status === 0 ? $appointment->techs->first()->color ?? '#1565c0' : '#ccc',
+                'bg' => $appointment->techs->first()->color ?? '#1565c0',
             ];
         }
 
@@ -99,6 +98,23 @@ class AppointmentController extends Controller
         }
 
         return response()->json(['message' => 'Appointment created','appointment' => $appointment], 200);
+    }
+
+    public function update(Request $request, $id){
+        $appointment = Appointment::find($id);
+        if(!$appointment)
+            return response()->json(['error' => 'Appointment not found'], 404);
+
+        $this->authorize('update-remove-appointment', $appointment);
+
+        if($request->has('timeFrom'))
+            $appointment->start = Carbon::parse($request->timeFrom);
+        if($request->has('timeTo'))
+            $appointment->end = Carbon::parse($request->timeTo);
+
+        $appointment->save();
+
+        return response()->json(['message' => 'Appointment updated'], 200);
     }
 
     public function delete(Request $request, $id){
