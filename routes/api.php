@@ -34,6 +34,7 @@ Route::prefix('v1')->group(function (){
             return response()->json(['user' => $user], 200);
         });
 
+        // Customers
         Route::prefix('customers')->group(function(){
             Route::get("/",[CustomersController::class,'index']);
             Route::get('/{id}',[CustomersController::class,'show']);
@@ -42,6 +43,7 @@ Route::prefix('v1')->group(function (){
             Route::put('/{customer_id}/address/{address_id}',[CustomersController::class,'updateAddress']);
             Route::post('/{customer_id}/address',[CustomersController::class,'storeAddress']);
             Route::delete('/{customer_id}/address/{address_id}',[CustomersController::class,'deleteAddress']);
+            Route::get('/search',[CustomersController::class,'search']);
         });
 
         // Company Services

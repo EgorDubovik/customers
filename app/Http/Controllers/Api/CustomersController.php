@@ -12,141 +12,169 @@ use Illuminate\Support\Facades\DB;
 
 class CustomersController extends Controller
 {
-    public function index(Request $request){
-        $customers = Customer::where('company_id', Auth::user()->company->id)
-            ->orderBy('created_at','DESC')
-            ->with('address')
-            ->paginate($request->limit ?? 10);
-        
-        return response()->json($customers);
-    }
+   public function index(Request $request)
+   {
+      $customers = Customer::where('company_id', Auth::user()->company->id)
+         ->orderBy('created_at', 'DESC')
+         ->with('address')
+         ->paginate($request->limit ?? 10);
 
-    public function show(Request $request, $id){
-        $customer = Customer::where('company_id', Auth::user()->company->id)
-            ->with('address')
-            ->find($id);
+      return response()->json($customers);
+   }
 
-        if(!$customer)
-            return response()->json(['error' => 'Customer not found'], 404);
+   public function show(Request $request, $id)
+   {
+      $customer = Customer::where('company_id', Auth::user()->company->id)
+         ->with('address')
+         ->find($id);
 
-        return response()->json($customer,200);
-    }
+      if (!$customer) {
+         return response()->json(['error' => 'Customer not found'], 404);
+      }
 
-    public function store(Request $request){
-        $request->validate([
-            'phone' => 'required',
-            'address1' => 'required',
-        ]);
-        DB::beginTransaction();
-        try{
-            $customer = Customer::create([
-                'name' => $request->name ?? 'Unknown',
-                'phone' => $request->phone,
-                'email' => $request->email,
-                'company_id' => Auth::user()->company->id,
-            ]);
+      return response()->json($customer, 200);
+   }
 
-            $customer->address()->create([
-                'line1' => $request->address1,
-                'line2' => $request->address2,
-                'city' => $request->city,
-                'state' => $request->state,
-                'zip' => $request->zip,
-            ]);
-
-            $referalCode = ReferalLinksCode::create([
-                'company_id' => Auth::user()->company_id,
-                'customer_id' => $customer->id,
-                'code' => Str::random(10),
-            ]);
-            DB::commit();
-        }catch(\Exception $e){
-            DB::rollBack();
-            return response()->json(['error' => 'Error creating customer'], 500);
-        }
-
-        return response()->json($customer);
-    }
-
-    public function update(Request $request, $customer_id){
-        $customer = Customer::find($customer_id);
-        if(!$customer)
-            return response()->json(['error' => 'Customer not found'], 404);
-
-        $request->validate([
-            'phone' => 'required',
-        ]);
-
-        $customer->update([
+   public function store(Request $request)
+   {
+      $request->validate([
+         'phone' => 'required',
+         'address1' => 'required',
+      ]);
+      DB::beginTransaction();
+      try {
+         $customer = Customer::create([
             'name' => $request->name ?? 'Unknown',
             'phone' => $request->phone,
             'email' => $request->email,
-        ]);
+            'company_id' => Auth::user()->company->id,
+         ]);
 
-        return response()->json(['customer'=>$customer],200);
-    }
-
-    public function updateAddress(Request $request, $customer_id, $address_id){
-        $customer = Customer::find($customer_id);
-        if(!$customer)
-            return response()->json(['error' => 'Customer not found'], 404);
-
-        $address = $customer->address()->find($address_id);
-        if(!$address)
-            return response()->json(['error' => 'Address not found'], 404);
-        
-        $request->validate([
-            'address1' => 'required',
-        ]);
-
-        $address->update([
+         $customer->address()->create([
             'line1' => $request->address1,
             'line2' => $request->address2,
             'city' => $request->city,
             'state' => $request->state,
             'zip' => $request->zip,
-        ]);
+         ]);
 
-        $customer->load('address');
+         $referalCode = ReferalLinksCode::create([
+            'company_id' => Auth::user()->company_id,
+            'customer_id' => $customer->id,
+            'code' => Str::random(10),
+         ]);
+         DB::commit();
+      } catch (\Exception $e) {
+         DB::rollBack();
+         return response()->json(['error' => 'Error creating customer'], 500);
+      }
 
-        return response()->json(['customer'=>$customer],200);
-    }
+      return response()->json($customer);
+   }
 
-    public function storeAddress(Request $request, $customer_id){
-        $customer = Customer::find($customer_id);
-        if(!$customer)
-            return response()->json(['error' => 'Customer not found'], 404);
+   public function update(Request $request, $customer_id)
+   {
+      $customer = Customer::find($customer_id);
+      if (!$customer) {
+         return response()->json(['error' => 'Customer not found'], 404);
+      }
 
-        $request->validate([
-            'address1' => 'required',
-        ]);
+      $request->validate([
+         'phone' => 'required',
+      ]);
 
-        $address = $customer->address()->create([
-            'line1' => $request->address1,
-            'line2' => $request->address2,
-            'city' => $request->city,
-            'state' => $request->state,
-            'zip' => $request->zip,
-        ]);
+      $customer->update([
+         'name' => $request->name ?? 'Unknown',
+         'phone' => $request->phone,
+         'email' => $request->email,
+      ]);
 
-        $customer->load('address');
+      return response()->json(['customer' => $customer], 200);
+   }
 
-        return response()->json(['customer'=>$customer],200);
-    }
+   public function updateAddress(Request $request, $customer_id, $address_id)
+   {
+      $customer = Customer::find($customer_id);
+      if (!$customer) {
+         return response()->json(['error' => 'Customer not found'], 404);
+      }
 
-    public function deleteAddress(Request $request, $customer_id, $address_id){
-        $customer = Customer::find($customer_id);
-        if(!$customer)
-            return response()->json(['error' => 'Customer not found'], 404);
+      $address = $customer->address()->find($address_id);
+      if (!$address) {
+         return response()->json(['error' => 'Address not found'], 404);
+      }
 
-        $address = $customer->address()->find($address_id);
-        if(!$address)
-            return response()->json(['error' => 'Address not found'], 404);
+      $request->validate([
+         'address1' => 'required',
+      ]);
 
-        $address->delete();
+      $address->update([
+         'line1' => $request->address1,
+         'line2' => $request->address2,
+         'city' => $request->city,
+         'state' => $request->state,
+         'zip' => $request->zip,
+      ]);
 
-        $customer->load('address');
+      $customer->load('address');
 
-        return response()->json(['customer'=>$customer],200);
-    }
+      return response()->json(['customer' => $customer], 200);
+   }
+
+   public function storeAddress(Request $request, $customer_id)
+   {
+      $customer = Customer::find($customer_id);
+      if (!$customer) {
+         return response()->json(['error' => 'Customer not found'], 404);
+      }
+
+      $request->validate([
+         'address1' => 'required',
+      ]);
+
+      $address = $customer->address()->create([
+         'line1' => $request->address1,
+         'line2' => $request->address2,
+         'city' => $request->city,
+         'state' => $request->state,
+         'zip' => $request->zip,
+      ]);
+
+      $customer->load('address');
+
+      return response()->json(['customer' => $customer], 200);
+   }
+
+   public function deleteAddress(Request $request, $customer_id, $address_id)
+   {
+      $customer = Customer::find($customer_id);
+      if (!$customer) {
+         return response()->json(['error' => 'Customer not found'], 404);
+      }
+
+      $address = $customer->address()->find($address_id);
+      if (!$address) {
+         return response()->json(['error' => 'Address not found'], 404);
+      }
+      $address->delete();
+      $customer->load('address');
+      return response()->json(['customer' => $customer], 200);
+   }
+
+   public function search(Request $request)
+   {
+      $searchTerm = $request->input('search', '');
+      $numericSearchTerm = preg_replace('/\D/', '', $searchTerm);
+      $customers = Customer::where('company_id', Auth::user()->company->id)
+         ->where(function ($query) use ($searchTerm, $numericSearchTerm) {
+            $query
+               ->where('name', 'LIKE', "%{$searchTerm}%")
+               ->orWhere('address', 'LIKE', "%{$searchTerm}%")
+               ->orWhere('phone_number', 'LIKE', "%{$numericSearchTerm}%");
+         })
+         ->with('address')
+         ->get();
+
+      return response()->json($customers);
+   }
 }
