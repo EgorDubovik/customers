@@ -37,7 +37,7 @@ Route::prefix('v1')->group(function (){
         // Customers
         Route::prefix('customers')->group(function(){
             Route::get("/",[CustomersController::class,'index']);
-            Route::get('/{id}',[CustomersController::class,'show']);
+            Route::get('/{id}',[CustomersController::class,'show'])->where('id', '[0-9]+');
             Route::post("/",[CustomersController::class,'store']);
             Route::put('/{id}',[CustomersController::class,'update']);
             Route::put('/{customer_id}/address/{address_id}',[CustomersController::class,'updateAddress']);
