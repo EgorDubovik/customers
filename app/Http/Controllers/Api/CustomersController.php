@@ -14,7 +14,25 @@ class CustomersController extends Controller
 {
    public function index(Request $request)
    {
+      $searchTerm = $request->input('search', '');
+      $searchTermWithoutPlusOne  = preg_replace('/^\+1\s*/', '', $searchTerm);
+      $numericSearchTerm = preg_replace('/\D/', '', $searchTermWithoutPlusOne);
+
       $customers = Customer::where('company_id', Auth::user()->company->id)
+         ->where(function ($query) use ($searchTerm, $numericSearchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
+               $q->where('name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('phone', 'LIKE', "%{$searchTerm}%");
+            });
+
+            if (!empty($numericSearchTerm)) {
+               $query->orWhere('phone', 'LIKE', "%{$numericSearchTerm}%");
+            }
+
+            $query->orWhereHas('address', function ($a_query) use ($searchTerm) {
+               $a_query->where('line1', 'LIKE', "%$searchTerm%");
+            });
+         })
          ->orderBy('created_at', 'DESC')
          ->with('address')
          ->paginate($request->limit ?? 10);
@@ -159,31 +177,5 @@ class CustomersController extends Controller
       $address->delete();
       $customer->load('address');
       return response()->json(['customer' => $customer], 200);
-   }
-
-   public function search(Request $request)
-   {
-      $searchTerm = $request->input('search', '');
-      $searchTermWithoutPlusOne  = preg_replace('/^\+1\s*/', '', $searchTerm);
-      $numericSearchTerm = preg_replace('/\D/', '', $searchTermWithoutPlusOne);
-      $customers = Customer::where('company_id', Auth::user()->company->id)
-         ->where(function ($query) use ($searchTerm, $numericSearchTerm) {
-            $query->where(function ($q) use ($searchTerm) {
-               $q->where('name', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('phone', 'LIKE', "%{$searchTerm}%");
-            });
-
-            if (!empty($numericSearchTerm)) {
-               $query->orWhere('phone', 'LIKE', "%{$numericSearchTerm}%");
-            }
-
-            $query->orWhereHas('address', function ($a_query) use ($searchTerm) {
-               $a_query->where('line1', 'LIKE', "%$searchTerm%");
-            });
-         })
-         ->with('address')
-         ->get();
-
-      return response()->json($customers);
    }
 }
