@@ -107,6 +107,14 @@ class BookAppointmentOnlineController extends Controller
                 }
             }
 
+            foreach($company->techs as $tech){
+                if($tech->roles->pluck('role')->contains(2)){
+                    $appointment->techs()->attach($tech->id);
+                    break;
+                }
+            }
+            
+
             $key = Str::random(40);
             while(BookAppointmentProvider::where('key', $key)->exists()) {
                 $key = Str::random(40);
