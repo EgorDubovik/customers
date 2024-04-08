@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\Company\CompanyTechController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\ProfileController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,11 +30,7 @@ Route::prefix('v1')->group(function (){
     Route::post('/signin',[AuthController::class,'login']);
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
-        Route::get('user', function(Request $request){
-            $user = $request->user();
-            $user->rolesArray = $user->roles->pluck('role');
-            return response()->json(['user' => $user], 200);
-        });
+        Route::get('user', [ProfileController::class,'show']);
 
         // Customers
         Route::prefix('customers')->group(function(){

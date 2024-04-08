@@ -43,11 +43,20 @@ class CustomersController extends Controller
    public function show(Request $request, $id)
    {
       $customer = Customer::where('company_id', Auth::user()->company->id)
-         ->with('address')
+         ->with([
+            'address',
+            'tags',
+         ])
          ->find($id);
 
       if (!$customer) {
          return response()->json(['error' => 'Customer not found'], 404);
+      }
+
+      foreach ($customer->appointments as $appointment) {
+         $appointment->totalPaid = $appointment->totalPaid();
+         $appointment->remainingBalance = $appointment->remainingBalance();
+         $appointment->techs = $appointment->techs;
       }
 
       return response()->json($customer, 200);
