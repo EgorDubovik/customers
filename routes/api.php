@@ -31,6 +31,7 @@ Route::prefix('v1')->group(function (){
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
         Route::get('user', [ProfileController::class,'show']);
+        Route::post('user/update-password',[ProfileController::class,'updatePassword']);
 
         // Customers
         Route::prefix('customers')->group(function(){
