@@ -21,7 +21,7 @@ class DashboardController extends Controller
       $currentMonth = Carbon::now()->startOfMonth();
       $currentWeek = Carbon::now()->startOfWeek();
       DB::statement("SET SQL_MODE=''");
-      $paymentsCurentMonth = Payment::where('created_at', '>=', $currentMonth)
+      $paymentsCurrentMonth = Payment::where('created_at', '>=', $currentMonth)
          ->where('company_id', $user->company_id)
          ->whereHas('appointment', function ($query) use ($user) {
             $query->whereHas('techs', function ($q) use ($user) {
@@ -29,9 +29,9 @@ class DashboardController extends Controller
             });
          })
          ->get();
-      $sumCurentMonth = $paymentsCurentMonth->sum('amount');
+      $sumCurrentMonth = $paymentsCurrentMonth->sum('amount');
 
-      $paymentsCurentWheek = Payment::where('created_at', '>=', $currentWeek)
+      $paymentsCurrentWheek = Payment::where('created_at', '>=', $currentWeek)
          ->where('company_id', $user->company_id)
          ->whereHas('appointment', function ($query) use ($user) {
             $query->whereHas('techs', function ($q) use ($user) {
@@ -39,27 +39,23 @@ class DashboardController extends Controller
             });
          })
          ->get();
-      $sumCurentWeek = $paymentsCurentWheek->sum('amount');
-
-      return response()->json([
-         'sumCurentMonth' => $sumCurentMonth,
-         'sumCurentWeek' => $sumCurentWeek,
-      ], 200);
-
-      $paymentsLast30Days = Payment::where('created_at', '>=', Carbon::now()->subDays(30))
-         ->where('company_id', $user->company_id)
-         ->groupBy('appointment_id')
-         ->selectRaw('sum(amount) as sum')
-         ->get();
-
-      $sumLast30Days = number_format($paymentsLast30Days->sum('sum') / 100, 2);
-      $avarageLast30Days = number_format(round(($paymentsLast30Days->sum('sum') / 100) / 30, 2), 2);
+      $sumCurrentWeek = $paymentsCurrentWheek->sum('amount');
 
       $currentDate = Carbon::now()->format('Y-m-d');
-      $paymentsCurentDay = Payment::whereDate('created_at', $currentDate)->get();
-      $sumCurentDay = number_format($paymentsCurentDay->sum('amount'), 2);
+      $paymentsCurrentDay = Payment::whereDate('created_at', $currentDate)
+         ->where('company_id', $user->company_id)
+         ->whereHas('appointment', function ($query) use ($user) {
+            $query->whereHas('techs', function ($q) use ($user) {
+               $q->where('tech_id', $user->id);
+            });
+         })
+         ->get();
+      $sumCurrentDay = $paymentsCurrentDay->sum('amount');
 
-
-      $appointments = Appointment::where('company_id', $user->company_id)->get();
+      return response()->json([
+         'sumCurrentMonth' => $sumCurrentMonth,
+         'sumCurrentWeek' => $sumCurrentWeek,
+         'sumCurrentDay' => $sumCurrentDay,
+      ], 200);
    }
 }
