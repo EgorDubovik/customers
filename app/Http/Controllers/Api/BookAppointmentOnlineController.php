@@ -102,6 +102,7 @@ class BookAppointmentOnlineController extends Controller
                             'title' => $company_service->title,
                             'description' => $company_service->description,
                             'price' => $company_service->price,
+                            'taxble' => 1,
                         ]);
                     }
                 }

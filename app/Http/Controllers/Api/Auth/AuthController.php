@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     use HasApiTokens;
+
+    
     public function login(Request $request){
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
             $user = Auth::user();
