@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Company\CompanyServicesController;
 use App\Http\Controllers\Api\Company\CompanyTechController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ProfileController;
 
@@ -30,8 +31,14 @@ Route::prefix('v1')->group(function (){
     Route::post('/signin',[AuthController::class,'login']);
 
     Route::group(['middleware' => ['auth:sanctum']],function (){
+        
+    
+        // Profile
         Route::get('user', [ProfileController::class,'show']);
         Route::post('user/update-password',[ProfileController::class,'updatePassword']);
+
+        //Dashboard
+        Route::get('dashboard',[DashboardController::class,'dashboard']);
 
         // Customers
         Route::prefix('customers')->group(function(){
