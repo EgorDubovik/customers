@@ -108,13 +108,17 @@ class BookAppointmentOnlineController extends Controller
                 }
             }
 
+            $atachedTech = false;
             foreach($company->techs as $tech){
                 if($tech->roles->pluck('role')->contains(2)){
                     $appointment->techs()->attach($tech->id);
+                    $atachedTech = true;
                     break;
                 }
             }
-            
+            if(!$atachedTech){
+                $appointment->techs()->attach($company->techs->first()->id);
+            }
 
             $key = Str::random(40);
             while(BookAppointmentProvider::where('key', $key)->exists()) {
