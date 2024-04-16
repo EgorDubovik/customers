@@ -45,6 +45,7 @@ class CustomersController extends Controller
       $customer = Customer::where('company_id', Auth::user()->company->id)
          ->with([
             'address',
+            'appointments',
             'tags',
          ])
          ->find($id);

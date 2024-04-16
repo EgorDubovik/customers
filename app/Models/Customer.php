@@ -53,7 +53,7 @@ class Customer extends Model
 
     public function appointments()
     {
-        return $this->hasMany(Appointment::class,'customer_id','id');
+        return $this->hasMany(Appointment::class,'customer_id','id')->orderByDesc('created_at');
     }
 
     public function referralStat()

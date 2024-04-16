@@ -111,6 +111,11 @@ Route::prefix('v1')->group(function (){
             Route::post('/',[EmployeeController::class,'store']);
             Route::put('/{id}',[EmployeeController::class,'update']);
         });
+
+        // Payments
+        Route::prefix('payments')->group(function(){
+            Route::get('/',[PaymentController::class,'index']);
+        });
     });
 
     Route::prefix('appointment/book')->group(function(){
