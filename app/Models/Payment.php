@@ -22,6 +22,7 @@ class Payment extends Model
         'amount',
         'payment_type',
         'company_id',
+        'tech_id',
     ];
 
     public function amount(): Attribute
@@ -40,6 +41,10 @@ class Payment extends Model
 
     public function appointment() {
         return $this->belongsTo(Appointment::class);
+    }
+
+    public function tech() {
+        return $this->belongsTo(User::class,'id','tech_id');
     }
     
 }
