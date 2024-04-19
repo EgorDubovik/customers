@@ -66,12 +66,14 @@ class AppointmentController extends Controller
 
         DB::beginTransaction();
         try{
+            $startTime = Carbon::parse($request->timeFrom)->setSecond(0);
+            $endTime = Carbon::parse($request->timeTo)->setSecond(0);
             $appointment = Appointment::create([
                 'company_id' => $request->user()->company_id,
                 'customer_id' => $request->customerId,
                 'address_id' => $request->addressId,
-                'start' => Carbon::parse($request->timeFrom),
-                'end' => Carbon::parse($request->timeTo),
+                'start' => $startTime,
+                'end' => $endTime,
                 'status' => 0,
             ]);
 
