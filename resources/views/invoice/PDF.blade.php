@@ -122,6 +122,9 @@ p{
         </div>
     </div>
     <div style="clear: both"></div>
+    <div>due:{{ $due }}</div>
+    <div>tax:{{ $tax }}</div>
+    <div>total:{{ $total }}</div>
     <div class="table-responsive push row">
         {{-- <table class="table table-bordered table-hover mb-0 text-nowrap">
             <tbody>
