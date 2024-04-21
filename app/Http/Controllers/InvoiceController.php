@@ -74,7 +74,7 @@ class InvoiceController extends Controller
         ]);
         
         $pdfname = $this->createPDF($invoice);
-        
+        // return $pdfname;
         $invoice->pdf_path = $pdfname;
         $invoice->save();
 
@@ -115,7 +115,7 @@ class InvoiceController extends Controller
             'tax'=>$tax
         ]);
         
-        
+        // return $pdf->stream('test',array('Attachment'=>false));
         $content = $pdf->download()->getOriginalContent();
         
         $filename = (env('APP_DEBUG') ? 'debug-' : "").'Invoice_'.date('m-d-Y').'-'.time().Str::random(50).'.pdf';

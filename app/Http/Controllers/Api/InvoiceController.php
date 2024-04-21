@@ -97,7 +97,7 @@ class InvoiceController extends Controller
 
     private function createPDF(Invoice $invoice){
         
-        list($tax, $total, $paid, $due) = $this->getTaxAndTotal($invoice->appointment);
+        list($tax, $subtotal, $total, $paid, $due) = $this->getTaxAndTotal($invoice->appointment);
 
         $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due,'tax'=>$tax]);
         $content = $pdf->download()->getOriginalContent();
@@ -113,8 +113,8 @@ class InvoiceController extends Controller
 
     private function getTaxAndTotal(Appointment $appointment){
 
-        $tax = $appointment->totalTax() ?: 0;
-        $subtotal = $appointment->totalAmount() ?: 0;
+        $tax = $appointment->totalTax();
+        $subtotal = $appointment->totalAmount();
         $total = $subtotal + $tax;
         $paid = $appointment->totalPaid();
         $due = $total - $paid;
