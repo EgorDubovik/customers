@@ -115,6 +115,7 @@ Route::prefix('v1')->group(function (){
         // Payments
         Route::prefix('payments')->group(function(){
             Route::get('/',[PaymentController::class,'index']);
+            Route::delete('/{id}',[PaymentController::class,'delete']);
         });
     });
 

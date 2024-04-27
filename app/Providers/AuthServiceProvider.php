@@ -175,7 +175,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('payment-remove', function(User $user, Payment $payment){
-            return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $payment->appointment->company_id );
+            return ((in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $payment->company_id) || Auth::user()->id == $payment->tech_id);
         });
 
         // Company
