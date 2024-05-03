@@ -26,13 +26,23 @@ class Customer extends Model
         );
     }
 
-    public function scopeSearch($query, $search=''){
-        return $query->where('name', 'LIKE', "%$search%")
-            ->orWhere('email', 'LIKE', "%$search%")
-            ->orWhere('phone', 'LIKE', "%$search%")
-            ->orWhereHas('address',function($a_query) use($search){
-                $a_query->where('line1','LIKE',"%$search%");
+    public function scopeSearch($query, $searchTerm=''){
+        $searchTermWithoutPlusOne  = preg_replace('/^\+1\s*/', '', $searchTerm);
+        $numericSearchTerm = preg_replace('/\D/', '', $searchTermWithoutPlusOne);
+        return $query->where(function ($query) use ($searchTerm, $numericSearchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
+               $q->where('name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('phone', 'LIKE', "%{$searchTerm}%");
             });
+
+            if (!empty($numericSearchTerm)) {
+               $query->orWhere('phone', 'LIKE', "%{$numericSearchTerm}%");
+            }
+
+            $query->orWhereHas('address', function ($a_query) use ($searchTerm) {
+               $a_query->where('line1', 'LIKE', "%$searchTerm%");
+            });
+         });
     }
 
     public function address(){
