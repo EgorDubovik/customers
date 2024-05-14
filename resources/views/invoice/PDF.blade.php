@@ -122,38 +122,8 @@ p{
         </div>
     </div>
     <div style="clear: both"></div>
-    <div>due:{{ $due }}</div>
-    <div>tax:{{ $tax }}</div>
-    <div>total:{{ $total }}</div>
     <div class="table-responsive push row">
-        {{-- <table class="table table-bordered table-hover mb-0 text-nowrap">
-            <tbody>
-                <tr id="tr-header-invoice-table">
-                    <th class="text-center" style="width: 50px;"></th>
-                    <th>Item</th>
-                    <th class="text-end" style="width: 80px;">Total</th>
-                </tr>
-             
-                @foreach ($invoice->appointment->services as $key => $service)
-                    <tr>
-                        <td class="text-center">{{ ($key+1) }}</td>
-                        <td>
-                            <p class="font-w600 mb-1">{{ $service->title }}</p>
-                            <div class="text-muted">
-                                <div class="text-muted"><p style="color: #808080">{!! nl2br($service->description) !!}</p></div>
-                            </div>
-                        </td>
-                        <td class="text-end">${{ $service->price }}</td>
-                    </tr>    
-                @endforeach
-                
-                
-                <tr>
-                    <td colspan="2" class="fw-bold text-uppercase text-end"><b>Total</b></td>
-                    <td class="fw-bold text-end h4"><span id="total-invoice"><b>${{ $total }}</b></span></td>
-                </tr>
-            </tbody>
-        </table> --}}
+        
         @include('invoice.layout.services-table', ['services' => $invoice->appointment->services])
     </div>
     <p style="text-align: center;margin-top:50px;">Payments history:</p>
