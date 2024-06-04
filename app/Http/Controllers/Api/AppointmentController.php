@@ -126,11 +126,15 @@ class AppointmentController extends Controller
 
         $this->authorize('update-remove-appointment', $appointment);
 
+        $emails = [];
+        foreach($appointment->techs as $tech){
+            $emails[] = $tech->email;
+        }
         $appointment->techs()->detach();
         $appointment->services()->delete();
         $appointment->notes()->delete();
         $appointment->delete();
-
+        
         return response()->json(['message' => 'Appointment deleted'], 200);
     }
 
