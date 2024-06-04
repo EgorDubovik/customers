@@ -28,7 +28,7 @@ class DeleteAppointment extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Delete Appointment',
+            subject: 'Appointment deleted',
         );
     }
 

@@ -1,12 +1,9 @@
 <x-mail::message>
-# Introduction
 
-The body of your message.
+Appointment with {{ $appointment->customer->name }} has been deleted<br>
+{{ $appointment->address->full }}
+{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('l, F d, Y') }}<br>
+{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('g:i A') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->end)->format('g:i A') }}<br>
 
-<x-mail::button :url="''">
-Button Text
-</x-mail::button>
-
-Thanks,<br>
 {{ config('app.name') }}
 </x-mail::message>

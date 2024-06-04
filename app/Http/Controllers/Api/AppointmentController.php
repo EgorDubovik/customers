@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DeleteAppointment;
 
 class AppointmentController extends Controller
 {
@@ -128,7 +130,7 @@ class AppointmentController extends Controller
 
         $emails = [];
         foreach($appointment->techs as $tech){
-            $emails[] = $tech->email;
+            Mail::to($tech->email)->send(new DeleteAppointment($appointment));
         }
         $appointment->techs()->detach();
         $appointment->services()->delete();
