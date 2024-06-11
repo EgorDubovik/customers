@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; 
 use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\AppointmentImages;
 use App\Http\Controllers\Api\Company\CompanyServicesController;
 use App\Http\Controllers\Api\Company\CompanyTechController;
 use App\Http\Controllers\Api\InvoiceController;
@@ -97,6 +98,9 @@ Route::prefix('v1')->group(function (){
             // Appointment invoice
             Route::get('invoice/{appointment_id}',[InvoiceController::class,'create']);
             Route::post('{appointment_id}/invoice-send',[InvoiceController::class,'send']);
+
+            // Appointment images
+            Route::post('images/{appointment_id}',[AppointmentImages::class,'store']);
         });
 
         // Invoices
