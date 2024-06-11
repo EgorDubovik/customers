@@ -89,4 +89,9 @@ class Appointment extends Model
     public function company() {
         return $this->belongsTo(Company::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(AppointmentImage::class,'appointment_id');
+    }
 }
