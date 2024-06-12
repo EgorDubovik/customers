@@ -101,6 +101,7 @@ Route::prefix('v1')->group(function (){
 
             // Appointment images
             Route::post('images/{appointment_id}',[AppointmentImages::class,'store']);
+            Route::get('images/{appointment_id}',[AppointmentImages::class,'index']);
         });
 
         // Invoices

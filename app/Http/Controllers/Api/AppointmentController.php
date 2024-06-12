@@ -36,6 +36,7 @@ class AppointmentController extends Controller
         $appointments = Appointment::where('company_id',$request->user()->company_id)
                                     ->with('customer')
                                     ->with('techs')
+                                    ->with('images')
                                     ->get();
         $returnAppointments = [];
         foreach($appointments as $appointment){

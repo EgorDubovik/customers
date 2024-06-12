@@ -43,4 +43,14 @@ class AppointmentImages extends Controller
 
       return response()->json(['success' => 'You have successfully uploaded the image.', 'path' => $s3path.$filePath], 200);
    }
+
+   function index (Request $request, Appointment $appointment)
+   {
+      $this->authorize('view-appointment', $appointment);
+
+      $images = $appointment->images;
+
+      return response()->json(['images' => $images], 200);
+      
+   }
 }
