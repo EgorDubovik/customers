@@ -7,7 +7,7 @@
 		<meta name="theme-color" content="#000000"/>
 		<meta name="description" content="Book appointment online."/>
 		<title>Book appointment online</title>
-		<script defer="defer" src="{{ asset('assets/react/bookOnline/static/js/main.0934573c.js') }}"></script>
+		<script defer="defer" src="{{ asset('assets/react/bookOnline/static/js/main.7ce7617f.js') }}"></script>
 		<link href="{{ asset('assets/react/bookOnline/static/css/main.1b55e54c.css') }}" rel="stylesheet">
 	</head>
 	<body>
