@@ -5,13 +5,15 @@ use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AppointmentImages;
 use App\Http\Controllers\Api\Company\CompanyServicesController;
 use App\Http\Controllers\Api\Company\CompanyTechController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Company\BookAppointmentController;
+use App\Http\Controllers\Api\Company\CompanySettingsController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ProfileController;
@@ -28,106 +30,118 @@ use App\Http\Controllers\Api\ProfileController;
 */
 
 
-Route::prefix('v1')->group(function (){
-    Route::post('/signin',[AuthController::class,'login']);
+Route::prefix('v1')->group(function () {
+    Route::post('/signin', [AuthController::class, 'login']);
 
-    Route::group(['middleware' => ['auth:sanctum']],function (){
-        
-    
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+
+
         // Profile
-        Route::get('user', [ProfileController::class,'show']);
-        Route::post('user/update-password',[ProfileController::class,'updatePassword']);
+        Route::get('user', [ProfileController::class, 'show']);
+        Route::post('user/update-password', [ProfileController::class, 'updatePassword']);
 
         //Dashboard
-        Route::get('dashboard',[DashboardController::class,'dashboard']);
+        Route::get('dashboard', [DashboardController::class, 'dashboard']);
 
         // Customers
-        Route::prefix('customers')->group(function(){
-            Route::get("/",[CustomersController::class,'index']);
-            Route::get('/{id}',[CustomersController::class,'show'])->where('id', '[0-9]+');
-            Route::post("/",[CustomersController::class,'store']);
-            Route::put('/{id}',[CustomersController::class,'update']);
-            Route::put('/{customer_id}/address/{address_id}',[CustomersController::class,'updateAddress']);
-            Route::post('/{customer_id}/address',[CustomersController::class,'storeAddress']);
-            Route::delete('/{customer_id}/address/{address_id}',[CustomersController::class,'deleteAddress']);
+        Route::prefix('customers')->group(function () {
+            Route::get("/", [CustomersController::class, 'index']);
+            Route::get('/{id}', [CustomersController::class, 'show'])->where('id', '[0-9]+');
+            Route::post("/", [CustomersController::class, 'store']);
+            Route::put('/{id}', [CustomersController::class, 'update']);
+            Route::put('/{customer_id}/address/{address_id}', [CustomersController::class, 'updateAddress']);
+            Route::post('/{customer_id}/address', [CustomersController::class, 'storeAddress']);
+            Route::delete('/{customer_id}/address/{address_id}', [CustomersController::class, 'deleteAddress']);
         });
 
-        // Company Services
-        Route::prefix('company/settings/services')->group(function(){
-            Route::get('/',[CompanyServicesController::class,'index']);
-            Route::post('/',[CompanyServicesController::class,'store']);
-            Route::delete('/{id}',[CompanyServicesController::class,'delete']);
-            Route::put('/{id}',[CompanyServicesController::class,'update']);
+
+        // Company settings
+        Route::prefix('company/settings/services')->group(function () {
+
+            //Services
+            Route::prefix('services')->group(function () {
+                Route::get('/', [CompanyServicesController::class, 'index']);
+                Route::post('/', [CompanyServicesController::class, 'store']);
+                Route::delete('/{id}', [CompanyServicesController::class, 'delete']);
+                Route::put('/{id}', [CompanyServicesController::class, 'update']);
+            });
+
+            // Book Appointment online
+            Route::prefix('book-appointment')->group(function () {
+                Route::get('/', [BookAppointmentController::class, 'index']);
+                Route::post('/working-time', [BookAppointmentController::class, 'workingTime']);
+            });
+
         });
 
         // Comopany Techs
-        Route::prefix('company/techs')->group(function(){
-            Route::get('/',[CompanyTechController::class,'index']);
-            
+        Route::prefix('company/techs')->group(function () {
+            Route::get('/', [CompanyTechController::class, 'index']);
         });
 
-        Route::prefix('appointment')->group(function(){
+
+        Route::prefix('appointment')->group(function () {
 
             // All appointments for calendar
-            Route::get('/',[AppointmentController::class,'view']);
+            Route::get('/', [AppointmentController::class, 'view']);
 
             // Base appointment API
-            Route::get('/{id}',[AppointmentController::class,'index']);
-            Route::post('/',[AppointmentController::class,'store']);
-            Route::delete('/{id}',[AppointmentController::class,'delete']);
-            Route::put('/{id}',[AppointmentController::class,'update']);
+            Route::get('/{id}', [AppointmentController::class, 'index']);
+            Route::post('/', [AppointmentController::class, 'store']);
+            Route::delete('/{id}', [AppointmentController::class, 'delete']);
+            Route::put('/{id}', [AppointmentController::class, 'update']);
 
             // Update Appointment Status
-            Route::put('/{id}/status',[AppointmentController::class,'updateStatus']);
+            Route::put('/{id}/status', [AppointmentController::class, 'updateStatus']);
             //Appointment Techs
-            Route::delete('tech/{appointment_id}/{tech_id}',[AppointmentController::class,'removeTech']);
-            Route::post('tech/{appointment_id}',[AppointmentController::class,'addTech']);
-            
+            Route::delete('tech/{appointment_id}/{tech_id}', [AppointmentController::class, 'removeTech']);
+            Route::post('tech/{appointment_id}', [AppointmentController::class, 'addTech']);
+
             // Appointment notes
-            Route::post('notes/{appointment_id}',[AppointmentController::class,'addNote']);
-            Route::delete('notes/{appointment_id}/{note_id}',[AppointmentController::class,'removeNote']);
+            Route::post('notes/{appointment_id}', [AppointmentController::class, 'addNote']);
+            Route::delete('notes/{appointment_id}/{note_id}', [AppointmentController::class, 'removeNote']);
 
             // Appointment services
-            Route::post('service/{appointment_id}',[AppointmentController::class,'addService']);
-            Route::delete('service/{appointment_id}/{service_id}',[AppointmentController::class,'removeService']);
-            Route::put('service/{appointment_id}/{service_id}',[AppointmentController::class,'updateService']);
+            Route::post('service/{appointment_id}', [AppointmentController::class, 'addService']);
+            Route::delete('service/{appointment_id}/{service_id}', [AppointmentController::class, 'removeService']);
+            Route::put('service/{appointment_id}/{service_id}', [AppointmentController::class, 'updateService']);
 
             // Appointment payments
-            Route::post('payment/{appointment_id}',[PaymentController::class,'store']);
+            Route::post('payment/{appointment_id}', [PaymentController::class, 'store']);
 
             // Appointment invoice
-            Route::get('invoice/{appointment_id}',[InvoiceController::class,'create']);
-            Route::post('{appointment_id}/invoice-send',[InvoiceController::class,'send']);
+            Route::get('invoice/{appointment_id}', [InvoiceController::class, 'create']);
+            Route::post('{appointment_id}/invoice-send', [InvoiceController::class, 'send']);
 
             // Appointment images
-            Route::post('images/{appointment_id}',[AppointmentImages::class,'store']);
-            Route::get('images/{appointment_id}',[AppointmentImages::class,'index']);
+            Route::post('images/{appointment_id}', [AppointmentImages::class, 'store']);
+            Route::get('images/{appointment_id}', [AppointmentImages::class, 'index']);
         });
 
         // Invoices
-        Route::prefix('invoice')->group(function(){
-            Route::get('/',[InvoiceController::class,'index']);
-            Route::get('/{id}',[InvoiceController::class,'show']);
+        Route::prefix('invoice')->group(function () {
+            Route::get('/', [InvoiceController::class, 'index']);
+            Route::get('/{id}', [InvoiceController::class, 'show']);
         });
 
         // Employees
-        Route::prefix('employees')->group(function(){
-            Route::get('/',[EmployeeController::class,'index']);
-            Route::post('/',[EmployeeController::class,'store']);
-            Route::put('/{id}',[EmployeeController::class,'update']);
+        Route::prefix('employees')->group(function () {
+            Route::get('/', [EmployeeController::class, 'index']);
+            Route::post('/', [EmployeeController::class, 'store']);
+            Route::put('/{id}', [EmployeeController::class, 'update']);
         });
 
         // Payments
-        Route::prefix('payments')->group(function(){
-            Route::get('/',[PaymentController::class,'index']);
-            Route::delete('/{id}',[PaymentController::class,'delete']);
+        Route::prefix('payments')->group(function () {
+            Route::get('/', [PaymentController::class, 'index']);
+            Route::delete('/{id}', [PaymentController::class, 'delete']);
         });
     });
 
-    Route::prefix('appointment/book')->group(function(){
-        Route::get('/{key}',[BookAppointmentOnlineController::class,'index']);
-        Route::post('/{key}',[BookAppointmentOnlineController::class,'store']);
-        Route::get('/view/{providerkey}',[BookAppointmentOnlineController::class,'view']);
-        Route::get('/remove/{providerkey}',[BookAppointmentOnlineController::class,'remove']);
+    Route::prefix('appointment/book')->group(function () {
+        Route::get('/{key}', [BookAppointmentOnlineController::class, 'index']);
+        Route::post('/{key}', [BookAppointmentOnlineController::class, 'store']);
+        Route::get('/view/{providerkey}', [BookAppointmentOnlineController::class, 'view']);
+        Route::get('/remove/{providerkey}', [BookAppointmentOnlineController::class, 'remove']);
     });
 });
