@@ -56,7 +56,7 @@ Route::prefix('v1')->group(function () {
 
 
         // Company settings
-        Route::prefix('company/settings/services')->group(function () {
+        Route::prefix('company/settings')->group(function () {
 
             //Services
             Route::prefix('services')->group(function () {

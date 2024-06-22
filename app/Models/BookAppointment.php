@@ -13,6 +13,7 @@ class BookAppointment extends Model
         'company_id',
         'key',
         'active',
+        'working_time',
     ];
 
     public function company(){
