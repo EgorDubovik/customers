@@ -22,7 +22,6 @@ class BookAppointmentOnlineController extends Controller
 {
     public function index($key){
         $companyBook = BookAppointment::where('key',$key)
-                                    // ->where('active',1)
                                     ->first();
         if(!$companyBook)
             return response()->json(['error' => 'Company not found'],404);
@@ -39,6 +38,7 @@ class BookAppointmentOnlineController extends Controller
             'phone' => $company->phone,
             'name' => $company->name,
             'services' => $company->services,
+            'workingTime' => $companyBook->working_time ?? '[]',
         ];
         
         return response()->json(['company' => $returnCompanyJSON,'key' => $key],200);

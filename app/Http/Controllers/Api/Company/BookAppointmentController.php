@@ -9,15 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 class BookAppointmentController extends Controller
 {
-    function workingTime(Request $request)
-    {
-        $request->validate([
-            'workingTime' => 'required|json',
-        ]);
-        
-        $this->authorize('book-online');
-        // Check if working time is valid json
-        /*
+   function index()
+   {
+      $this->authorize('book-online');
+      $bookAppointmentSettings = Auth::user()->company->bookAppointment;
+      return response()->json(['settings' => $bookAppointmentSettings], 200);
+   }
+
+   function workingTime(Request $request)
+   {
+      $request->validate([
+         'workingTime' => 'required|json',
+      ]);
+
+      $this->authorize('book-online');
+      // Check if working time is valid json
+      /*
             {
                 monday: {
                     from: '08:00',
@@ -26,8 +33,8 @@ class BookAppointmentController extends Controller
                 ...
             }
         */
-        Auth::user()->company->bookAppointment->update(['working_time' => $request->workingTime]);
+      Auth::user()->company->bookAppointment->update(['working_time' => $request->workingTime]);
 
-        return response()->json(['workingTime' => $request->workingTime], 200);
-    }
+      return response()->json(['workingTime' => $request->workingTime], 200);
+   }
 }
