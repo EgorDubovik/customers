@@ -105,15 +105,16 @@ p{
             <h5>Date Issued: {{ \Carbon\Carbon::parse($invoice->created_at)->format('m-d-Y') }}</h5>
         </div>
     </div>
-    <div style="clear: both;"></div>
+    <div style="clear: both;margin-bottom:50px"></div>
     <div class="row pt-5">
         <div class="col-6">
             <p class="h3">Invoice To:</p>
-            <p class="fs-18 fw-semibold mb-0"><span id="invoice-customer-name"><b>{{ $invoice->customer_name }}</b></span></p>
+            <p class="fs-18 fw-semibold mb-0"><span id="invoice-customer-name"><b>{{ $invoice->customer->name }}</b></span></p>
             <address>
-                    <span id="invoice-address">{!!  $invoice->address  !!}</span><br>
-                    <span id="invoice-email">{{ $invoice->email }}</span>
-                </address>
+                <span id="invoice-address">{!!  $invoice->address  !!}</span><br>
+            </address>
+            <p class="mb-0"><span id="invoice-phone">{{ $invoice->customer->phone }}</span></p>
+            <p class="mb-0"><span id="invoice-email">{{ $invoice->email }}</span></p>
         </div>
         <div class="col-6 text-end">
             <p class="h4 fw-semibold">Payment Details:</p>

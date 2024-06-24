@@ -125,4 +125,33 @@ class InvoiceController extends Controller
         
         return [$tax, $subtotal ,$total, $paid, $due];
     }
+
+    function download(Request $request, $appointment_id){
+
+        $appointment = Appointment::find($appointment_id);
+        if(!$appointment)
+            return response()->json(['error' => 'Appointment not found'], 404);
+
+        $this->authorize('create-invoice',['appointment' => $appointment]);
+
+        
+        
+        $lastInvoice = Invoice::orderBy('id', 'desc')->first();
+        $invoice = new Invoice();
+        $invoice->id = $lastInvoice->id + 1;
+        $invoice->appointment = $appointment;
+        $invoice->company = $appointment->company;
+        $invoice->customer= $appointment->customer;
+        $invoice->address = $appointment->address->full;
+        $invoice->email = $appointment->customer->email;
+        $invoice->status = 0;
+
+        
+
+        list($tax, $subtotal, $total, $paid, $due) = $this->getTaxAndTotal($appointment);
+        
+        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due,'tax'=>$tax]);
+        
+        return $pdf->stream('invoice.pdf');
+    }
 }
