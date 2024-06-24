@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use App\Mail\BookOnline;
 use App\Mail\BookOnlineForCompany;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\DeleteAppointment;
 
 class BookAppointmentOnlineController extends Controller
 {
@@ -203,13 +204,17 @@ class BookAppointmentOnlineController extends Controller
         $bookAppointment = BookAppointment::where('company_id',$bookAppointmentProvider->appointment->company_id)->first();
         $key = ($bookAppointment) ? $bookAppointment->key : null;
         
+        foreach($appointment->techs as $tech){
+            Mail::to($tech->email)->send(new DeleteAppointment($appointment));
+        }
+
         $appointment->services()->delete();
         $appointment->appointmentTechs()->delete();
         $appointment->delete();
         $appointment->address->delete();
         $appointment->customer->delete();
         $bookAppointmentProvider->delete();
-            
+        
         return response()->json(['success' => 'Appointment removed','key'=>$key],200);
     }
 }

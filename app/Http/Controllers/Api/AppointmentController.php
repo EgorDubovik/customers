@@ -128,7 +128,6 @@ class AppointmentController extends Controller
 
         $this->authorize('update-remove-appointment', $appointment);
 
-        $emails = [];
         foreach($appointment->techs as $tech){
             Mail::to($tech->email)->send(new DeleteAppointment($appointment));
         }
