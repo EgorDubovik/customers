@@ -37,4 +37,19 @@ class BookAppointmentController extends Controller
 
       return response()->json(['workingTime' => $request->workingTime], 200);
    }
+
+
+   function update(Request $request)
+   {
+      $request->validate([
+         'active' => 'required|boolean',
+      ]);
+
+      $this->authorize('book-online');
+
+      Auth::user()->company->bookAppointment->update(['active' => $request->active]);
+
+      return response()->json(['active' => $request->active], 200);
+        
+   }
 }

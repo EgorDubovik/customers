@@ -70,6 +70,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('book-appointment')->group(function () {
                 Route::get('/', [BookAppointmentController::class, 'index']);
                 Route::post('/working-time', [BookAppointmentController::class, 'workingTime']);
+                Route::post('/update', [BookAppointmentController::class, 'update']);
             });
 
         });
