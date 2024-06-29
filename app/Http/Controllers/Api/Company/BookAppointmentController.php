@@ -13,7 +13,13 @@ class BookAppointmentController extends Controller
    {
       $this->authorize('book-online');
       $bookAppointmentSettings = Auth::user()->company->bookAppointment;
-      return response()->json(['settings' => $bookAppointmentSettings], 200);
+      $comapnyServices = Auth::user()->company->services;
+      $bookAppointmentServices = $bookAppointmentSettings->services;
+      return response()->json([
+         'settings' => $bookAppointmentSettings, 
+         'companyServices' => $comapnyServices,
+         'bookAppointmentServices' => $bookAppointmentServices,
+      ], 200);
    }
 
    function workingTime(Request $request)
@@ -50,6 +56,19 @@ class BookAppointmentController extends Controller
       Auth::user()->company->bookAppointment->update(['active' => $request->active]);
 
       return response()->json(['active' => $request->active], 200);
-        
+   }
+
+   function addServices(Request $request)
+   {
+      
+      $services = $request->services || [];
+
+      $this->authorize('book-online');
+
+      $bookAppointment = Auth::user()->company->bookAppointment;
+      
+      $bookAppointment->services()->sync($services);
+
+      return response()->json(['services' => $services], 200);
    }
 }

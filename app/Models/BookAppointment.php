@@ -16,7 +16,13 @@ class BookAppointment extends Model
         'working_time',
     ];
 
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Company::class);
+    }
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'book_appointment_services');
     }
 }
