@@ -58,10 +58,10 @@ class BookAppointmentController extends Controller
       return response()->json(['active' => $request->active], 200);
    }
 
-   function addServices(Request $request)
+   function updateServices(Request $request)
    {
       
-      $services = $request->services || [];
+      $services = $request->services ?? [];
 
       $this->authorize('book-online');
 

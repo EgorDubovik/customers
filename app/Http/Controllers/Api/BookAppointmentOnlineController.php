@@ -38,7 +38,7 @@ class BookAppointmentOnlineController extends Controller
             'logo' =>'https://edservice.s3.us-east-2.amazonaws.com/'.$company->logo,
             'phone' => $company->phone,
             'name' => $company->name,
-            'services' => $company->services,
+            'services' => $company->bookAppointment->services,
             'workingTime' => $companyBook->working_time ?? '[]',
         ];
         
