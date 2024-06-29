@@ -23,6 +23,6 @@ class BookAppointment extends Model
 
     public function services()
     {
-        return $this->belongsToMany(Service::class, 'book_appointment_services');
+        return $this->belongsToMany(Service::class, 'book_appointment_services')->orderByPivot('id');
     }
 }
