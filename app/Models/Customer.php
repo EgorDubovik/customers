@@ -35,7 +35,7 @@ class Customer extends Model
                   ->orWhere('phone', 'LIKE', "%{$searchTerm}%");
             });
 
-            if (!empty($numericSearchTerm)) {
+            if (!empty($numericSearchTerm) && !preg_match('/[a-zA-Z]/',$searchTerm)) {
                $query->orWhere('phone', 'LIKE', "%{$numericSearchTerm}%");
             }
 
