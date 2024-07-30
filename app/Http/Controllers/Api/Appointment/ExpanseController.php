@@ -7,7 +7,7 @@ use App\Models\Appointment;
 use App\Models\Expance;
 use Illuminate\Http\Request;
 
-class ExpanceController extends Controller
+class ExpanseController extends Controller
 {
     public function store(Request $request, $appointment_id){
         $appointment = Appointment::find($appointment_id);
@@ -21,7 +21,7 @@ class ExpanceController extends Controller
             'amount' => 'required',
         ]);
 
-        $expance = Expance::create([
+        $expanse = Expance::create([
             'title' => $request->title,
             'amount' => $request->amount,
             'user_id' => auth()->id(),
@@ -29,7 +29,7 @@ class ExpanceController extends Controller
             'company_id' => auth()->user()->company_id,
         ]);
 
-        return response()->json(['expance' => $expance],200);
+        return response()->json(['expanse' => $expanse],200);
 
     }
 }

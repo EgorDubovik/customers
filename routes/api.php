@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\Appointment\ExpanceController;
+use App\Http\Controllers\Api\Appointment\ExpanseController;
 use App\Http\Controllers\Api\Appointment\PaymentController;
 use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
@@ -121,7 +121,7 @@ Route::prefix('v1')->group(function () {
             Route::get('images/{appointment_id}', [AppointmentImages::class, 'index']);
 
             // Appointment expances
-            Route::post('expance/{appointment_id}', [ExpanceController::class, 'store']);
+            Route::post('expanse/{appointment_id}', [ExpanseController::class, 'store']);
         });
 
         // Invoices
