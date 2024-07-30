@@ -94,4 +94,9 @@ class Appointment extends Model
     {
         return $this->hasMany(AppointmentImage::class,'appointment_id');
     }
+
+    public function expance()
+    {
+        return $this->hasMany(Expance::class);
+    }
 }
