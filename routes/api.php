@@ -122,6 +122,7 @@ Route::prefix('v1')->group(function () {
 
             // Appointment expances
             Route::post('expanse/{appointment_id}', [ExpanseController::class, 'store']);
+            Route::delete('expanse/{appointment_id}/{expanse_id}', [ExpanseController::class, 'delete']);
         });
 
         // Invoices

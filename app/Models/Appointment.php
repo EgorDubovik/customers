@@ -95,8 +95,8 @@ class Appointment extends Model
         return $this->hasMany(AppointmentImage::class,'appointment_id');
     }
 
-    public function expance()
+    public function expanse()
     {
-        return $this->hasMany(Expance::class);
+        return $this->hasMany(Expanse::class);
     }
 }

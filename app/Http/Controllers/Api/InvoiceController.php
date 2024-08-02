@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\InvoiceMail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class InvoiceController extends Controller
@@ -58,6 +59,7 @@ class InvoiceController extends Controller
 
         return response()->json(['appointment'=>$appointment,'company'=>$company], 200);
     }
+
     public function send(Request $request, $appointment_id){
         $appointment = Appointment::find($appointment_id);
         if(!$appointment)
@@ -74,25 +76,33 @@ class InvoiceController extends Controller
             $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
         }
 
-        $invoice = Invoice::create([
-            'creator_id'        => Auth::user()->id,
-            'company_id'        => Auth::user()->company_id,
-            'customer_id'       => $appointment->customer_id,
-            'appointment_id'    => $appointment->id,
-            'customer_name'     => $appointment->customer->name,
-            'address'           => $appointment->address->full,
-            'email'             => $appointment->customer->email,
-            'status'            => 0,
-            'pdf_path'          => null,
-        ]);
-
-        $pdfname = $this->createPDF($invoice);
-        $invoice->pdf_path = $pdfname;
-        $invoice->save();
-
-        $this->sendEmail($invoice);
-
-        return response()->json(['saccsess'=>'saccsess'], 200);
+        try{
+            DB::beginTransaction();
+            $invoice = Invoice::create([
+                'creator_id'        => Auth::user()->id,
+                'company_id'        => Auth::user()->company_id,
+                'customer_id'       => $appointment->customer_id,
+                'appointment_id'    => $appointment->id,
+                'customer_name'     => $appointment->customer->name,
+                'address'           => $appointment->address->full,
+                'email'             => $appointment->customer->email,
+                'status'            => 0,
+                'pdf_path'          => null,
+            ]);
+    
+            $pdfname = $this->createPDF($invoice);
+            $invoice->pdf_path = $pdfname;
+            $invoice->save();
+    
+            $this->sendEmail($invoice);
+            DB::commit();
+            return response()->json(['saccsess'=>'saccsess'], 200);    
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+        
     }
 
     private function createPDF(Invoice $invoice){

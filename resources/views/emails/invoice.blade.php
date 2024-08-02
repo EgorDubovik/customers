@@ -28,7 +28,7 @@ address{
     line-height: inherit;
 }
 .conteiner{
-    width: 700px;
+    width: 900px;
     margin: 20px auto;
     padding: 20px;
     background: #fff;
@@ -143,6 +143,19 @@ h3, .h3 {
         <div class="top-invoice">
             Dear <b>{{ $invoice->customer_name}}</b>,<br><br>
             Thanks for choosing us!  We're glad to help get your appliances back in tip-top shape.
+
+            {{-- Link to feedback --}}
+            <div style="text-align: center; font-size:40px">
+                <p style = "text-align: center; font-size:20px; margin-top:20px"> Please leave us a review. How was your experience?</p>
+                
+                <a href="https://g.page/r/CWjtj_kg614sEBM/review" style="margin-right: 20px">😞</a>
+                <a href="https://g.page/r/CWjtj_kg614sEBM/review" style="margin-right: 20px;">😐</a>
+                <a href="https://g.page/r/CWjtj_kg614sEBM/review">😃</a>
+            </div>
+
+
+            {{-- Referral link --}}
+
             @if($invoice->company->companySettings && $invoice->company->companySettings->referral_enable)
                 <p style="margin-top: 20px;">Your referal link is: {{ route('referral',['code'=>$referralCode]) }}</p>
                 <p style="margin-top: 20px;">You can share this link with your friends to get discount on your next appointment. <a href="{{ route('referral.stat',['code'=>$referralCode]) }}">Read more</a> </p>

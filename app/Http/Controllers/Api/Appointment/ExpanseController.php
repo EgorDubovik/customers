@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Appointment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
-use App\Models\Expance;
+use App\Models\Expanse;
 use Illuminate\Http\Request;
 
 class ExpanseController extends Controller
@@ -21,7 +21,7 @@ class ExpanseController extends Controller
             'amount' => 'required',
         ]);
 
-        $expanse = Expance::create([
+        $expanse = Expanse::create([
             'title' => $request->title,
             'amount' => $request->amount,
             'user_id' => auth()->id(),
@@ -31,5 +31,21 @@ class ExpanseController extends Controller
 
         return response()->json(['expanse' => $expanse],200);
 
+    }
+
+    public function delete(Request $request, $appointment_id, $expanse_id){
+        $appointment = Appointment::find($appointment_id);
+        if(!$appointment)
+            return response()->json(['error' => 'Appointment not found'],404);
+
+        $expanse = Expanse::find($expanse_id);
+        if(!$expanse)
+            return response()->json(['error' => 'Expanse not found'],404);
+
+        $this->authorize('update-remove-appointment',$appointment);
+
+        $expanse->delete();
+
+        return response()->json(['message' => 'Expanse deleted'],200);
     }
 }
