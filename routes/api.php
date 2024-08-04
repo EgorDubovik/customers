@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Company\CompanySettingsController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\ReviewFeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,5 +152,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/{key}', [BookAppointmentOnlineController::class, 'store']);
         Route::get('/view/{providerkey}', [BookAppointmentOnlineController::class, 'view']);
         Route::get('/remove/{providerkey}', [BookAppointmentOnlineController::class, 'remove']);
+    });
+
+    Route::prefix('review-feedback')->group(function () {
+        Route::get('/{key}', [ReviewFeedbackController::class, 'view']);
     });
 });

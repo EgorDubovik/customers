@@ -148,8 +148,8 @@ h3, .h3 {
             <div style="text-align: center; font-size:40px">
                 <p style = "text-align: center; font-size:20px; margin-top:20px"> Please leave us a review. How was your experience?</p>
                 
-                <a href="{{ env('BOOK_APP_BASE_URL')."/review-feedback/sdfgh" }}" style="margin-right: 20px">😞</a>
-                <a href="{{ env('BOOK_APP_BASE_URL')."/review-feedback/sdfgh" }}" style="margin-right: 20px;">😐</a>
+                <a href="{{ env('BOOK_APP_BASE_URL')."/review-feedback/".$invoice->key }}" style="margin-right: 30px">😞</a>
+                <a href="{{ env('BOOK_APP_BASE_URL')."/review-feedback/".$invoice->key }}" style="margin-right: 30px;">😐</a>
                 <a href="https://g.page/r/CWjtj_kg614sEBM/review">😃</a>
             </div>
 

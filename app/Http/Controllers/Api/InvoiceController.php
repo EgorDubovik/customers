@@ -78,6 +78,7 @@ class InvoiceController extends Controller
 
         try{
             DB::beginTransaction();
+            $key = Str::random(50);
             $invoice = Invoice::create([
                 'creator_id'        => Auth::user()->id,
                 'company_id'        => Auth::user()->company_id,
@@ -87,6 +88,7 @@ class InvoiceController extends Controller
                 'address'           => $appointment->address->full,
                 'email'             => $appointment->customer->email,
                 'status'            => 0,
+                'key'               => $key,
                 'pdf_path'          => null,
             ]);
     
