@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\CustomerReview;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\Payment;
@@ -31,11 +33,27 @@ class ReviewFeedbackController extends Controller
         }
         $invoice->appointment->tax = $tax;
         $invoice->appointment->total = $total+$tax;
-        // $invoice->appointment->tax = $invoice->appointment->totalTax();
-        // $invoice->appointment->subtotal = $invoice->appointment->totalSubtotal();
-        // $invoice->appointment->total = $invoice->appointment->total();
 
-        return response()->json(['invoice'=>$invoice], 200);
-        
+        return response()->json(['invoice'=>$invoice], 200);   
+    }
+
+    public function store(Request $request, $invoiceKey){
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',
+        ]);
+
+        $invoice = Invoice::where('key', $invoiceKey)->first();
+        if(!$invoice)
+            return response()->json(['error' => 'Invoice not found'], 404);
+
+        $customerReview = CustomerReview::create([
+            'invoice_id' => $invoice->id,
+            'customer_id' => $invoice->customer_id,
+            'company_id' => $invoice->company_id,
+            'tech_id' => $invoice->appointment->techs->first()->id,
+            'rating' => $request->rating,
+            'feedback' => $request->feedback,
+        ]);
+        return response()->json(['review'=>$customerReview], 200);
     }
 }

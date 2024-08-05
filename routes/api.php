@@ -156,5 +156,6 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('review-feedback')->group(function () {
         Route::get('/{key}', [ReviewFeedbackController::class, 'view']);
+        Route::post('/{key}', [ReviewFeedbackController::class, 'store']);
     });
 });
