@@ -33,7 +33,7 @@ class ReviewFeedbackController extends Controller
         }
         $invoice->appointment->tax = $tax;
         $invoice->appointment->total = $total+$tax;
-
+        $invoice->review = CustomerReview::where('invoice_id', $invoice->id)->first();
         return response()->json(['invoice'=>$invoice], 200);   
     }
 
@@ -46,7 +46,11 @@ class ReviewFeedbackController extends Controller
         if(!$invoice)
             return response()->json(['error' => 'Invoice not found'], 404);
 
-        $customerReview = CustomerReview::create([
+        $customerReview = CustomerReview::updateOrCreate(
+        [
+            'invoice_id' => $invoice->id,
+        ],
+        [
             'invoice_id' => $invoice->id,
             'customer_id' => $invoice->customer_id,
             'company_id' => $invoice->company_id,
