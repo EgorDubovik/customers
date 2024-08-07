@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Appointment;
 use App\Models\Payment;
+use App\Models\StorageItems;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -220,6 +221,11 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
             return false;
+        });
+
+        // Storage 
+        Gate::define('update-storage', function(User $user,StorageItems $storageItem){
+            return $user->id === $storageItem->user_id;
         });
     }
 }

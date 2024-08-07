@@ -4,9 +4,7 @@ use App\Http\Controllers\Api\Appointment\ExpanseController;
 use App\Http\Controllers\Api\Appointment\PaymentController;
 use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AppointmentImages;
 use App\Http\Controllers\Api\Company\CompanyServicesController;
@@ -14,11 +12,11 @@ use App\Http\Controllers\Api\Company\CompanyTechController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Company\BookAppointmentController;
-use App\Http\Controllers\Api\Company\CompanySettingsController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReviewFeedbackController;
+use App\Http\Controllers\Api\StorageItemsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,6 +143,15 @@ Route::prefix('v1')->group(function () {
             Route::get('/', [PaymentController::class, 'index']);
             Route::delete('/{id}', [PaymentController::class, 'delete']);
         });
+
+        // Storage
+        Route::prefix('storage')->group(function () {
+            Route::get('/', [StorageItemsController::class, 'index']);
+            Route::post('/', [StorageItemsController::class, 'store']);
+            Route::put('/{id}', [StorageItemsController::class, 'update']);
+            Route::delete('/{id}', [StorageItemsController::class, 'destroy']);
+        });
+        
     });
 
     Route::prefix('appointment/book')->group(function () {
