@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center">
+               <table width="700" border="0" cellspacing="0" cellpadding="20" style="background-color: #ffffff; margin-top: 20px; border: 1px solid #dddddd;">
+                  <tr>
+                     <td align="center" style="font-size: 24px; color: #fff; padding: 20px; background-color: #007bff;">
+                           Invoice Notification
+                     </td>
+                  </tr>
+                  <tr>
+                     <td style="font-size: 16px; color: #666666; line-height: 1.5; padding: 20px;">
+                           <p>Dear <b>{{ $invoice->customer_name}}</b>,</p>
+                           <p>Thank you for allowing us to service your appliance. Attached is your invoice for the repair completed on {{ \Carbon\Carbon::parse($invoice->created_at)->format('M d Y') }}.</p>
+                           
+                     </td>
+                  </tr>
+                  <tr>
+                     <td style="font-size: 16px; color: #666666; line-height: 1.5; padding: 0 20px;">
+                           <p style="text-align: center;">We'd love to hear your feedback! How was your experience?</p>
+                           <p style="text-align: center;">
+                              <a href="{{ env('BOOK_APP_BASE_URL')."/review-feedback/".$invoice->key }}" style="text-decoration: none; font-size: 40px;margin-right: 30px;">😞</a>
+                              &nbsp;&nbsp;&nbsp;
+                              <a href="{{ env('BOOK_APP_BASE_URL')."/review-feedback/".$invoice->key }}" style="text-decoration: none; font-size: 40px; margin-right: 30px;">😐</a>
+                              &nbsp;&nbsp;&nbsp;
+                              <a href="https://g.page/r/CWjtj_kg614sEBM/review" style="text-decoration: none; font-size: 40px;">😃</a>
+                           </p>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <table width="100%">
+                           <tr>
+                              <td style="font-size: 16px; color: #666666; line-height: 1.5; padding: 20px;">
+                                 <p><strong>Customer Information:</strong></p>
+                                 <p>
+                                    {{ $invoice->customer_name}}<br>
+                                    {{ $invoice->email}}<br>
+                                    {{ $invoice->address}}<br>
+                                 </p>
+                              </td>
+                              <td  align="right" style="font-size: 16px; color: #666666; line-height: 1.5; padding: 20px;vertical-align:top">
+                                 <p><strong>Company Information:</strong></p>
+                                 <p>
+                                    {{ $invoice->company->name }}<br>
+                                    {{ $invoice->company->phone }}<br>
+                                    {{ $invoice->company->email }}<br>
+                                    
+                                 </p>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        <p><strong>Services Provided:</strong></p>
+                        <table width="100%">
+                           <tr style="background-color: #cdcdcd; ">
+                              <td style="padding: 10px; color: #767676; ">Description</td>
+                              <td style="text-align: center; padding: 10px;color: #767676; ">Quantity</td>
+                              <td style="text-align: right; padding: 10px; color: #767676;">Price</td>
+                           </tr>
+                           @foreach ($invoice->appointment->services as $service)
+                           <tr>
+                              <td style="padding: 10px; border-bottom:1px solid #ccc">
+                                 <p style="margin: 5px 0;"><b>{{ $service->title }}</b></p>
+                                 <p style="color: #666666; margin: 5px 0;">{{ $service->description }}</p>
+                              </td>
+                              <td style="text-align: center; border-bottom:1px solid #ccc">1</td>
+                              <td style="text-align: right; border-bottom:1px solid #ccc">{{ $service->price }}</td>
+                           </tr>
+                             
+                           @endforeach
+                           
+                           <tr>
+                              <td colspan="2" style="text-align: right;">
+                                 <p style="margin: 5px 0; color: #666666; text-align: right">Subtotal:</p>
+                                 
+                              </td>
+                              <td style="text-align: right;">${{ $subtotal }}</td>
+                           </tr>
+                           <tr>
+                              <td colspan="2" style="text-align: right;">
+                                 <p style="margin: 5px 0; color: #666666;text-align: right">Tax:</p>
+                                 
+                              </td>
+                              <td style="text-align: right;">${{ $tax }}</td>
+                           </tr>
+                           <tr>
+                              <td colspan="2" style="text-align: right;">
+                                 <p style="margin: 5px 0; color: #666666;text-align: right">Total</p>
+                                 
+                              </td>
+                              <td style="text-align: right;">${{ $total }}</td>
+                           </tr>
+
+                        </table>
+                        
+                            
+                        <p><strong>Payment Information:</strong></p>
+                        <table width="100%">
+                           <tr>
+                              <td width="50%">
+                                 <table width="100%" style="color: #666666;">
+                                    @foreach ($invoice->appointment->payments as $payment)
+                                       <tr>
+                                          <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d Y') }}</td>
+                                          <td>{{ App\Models\Payment::getPaymentTypeText($payment->payment_type) }}</td>
+                                          <td>${{ number_format($payment->amount,2) }}</td>
+                                       </tr>   
+                                    @endforeach
+                                    
+                                 </table>
+                              </td>
+                              <td width="50%" align="center" style="font-weight: bold; color: #007bff;">
+                                 Total due: ${{ $due }}
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td align="center" style="padding: 20px;">
+                        <p style="color: #666666;">Please click the button below to download your invoice as a PDF.</p>
+                         <a href="{{ env('AWS_FILE_ACCESS_URL').'invoices/'.$invoice->pdf_path }}" style="background-color: #007bff; color: #ffffff; text-decoration: none; padding: 10px 20px; display: inline-block; border-radius: 5px;">⬇️ Download Invoice (PDF)</a>
+                     </td>
+                 </tr>
+                
+                 <tr>
+                     <td style="font-size: 14px; color: #fff; line-height: 1.5; padding: 20px; background-color: #505050;">
+                         <p>If you have any questions or concerns, please contact us at {{ $invoice->company->phone }}.</p>
+                         <p>Best Regards,<br>{{ $invoice->company->name }}</p>
+                     </td>
+                 </tr>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -26,18 +26,18 @@ class StorageItemsController extends Controller
             'quantity' => $request->quantity,
             'expexted_quantity' => $request->expexted_quantity,
             'company_id' => Auth::user()->company_id,
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->idphp 
         ]);
 
         return response()->json(['storageItem' => $storageItem], 200);
     }
 
     public function index(Request $request){
-        $storageItems = StorageItems::where('company_id', Auth::user()->company_id)
+        $storageItems = StorageItems::where('user_id', Auth::user()->id)
             ->orderBy('created_at', 'DESC')
-            ->paginate($request->limit ?? 10);
+            ->get();
 
-        return response()->json(['storageItems' => $storageItems], 200);
+        return response()->json(['storageItems' => $storageItems,'user_id'=>Auth::user()->id], 200);
     }
 
     public function update(Request $request, $id){
