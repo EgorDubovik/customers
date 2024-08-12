@@ -26,7 +26,7 @@ class StorageItemsController extends Controller
             'quantity' => $request->quantity,
             'expexted_quantity' => $request->expexted_quantity,
             'company_id' => Auth::user()->company_id,
-            'user_id' => Auth::user()->idphp 
+            'user_id' => Auth::user()->id
         ]);
 
         return response()->json(['storageItem' => $storageItem], 200);
