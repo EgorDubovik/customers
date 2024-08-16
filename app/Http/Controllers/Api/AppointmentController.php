@@ -27,7 +27,8 @@ class AppointmentController extends Controller
         foreach($payments as $payment){
             $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
         }
-        $appointment->load('customer','services','address','notes','images', 'expanse');
+        $appointment->load('customer','services','address','images', 'expanse');
+        $appointment->notes->load('creator');
 
         return response()->json(['appointment' => $appointment], 200);
     }
@@ -192,6 +193,7 @@ class AppointmentController extends Controller
             'creator_id'    => $request->user()->id,
             'text'          => $request->text,
         ]);
+        $note->load('creator');
 
         return response()->json(['message' => 'Note added to appointment','note'=>$note], 200);
     }
