@@ -23,7 +23,7 @@ class InvoiceController extends Controller
     public function index(Request $request){
         
         // !! В слючае удаления апойнтмента, должен остатся, для этого нужно все данные сохронять отдельно а не высчитвать, а именно сумму
-        
+
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $invoices = Invoice::where('company_id',Auth::user()->company_id)
@@ -34,6 +34,7 @@ class InvoiceController extends Controller
             ->orderBy('created_at','DESC')
             ->paginate($request->limit ?? 10);
         foreach($invoices as $invoice){
+            $invoice->creator;
             if($invoice->appointment)
                 $invoice->amount = $invoice->appointment->totalPaid();
             else 
