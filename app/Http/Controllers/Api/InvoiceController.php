@@ -15,14 +15,22 @@ use Illuminate\Support\Facades\Storage;
 use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Role;
+use App\Models\User;
 
 class InvoiceController extends Controller
 {
     public function index(Request $request){
         
         // !! В слючае удаления апойнтмента, должен остатся, для этого нужно все данные сохронять отдельно а не высчитвать, а именно сумму
-
+        
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         $invoices = Invoice::where('company_id',Auth::user()->company_id)
+            ->where(function($query) use ($user){
+                if(!$user->isRole([Role::ADMIN,Role::DISP]))
+                    $query->where('creator_id',Auth::user()->id);
+            })
             ->orderBy('created_at','DESC')
             ->paginate($request->limit ?? 10);
         foreach($invoices as $invoice){

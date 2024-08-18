@@ -9,6 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @method bool isRole(array $roles)
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -74,4 +77,13 @@ class User extends Authenticatable
             set: fn($value) => substr(preg_replace("/[^0-9]/", "", $value),-10)
         );
     }
+
+    public function isRole($roles){
+        foreach($roles as $role){
+            if($this->roles->contains('role',$role))
+                return true;
+        }
+        return false;
+    }
+
 }
