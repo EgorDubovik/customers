@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DeleteAppointment;
+use App\Models\Role;
 
 class AppointmentController extends Controller
 {
@@ -22,7 +23,9 @@ class AppointmentController extends Controller
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('view-appointment', $appointment);
-        $techs = $appointment->techs->load('roles');
+
+        $appointment->techs->load('roles');
+        
         $payments = $appointment->payments;
         foreach($payments as $payment){
             $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
@@ -35,14 +38,17 @@ class AppointmentController extends Controller
 
     public function view(Request $request){
         $appointments = Appointment::where('company_id',$request->user()->company_id)
+                                    ->where(function($query) use ($request){
+                                        if(!$request->user()->isRole([Role::ADMIN,Role::DISP]))
+                                            $query->whereHas('techs', function($query) use ($request){
+                                                $query->where('tech_id',$request->user()->id);
+                                            });
+                                    })
                                     ->with('customer')
                                     ->with('techs')
                                     ->get();
         $returnAppointments = [];
         foreach($appointments as $appointment){
-
-            // Load appointments based on user role
-            // $this->authorize('view-appointment', $appointment);
 
             $returnAppointments[] = [
                 'id' => $appointment->id,
