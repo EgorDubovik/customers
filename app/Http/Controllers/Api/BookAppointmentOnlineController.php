@@ -68,10 +68,10 @@ class BookAppointmentOnlineController extends Controller
             ]);
 
             
-
+            $phone = strlen($request->customer['phone']) > 10 ? substr($request->customer['phone'],-10) : $request->customer['phone'];
             $customer = Customer::create([
                 'name' => $request->customer['name'] ?? 'Unknown',
-                'phone' => $request->customer['phone'],
+                'phone' => $phone,
                 'email' => $request->customer['email'] ?? null,
                 'company_id' => $company->id,
             ]);
