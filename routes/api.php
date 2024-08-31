@@ -154,12 +154,12 @@ Route::prefix('v1')->group(function () {
         
     });
 
-    Route::prefix('appointment/book')->group(function () {
-        Route::get('/{key}', [BookAppointmentOnlineController::class, 'index']);
-        Route::post('/{key}', [BookAppointmentOnlineController::class, 'store']);
-        Route::get('/view/{providerkey}', [BookAppointmentOnlineController::class, 'view']);
-        Route::get('/remove/{providerkey}', [BookAppointmentOnlineController::class, 'remove']);
-    });
+    // Route::prefix('appointment/book')->group(function () {
+    //     Route::get('/{key}', [BookAppointmentOnlineController::class, 'index']);
+    //     Route::post('/{key}', [BookAppointmentOnlineController::class, 'store']);
+    //     Route::get('/view/{providerkey}', [BookAppointmentOnlineController::class, 'view']);
+    //     Route::get('/remove/{providerkey}', [BookAppointmentOnlineController::class, 'remove']);
+    // });
 
     Route::prefix('review-feedback')->group(function () {
         Route::get('/{key}', [ReviewFeedbackController::class, 'view']);
