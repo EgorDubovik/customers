@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('address_id');
             $table->unsignedBigInteger('company_id');
-            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

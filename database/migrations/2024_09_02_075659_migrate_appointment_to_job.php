@@ -21,7 +21,6 @@ return new class extends Migration
                         'customer_id' => $appointment->customer_id,
                         'address_id' => $appointment->address_id,
                         'company_id' => $appointment->company_id,
-                        'status' => $appointment->status,
                         'created_at' => $appointment->created_at,
                         'updated_at' => $appointment->updated_at,
                     ]);
@@ -49,7 +48,6 @@ return new class extends Migration
                             'customer_id' => $job->customer_id,
                             'address_id' => $job->address_id,
                             'company_id' => $job->company_id,
-                            'status' => $job->status,
                         ]);
                     DB::table('jobs')
                         ->where('id', $job->id)

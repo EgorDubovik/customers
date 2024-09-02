@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::table('appointments', function (Blueprint $table) {
             $table->dropColumn('customer_id');
             $table->dropColumn('address_id');
-            $table->dropColumn('status');
         });
     }
 
@@ -26,7 +25,6 @@ return new class extends Migration
         Schema::table('appointments', function (Blueprint $table) {
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('address_id');
-            $table->tinyInteger('status')->default(0);
         });
     }
 };

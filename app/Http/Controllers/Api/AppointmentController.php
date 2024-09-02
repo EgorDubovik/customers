@@ -16,26 +16,6 @@ use App\Models\Role;
 
 class AppointmentController extends Controller
 {
-    public function index(Request $request, $id)
-    {
-        $appointment = Appointment::find($id);
-
-        if (!$appointment)
-            return response()->json(['error' => 'Appointment not found'], 404);
-
-        $this->authorize('view-appointment', $appointment);
-
-        $appointment->techs->load('roles');
-
-        $payments = $appointment->payments;
-        foreach ($payments as $payment) {
-            $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
-        }
-        $appointment->load('customer', 'services', 'address', 'images', 'expanse');
-        $appointment->notes->load('creator');
-
-        return response()->json(['appointment' => $appointment], 200);
-    }
 
     public function view(Request $request)
     {
@@ -66,6 +46,30 @@ class AppointmentController extends Controller
 
         return response()->json(['appointments' => $returnAppointments], 200);
     }
+
+    public function index(Request $request, $id)
+    {
+        $appointment = Appointment::find($id);
+
+        if (!$appointment)
+            return response()->json(['error' => 'Appointment not found'], 404);
+
+        $this->authorize('view-appointment', $appointment);
+
+        // $appointment->techs->load('roles');
+
+        // $payments = $appointment->payments;
+        // foreach ($payments as $payment) {
+        //     $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
+        // }
+        // $appointment->load('customer', 'services', 'address', 'images', 'expanse');
+        // $appointment->notes->load('creator');
+        $appointment->title = $appointment->job->customer->name;
+        
+        return response()->json(['appointment' => $appointment], 200);
+    }
+
+    
 
     public function store(Request $request)
     {

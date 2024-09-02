@@ -16,14 +16,11 @@ class Appointment extends Model
     public const DONE = 1;
 
     protected $fillable = [
-        // 'customer_id',
         'start',
         'end',
         'company_id',
         'status',
         'job_id',
-        // 'tech_id',
-        // 'address_id',
     ];
 
     public function company() {
