@@ -65,8 +65,10 @@ class AppointmentController extends Controller
         // $appointment->load('customer', 'services', 'address', 'images', 'expanse');
         // $appointment->notes->load('creator');
         $appointment->title = $appointment->job->customer->name;
+        $appointment->backgroundColor = $appointment->techs->first()->color ?? '#1565c0';
         $appointment->customer = $appointment->job->customer;
         $appointment->address = $appointment->job->address->full;
+        $appointment->techs = $appointment->techs->load('roles');
         return response()->json(['appointment' => $appointment], 200);
     }
 

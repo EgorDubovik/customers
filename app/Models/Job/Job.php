@@ -20,9 +20,7 @@ use App\Models\Expanse;
 class Job extends Model
 {
     use HasFactory;
-    public const ACTIVE = 0;
-    public const DONE = 1;
-
+    
     protected $fillable = [
         'customer_id',
         'company_id',

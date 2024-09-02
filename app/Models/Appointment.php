@@ -31,10 +31,16 @@ class Appointment extends Model
         return $this->belongsTo(Job::class);
     }
 
-    public function appointmentTechs()
+    public function techs()
     {
-        return $this->hasMany(AppointmentTechs::class,'appointment_id','id');
+        return $this->belongsToMany(User::class, AppointmentTechs::class, 'appointment_id','tech_id');
     }
+    
+
+    // public function appointmentTechs()
+    // {
+    //     return $this->hasMany(AppointmentTechs::class);
+    // }
     
 
     // public function customer(){
@@ -48,10 +54,7 @@ class Appointment extends Model
     //     return $this->hasMany(AppointmentService::class,'appointment_id');
     // }
 
-    // public function techs()
-    // {
-    //     return $this->belongsToMany(User::class, AppointmentTechs::class, 'appointment_id','tech_id');
-    // }
+    
 
     // public function notes()
     // {   
