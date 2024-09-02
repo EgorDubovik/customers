@@ -30,34 +30,38 @@ class Job extends Model
         'address_id',
     ];
 
-    
-
-    public function totalPaid()
+    public function customer()
     {
-        return $this->payments->sum('amount');
+        return $this->belongsTo(Customer::class);
     }
 
-    public function totalTax()
-    {
-        $tax = 0;
-        foreach($this->services as $service){
-            if($service->taxable)
-                $tax += $service->price * (Auth::user()->settings->tax/100);
-        }
-        return $tax;
-    }
 
-    public function totalAmount()
-    {
-        $total = 0;
-        foreach($this->services as $service){
-            $total += $service->price;
-        }
-        return $total;
-    }
+    // public function totalPaid()
+    // {
+    //     return $this->payments->sum('amount');
+    // }
 
-    public function remainingBalance()
-    {
-        return round($this->totalAmount() + $this->totalTax() - $this->totalPaid(),2);
-    }
+    // public function totalTax()
+    // {
+    //     $tax = 0;
+    //     foreach($this->services as $service){
+    //         if($service->taxable)
+    //             $tax += $service->price * (Auth::user()->settings->tax/100);
+    //     }
+    //     return $tax;
+    // }
+
+    // public function totalAmount()
+    // {
+    //     $total = 0;
+    //     foreach($this->services as $service){
+    //         $total += $service->price;
+    //     }
+    //     return $total;
+    // }
+
+    // public function remainingBalance()
+    // {
+    //     return round($this->totalAmount() + $this->totalTax() - $this->totalPaid(),2);
+    // }
 }

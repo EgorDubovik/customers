@@ -16,54 +16,59 @@ use App\Models\Role;
 
 class AppointmentController extends Controller
 {
-    public function index(Request $request, $id){
+    public function index(Request $request, $id)
+    {
         $appointment = Appointment::find($id);
 
-        if(!$appointment)
+        if (!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('view-appointment', $appointment);
 
         $appointment->techs->load('roles');
-        
+
         $payments = $appointment->payments;
-        foreach($payments as $payment){
+        foreach ($payments as $payment) {
             $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
         }
-        $appointment->load('customer','services','address','images', 'expanse');
+        $appointment->load('customer', 'services', 'address', 'images', 'expanse');
         $appointment->notes->load('creator');
 
         return response()->json(['appointment' => $appointment], 200);
     }
 
-    public function view(Request $request){
-        $appointments = Appointment::where('company_id',$request->user()->company_id)
-                                    ->where(function($query) use ($request){
-                                        if(!$request->user()->isRole([Role::ADMIN,Role::DISP]))
-                                            $query->whereHas('techs', function($query) use ($request){
-                                                $query->where('tech_id',$request->user()->id);
-                                            });
-                                    })
-                                    ->with('customer')
-                                    ->with('techs')
-                                    ->get();
+    public function view(Request $request)
+    {
+        $appointments = Appointment::where('company_id', $request->user()->company_id)
+            ->where(function ($query) use ($request) {
+                if (!$request->user()->isRole([Role::ADMIN, Role::DISP]))
+                    $query->whereHas('techs', function ($query) use ($request) {
+                        $query->where('tech_id', $request->user()->id);
+                    });
+            })
+            ->get();
+
+
+
         $returnAppointments = [];
-        foreach($appointments as $appointment){
+        foreach ($appointments as $appointment) {
 
             $returnAppointments[] = [
                 'id' => $appointment->id,
                 'start' => $appointment->start,
                 'end' => $appointment->end,
-                'title' => $appointment->customer->name,
-                'status' => $appointment->status,
-                'bg' => $appointment->techs->first()->color ?? '#1565c0',
+                'title' => $appointment->job->customer->name,
+                'status' => $appointment->job->status,
+                // 'bg' => $appointment->techs->first()->color ?? '#1565c0',
+                'bg' => '#1565c0',
             ];
         }
 
         return response()->json(['appointments' => $returnAppointments], 200);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validate = $request->validate([
             'customerId'   => 'required|integer',
             'addressId'    => 'required|integer',
@@ -74,7 +79,7 @@ class AppointmentController extends Controller
         $this->authorize('make-appointment', [$request->customerId, $request->addressId]);
 
         DB::beginTransaction();
-        try{
+        try {
             $startTime = Carbon::parse($request->timeFrom)->setSecond(0);
             $endTime = Carbon::parse($request->timeTo)->setSecond(0);
             $appointment = Appointment::create([
@@ -87,13 +92,13 @@ class AppointmentController extends Controller
             ]);
 
             // add techs to appointment
-            foreach($request->techs as $tech){
+            foreach ($request->techs as $tech) {
                 $appointment->techs()->attach($tech);
             }
 
             // Add services to appointment
-            if($request->has('services')){
-                foreach($request->services as $service){
+            if ($request->has('services')) {
+                foreach ($request->services as $service) {
                     $appointment->services()->create([
                         'title' => $service['title'],
                         'description' => $service['description'],
@@ -103,24 +108,25 @@ class AppointmentController extends Controller
                 }
             }
             DB::commit();
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'Error creating appointment'], 500);
         }
 
-        return response()->json(['message' => 'Appointment created','appointment' => $appointment], 200);
+        return response()->json(['message' => 'Appointment created', 'appointment' => $appointment], 200);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $appointment = Appointment::find($id);
-        if(!$appointment)
+        if (!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('update-remove-appointment', $appointment);
 
-        if($request->has('timeFrom'))
+        if ($request->has('timeFrom'))
             $appointment->start = Carbon::parse($request->timeFrom);
-        if($request->has('timeTo'))
+        if ($request->has('timeTo'))
             $appointment->end = Carbon::parse($request->timeTo);
 
         $appointment->save();
@@ -128,26 +134,28 @@ class AppointmentController extends Controller
         return response()->json(['message' => 'Appointment updated'], 200);
     }
 
-    public function delete(Request $request, $id){
+    public function delete(Request $request, $id)
+    {
         $appointment = Appointment::find($id);
-        if(!$appointment)
+        if (!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('update-remove-appointment', $appointment);
 
-        foreach($appointment->techs as $tech){
+        foreach ($appointment->techs as $tech) {
             Mail::to($tech->email)->send(new DeleteAppointment($appointment));
         }
         $appointment->techs()->detach();
         $appointment->services()->delete();
         $appointment->notes()->delete();
         $appointment->delete();
-        
+
         return response()->json(['message' => 'Appointment deleted'], 200);
     }
 
     // Appointment status
-    public function updateStatus(Request $request, $id){
+    public function updateStatus(Request $request, $id)
+    {
         $appointment = $this->isValidAppointment($id);
 
         $this->authorize('update-remove-appointment', $appointment);
@@ -160,9 +168,10 @@ class AppointmentController extends Controller
     }
 
     // Appointment Techs
-    public function removeTech(Request $request, $appointment_id, $tech_id){
+    public function removeTech(Request $request, $appointment_id, $tech_id)
+    {
         $appointment = Appointment::find($appointment_id);
-        if(!$appointment)
+        if (!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('add-tech-to-appointment', [$appointment, $tech_id]);
@@ -172,24 +181,26 @@ class AppointmentController extends Controller
         return response()->json(['message' => 'Tech removed from appointment'], 200);
     }
 
-    public function addTech(Request $request, $appointment_id){
+    public function addTech(Request $request, $appointment_id)
+    {
         $appointment = Appointment::find($appointment_id);
-        if(!$appointment)
+        if (!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $appointment->techs()->detach();
-        foreach($request->techs as $tech_id){
+        foreach ($request->techs as $tech_id) {
             $this->authorize('add-tech-to-appointment', [$appointment, $tech_id]);
             $appointment->techs()->attach($tech_id);
-        }        
+        }
 
         return response()->json(['message' => 'Tech added to appointment'], 200);
     }
 
     // Appointment notes
-    public function addNote(Request $request, $appointment_id){
+    public function addNote(Request $request, $appointment_id)
+    {
         $appointment = Appointment::find($appointment_id);
-        if(!$appointment)
+        if (!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('appointment-store-note', $appointment);
@@ -201,16 +212,17 @@ class AppointmentController extends Controller
         ]);
         $note->load('creator');
 
-        return response()->json(['message' => 'Note added to appointment','note'=>$note], 200);
+        return response()->json(['message' => 'Note added to appointment', 'note' => $note], 200);
     }
 
-    public function removeNote(Request $request, $appointment_id, $note_id){
+    public function removeNote(Request $request, $appointment_id, $note_id)
+    {
         $appointment = Appointment::find($appointment_id);
-        if(!$appointment)
+        if (!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $note = AppointmentNotes::find($note_id);
-        if(!$note)
+        if (!$note)
             return response()->json(['error' => 'Note not found'], 404);
 
         $this->authorize('appointment-store-note', $appointment);
@@ -221,8 +233,9 @@ class AppointmentController extends Controller
     }
 
     // Appointment services
-    
-    public function addService(Request $request, $appointment_id){
+
+    public function addService(Request $request, $appointment_id)
+    {
         $appointment = $this->isValidAppointment($appointment_id);
 
         $this->authorize('add-remove-service-from-appointment', $appointment);
@@ -234,25 +247,27 @@ class AppointmentController extends Controller
             'taxable' => $request->taxable,
         ]);
 
-        return response()->json(['message' => 'Service added to appointment','service' => $service], 200);
+        return response()->json(['message' => 'Service added to appointment', 'service' => $service], 200);
     }
-    
-    public function removeService(Request $request, $appointment_id, $service_id){
+
+    public function removeService(Request $request, $appointment_id, $service_id)
+    {
         $appointment = $this->isValidAppointment($appointment_id);
 
         $this->authorize('add-remove-service-from-appointment', $appointment);
-        $appointment->services()->where('id',$service_id)->delete();
+        $appointment->services()->where('id', $service_id)->delete();
 
         return response()->json(['message' => 'Service removed from appointment'], 200);
     }
 
-    public function updateService(Request $request, $appointment_id, $service_id){
+    public function updateService(Request $request, $appointment_id, $service_id)
+    {
         $appointment = $this->isValidAppointment($appointment_id);
 
         $this->authorize('add-remove-service-from-appointment', $appointment);
 
-        $service = $appointment->services()->where('id',$service_id)->first();
-        if(!$service)
+        $service = $appointment->services()->where('id', $service_id)->first();
+        if (!$service)
             return response()->json(['error' => 'Service not found'], 404);
 
         $service->update([
@@ -265,11 +280,11 @@ class AppointmentController extends Controller
         return response()->json(['message' => 'Service updated'], 200);
     }
 
-    private function isValidAppointment($appointment_id){
+    private function isValidAppointment($appointment_id)
+    {
         $appointment = Appointment::find($appointment_id);
-        if(!$appointment)
+        if (!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
-        return $appointment;   
+        return $appointment;
     }
-
 }
