@@ -9,10 +9,10 @@ class AppointmentNotes extends Model
 {
     use HasFactory;
 
-    protected $table = 'appointment_notes';
+    protected $table = 'job_notes';
 
     protected $fillable = [
-        'appointment_id',
+        'job_id',
         'creator_id',
         'text',
     ];

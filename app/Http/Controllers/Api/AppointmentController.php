@@ -69,6 +69,17 @@ class AppointmentController extends Controller
         $appointment->customer = $appointment->job->customer;
         $appointment->address = $appointment->job->address->full;
         $appointment->techs = $appointment->techs->load('roles');
+        $appointment->notes = $appointment->job->notes->load('creator')->map(function ($note) {
+            return [
+                'id' => $note->id,
+                'text' => $note->text,
+                'creator' => [
+                    'id' => $note->creator->id,
+                    'name' => $note->creator->name,
+                ],
+                'updated_at' => $note->created_at,
+            ];
+        });
         return response()->json(['appointment' => $appointment], 200);
     }
 

@@ -20,7 +20,7 @@ use App\Models\Expanse;
 class Job extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'customer_id',
         'company_id',
@@ -36,6 +36,10 @@ class Job extends Model
     public function address()
     {
         return $this->belongsTo(Addresses::class);
+    }
+
+    public function notes(){
+        return $this->hasMany(AppointmentNotes::class);
     }
 
 
