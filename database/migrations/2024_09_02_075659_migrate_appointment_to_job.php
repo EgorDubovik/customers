@@ -51,7 +51,9 @@ return new class extends Migration
                             'company_id' => $job->company_id,
                             'status' => $job->status,
                         ]);
-                    $job->delete();
+                    DB::table('jobs')
+                        ->where('id', $job->id)
+                        ->delete();
                 }
             });
     }
