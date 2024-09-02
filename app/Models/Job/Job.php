@@ -30,39 +30,7 @@ class Job extends Model
         'address_id',
     ];
 
-    public function customer(){
-        return $this->belongsTo(Customer::class);
-    }
-
-    public function appointmentTechs()
-    {
-        return $this->hasMany(AppointmentTechs::class,'appointment_id','id');
-    }
-
-    public function services()
-    {
-        return $this->hasMany(AppointmentService::class,'appointment_id');
-    }
-
-    public function techs()
-    {
-        return $this->belongsToMany(User::class, AppointmentTechs::class, 'appointment_id','tech_id');
-    }
-
-    public function notes()
-    {   
-        return $this->hasMany(AppointmentNotes::class,'appointment_id')->orderBy('created_at','desc');
-    }
-
-    public function address() 
-    {
-        return $this->hasOne(Addresses::class,'id','address_id');
-    }
     
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
 
     public function totalPaid()
     {
@@ -91,19 +59,5 @@ class Job extends Model
     public function remainingBalance()
     {
         return round($this->totalAmount() + $this->totalTax() - $this->totalPaid(),2);
-    }
-
-    public function company() {
-        return $this->belongsTo(Company::class);
-    }
-
-    public function images()
-    {
-        return $this->hasMany(AppointmentImage::class,'appointment_id');
-    }
-
-    public function expanse()
-    {
-        return $this->hasMany(Expanse::class);
     }
 }
