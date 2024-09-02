@@ -35,6 +35,11 @@ class Job extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function address()
+    {
+        return $this->belongsTo(Addresses::class);
+    }
+
 
     // public function totalPaid()
     // {
