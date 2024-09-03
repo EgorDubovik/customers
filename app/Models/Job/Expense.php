@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Job;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-class Expanse extends Model
+class Expense extends Model
 {
     use HasFactory;
+
+    protected $table = 'job_expanses';
     protected $fillable = [
         'title',
         'amount',
-        'appointment_id',
+        'job_id',
         'user_id',
         'company_id',
     ];

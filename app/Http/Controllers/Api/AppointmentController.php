@@ -55,7 +55,7 @@ class AppointmentController extends Controller
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('view-appointment', $appointment);
-        
+
         $appointment->title = $appointment->job->customer->name;
         $appointment->backgroundColor = $appointment->techs->first()->color ?? '#1565c0';
         $appointment->customer = $appointment->job->customer;
@@ -76,6 +76,7 @@ class AppointmentController extends Controller
                     ],
                 ];
             });
+        $appointment->expenses = $appointment->job->expenses;
         return response()->json(['appointment' => $appointment], 200);
     }
 

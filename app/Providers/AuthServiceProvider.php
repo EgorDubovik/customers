@@ -127,7 +127,6 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         //Job notes
-
         Gate::define('store-job-note',function (User $user, Job $job){
             if ($user->company_id == $job->company_id)
                 return true;
@@ -136,6 +135,13 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('delete-job-note',function (User $user, Notes $note){
             return $user->id === $note->creator_id || $user->isRole(Role::ADMIN);
+        });
+
+        //Job expenses
+        Gate::define('update-remove-job-expense',function (User $user, Job $job){
+            if ($user->company_id == $job->company_id)
+                return true;
+            return false;
         });
 
         // Appointment notes

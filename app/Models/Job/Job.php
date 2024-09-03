@@ -33,6 +33,9 @@ class Job extends Model
         return $this->hasMany(Notes::class);
     }
 
+    public function expenses(){
+        return $this->hasMany(Expense::class);
+    }
 
     // public function totalPaid()
     // {

@@ -1,6 +1,4 @@
 <?php
-
-use App\Http\Controllers\Api\Appointment\ExpanseController;
 use App\Http\Controllers\Api\Appointment\PaymentController;
 use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
@@ -15,6 +13,7 @@ use App\Http\Controllers\Api\Company\BookAppointmentController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\Job\JobNotesController;
+use App\Http\Controllers\Api\Job\ExpenseController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReviewFeedbackController;
 use App\Http\Controllers\Api\StorageItemsController;
@@ -120,9 +119,9 @@ Route::prefix('v1')->group(function () {
             Route::post('images/{appointment_id}', [AppointmentImages::class, 'store']);
             Route::get('images/{appointment_id}', [AppointmentImages::class, 'index']);
 
-            // Appointment expances
-            Route::post('expanse/{appointment_id}', [ExpanseController::class, 'store']);
-            Route::delete('expanse/{appointment_id}/{expanse_id}', [ExpanseController::class, 'delete']);
+            // Job expances
+            Route::post('expense/{job_id}', [ExpenseController::class, 'store']);
+            Route::delete('expense/{expense_id}', [ExpenseController::class, 'delete']);
         });
 
         // Invoices
