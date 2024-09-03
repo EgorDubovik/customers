@@ -55,35 +55,31 @@ class AppointmentController extends Controller
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('view-appointment', $appointment);
-
-        // $appointment->techs->load('roles');
-
-        // $payments = $appointment->payments;
-        // foreach ($payments as $payment) {
-        //     $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
-        // }
-        // $appointment->load('customer', 'services', 'address', 'images', 'expanse');
-        // $appointment->notes->load('creator');
+        
         $appointment->title = $appointment->job->customer->name;
         $appointment->backgroundColor = $appointment->techs->first()->color ?? '#1565c0';
         $appointment->customer = $appointment->job->customer;
         $appointment->address = $appointment->job->address->full;
         $appointment->techs = $appointment->techs->load('roles');
-        $appointment->notes = $appointment->job->notes->load('creator')->map(function ($note) {
-            return [
-                'id' => $note->id,
-                'text' => $note->text,
-                'creator' => [
-                    'id' => $note->creator->id,
-                    'name' => $note->creator->name,
-                ],
-                'updated_at' => $note->created_at,
-            ];
-        });
+        $appointment->notes = $appointment->job->notes()
+            ->with(['creator:id,name'])
+            ->orderBy('created_at', 'desc') // Sort by created_at in ascending order
+            ->get(['id', 'text', 'updated_at', 'creator_id'])
+            ->map(function ($note) {
+                return [
+                    'id' => $note->id,
+                    'text' => $note->text,
+                    'updated_at' => $note->updated_at,
+                    'creator' => [
+                        'id' => $note->creator->id,
+                        'name' => $note->creator->name,
+                    ],
+                ];
+            });
         return response()->json(['appointment' => $appointment], 200);
     }
 
-    
+
 
     public function store(Request $request)
     {
@@ -212,42 +208,6 @@ class AppointmentController extends Controller
         }
 
         return response()->json(['message' => 'Tech added to appointment'], 200);
-    }
-
-    // Appointment notes
-    public function addNote(Request $request, $appointment_id)
-    {
-        $appointment = Appointment::find($appointment_id);
-        if (!$appointment)
-            return response()->json(['error' => 'Appointment not found'], 404);
-
-        $this->authorize('appointment-store-note', $appointment);
-
-        $note = AppointmentNotes::create([
-            'appointment_id' => $appointment->id,
-            'creator_id'    => $request->user()->id,
-            'text'          => $request->text,
-        ]);
-        $note->load('creator');
-
-        return response()->json(['message' => 'Note added to appointment', 'note' => $note], 200);
-    }
-
-    public function removeNote(Request $request, $appointment_id, $note_id)
-    {
-        $appointment = Appointment::find($appointment_id);
-        if (!$appointment)
-            return response()->json(['error' => 'Appointment not found'], 404);
-
-        $note = AppointmentNotes::find($note_id);
-        if (!$note)
-            return response()->json(['error' => 'Note not found'], 404);
-
-        $this->authorize('appointment-store-note', $appointment);
-
-        $note->delete();
-
-        return response()->json(['message' => 'Note removed from appointment'], 200);
     }
 
     // Appointment services

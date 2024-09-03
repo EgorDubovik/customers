@@ -12,6 +12,8 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Appointment;
+use App\Models\Job\Job;
+use App\Models\Job\Notes;
 use App\Models\Payment;
 use App\Models\StorageItems;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -124,12 +126,24 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        // Appointment notes
-        Gate::define('appointment-store-note',function (User $user, Appointment $appointment){
-            if ($user->company_id == $appointment->company_id)
+        //Job notes
+
+        Gate::define('store-job-note',function (User $user, Job $job){
+            if ($user->company_id == $job->company_id)
                 return true;
             return false;
         });
+
+        Gate::define('delete-job-note',function (User $user, Notes $note){
+            return $user->id === $note->creator_id || $user->isRole(Role::ADMIN);
+        });
+
+        // Appointment notes
+        // Gate::define('appointment-store-note',function (User $user, Appointment $appointment){
+        //     if ($user->company_id == $appointment->company_id)
+        //         return true;
+        //     return false;
+        // });
 
         // Appointment srvices
         Gate::define('add-remove-service-from-appointment',function(User $user, Appointment $appointment){

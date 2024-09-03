@@ -2,19 +2,10 @@
 
 namespace App\Models\Job;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Company;
 use App\Models\Customer;
-use App\Models\AppointmentTechs;
-use App\Models\AppointmentService;
-use App\Models\AppointmentNotes;
 use App\Models\Addresses;
-use App\Models\Payment;
-use App\Models\AppointmentImage;
-use App\Models\Expanse;
 
 
 class Job extends Model
@@ -39,7 +30,7 @@ class Job extends Model
     }
 
     public function notes(){
-        return $this->hasMany(AppointmentNotes::class);
+        return $this->hasMany(Notes::class);
     }
 
 
