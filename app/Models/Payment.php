@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-
+use App\Models\Job\Job;
 class Payment extends Model
 {
     use HasFactory;
@@ -18,7 +18,7 @@ class Payment extends Model
 
     protected $table = 'payments';
     protected $fillable = [
-        'appointment_id',
+        'job_id',
         'amount',
         'payment_type',
         'company_id',
@@ -39,8 +39,8 @@ class Payment extends Model
         return $text[$index];
     }
 
-    public function appointment() {
-        return $this->belongsTo(Appointment::class);
+    public function job() {
+        return $this->belongsTo(Job::class);
     }
 
     public function tech() {

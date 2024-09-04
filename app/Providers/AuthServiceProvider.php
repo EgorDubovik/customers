@@ -128,6 +128,11 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        //Job Payments
+        Gate::define('pay-job', function(User $user, Job $job){
+            return $user->company_id === $job->company_id;
+        });
+
         //Job notes
         Gate::define('store-job-note',function (User $user, Job $job){
             if ($user->company_id == $job->company_id)

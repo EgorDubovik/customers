@@ -110,7 +110,7 @@ Route::prefix('v1')->group(function () {
             Route::put('service/{job_id}/{service_id}', [JobServicesController::class, 'update']);
 
             // Appointment payments
-            Route::post('payment/{appointment_id}', [PaymentController::class, 'store']);
+            Route::post('payment/{job_id}', [PaymentController::class, 'store']);
 
             // Appointment invoice
             Route::get('invoice/{appointment_id}', [InvoiceController::class, 'create']);

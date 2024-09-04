@@ -37,30 +37,7 @@ class Appointment extends Model
     }
     
 
-    // public function appointmentTechs()
-    // {
-    //     return $this->hasMany(AppointmentTechs::class);
-    // }
-    
-
-    // public function customer(){
-    //     return $this->belongsTo(Customer::class);
-    // }
-
-    
-
-    // public function services()
-    // {
-    //     return $this->hasMany(AppointmentService::class,'appointment_id');
-    // }
-
-    
-
-    // public function notes()
-    // {   
-    //     return $this->hasMany(AppointmentNotes::class,'appointment_id')->orderBy('created_at','desc');
-    // }
-
+  
     // public function address() 
     // {
     //     return $this->hasOne(Addresses::class,'id','address_id');

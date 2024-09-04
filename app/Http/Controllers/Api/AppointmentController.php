@@ -78,6 +78,7 @@ class AppointmentController extends Controller
             });
         $appointment->expenses = $appointment->job->expenses;
         $appointment->services = $appointment->job->services()->get(['id', 'title', 'description', 'price', 'taxable']);
+        $appointment->payments = $appointment->job->payments()->get(['id', 'amount', 'payment_type', 'tech_id']);
         return response()->json(['appointment' => $appointment], 200);
     }
 
