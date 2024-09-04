@@ -212,53 +212,6 @@ class AppointmentController extends Controller
         return response()->json(['message' => 'Tech added to appointment'], 200);
     }
 
-    // Appointment services
-
-    public function addService(Request $request, $appointment_id)
-    {
-        $appointment = $this->isValidAppointment($appointment_id);
-
-        $this->authorize('add-remove-service-from-appointment', $appointment);
-
-        $service = $appointment->services()->create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'taxable' => $request->taxable,
-        ]);
-
-        return response()->json(['message' => 'Service added to appointment', 'service' => $service], 200);
-    }
-
-    public function removeService(Request $request, $appointment_id, $service_id)
-    {
-        $appointment = $this->isValidAppointment($appointment_id);
-
-        $this->authorize('add-remove-service-from-appointment', $appointment);
-        $appointment->services()->where('id', $service_id)->delete();
-
-        return response()->json(['message' => 'Service removed from appointment'], 200);
-    }
-
-    public function updateService(Request $request, $appointment_id, $service_id)
-    {
-        $appointment = $this->isValidAppointment($appointment_id);
-
-        $this->authorize('add-remove-service-from-appointment', $appointment);
-
-        $service = $appointment->services()->where('id', $service_id)->first();
-        if (!$service)
-            return response()->json(['error' => 'Service not found'], 404);
-
-        $service->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'taxable' => $request->taxable,
-        ]);
-
-        return response()->json(['message' => 'Service updated'], 200);
-    }
 
     private function isValidAppointment($appointment_id)
     {

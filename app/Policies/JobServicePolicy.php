@@ -2,34 +2,21 @@
 
 namespace App\Policies;
 
+use App\Models\Job\Job;
 use Illuminate\Auth\Access\Response;
 use App\Models\Job\Service;
 use App\Models\User;
 
 class JobServicePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Service $service): bool
-    {
-        //
-    }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function store(User $user, Job $job): bool
     {
-        //
+        return $user->company_id === $job->company_id;
     }
 
     /**
@@ -37,7 +24,7 @@ class JobServicePolicy
      */
     public function update(User $user, Service $service): bool
     {
-        //
+        return $user->company_id === $service->job->company_id;
     }
 
     /**
@@ -45,22 +32,6 @@ class JobServicePolicy
      */
     public function delete(User $user, Service $service): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Service $service): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Service $service): bool
-    {
-        //
+        return $user->company_id === $service->job->company_id;
     }
 }

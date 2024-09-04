@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\Job\JobNotesController;
 use App\Http\Controllers\Api\Job\ExpenseController;
+use App\Http\Controllers\Api\Job\JobServicesController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReviewFeedbackController;
 use App\Http\Controllers\Api\StorageItemsController;
@@ -104,9 +105,9 @@ Route::prefix('v1')->group(function () {
             Route::delete('notes/{noteId}', [JobNotesController::class, 'delete']);
 
             // job services
-            Route::post('service/{job_id}', [AppointmentController::class, 'addService']);
-            Route::delete('service/{job_id}/{service_id}', [AppointmentController::class, 'removeService']);
-            Route::put('service/{job_id}/{service_id}', [AppointmentController::class, 'updateService']);
+            Route::post('service/{job_id}', [JobServicesController::class, 'store']);
+            Route::delete('service/{job_id}/{service_id}', [JobServicesController::class, 'destroy']);
+            Route::put('service/{job_id}/{service_id}', [JobServicesController::class, 'update']);
 
             // Appointment payments
             Route::post('payment/{appointment_id}', [PaymentController::class, 'store']);
