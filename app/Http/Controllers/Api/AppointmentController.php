@@ -38,9 +38,9 @@ class AppointmentController extends Controller
                 'start' => $appointment->start,
                 'end' => $appointment->end,
                 'title' => $appointment->job->customer->name,
-                'status' => $appointment->job->status,
-                // 'bg' => $appointment->techs->first()->color ?? '#1565c0',
-                'bg' => '#1565c0',
+                'status' => $appointment->status,
+                'bg' => $appointment->techs->first()->color ?? '#1565c0',
+                
             ];
         }
 
@@ -77,6 +77,7 @@ class AppointmentController extends Controller
                 ];
             });
         $appointment->expenses = $appointment->job->expenses;
+        $appointment->services = $appointment->job->services()->get(['id', 'title', 'description', 'price', 'taxable']);
         return response()->json(['appointment' => $appointment], 200);
     }
 

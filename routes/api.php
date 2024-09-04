@@ -103,10 +103,10 @@ Route::prefix('v1')->group(function () {
             Route::post('notes/{jobId}', [JobNotesController::class, 'store']);
             Route::delete('notes/{noteId}', [JobNotesController::class, 'delete']);
 
-            // Appointment services
-            Route::post('service/{appointment_id}', [AppointmentController::class, 'addService']);
-            Route::delete('service/{appointment_id}/{service_id}', [AppointmentController::class, 'removeService']);
-            Route::put('service/{appointment_id}/{service_id}', [AppointmentController::class, 'updateService']);
+            // job services
+            Route::post('service/{job_id}', [AppointmentController::class, 'addService']);
+            Route::delete('service/{job_id}/{service_id}', [AppointmentController::class, 'removeService']);
+            Route::put('service/{job_id}/{service_id}', [AppointmentController::class, 'updateService']);
 
             // Appointment payments
             Route::post('payment/{appointment_id}', [PaymentController::class, 'store']);

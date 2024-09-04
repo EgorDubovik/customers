@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Customer;
 use App\Models\Addresses;
 
-
 class Job extends Model
 {
     use HasFactory;
@@ -35,6 +34,11 @@ class Job extends Model
 
     public function expenses(){
         return $this->hasMany(Expense::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
     }
 
     // public function totalPaid()

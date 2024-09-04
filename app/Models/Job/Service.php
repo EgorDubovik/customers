@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Job;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class AppointmentService extends Model
+class Service extends Model
 {
     use HasFactory;
 
-    protected $table = 'appointment_services';
+    protected $table = 'job_services';
     protected $fillable = [
         'title',
         'price',
         'taxable',
         'description',
-        'appointment_id',
+        'job_id',
     ];
 
-    public function appointment() {
-        return $this->belongsTo(Appointment::class, 'appointment_id');
+    public function job() {
+        return $this->belongsTo(Job::class);
     }
 
     public function price(): Attribute
