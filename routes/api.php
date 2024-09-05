@@ -109,7 +109,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('service/{job_id}/{service_id}', [JobServicesController::class, 'destroy']);
             Route::put('service/{job_id}/{service_id}', [JobServicesController::class, 'update']);
 
-            // Appointment payments
+            // job payments
             Route::post('payment/{job_id}', [PaymentController::class, 'store']);
 
             // Appointment invoice

@@ -29,7 +29,8 @@ class CustomersController extends Controller
       $customer = Customer::where('company_id', Auth::user()->company->id)
          ->with([
             'address',
-            'appointments',
+            'jobs.appointments.techs',
+            'jobs.services',
             'tags',
          ])
          ->find($id);
@@ -38,11 +39,14 @@ class CustomersController extends Controller
          return response()->json(['error' => 'Customer not found'], 404);
       }
 
-      foreach ($customer->appointments as $appointment) {
-         $appointment->totalPaid = $appointment->totalPaid();
-         $appointment->remainingBalance = $appointment->remainingBalance();
-         $appointment->techs = $appointment->techs;
-      }
+
+      
+
+      // foreach ($customer->jobs as $job) {
+      //    $job->totalPaid = $job->totalPaid();
+      //    $job->remainingBalance = $job->remainingBalance();
+      //    $job->techs = $job->techs;
+      // }
 
       return response()->json($customer, 200);
    }

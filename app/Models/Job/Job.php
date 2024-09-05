@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Customer;
 use App\Models\Addresses;
 use App\Models\Payment;
+use App\Models\Appointment;
+use Illuminate\Support\Facades\Auth;
 
 class Job extends Model
 {
@@ -18,6 +20,8 @@ class Job extends Model
         'status',
         'address_id',
     ];
+
+    protected $appends = ['total_paid','remaining_balance'];
 
     public function customer()
     {
@@ -48,32 +52,58 @@ class Job extends Model
         return $this->hasMany(Payment::class);
     }
 
-    // public function totalPaid()
-    // {
-    //     return $this->payments->sum('amount');
-    // }
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 
-    // public function totalTax()
-    // {
-    //     $tax = 0;
-    //     foreach($this->services as $service){
-    //         if($service->taxable)
-    //             $tax += $service->price * (Auth::user()->settings->tax/100);
-    //     }
-    //     return $tax;
-    // }
+    public function totalPaid()
+    {
+        return $this->payments->sum('amount');
+    }
 
-    // public function totalAmount()
-    // {
-    //     $total = 0;
-    //     foreach($this->services as $service){
-    //         $total += $service->price;
-    //     }
-    //     return $total;
-    // }
 
-    // public function remainingBalance()
-    // {
-    //     return round($this->totalAmount() + $this->totalTax() - $this->totalPaid(),2);
-    // }
+    public function getTotalPaidAttribute()
+    {
+        return $this->totalPaid();
+    }
+
+    public function getTotalTaxAttribute()
+    {
+        return $this->totalTax();
+    }
+
+    public function getTotalAmountAttribute()
+    {
+        return $this->totalAmount();
+    }
+
+    public function getRemainingBalanceAttribute()
+    {
+        return $this->remainingBalance();
+    }
+
+    public function totalTax()
+    {
+        $tax = 0;
+        foreach($this->services as $service){
+            if($service->taxable)
+                $tax += $service->price * (Auth::user()->settings->tax/100);
+        }
+        return $tax;
+    }
+
+    public function totalAmount()
+    {
+        $total = 0;
+        foreach($this->services as $service){
+            $total += $service->price;
+        }
+        return $total;
+    }
+
+    public function remainingBalance()
+    {
+        return round($this->totalAmount() + $this->totalTax() - $this->totalPaid(),2);
+    }
 }

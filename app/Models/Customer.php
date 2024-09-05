@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Job\Job;
 
 class Customer extends Model
 {
@@ -61,9 +61,9 @@ class Customer extends Model
         return $this->hasMany(Image::class);
     }
 
-    public function appointments()
+    public function jobs()
     {
-        return $this->hasMany(Appointment::class,'customer_id','id')->orderByDesc('created_at');
+        return $this->hasMany(Job::class)->orderByDesc('created_at');
     }
 
     public function referralStat()
