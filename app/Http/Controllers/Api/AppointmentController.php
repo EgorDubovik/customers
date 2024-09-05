@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DeleteAppointment;
+use App\Models\Job\Job;
 use App\Models\Role;
 
 class AppointmentController extends Controller
@@ -99,13 +100,17 @@ class AppointmentController extends Controller
         try {
             $startTime = Carbon::parse($request->timeFrom)->setSecond(0);
             $endTime = Carbon::parse($request->timeTo)->setSecond(0);
-            $appointment = Appointment::create([
+            $job = Job::create([
                 'company_id' => $request->user()->company_id,
                 'customer_id' => $request->customerId,
                 'address_id' => $request->addressId,
+            ]);
+            $appointment = Appointment::create([
                 'start' => $startTime,
                 'end' => $endTime,
                 'status' => 0,
+                'job_id' => $job->id,
+                'company_id' => $request->user()->company_id,
             ]);
 
             // add techs to appointment
@@ -113,10 +118,10 @@ class AppointmentController extends Controller
                 $appointment->techs()->attach($tech);
             }
 
-            // Add services to appointment
+            // Add services to job
             if ($request->has('services')) {
                 foreach ($request->services as $service) {
-                    $appointment->services()->create([
+                    $job->services()->create([
                         'title' => $service['title'],
                         'description' => $service['description'],
                         'price' => $service['price'],
@@ -163,8 +168,6 @@ class AppointmentController extends Controller
             Mail::to($tech->email)->send(new DeleteAppointment($appointment));
         }
         $appointment->techs()->detach();
-        $appointment->services()->delete();
-        $appointment->notes()->delete();
         $appointment->delete();
 
         return response()->json(['message' => 'Appointment deleted'], 200);
