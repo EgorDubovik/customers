@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use PDO;
+use App\Models\Job\Job;
 
 class Invoice extends Model
 {
@@ -15,7 +15,7 @@ class Invoice extends Model
         'creator_id',
         'company_id',
         'customer_id',
-        'appointment_id',
+        'job_id',
         'customer_name',
         'address',
         'email',
@@ -24,12 +24,14 @@ class Invoice extends Model
         'key',
     ];
 
-    // function services(){
-    //     return $this->hasMany(InvoiceServices::class, 'invoice_id');
-    // }
+    protected $appends = ['pdf_url'];
 
-    function appointment(){
-        return $this->belongsTo(Appointment::class);
+    public function getPdfUrlAttribute(){
+        return $this->pdf_path ? env('AWS_FILE_ACCESS_URL').'invoices/'.$this->pdf_path : null;
+    }
+
+    function job(){
+        return $this->belongsTo(Job::class);
     }
 
     function customer(){

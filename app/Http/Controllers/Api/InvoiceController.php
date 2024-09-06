@@ -30,16 +30,9 @@ class InvoiceController extends Controller
             ->where(function($query) use ($user){
                 if(!$user->isRole([Role::ADMIN,Role::DISP]))
                     $query->where('creator_id',Auth::user()->id);
-            })
+            })->with(['job','job.customer','job.address','creator'])
             ->orderBy('created_at','DESC')
             ->paginate($request->limit ?? 10);
-        foreach($invoices as $invoice){
-            $invoice->creator;
-            if($invoice->appointment)
-                $invoice->amount = $invoice->appointment->job->total_paid;
-            else 
-                $invoice->amount = 0;
-        }
         return response()->json(['invoices' => $invoices], 200);
     }
 
@@ -50,15 +43,7 @@ class InvoiceController extends Controller
 
         Gate::authorize('create-invoice',['appointment' => $appointment]);
 
-        $invoice['id'] = Invoice::count() + 1;
-        $invoice['company'] = $appointment->company->makeHidden(['created_at', 'updated_at','address_id','address','id']);
-        $invoice['customer'] = $appointment->customer = $appointment->job->customer->makeHidden(['created_at', 'updated_at','id','company_id','address_id']);
-        $invoice['address'] = $appointment->job->address->full;
-        $invoice['due'] = $appointment->job->remaining_balance;
-        $invoice['services'] = $appointment->job->services->makeHidden(['created_at', 'updated_at','job_id','id']);
-        $invoice['payments'] = $appointment->job->payments->makeHidden(['updated_at','job_id','id','tech_id','payment_type','company_id']);
-        $invoice['total'] = $appointment->job->total_amount;
-        $invoice['tax'] = $appointment->job->total_tax;
+        $invoice = $this->getInvoiceInfo($appointment);
 
         return response()->json(['invoice'=>$invoice], 200);
     }
@@ -72,22 +57,18 @@ class InvoiceController extends Controller
 
         try{
             DB::beginTransaction();
-            $key = Str::random(50);
-            $invoice = Invoice::create([
-                'creator_id'        => Auth::user()->id,
-                'company_id'        => Auth::user()->company_id,
-                'customer_id'       => $appointment->job->customer_id,
-                'appointment_id'    => $appointment->id,
-                'customer_name'     => $appointment->job->customer->name,
-                'address'           => $appointment->job->address->full,
-                'email'             => $appointment->job->customer->email,
-                'status'            => 0,
-                'key'               => $key,
-                'pdf_path'          => null,
-            ]);
-    
+            
+            // $invoice = $this->getInvoiceInfo($appointment);
+            $invoice = new Invoice();
+            $invoice->company_id = $appointment->company_id;
+            $invoice->creator_id = Auth::user()->id;
+            $invoice->job_id = $appointment->job_id; 
+            $invoice->email = $appointment->job->customer->email;
             $pdfname = $this->createPDF($invoice);
             $invoice->pdf_path = $pdfname;
+            $key = Str::random(50);
+            $invoice->key = $key;
+            
             $invoice->save();
     
             $this->sendEmail($invoice);
@@ -111,7 +92,7 @@ class InvoiceController extends Controller
     }
 
     private function sendEmail(Invoice $invoice){
-        $file = env('AWS_FILE_ACCESS_URL').'invoices/'.$invoice->pdf_path;
+        $file = $invoice->pdf_url;
         Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
     }
 
@@ -122,23 +103,23 @@ class InvoiceController extends Controller
             return response()->json(['error' => 'Appointment not found'], 404);
 
         $this->authorize('create-invoice',['appointment' => $appointment]);
-
         
-        
-        $lastInvoice = Invoice::orderBy('id', 'desc')->first();
-        $invoice = new Invoice();
-        $invoice->id = $lastInvoice->id + 1;
-        $invoice->appointment = $appointment;
-        $invoice->company = $appointment->job->company;
-        $invoice->customer= $appointment->job->customer;
-        $invoice->address = $appointment->job->address->full;
-        $invoice->email = $appointment->job->customer->email;
-        $invoice->status = 0;
-
+        $invoice = $this->getInvoiceInfo($appointment);
         $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice]);
         
         return $pdf->stream('invoice.pdf');
     }
 
-
+    private function getInvoiceInfo($appointment = null, $invoice = null){
+        if($appointment){
+            $invoice = new Invoice();
+            $invoice->id = Invoice::count() + 1;
+            $invoice->job = $appointment->job->load(['services','payments','customer','address']);
+            $invoice->company = $appointment->company;
+            $invoice->created_at = now();
+            $invoice->email = $appointment->job->customer->email;
+            return $invoice;
+        }
+        return $invoice;
+    }
 }

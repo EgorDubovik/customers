@@ -18,7 +18,7 @@ use App\Models\Role;
 class AppointmentController extends Controller
 {
 
-    public function view(Request $request)
+    public function index(Request $request)
     {
         $appointments = Appointment::where('company_id', $request->user()->company_id)
             ->where(function ($query) use ($request) {
@@ -48,7 +48,7 @@ class AppointmentController extends Controller
         return response()->json(['appointments' => $returnAppointments], 200);
     }
 
-    public function index(Request $request, $id)
+    public function view(Request $request, $id)
     {
         $appointment = Appointment::find($id);
 
@@ -80,6 +80,8 @@ class AppointmentController extends Controller
         $appointment->expenses = $appointment->job->expenses;
         $appointment->services = $appointment->job->services()->get(['id', 'title', 'description', 'price', 'taxable']);
         $appointment->payments = $appointment->job->payments;
+        $appointment->job->load('appointments.techs');
+
         return response()->json(['appointment' => $appointment], 200);
     }
 

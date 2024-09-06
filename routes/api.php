@@ -86,10 +86,10 @@ Route::prefix('v1')->group(function () {
         Route::prefix('appointment')->group(function () {
 
             // All appointments for calendar
-            Route::get('/', [AppointmentController::class, 'view']);
+            Route::get('/', [AppointmentController::class, 'indewx']);
 
             // Base appointment API
-            Route::get('/{id}', [AppointmentController::class, 'index']);
+            Route::get('/{id}', [AppointmentController::class, 'view']);
             Route::post('/', [AppointmentController::class, 'store']);
             Route::delete('/{id}', [AppointmentController::class, 'delete']);
             Route::put('/{id}', [AppointmentController::class, 'update']);

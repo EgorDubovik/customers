@@ -121,17 +121,17 @@
 <div class="card-body">
     <div class="row">
         <div class="col-6">
-            @if (Auth::user()->company->logo)
-                <img src="{{ env('AWS_FILE_ACCESS_URL') . Auth::user()->company->logo }}" style="width: 170px;"
+            @if ($invoice->company->logo)
+                <img src="{{ env('AWS_FILE_ACCESS_URL') . $invoice->company->logo }}" style="width: 170px;"
                     class="header-brand-img logo-3" alt="Sash logo">
             @endif
-            <p style="margin-top: 20px"><b>{{ Auth::user()->company->name }}</b></p>
+            <p style="margin-top: 20px"><b>{{ $invoice->company->name }}</b></p>
             <div>
                 <address>
-                    {{ Auth::user()->company->fullAddress }}<br>
+                    {{ $invoice->company->fullAddress }}<br>
                 </address>
-                {{ Auth::user()->company->phone }}<br>
-                {{ Auth::user()->company->email }}
+                {{ $invoice->company->phone }}<br>
+                {{ $invoice->company->email }}
             </div>
         </div>
         <div class="col-6 text-end border-bottom border-lg-0">
@@ -145,18 +145,18 @@
         <div class="col-6">
             <p class="h3">Invoice To:</p>
             <p class="fs-18 fw-semibold mb-0"><span
-                    id="invoice-customer-name"><b>{{ $invoice->customer->name }}</b></span></p>
+                    id="invoice-customer-name"><b>{{ $invoice->job->customer->name }}</b></span></p>
             <address>
-                <span id="invoice-address">{!! $invoice->address !!}</span><br>
+                <span id="invoice-address">{!! $invoice->job->address->full !!}</span><br>
             </address>
-            <p class="mb-0"><span id="invoice-phone">{{ $invoice->customer->phone }}</span></p>
+            <p class="mb-0"><span id="invoice-phone">{{ $invoice->job->customer->phone }}</span></p>
             <p class="mb-0"><span id="invoice-email">{{ $invoice->email }}</span></p>
         </div>
         <div class="col-6 text-end">
             
             
             <p class="mb-1">Balance Due: $<span
-                    id='total-small-invoice'>{{ $invoice->appointment->job->remaining_balance }}</span></p>
+                    id='total-small-invoice'>{{ $invoice->job->remaining_balance }}</span></p>
             
         </div>
     </div>
@@ -170,7 +170,7 @@
                     <th>Item</th>
                     <th class="text-end">Total</th>
                 </tr>
-                @foreach ($invoice->appointment->job->services as $key => $service)
+                @foreach ($invoice->job->services as $key => $service)
                     <tr>
                         <td class="text-center">{{ $key + 1 }}</td>
                         <td>
@@ -185,11 +185,11 @@
                 <tr>
                     <td colspan="2" class="text-uppercase text-end">Tax ({{ Auth::user()->settings->tax }}%)</td>
                     <td class="text-end h4"><span id="total-invoice"
-                            style="font-size: 16px">${{ number_format($invoice->appointment->job->total_tax,2) }}</span></td>
+                            style="font-size: 16px">${{ number_format($invoice->job->total_tax,2) }}</span></td>
                 </tr>
                 <tr>
                     <td colspan="2" class="fw-bold text-uppercase text-end">Total</td>
-                    <td class="fw-bold text-end h4"><span id="total-invoice">${{ number_format($invoice->appointment->job->total_amount,2) }}</span></td>
+                    <td class="fw-bold text-end h4"><span id="total-invoice">${{ number_format($invoice->job->total_amount,2) }}</span></td>
                 </tr>
             </tbody>
         </table>
@@ -197,7 +197,7 @@
     <p style="text-align: center;margin-top:50px;">Payments history:</p>
     <table style="width: 50%;border-spacing: 0px;border-collapse: collapse; border-style: outset;" align="right"
         border=0>
-        @foreach ($invoice->appointment->job->payments as $payment)
+        @foreach ($invoice->job->payments as $payment)
             <tr>
                 <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d Y') }}</td>
                 <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('g:i A') }}</td>
