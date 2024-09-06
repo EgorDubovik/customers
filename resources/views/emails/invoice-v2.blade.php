@@ -67,38 +67,38 @@
                               <td style="text-align: center; padding: 10px;color: #767676; ">Quantity</td>
                               <td style="text-align: right; padding: 10px; color: #767676;">Price</td>
                            </tr>
-                           @foreach ($invoice->appointment->services as $service)
+                           @foreach ($invoice->appointment->job->services as $service)
                            <tr>
                               <td style="padding: 10px; border-bottom:1px solid #ccc">
                                  <p style="margin: 5px 0;"><b>{{ $service->title }}</b></p>
                                  <p style="color: #666666; margin: 5px 0;">{{ $service->description }}</p>
                               </td>
                               <td style="text-align: center; border-bottom:1px solid #ccc">1</td>
-                              <td style="text-align: right; border-bottom:1px solid #ccc">{{ $service->price }}</td>
+                              <td style="text-align: right; border-bottom:1px solid #ccc">{{ number_format($service->price,2) }}</td>
                            </tr>
                              
                            @endforeach
                            
-                           <tr>
+                           {{-- <tr>
                               <td colspan="2" style="text-align: right;">
                                  <p style="margin: 5px 0; color: #666666; text-align: right">Subtotal:</p>
                                  
                               </td>
                               <td style="text-align: right;">${{ $subtotal }}</td>
-                           </tr>
+                           </tr> --}}
                            <tr>
                               <td colspan="2" style="text-align: right;">
                                  <p style="margin: 5px 0; color: #666666;text-align: right">Tax:</p>
                                  
                               </td>
-                              <td style="text-align: right;">${{ $tax }}</td>
+                              <td style="text-align: right;">${{ number_format($invoice->appointment->job->total_tax,2) }}</td>
                            </tr>
                            <tr>
                               <td colspan="2" style="text-align: right;">
                                  <p style="margin: 5px 0; color: #666666;text-align: right">Total</p>
                                  
                               </td>
-                              <td style="text-align: right;">${{ $total }}</td>
+                              <td style="text-align: right;">${{ number_format($invoice->appointment->job->total_amount,2) }}</td>
                            </tr>
 
                         </table>
@@ -109,7 +109,7 @@
                            <tr>
                               <td width="50%">
                                  <table width="100%" style="color: #666666;">
-                                    @foreach ($invoice->appointment->payments as $payment)
+                                    @foreach ($invoice->appointment->job->payments as $payment)
                                        <tr>
                                           <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $payment->created_at)->format('M d Y') }}</td>
                                           <td>{{ App\Models\Payment::getPaymentTypeText($payment->payment_type) }}</td>
@@ -120,7 +120,7 @@
                                  </table>
                               </td>
                               <td width="50%" align="center" style="font-weight: bold; color: #007bff;">
-                                 Total due: ${{ $due }}
+                                 Total due: ${{ number_format($invoice->appointment->job->remaining_balance,2) }}
                               </td>
                            </tr>
                         </table>
