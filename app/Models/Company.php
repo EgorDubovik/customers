@@ -11,7 +11,7 @@ class Company extends Model
     use HasFactory;
 
     protected $table = 'company';
-
+    protected $appends = ['fullAddress'];
     protected $fillable = [
         'name',
         'phone',
@@ -49,5 +49,13 @@ class Company extends Model
 
     public function techs(){
         return $this->hasMany(User::class);
+    }
+
+    public function getFullAddressAttribute(){
+        return $this->getFullAddress();
+    }
+
+    private function getFullAddress(){
+        return $this->address->line1 . ' ' . $this->address->line2 . ', ' . $this->address->city . ' ' . $this->address->state . ' ' . $this->address->zip;
     }
 }

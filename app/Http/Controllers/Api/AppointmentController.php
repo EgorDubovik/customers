@@ -41,7 +41,7 @@ class AppointmentController extends Controller
                 'title' => $appointment->job->customer->name,
                 'status' => $appointment->status,
                 'bg' => $appointment->techs->first()->color ?? '#1565c0',
-                
+
             ];
         }
 
@@ -164,9 +164,6 @@ class AppointmentController extends Controller
 
         $this->authorize('update-remove-appointment', $appointment);
 
-        foreach ($appointment->techs as $tech) {
-            Mail::to($tech->email)->send(new DeleteAppointment($appointment));
-        }
         $appointment->techs()->detach();
         $appointment->delete();
 

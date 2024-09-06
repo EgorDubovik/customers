@@ -16,6 +16,7 @@ class Payment extends Model
     public const TRANSFER = 4;
     public const TYPE = ['credit','cash','check','transfer'];
 
+    protected $appends = ['type_text'];
     protected $table = 'payments';
     protected $fillable = [
         'job_id',
@@ -46,5 +47,10 @@ class Payment extends Model
     public function tech() {
         return $this->belongsTo(User::class,'id','tech_id');
     }
+
+    public function getTypeTextAttribute(){
+        return self::getPaymentTypeText($this->payment_type);
+    }
+    
     
 }

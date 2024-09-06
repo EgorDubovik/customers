@@ -49,24 +49,24 @@ class InvoiceController extends Controller
             return response()->json(['error' => 'Appointment not found'], 404);
 
         Gate::authorize('create-invoice',['appointment' => $appointment]);
-        
-        $company = $appointment->company->load('address');
-        if(!$company)
-            return response()->json(['error' => 'Company not found'], 404);
-        $appointment->load('customer','services','address','notes','payments');
-        
-        list($tax,$subtotal, $total, $paid, $due) = $this->getTaxAndTotal($appointment);
 
-        $appointment->tax = $tax;
-        $appointment->subtotal = $subtotal;
-        $appointment->due = $due;
-        $appointment->total = $total;
-
-        foreach($appointment->payments as $payment){
-            $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
+        $invoice['id'] = Invoice::count() + 1;
+        $invoice['company'] = $appointment->company->makeHidden(['created_at', 'updated_at','address_id','address','id']);
+        $invoice['customer'] = $appointment->customer = $appointment->job->customer->makeHidden(['created_at', 'updated_at','id','company_id','address_id']);
+        $invoice['address'] = $appointment->job->address->full;
+        $invoice['due'] = $appointment->job->remaining_balance;
+        $invoice['services'] = $appointment->job->services->makeHidden(['created_at', 'updated_at','job_id','id']);
+        $invoice['payments'] = $appointment->job->payments->makeHidden(['updated_at','job_id','id','tech_id','payment_type','company_id']);
+        $invoice['total'] = 0;
+        $invoice['tax'] = 0;
+        foreach($invoice['services'] as $service){
+            $invoice['total'] += $service->price;
+            // When you change settings modal, you should change this line and add tax to modal as attribute to not calculate it here
+            $invoice['tax'] += $service->price * ($service->taxable ? Auth::user()->settings->tax/100 : 0);    
         }
+        $invoice['total'] += $invoice['tax'];
 
-        return response()->json(['appointment'=>$appointment,'company'=>$company], 200);
+        return response()->json(['invoice'=>$invoice], 200);
     }
 
     public function send(Request $request, $appointment_id){
