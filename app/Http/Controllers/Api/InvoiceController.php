@@ -36,7 +36,7 @@ class InvoiceController extends Controller
         foreach($invoices as $invoice){
             $invoice->creator;
             if($invoice->appointment)
-                $invoice->amount = $invoice->appointment->totalPaid();
+                $invoice->amount = $invoice->appointment->job->total_paid;
             else 
                 $invoice->amount = 0;
         }
@@ -57,14 +57,8 @@ class InvoiceController extends Controller
         $invoice['due'] = $appointment->job->remaining_balance;
         $invoice['services'] = $appointment->job->services->makeHidden(['created_at', 'updated_at','job_id','id']);
         $invoice['payments'] = $appointment->job->payments->makeHidden(['updated_at','job_id','id','tech_id','payment_type','company_id']);
-        $invoice['total'] = 0;
-        $invoice['tax'] = 0;
-        foreach($invoice['services'] as $service){
-            $invoice['total'] += $service->price;
-            // When you change settings modal, you should change this line and add tax to modal as attribute to not calculate it here
-            $invoice['tax'] += $service->price * ($service->taxable ? Auth::user()->settings->tax/100 : 0);    
-        }
-        $invoice['total'] += $invoice['tax'];
+        $invoice['total'] = $appointment->job->total_amount;
+        $invoice['tax'] = $appointment->job->total_tax;
 
         return response()->json(['invoice'=>$invoice], 200);
     }
@@ -73,17 +67,8 @@ class InvoiceController extends Controller
         $appointment = Appointment::find($appointment_id);
         if(!$appointment)
             return response()->json(['error' => 'Appointment not found'], 404);
-        $appointment->load('customer','services','address','notes','payments');
 
         Gate::authorize('create-invoice',['appointment' => $appointment]);
-
-        $company = $appointment->company->load('address');
-        if(!$company)
-            return response()->json(['error' => 'Company not found'], 404);
-       
-        foreach($appointment->payments as $payment){
-            $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
-        }
 
         try{
             DB::beginTransaction();
@@ -91,11 +76,11 @@ class InvoiceController extends Controller
             $invoice = Invoice::create([
                 'creator_id'        => Auth::user()->id,
                 'company_id'        => Auth::user()->company_id,
-                'customer_id'       => $appointment->customer_id,
+                'customer_id'       => $appointment->job->customer_id,
                 'appointment_id'    => $appointment->id,
-                'customer_name'     => $appointment->customer->name,
-                'address'           => $appointment->address->full,
-                'email'             => $appointment->customer->email,
+                'customer_name'     => $appointment->job->customer->name,
+                'address'           => $appointment->job->address->full,
+                'email'             => $appointment->job->customer->email,
                 'status'            => 0,
                 'key'               => $key,
                 'pdf_path'          => null,
@@ -118,9 +103,7 @@ class InvoiceController extends Controller
 
     private function createPDF(Invoice $invoice){
         
-        list($tax, $subtotal, $total, $paid, $due) = $this->getTaxAndTotal($invoice->appointment);
-
-        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due,'tax'=>$tax]);
+        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice]);
         $content = $pdf->download()->getOriginalContent();
         $filename = (env('APP_DEBUG') ? 'debug-' : "").'Invoice_'.date('m-d-Y').'-'.time().Str::random(50).'.pdf';
         Storage::disk('s3')->put('invoices/'.$filename, $content);
@@ -130,21 +113,6 @@ class InvoiceController extends Controller
     private function sendEmail(Invoice $invoice){
         $file = env('AWS_FILE_ACCESS_URL').'invoices/'.$invoice->pdf_path;
         Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
-    }
-
-    private function getTaxAndTotal(Appointment $appointment){
-
-        $tax = $appointment->totalTax();
-        $subtotal = $appointment->totalAmount();
-        $total = $subtotal + $tax;
-        $paid = $appointment->totalPaid();
-        $due = $total - $paid;
-
-        $due = ($due <= 0) ? '00.00' : number_format($due,2);
-        $total = number_format($total,2); 
-        $tax = number_format($tax,2);
-        
-        return [$tax, $subtotal ,$total, $paid, $due];
     }
 
     function download(Request $request, $appointment_id){
@@ -161,18 +129,16 @@ class InvoiceController extends Controller
         $invoice = new Invoice();
         $invoice->id = $lastInvoice->id + 1;
         $invoice->appointment = $appointment;
-        $invoice->company = $appointment->company;
-        $invoice->customer= $appointment->customer;
-        $invoice->address = $appointment->address->full;
-        $invoice->email = $appointment->customer->email;
+        $invoice->company = $appointment->job->company;
+        $invoice->customer= $appointment->job->customer;
+        $invoice->address = $appointment->job->address->full;
+        $invoice->email = $appointment->job->customer->email;
         $invoice->status = 0;
 
-        
-
-        list($tax, $subtotal, $total, $paid, $due) = $this->getTaxAndTotal($appointment);
-        
-        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice,'total'=>$total,'due'=>$due,'tax'=>$tax]);
+        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice]);
         
         return $pdf->stream('invoice.pdf');
     }
+
+
 }

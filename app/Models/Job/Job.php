@@ -21,7 +21,7 @@ class Job extends Model
         'address_id',
     ];
 
-    protected $appends = ['total_paid','remaining_balance'];
+    protected $appends = ['total_paid','remaining_balance','total_tax','total_amount'];
 
     public function customer()
     {
@@ -99,11 +99,11 @@ class Job extends Model
         foreach($this->services as $service){
             $total += $service->price;
         }
-        return $total;
+        return $total+$this->totalTax();
     }
 
     public function remainingBalance()
     {
-        return round($this->totalAmount() + $this->totalTax() - $this->totalPaid(),2);
+        return round($this->totalAmount() - $this->totalPaid(),2);
     }
 }
