@@ -80,7 +80,10 @@ class AppointmentController extends Controller
         $appointment->expenses = $appointment->job->expenses;
         $appointment->services = $appointment->job->services()->get(['id', 'title', 'description', 'price', 'taxable']);
         $appointment->payments = $appointment->job->payments;
-        $appointment->job->load('appointments.techs');
+        $appointment->job->load(['appointments' => function($query){
+            $query->orderBy('start','desc');
+        }, 'appointments.techs']);
+        
 
         return response()->json(['appointment' => $appointment], 200);
     }
@@ -189,9 +192,7 @@ class AppointmentController extends Controller
     // Appointment Techs
     public function removeTech(Request $request, $appointment_id, $tech_id)
     {
-        $appointment = Appointment::find($appointment_id);
-        if (!$appointment)
-            return response()->json(['error' => 'Appointment not found'], 404);
+        $appointment = $this->isValidAppointment($appointment_id);
 
         $this->authorize('add-tech-to-appointment', [$appointment, $tech_id]);
 
@@ -202,9 +203,7 @@ class AppointmentController extends Controller
 
     public function addTech(Request $request, $appointment_id)
     {
-        $appointment = Appointment::find($appointment_id);
-        if (!$appointment)
-            return response()->json(['error' => 'Appointment not found'], 404);
+        $appointment = $this->isValidAppointment($appointment_id);
 
         $appointment->techs()->detach();
         foreach ($request->techs as $tech_id) {
@@ -213,6 +212,32 @@ class AppointmentController extends Controller
         }
 
         return response()->json(['message' => 'Tech added to appointment'], 200);
+    }
+
+    // Create copy of appointment
+    public function copy(Request $request, $appointment_id){
+        $appointment = $this->isValidAppointment($appointment_id);
+        $this->authorize('update-remove-appointment', $appointment);
+
+        $newAppointment = $appointment->replicate();
+        $newAppointment->start = Carbon::parse($request->timeFrom)->setSecond(0);
+        $newAppointment->end =  Carbon::parse($request->timeTo)->setSecond(0);
+        $newAppointment->status = Appointment::ACTIVE;
+        $newAppointment->save();
+
+        // copy techs to new appointment
+        foreach ($appointment->techs as $tech) {
+            $newAppointment->techs()->attach($tech->id);
+        }
+        
+        // Finish current appointment id selected
+        if($request->isFinishCurerentAppointment){
+            $appointment->update([
+                'status' => Appointment::DONE,
+            ]);
+        }
+        
+        return response()->json(['message' => 'Appointment copied','appointment'=>$newAppointment], 200);
     }
 
 

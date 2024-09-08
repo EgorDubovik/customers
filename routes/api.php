@@ -86,7 +86,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('appointment')->group(function () {
 
             // All appointments for calendar
-            Route::get('/', [AppointmentController::class, 'indewx']);
+            Route::get('/', [AppointmentController::class, 'index']);
 
             // Base appointment API
             Route::get('/{id}', [AppointmentController::class, 'view']);
@@ -123,6 +123,8 @@ Route::prefix('v1')->group(function () {
             // Job expances
             Route::post('expense/{job_id}', [ExpenseController::class, 'store']);
             Route::delete('expense/{expense_id}', [ExpenseController::class, 'delete']);
+
+            Route::post('/copy/{appointment_id}', [AppointmentController::class, 'copy']);
         });
 
         // Invoices
