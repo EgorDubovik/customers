@@ -1,5 +1,5 @@
 <?php
-use App\Http\Controllers\Api\Appointment\PaymentController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
 use Illuminate\Support\Facades\Route;

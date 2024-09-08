@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Appointment;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Carbon\CarbonPeriod;
 use App\Models\Job\Job;
+use App\Models\Role;
 
 class PaymentController extends Controller
 {
@@ -27,11 +28,14 @@ class PaymentController extends Controller
         foreach ($datesInRange as $date) {
             $formattedDate = $date->toDateString();
             $payments = Payment::where('company_id',$request->user()->company_id)
+                ->where(function($query) use ($request){
+                    if(!$request->user()->isRole([Role::ADMIN, Role::DISP]))
+                        $query->where('tech_id',$request->user()->id);
+                })
                 ->whereDate('created_at', $formattedDate)
-                ->with('appointment.customer')
+                ->with('job.customer')
                 ->get(); 
             foreach($payments as $payment){
-                $payment->payment_type = Payment::TYPE[$payment->payment_type - 1] ?? 'undefined';
                 if (!in_array($payment->tech_id, $techs_id))
                     $techs_id[] = $payment->tech_id;
             }
