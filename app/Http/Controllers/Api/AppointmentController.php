@@ -83,6 +83,7 @@ class AppointmentController extends Controller
         $appointment->job->load(['appointments' => function($query){
             $query->orderBy('start','desc');
         }, 'appointments.techs']);
+        $appointment->images = $appointment->job->images;
         
 
         return response()->json(['appointment' => $appointment], 200);

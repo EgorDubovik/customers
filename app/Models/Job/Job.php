@@ -9,6 +9,7 @@ use App\Models\Addresses;
 use App\Models\Payment;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Job\Image;
 
 class Job extends Model
 {
@@ -19,6 +20,7 @@ class Job extends Model
         'company_id',
         'status',
         'address_id',
+
     ];
 
     protected $appends = ['total_paid','remaining_balance','total_tax','total_amount'];
@@ -46,6 +48,9 @@ class Job extends Model
         return $this->hasMany(Service::class);
     }
 
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
 
     public function payments()
     {

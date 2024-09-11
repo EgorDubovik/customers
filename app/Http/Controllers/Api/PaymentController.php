@@ -34,6 +34,7 @@ class PaymentController extends Controller
                 })
                 ->whereDate('created_at', $formattedDate)
                 ->with('job.customer')
+                ->with('job.appointments')
                 ->get(); 
             foreach($payments as $payment){
                 if (!in_array($payment->tech_id, $techs_id))

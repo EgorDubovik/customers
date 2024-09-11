@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Job;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use App\Models\AppointmentImage;
+use App\Models\Job\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManagerStatic as Imagec;
 
-class AppointmentImages extends Controller
+class JobImages extends Controller
 {
    function store(Request $request, $appointment_id)
    {
@@ -25,7 +25,7 @@ class AppointmentImages extends Controller
       $filePath = 'images/app'.$appointment_id.'-' . time() . '_' . $request->image->hashName();
       $s3path = env('AWS_FILE_ACCESS_URL');
 
-      $image = Image::make($request->image);
+      $image = Imagec::make($request->image);
       if ($image->width() > env('UPLOAD_WIDTH_SIZE'))
          $image->resize(env('UPLOAD_WIDTH_SIZE'), null, function ($constraint) {
             $constraint->aspectRatio();
@@ -35,7 +35,7 @@ class AppointmentImages extends Controller
       $path = Storage::disk('s3')->put($filePath, $image);
       if (!$path)
          return response()->json(['error' => 'Something went wrong'], 500);
-      AppointmentImage::create([
+      Image::create([
          'appointment_id' => $appointment_id,
          'path' => $s3path.$filePath,
          'owner_id' => Auth::user()->id,
