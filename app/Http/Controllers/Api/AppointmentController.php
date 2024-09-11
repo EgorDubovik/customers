@@ -20,30 +20,51 @@ class AppointmentController extends Controller
 
     public function index(Request $request)
     {
-        $appointments = Appointment::where('company_id', $request->user()->company_id)
+        // $appointments = Appointment::where('company_id', $request->user()->company_id)
+        //     ->where(function ($query) use ($request) {
+        //         if (!$request->user()->isRole([Role::ADMIN, Role::DISP]))
+        //             $query->whereHas('techs', function ($query) use ($request) {
+        //                 $query->where('tech_id', $request->user()->id);
+        //             });
+        //     })
+        //     ->get();
+
+
+
+        // $returnAppointments = [];
+        // foreach ($appointments as $appointment) {
+
+        //     $returnAppointments[] = [
+        //         'id' => $appointment->id,
+        //         'start' => $appointment->start,
+        //         'end' => $appointment->end,
+        //         'title' => $appointment->job->customer->name,
+        //         'status' => $appointment->status,
+        //         'bg' => $appointment->techs->first()->color ?? '#1565c0',
+
+        //     ];
+        // }
+        $appointments = Appointment::with(['job.customer', 'techs'])
+            ->where('company_id', $request->user()->company_id)
             ->where(function ($query) use ($request) {
-                if (!$request->user()->isRole([Role::ADMIN, Role::DISP]))
+                if (!$request->user()->isRole([Role::ADMIN, Role::DISP])) {
                     $query->whereHas('techs', function ($query) use ($request) {
                         $query->where('tech_id', $request->user()->id);
                     });
+                }
             })
             ->get();
 
-
-
-        $returnAppointments = [];
-        foreach ($appointments as $appointment) {
-
-            $returnAppointments[] = [
+        $returnAppointments = $appointments->map(function ($appointment) {
+            return [
                 'id' => $appointment->id,
                 'start' => $appointment->start,
                 'end' => $appointment->end,
                 'title' => $appointment->job->customer->name,
                 'status' => $appointment->status,
                 'bg' => $appointment->techs->first()->color ?? '#1565c0',
-
             ];
-        }
+        });
 
         return response()->json(['appointments' => $returnAppointments], 200);
     }
@@ -80,11 +101,11 @@ class AppointmentController extends Controller
         $appointment->expenses = $appointment->job->expenses;
         $appointment->services = $appointment->job->services()->get(['id', 'title', 'description', 'price', 'taxable']);
         $appointment->payments = $appointment->job->payments;
-        $appointment->job->load(['appointments' => function($query){
-            $query->orderBy('start','desc');
+        $appointment->job->load(['appointments' => function ($query) {
+            $query->orderBy('start', 'desc');
         }, 'appointments.techs']);
         $appointment->images = $appointment->job->images;
-        
+
 
         return response()->json(['appointment' => $appointment], 200);
     }
@@ -216,7 +237,8 @@ class AppointmentController extends Controller
     }
 
     // Create copy of appointment
-    public function copy(Request $request, $appointment_id){
+    public function copy(Request $request, $appointment_id)
+    {
         $appointment = $this->isValidAppointment($appointment_id);
         $this->authorize('update-remove-appointment', $appointment);
 
@@ -230,15 +252,15 @@ class AppointmentController extends Controller
         foreach ($appointment->techs as $tech) {
             $newAppointment->techs()->attach($tech->id);
         }
-        
+
         // Finish current appointment id selected
-        if($request->isFinishCurerentAppointment){
+        if ($request->isFinishCurerentAppointment) {
             $appointment->update([
                 'status' => Appointment::DONE,
             ]);
         }
-        
-        return response()->json(['message' => 'Appointment copied','appointment'=>$newAppointment], 200);
+
+        return response()->json(['message' => 'Appointment copied', 'appointment' => $newAppointment], 200);
     }
 
 

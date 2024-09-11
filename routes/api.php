@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\BookAppointmentOnlineController;
 use App\Http\Controllers\Api\CustomersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AppointmentController;
-use App\Http\Controllers\Api\AppointmentImages;
 use App\Http\Controllers\Api\Company\CompanyServicesController;
 use App\Http\Controllers\Api\Company\CompanyTechController;
 use App\Http\Controllers\Api\InvoiceController;
