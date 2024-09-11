@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\Job\JobNotesController;
 use App\Http\Controllers\Api\Job\ExpenseController;
+use App\Http\Controllers\Api\Job\JobImagesController;
 use App\Http\Controllers\Api\Job\JobServicesController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReviewFeedbackController;
@@ -117,8 +118,8 @@ Route::prefix('v1')->group(function () {
             Route::post('{appointment_id}/invoice-send', [InvoiceController::class, 'send']);
 
             // Appointment images
-            Route::post('images/{appointment_id}', [AppointmentImages::class, 'store']);
-            Route::get('images/{appointment_id}', [AppointmentImages::class, 'index']);
+            Route::post('images/{appointment_id}', [JobImagesController::class, 'store']);
+            Route::get('images/{appointment_id}', [JobImagesController::class, 'index']);
 
             // Job expances
             Route::post('expense/{job_id}', [ExpenseController::class, 'store']);

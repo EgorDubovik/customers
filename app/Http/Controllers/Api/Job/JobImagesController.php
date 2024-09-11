@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\ImageManagerStatic as Imagec;
 
-class JobImages extends Controller
+class JobImagesController extends Controller
 {
    function store(Request $request, $appointment_id)
    {
