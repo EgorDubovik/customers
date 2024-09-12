@@ -78,6 +78,8 @@ Route::prefix('v1')->group(function () {
             Route::prefix('tags')->group(function () {
                 Route::get('/', [CompanyTagController::class, 'index']);
                 Route::post('/', [CompanyTagController::class, 'store']);
+                Route::delete('/{id}', [CompanyTagController::class, 'delete']);
+                Route::put('/{id}', [CompanyTagController::class, 'update']);
             });
 
         });

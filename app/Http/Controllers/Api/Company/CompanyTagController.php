@@ -30,4 +30,35 @@ class CompanyTagController extends Controller
 
         return response()->json($companyTag);
     }
+
+    public function update(Request $request, $id){
+
+        $companyTag = CompanyTag::find($id);
+        if(!$companyTag){
+            return response()->json(['message' => 'Company Tag not found'], 404);
+        }
+        
+        $this->authorize('update', $companyTag);
+
+        $request->validate([
+            'title' => 'required',
+            'color' => 'required',
+        ]);
+
+        $companyTag->title = $request->title;
+        $companyTag->color = $request->color;
+        $companyTag->save();
+
+        return response()->json($companyTag);
+    }
+
+    public function delete(Request $request,  $id){
+        $companyTag = CompanyTag::find($id);
+        if(!$companyTag){
+            return response()->json(['message' => 'Company Tag not found'], 404);
+        }
+        $this->authorize('delete', $companyTag);
+        $companyTag->delete();
+        return response()->json(['message' => 'Company Tag deleted successfully']);
+    }
 }

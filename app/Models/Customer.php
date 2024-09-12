@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CompanySettings\CompanyTag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -50,7 +51,7 @@ class Customer extends Model
     }
 
     public function tags(){
-        return $this->belongsToMany(Tag::class,'customer_tags');
+        return $this->belongsToMany(CompanyTag::class, 'customer_tags', 'customer_id', 'tag_id');
     }
 
     public function notes(){
