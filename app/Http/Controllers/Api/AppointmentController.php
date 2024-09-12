@@ -4,14 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
-use App\Models\AppointmentNotes;
-use App\Models\Note;
 use Illuminate\Http\Request;
-use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\DeleteAppointment;
 use App\Models\Job\Job;
 use App\Models\Role;
 
@@ -20,30 +15,6 @@ class AppointmentController extends Controller
 
     public function index(Request $request)
     {
-        // $appointments = Appointment::where('company_id', $request->user()->company_id)
-        //     ->where(function ($query) use ($request) {
-        //         if (!$request->user()->isRole([Role::ADMIN, Role::DISP]))
-        //             $query->whereHas('techs', function ($query) use ($request) {
-        //                 $query->where('tech_id', $request->user()->id);
-        //             });
-        //     })
-        //     ->get();
-
-
-
-        // $returnAppointments = [];
-        // foreach ($appointments as $appointment) {
-
-        //     $returnAppointments[] = [
-        //         'id' => $appointment->id,
-        //         'start' => $appointment->start,
-        //         'end' => $appointment->end,
-        //         'title' => $appointment->job->customer->name,
-        //         'status' => $appointment->status,
-        //         'bg' => $appointment->techs->first()->color ?? '#1565c0',
-
-        //     ];
-        // }
         $appointments = Appointment::with(['job.customer', 'techs'])
             ->where('company_id', $request->user()->company_id)
             ->where(function ($query) use ($request) {

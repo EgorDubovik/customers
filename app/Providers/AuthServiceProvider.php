@@ -12,12 +12,14 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Appointment;
+use App\Models\CompanySettings\CompanyTag;
 use App\Models\Job\Job;
 use App\Models\Job\Notes;
 use App\Models\Job\Service as JobService;
 use App\Models\Payment;
 use App\Models\StorageItems;
 use App\Policies\JobServicePolicy;
+use App\Policies\CompanyTagPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -31,6 +33,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         JobService::class => JobServicePolicy::class,
+        CompanyTag::class => CompanyTagPolicy::class,
     ];
 
     /**

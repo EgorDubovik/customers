@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Job\JobServicesController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReviewFeedbackController;
 use App\Http\Controllers\Api\StorageItemsController;
+use App\Http\Controllers\Api\Company\CompanyTagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,10 @@ Route::prefix('v1')->group(function () {
                 Route::post('/working-time', [BookAppointmentController::class, 'workingTime']);
                 Route::post('/update', [BookAppointmentController::class, 'update']);
                 Route::post('/update-services', [BookAppointmentController::class, 'updateServices']);
+            });
+            Route::prefix('tags')->group(function () {
+                Route::get('/', [CompanyTagController::class, 'index']);
+                Route::post('/', [CompanyTagController::class, 'store']);
             });
 
         });
