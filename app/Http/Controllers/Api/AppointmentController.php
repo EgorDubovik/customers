@@ -69,9 +69,7 @@ class AppointmentController extends Controller
                     ],
                 ];
             });
-        $appointment->expenses = $appointment->job->expenses;
-        $appointment->services = $appointment->job->services()->get(['id', 'title', 'description', 'price', 'taxable']);
-        $appointment->payments = $appointment->job->payments;
+        $appointment->expenses = $appointment->job->expenses;        
         $appointment->job->load(['appointments' => function ($query) {
             $query->orderBy('start', 'desc');
         }, 'appointments.techs']);

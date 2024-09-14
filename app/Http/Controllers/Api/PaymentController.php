@@ -103,4 +103,33 @@ class PaymentController extends Controller
 
         return response()->json(['message' => 'Payment deleted'], 200);
     }
+
+    public function refund(Request $request, $job_id){
+        $job = Job::find($job_id);
+        if (!$job)
+            return response()->json(['error' => 'Job not found'], 404);
+
+        $this->authorize('refund', $job);
+
+        $request->validate([
+            'amount' => 'required|numeric',
+        ]);
+
+        $paymentType = 0;
+        foreach (Payment::TYPE as $key => $type) {
+            if (Str::lower($type) == Str::lower($request->payment_type)) {
+                $paymentType = $key + 1;
+                break;
+            }
+        }
+
+        $payment = $job->payments()->create([
+            'amount' => $request->amount * -1,
+            'payment_type' => $paymentType,
+            'company_id' => $request->user()->company_id,
+            'tech_id' => $request->user()->id,
+        ]);
+
+        return response()->json(['payment' => $payment], 200);
+    }
 }

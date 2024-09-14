@@ -135,6 +135,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('pay-job', function(User $user, Job $job){
             return $user->company_id === $job->company_id;
         });
+        Gate::define('refund',function(User $user, Job $job){
+            return $user->company_id === $job->company_id && $user->isRole([Role::ADMIN, Role::DISP]);
+        });
 
         //Job notes
         Gate::define('store-job-note',function (User $user, Job $job){

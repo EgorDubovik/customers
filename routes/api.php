@@ -118,6 +118,7 @@ Route::prefix('v1')->group(function () {
 
             // job payments
             Route::post('payment/{job_id}', [PaymentController::class, 'store']);
+            Route::post('payment/refund/{job_id}', [PaymentController::class, 'refund']);
 
             // Appointment invoice
             Route::get('invoice/{appointment_id}', [InvoiceController::class, 'create']);
