@@ -216,6 +216,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('edit-company',function (User $user, Company $company){
             return (in_array(Role::ADMIN,Auth::user()->roles->pluck('role')->toArray()) && Auth::user()->company_id == $company->id );
         });
+        Gate::define('change-company-settings', function(User $user){
+            return $user->isRole([Role::ADMIN]);
+        });
 
         // Invoice
         Gate::define('can-view-invoice', function(User $user, Invoice $invoice){
