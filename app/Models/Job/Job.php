@@ -8,7 +8,7 @@ use App\Models\Customer;
 use App\Models\Addresses;
 use App\Models\Payment;
 use App\Models\Appointment;
-use App\Models\CompanySettings\CompanySettings;
+use App\Models\CompanySettings\GeneralInfoSettings;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job\Image;
 
@@ -94,7 +94,7 @@ class Job extends Model
         $tax = 0;
         foreach($this->services as $service){
             if($service->taxable)
-                $tax += $service->price * CompanySettings::getSettingByKey(Auth::user()->company_id,'taxRate')/100;
+                $tax += $service->price * GeneralInfoSettings::getSettingByKey(Auth::user()->company_id,'taxRate')/100;
         }
         return $tax;
     }

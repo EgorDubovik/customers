@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Company;
 
-class CompanySettings extends Model
+class GeneralInfoSettings extends Model
 {
     use HasFactory;
 
