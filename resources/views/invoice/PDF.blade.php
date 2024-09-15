@@ -183,7 +183,7 @@
                     </tr>
                 @endforeach
                 <tr>
-                    <td colspan="2" class="text-uppercase text-end">Tax ({{ Auth::user()->settings->tax }}%)</td>
+                    <td colspan="2" class="text-uppercase text-end">Tax ({{ App\Models\CompanySettings\CompanySettings::getSettingByKey(Auth::user()->company_id,'taxRate')}}%)</td>
                     <td class="text-end h4"><span id="total-invoice"
                             style="font-size: 16px">${{ number_format($invoice->job->total_tax,2) }}</span></td>
                 </tr>

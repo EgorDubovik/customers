@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\ReviewFeedbackController;
 use App\Http\Controllers\Api\StorageItemsController;
 use App\Http\Controllers\Api\Company\CompanyTagController;
+use App\Http\Controllers\Api\Company\CompanySettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +60,8 @@ Route::prefix('v1')->group(function () {
 
         // Company settings
         Route::prefix('company/settings')->group(function () {
-
+            Route::get('/', [CompanySettingsController::class, 'index']);
+            Route::put('/', [CompanySettingsController::class, 'update']);
             //Services
             Route::prefix('services')->group(function () {
                 Route::get('/', [CompanyServicesController::class, 'index']);
