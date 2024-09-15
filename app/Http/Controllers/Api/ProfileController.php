@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\CompanySettings\CompanySettings;
+use App\Models\CompanySettings\GeneralInfoSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,7 +12,7 @@ class ProfileController extends Controller
     public function show(Request $request){
         $user = $request->user();
         $user->rolesArray = $user->roles->pluck('role');
-        $companySettings = CompanySettings::getSettingsForCompany($user->company_id);
+        $companySettings = GeneralInfoSettings::getSettingsForCompany($user->company_id);
         return response()->json(['user' => $user, 'companySettings'=>$companySettings], 200);
     }
 

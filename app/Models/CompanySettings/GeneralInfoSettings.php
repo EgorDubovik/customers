@@ -10,6 +10,8 @@ class GeneralInfoSettings extends Model
 {
     use HasFactory;
 
+    protected $table = 'company_settings';
+
     public static $DEFAULT_SETTINGS = [
         'taxRate' => 0,
     ];
