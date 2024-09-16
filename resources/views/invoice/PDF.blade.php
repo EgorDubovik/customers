@@ -122,7 +122,7 @@
     <div class="row">
         <div class="col-6">
             @if ($invoice->company->logo)
-                <img src="{{ env('AWS_FILE_ACCESS_URL') . $invoice->company->logo }}" style="width: 170px;"
+                <img src="{{ $invoice->company->logo }}" style="width: 170px;"
                     class="header-brand-img logo-3" alt="Sash logo">
             @endif
             <p style="margin-top: 20px"><b>{{ $invoice->company->name }}</b></p>
