@@ -62,6 +62,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('company/settings')->group(function () {
             Route::get('/', [CompanySettingsController::class, 'index']);
             Route::put('/', [CompanySettingsController::class, 'update']);
+            Route::post('/logo', [CompanySettingsController::class, 'uploadLogo']);
             //Services
             Route::prefix('services')->group(function () {
                 Route::get('/', [CompanyServicesController::class, 'index']);

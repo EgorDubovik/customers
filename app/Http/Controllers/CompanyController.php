@@ -52,7 +52,7 @@ class CompanyController extends Controller
         return redirect()->route('profile')->with('success', 'Information has been updated successful');
     }
 
-    public function upload_logo(Request $request){
+    public function uploadLogo(Request $request){
         
         $company = Auth::user()->company;
         Gate::authorize('edit-company',['company'=> $company]);

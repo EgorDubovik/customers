@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\CompanySettings\CompanySettings;
+use App\Models\CompanySettings\GeneralInfoSettings;
 class Company extends Model
 {
     use HasFactory;
 
     protected $table = 'company';
-    protected $appends = ['fullAddress'];
+    protected $appends = ['fullAddress','logo'];
+
     protected $fillable = [
         'name',
         'phone',
@@ -19,6 +20,13 @@ class Company extends Model
         'address_id',
         'logo',
     ];
+
+   public function logo(): Attribute{
+        return Attribute::make(
+            get: fn($value) => env('AWS_FILE_ACCESS_URL').$value,
+            set: fn($value) => $value
+        );
+    }
 
     public function address(){
         return $this->hasOne(Addresses::class,'id','address_id');
@@ -31,6 +39,8 @@ class Company extends Model
         );
     }
 
+    
+
     public function services(){
         return $this->hasMany(Service::class);
     }
@@ -40,7 +50,7 @@ class Company extends Model
     }
 
     public function companySettings(){
-        return $this->hasOne(CompanySettings::class);
+        return $this->hasOne(GeneralInfoSettings::class);
     }
 
     public function bookAppointment(){
