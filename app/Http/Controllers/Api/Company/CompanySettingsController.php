@@ -63,7 +63,7 @@ class CompanySettingsController extends Controller
             Storage::disk('s3')->delete($company->logo);
         }
         
-        $company->logo = $filePath;
+        $company->logo = env('AWS_FILE_ACCESS_URL').$filePath;
         $company->save();
         return response()->json(['message' => 'Logo updated', 'newPath'=> env('AWS_FILE_ACCESS_URL').$filePath], 200);
     }
