@@ -34,8 +34,6 @@ class SendAppointmentReminder extends Command
         $currentTime = Carbon::now();
         $nextHour = Carbon::now()->addHour();
 
-        
-
         $appointments = Appointment::where('start','>=',$currentTime)
                                 ->where('start','<=',$nextHour)
                                 ->get();
