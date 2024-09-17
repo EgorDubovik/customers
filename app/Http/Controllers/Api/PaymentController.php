@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Appointment;
 use App\Models\Payment;
 use Illuminate\Support\Str;
 use Carbon\Carbon;

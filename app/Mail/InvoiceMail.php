@@ -3,13 +3,9 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
-use App\Model\Invoice;
-use Illuminate\Support\Str;
-use App\Models\ReferalLinksCode;
 class InvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -17,11 +13,15 @@ class InvoiceMail extends Mailable
     public $invoice;
     public $file;
     public $referralCode = null;
+    public $headerTitle;
+    public $company;
     
     public function __construct($invoice, $file)
     {
         $this->file = $file;
         $this->invoice = $invoice;
+        $this->headerTitle = 'Invoice';
+        $this->company = $invoice->company;
         // $this->referralCode = $this->getReferralCode();
     }
 
