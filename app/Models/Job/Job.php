@@ -19,9 +19,7 @@ class Job extends Model
     protected $fillable = [
         'customer_id',
         'company_id',
-        'status',
         'address_id',
-
     ];
 
     protected $appends = ['total_paid','remaining_balance','total_tax','total_amount'];

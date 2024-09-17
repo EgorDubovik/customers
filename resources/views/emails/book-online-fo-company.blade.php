@@ -8,22 +8,22 @@
 
    {{-- Body --}}
    <!-- Body here -->
-   <p>{{ $appointment->customer->name}}, made appointment</p>
+   <p>{{ $appointment->job->customer->name}}, made appointment</p>
     
    <div class="appointment-time">
       {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('l, F d, Y') }}<br>
       {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('g:i A') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s',$appointment->end)->format('g:i A') }}
    </div>
    <div class="appointment-services">
-      @foreach ($appointment->services as $service)
+      @foreach ($appointment->job->services as $service)
          <div class="appointment-service">{{ $service->title }} - ${{ $service->price }}</div>
       @endforeach
    </div>
    <br><br>
    <div class="customer-address">
-      {{ $appointment->address->line1 }}, {{ $appointment->address->line2 }}<br>
-      {{ $appointment->address->city }}, {{ $appointment->address->state }} {{ $appointment->address->zip }}<br>
-      {{ $appointment->customer->phone }}
+      {{ $appointment->job->address->line1 }}, {{ $appointment->job->address->line2 }}<br>
+      {{ $appointment->job->address->city }}, {{ $appointment->job->address->state }} {{ $appointment->job->address->zip }}<br>
+      {{ $appointment->job->customer->phone }}
    </div>
    <p style="margin-top:20px;text-align: center">
       <a style="background: #4772ff;color: #fff; padding: 10px; text-decoration: none;border-radius: 9px;" href="{{  route('appointment.show',$appointment->id) }}">Open appointment</a>

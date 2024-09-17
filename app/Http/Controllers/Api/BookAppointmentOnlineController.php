@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
 use App\Models\Addresses;
 use App\Models\Appointment;
-use App\Models\Service;
-use App\Models\AppointmentService;
 use App\Models\BookAppointmentProvider;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -18,6 +16,10 @@ use App\Mail\BookOnline;
 use App\Mail\BookOnlineForCompany;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DeleteAppointment;
+use App\Models\Job\Job;
+use App\Models\Service;
+use App\Models\Job\Service as JobService;
+use App\Models\AppointmentTechs;
 
 class BookAppointmentOnlineController extends Controller
 {
@@ -35,7 +37,7 @@ class BookAppointmentOnlineController extends Controller
 
         $returnCompanyJSON = [
             'key' => $key,
-            'logo' =>'https://edservice.s3.us-east-2.amazonaws.com/'.$company->logo,
+            'logo' => $company->logo,
             'phone' => $company->phone,
             'name' => $company->name,
             'services' => $company->bookAppointment->services,
@@ -87,10 +89,14 @@ class BookAppointmentOnlineController extends Controller
     
             $startTime = Carbon::createFromFormat('Y-m-d H:i:s',  $request->selectedDateTime);
             $endTime = $startTime->copy()->addHours(2);
-            $appointment = Appointment::create([
-                'customer_id' => $customer->id,
+            $job = Job::create([
                 'company_id' => $company->id,
+                'customer_id' => $customer->id,
                 'address_id' => $address->id,
+            ]);
+            $appointment = Appointment::create([
+                'job_id' => $job->id,
+                'company_id' => $company->id,
                 'start' => $startTime,
                 'end' => $endTime,
             ]);
@@ -100,8 +106,8 @@ class BookAppointmentOnlineController extends Controller
                     $company_service = Service::where('company_id',$company->id)
                                             ->where('id',$value)->first();
                     if($company_service){                        
-                        AppointmentService::create([
-                            'appointment_id' => $appointment->id,
+                        JobService::create([
+                            'job_id' => $job->id,
                             'title' => $company_service->title,
                             'description' => $company_service->description,
                             'price' => $company_service->price,
@@ -162,7 +168,7 @@ class BookAppointmentOnlineController extends Controller
             return response()->json(['error' => 'Appointment not found'],404);
 
         $services = [];
-        foreach($appointment->services as $key => $servcie){
+        foreach($appointment->job->services as $key => $servcie){
             $services[] = [
                 'title' => $servcie->title,
                 'price' => $servcie->price,
@@ -173,13 +179,13 @@ class BookAppointmentOnlineController extends Controller
             'providerKey' => $providerkey,
             'company' => [
                 'name' => $appointment->company->name,
-                'logo' => 'https://edservice.s3.us-east-2.amazonaws.com/'.$appointment->company->logo,
+                'logo' => $appointment->company->logo,
                 'phone' => $appointment->company->phone,
             ],
             'customer' => [
-                'name' => $appointment->customer->name,
-                'phone' => $appointment->customer->phone,
-                'address' => $appointment->address->full,
+                'name' => $appointment->job->customer->name,
+                'phone' => $appointment->job->customer->phone,
+                'address' => $appointment->job->address->full,
             ],
             'appointment' => [
                 'time1' => Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('M d').' at '.Carbon::createFromFormat('Y-m-d H:i:s',$appointment->start)->format('g:i A'),
@@ -204,17 +210,29 @@ class BookAppointmentOnlineController extends Controller
         $bookAppointment = BookAppointment::where('company_id',$bookAppointmentProvider->appointment->company_id)->first();
         $key = ($bookAppointment) ? $bookAppointment->key : null;
         
+        $errorsSendEmail = [];
         foreach($appointment->techs as $tech){
-            Mail::to($tech->email)->send(new DeleteAppointment($appointment));
+            try{
+                Mail::to($tech->email)->send(new DeleteAppointment($appointment));
+            } catch(\Exception $e){
+                $errorsSendEmail[] = $e->getMessage();
+            }
+            
         }
-
-        $appointment->services()->delete();
-        $appointment->appointmentTechs()->delete();
-        $appointment->delete();
-        $appointment->address->delete();
-        $appointment->customer->delete();
-        $bookAppointmentProvider->delete();
         
-        return response()->json(['success' => 'Appointment removed','key'=>$key],200);
+        try{
+            $appointment->job->services()->delete();
+            AppointmentTechs::where('appointment_id',$appointment->id)->delete();
+            $appointment->job->address()->delete();
+            $appointment->job->customer()->delete();
+            $appointment->job()->delete();
+            $appointment->delete();
+            $bookAppointmentProvider->delete();
+        } catch(\Exception $e){
+            $errorsSendEmail[] = $e->getMessage();
+        }
+        
+        
+        return response()->json(['success' => 'Appointment removed','key'=>$key, 'errors'=>$errorsSendEmail],200);
     }
 }
