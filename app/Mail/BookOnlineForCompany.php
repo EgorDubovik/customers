@@ -18,10 +18,15 @@ class BookOnlineForCompany extends Mailable
      * @return void
      */
     public $appointment;
+    public $headerTitle;
+    public $company;
+
     
     public function __construct($appointment)
     {
         $this->appointment = $appointment;
+        $this->headerTitle = 'New appointment online';
+        $this->company = $appointment->company;
     }
 
     /**
@@ -31,10 +36,11 @@ class BookOnlineForCompany extends Mailable
      */
     public function build()
     {
-        $company = $this->appointment->company;
-        return $this->markdown('emails.book-online-fo-company')
+        
+        return $this->from($this->company->email,$this->company->name)
+                    ->replyTo($this->company->email,$this->company->name)
                     ->subject('New appointment online')
-                    ->replyTo($company->email,$company->name)
-                    ->from($company->email,$company->name);
+                    ->markdown('emails.book-online-company');
+                    
     }
 }

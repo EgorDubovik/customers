@@ -32,7 +32,7 @@ class InvoiceMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invoice-v2')
+        return $this->view('emails.invoice-v2')
                     ->subject('New invoice')
                     ->attach($this->file,[
                         'as' => $this->invoice->pdf_url,

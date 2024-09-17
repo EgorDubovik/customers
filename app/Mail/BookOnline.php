@@ -20,11 +20,15 @@ class BookOnline extends Mailable
 
     public $appointment;
     public $key;
+    public $headerTitle;
+    public $company;
     
     public function __construct($appointment,$key)
     {
         $this->appointment = $appointment;
         $this->key = $key;
+        $this->headerTitle = 'New appointment online';
+        $this->company = $appointment->company;
     }
 
     /**
@@ -35,9 +39,10 @@ class BookOnline extends Mailable
     public function build()
     {
         $company = $this->appointment->company;
-        return $this->markdown('emails.book-online')
-                    ->subject('New appointment online')
+        return $this->from($company->email,$company->name)
                     ->replyTo($company->email,$company->name)
-                    ->from($company->email,$company->name);
+                    ->subject('New appointment online')
+                    ->view('emails.book-online-customer'); 
+                    
     }
 }
