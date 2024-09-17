@@ -18,7 +18,7 @@
                      <td style="font-size: 16px; color: #666666; line-height: 1.5; padding: 20px;">
                            <p>Appointment with: {{ $appointment->job->customer->name }}</p>
                            <p>Appointment Today at: {{ \Carbon\Carbon::parse($appointment->start)->format('g:i A') }}</p>
-                           <p>Location: {{ $appointment->job->address->full }}</p>
+                           <p>Location: <a href={{ "https://www.google.com/maps?q=".$appointment->job->address->full}}> {{ $appointment->job->address->full }}</a></p>
                      </td>
                   </tr>
                   
