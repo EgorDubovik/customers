@@ -20,7 +20,6 @@ class BookOnlineForCompany extends Mailable
     public $appointment;
     public $headerTitle;
     public $company;
-
     
     public function __construct($appointment)
     {

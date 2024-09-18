@@ -3,7 +3,7 @@
 @section('content')
 <tr>
    <td style="font-size: 16px; color: #666666; line-height: 1.5; padding: 20px;">
-      <p>Customer <b>{{ $appointment->job->customer->name }}, just schedule appointment</b></p>
+      <p>Customer <b>{{ $appointment->job->customer->name }}</b>, just schedule appointment</p>
    </td>
 </tr>
 <tr>
@@ -35,6 +35,11 @@
             </tr>
          @endforeach
       </table>
+   </td>
+</tr>
+<tr>
+   <td align="center" style="padding: 20px;">
+      <a href="{{ env('APP_DEBUG') ? 'http://localhost:5173/appointment/'.$appointment->id : 'https://dev.edservicetx.com/appointment/'.$appointment->id }}" style="background-color: #007bff; color: #ffffff; text-decoration: none; padding: 10px 20px; display: inline-block; border-radius: 5px;">Open appointment</a>
    </td>
 </tr>
 <tr>
