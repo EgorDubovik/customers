@@ -14,12 +14,15 @@ class DeleteAppointment extends Mailable
 {
     use Queueable, SerializesModels;
     
-    
+    public $headerTitle = 'Appointment canceled';
+    public $company;
     /**
      * Create a new message instance.
      */
     public function __construct(public Appointment $appointment)
-    {}
+    {
+        $this->company = $appointment->company;
+    }
 
     /**
      * Get the message envelope.
@@ -38,7 +41,7 @@ class DeleteAppointment extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.delete-appointment',
+            view: 'emails.appointment.cancaled',
         );
     }
 
