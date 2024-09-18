@@ -37,9 +37,9 @@ class RegisterController extends Controller
             'company_id' => $company->id,
         ]);
         
-        CompanySettings::create([
-            'company_id' => $company->id,
-        ]);
+        // CompanySettings::create([
+        //     'company_id' => $company->id,
+        // ]);
         
         // Add admin role for first user
         Role::create([
