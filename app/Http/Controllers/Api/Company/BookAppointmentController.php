@@ -6,15 +6,26 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BookAppointment;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Str;
 class BookAppointmentController extends Controller
 {
    function index()
    {
       $this->authorize('book-online');
+
       $bookAppointmentSettings = Auth::user()->company->bookAppointment;
-      $comapnyServices = Auth::user()->company->services;
-      $bookAppointmentServices = $bookAppointmentSettings->services;
+
+      if(!$bookAppointmentSettings)
+      {
+         $bookAppointmentSettings = BookAppointment::create([
+            'company_id' => Auth::user()->company->id,
+            'key' => Str::random(30),
+            'active' => 1,
+         ]);
+      }
+
+      $comapnyServices = Auth::user()->company->services ?? [];
+      $bookAppointmentServices = $bookAppointmentSettings->services ?? [];
       return response()->json([
          'settings' => $bookAppointmentSettings, 
          'companyServices' => $comapnyServices,

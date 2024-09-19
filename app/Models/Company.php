@@ -64,6 +64,9 @@ class Company extends Model
 
     private function getFullAddress()
     {
+        if(!$this->address){
+            return '';
+        }
         return $this->address->line1 . ' ' . $this->address->line2 . ', ' . $this->address->city . ' ' . $this->address->state . ' ' . $this->address->zip;
     }
 }
