@@ -42,6 +42,7 @@ Route::prefix('v1')->group(function () {
 
         // Profile
         Route::get('user', [ProfileController::class, 'show']);
+        Route::put('user', [ProfileController::class, 'update']);
         Route::post('user/update-password', [ProfileController::class, 'updatePassword']);
 
         //Dashboard

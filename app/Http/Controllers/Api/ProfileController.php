@@ -34,4 +34,33 @@ class ProfileController extends Controller
         $user->save();
         return response()->json(['message' => 'Password updated successfully'], 200);
     }
+
+    public function update(Request $request){
+        $user = $request->user();
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ],
+        [
+            'name.required' => 'User Name is required',
+            'email.required' => 'User Email is required',
+            'email.email' => 'User Email is invalid',
+            'phone.required' => 'User Phone number is required',
+        ]);
+
+        if($user->email != $request->email){
+            $request->validate([
+                'email' => 'unique:users',
+            ], [
+                'email.unique' => 'Email already exists. Please use another email',
+            ]);
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+        return response()->json(['message' => 'Profile updated successfully'], 200);
+    }
 }
