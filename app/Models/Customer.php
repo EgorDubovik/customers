@@ -11,7 +11,7 @@ use App\Models\Job\Job;
 class Customer extends Model
 {
     use HasFactory;
-    protected $table = 'customer';
+    protected $table = 'customers';
     protected $fillable = [
         'name',
         'phone',
