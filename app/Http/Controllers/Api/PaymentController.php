@@ -21,7 +21,7 @@ class PaymentController extends Controller
         $endDate = ($request->endDate) ? Carbon::parse($request->endDate) : Carbon::now();
         $startDate = ($request->startDate) ? Carbon::parse($request->startDate) : Carbon::now()->subDays(31);
         
-        $datesInRange = CarbonPeriod::create($startDate,$endDate->copy()->addDay());
+        $datesInRange = CarbonPeriod::create($startDate,$endDate->copy());
         $paymentForGraph = [];
         $techs_id = [];
         foreach ($datesInRange as $date) {
