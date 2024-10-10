@@ -35,7 +35,7 @@ class Payment extends Model
     }
 
     public static function getPaymentTypeText($type){
-        $text = ['undefined','Credit', 'Cash', 'Check','Trasnfer'];
+        $text = ['undefined','Credit', 'Cash', 'Check','Transfer'];
         $index = (($type > 0) && ($type < count($text))) ? $type : 0; 
         return $text[$index];
     }
