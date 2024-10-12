@@ -11,6 +11,7 @@ use App\Models\Appointment;
 use App\Models\CompanySettings\GeneralInfoSettings;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job\Image;
+use App\Models\Invoice;
 
 class Job extends Model
 {
@@ -59,6 +60,11 @@ class Job extends Model
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
     }
 
     public function totalPaid()

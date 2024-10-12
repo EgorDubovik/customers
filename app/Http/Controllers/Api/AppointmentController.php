@@ -70,7 +70,7 @@ class AppointmentController extends Controller
                 ];
             });
         $appointment->expenses = $appointment->job->expenses;        
-        $appointment->job->load(['appointments' => function ($query) {
+        $appointment->job->load(['invoices','appointments' => function ($query) {
             $query->orderBy('start', 'desc');
         }, 'appointments.techs']);
         $appointment->images = $appointment->job->images;
