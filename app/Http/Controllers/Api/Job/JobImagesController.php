@@ -36,7 +36,7 @@ class JobImagesController extends Controller
       if (!$path)
          return response()->json(['error' => 'Something went wrong'], 500);
       Image::create([
-         'appointment_id' => $appointment_id,
+         'job_id' => $appointment->job_id,
          'path' => $s3path.$filePath,
          'owner_id' => Auth::user()->id,
       ]);

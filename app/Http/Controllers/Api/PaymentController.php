@@ -15,120 +15,125 @@ use App\Models\Role;
 class PaymentController extends Controller
 {
 
-    public function index(Request $request)
-    {
+   public function index(Request $request)
+   {
 
-        $endDate = ($request->endDate) ? Carbon::parse($request->endDate) : Carbon::now();
-        $startDate = ($request->startDate) ? Carbon::parse($request->startDate) : Carbon::now()->subDays(31);
-        
-        $datesInRange = CarbonPeriod::create($startDate,$endDate->copy());
-        $paymentForGraph = [];
-        $techs_id = [];
-        foreach ($datesInRange as $date) {
-            $formattedDate = $date->toDateString();
-            $payments = Payment::where('company_id',$request->user()->company_id)
-                ->where(function($query) use ($request){
-                    if(!$request->user()->isRole([Role::ADMIN, Role::DISP]))
-                        $query->where('tech_id',$request->user()->id);
-                })
-                ->whereDate('created_at', $formattedDate)
-                ->with('job.customer')
-                ->with('job.appointments')
-                ->get(); 
-            foreach($payments as $payment){
-                if (!in_array($payment->tech_id, $techs_id))
-                    $techs_id[] = $payment->tech_id;
-            }
-            
-            $paymentForGraph[] = [
-                'payments' => $payments,
-                'date' => $formattedDate,
-            ];
-        }
+      $endDate = ($request->endDate) ? Carbon::parse($request->endDate) : Carbon::now();
+      $startDate = ($request->startDate) ? Carbon::parse($request->startDate) : Carbon::now()->subDays(31);
 
-        $techs = [];
-        foreach ($techs_id as $tech_id) {
-            $tech = User::find($tech_id);
-            if ($tech) {
-                $techs[] = $tech;
-            }
-        }
+      $datesInRange = CarbonPeriod::create($startDate, $endDate->copy());
+      $paymentForGraph = [];
+      $techs_id = [];
+      foreach ($datesInRange as $date) {
+         $formattedDate = $date->toDateString();
+         $payments = Payment::where('company_id', $request->user()->company_id)
+            ->where(function ($query) use ($request) {
+               if (!$request->user()->isRole([Role::ADMIN, Role::DISP]))
+                  $query->where('tech_id', $request->user()->id);
+            })
+            ->whereDate('created_at', $formattedDate)
+            ->with('job.customer')
+            ->with('job.appointments')
+            ->get();
+         foreach ($payments as $payment) {
+            if (!in_array($payment->tech_id, $techs_id))
+               $techs_id[] = $payment->tech_id;
+         }
 
-        return response()->json([
-            'paymentForGraph' => $paymentForGraph,
-            'techs' => $techs,
-        ], 200);
-    }
+         $paymentForGraph[] = [
+            'payments' => $payments,
+            'date' => $formattedDate,
+         ];
+      }
 
-    public function store(Request $request, $job_id)
-    {
-        $job = Job::find($job_id);
-        if (!$job)
-            return response()->json(['error' => 'Job not found'], 404);
+      $techs = [];
+      foreach ($techs_id as $tech_id) {
+         $tech = User::find($tech_id);
+         if ($tech) {
+            $techs[] = $tech;
+         }
+      }
 
-        $this->authorize('pay-job', $job);
+      return response()->json([
+         'paymentForGraph' => $paymentForGraph,
+         'techs' => $techs,
+      ], 200);
+   }
 
-        $request->validate([
-            'amount' => 'required|numeric',
-        ]);
+   public function store(Request $request, $job_id)
+   {
+      $job = Job::find($job_id);
+      if (!$job)
+         return response()->json(['error' => 'Job not found'], 404);
 
-        $paymentType = 0;
-        foreach (Payment::TYPE as $key => $type) {
-            if (Str::lower($type) == Str::lower($request->payment_type)) {
-                $paymentType = $key + 1;
-                break;
-            }
-        }
+      $this->authorize('pay-job', $job);
 
-        $payment = $job->payments()->create([
-            'amount' => $request->amount,
-            'payment_type' => $paymentType,
-            'company_id' => $request->user()->company_id,
-            'tech_id' => $request->user()->id,
-        ]);
+      $request->validate([
+         'amount' => 'required|numeric',
+      ]);
 
-        return response()->json(['payment' => $payment], 200);
-    }
+      $paymentType = 0;
+      foreach (Payment::TYPE as $key => $type) {
+         if (Str::lower($type) == Str::lower($request->payment_type)) {
+            $paymentType = $key + 1;
+            break;
+         }
+      }
 
-    public function delete(Request $request, $payment_id)
-    {
-        $payment = Payment::find($payment_id);
-        if (!$payment)
-            return response()->json(['error' => 'Payment not found'], 404);
+      $payment = $job->payments()->create([
+         'amount' => $request->amount,
+         'payment_type' => $paymentType,
+         'company_id' => $request->user()->company_id,
+         'tech_id' => $request->user()->id,
+      ]);
 
-        $this->authorize('payment-remove', $payment);
+      if ($request->send_invoice) {
+         // Send invoice
+      }
 
-        $payment->delete();
+      return response()->json(['payment' => $payment], 200);
+   }
 
-        return response()->json(['message' => 'Payment deleted'], 200);
-    }
+   public function delete(Request $request, $payment_id)
+   {
+      $payment = Payment::find($payment_id);
+      if (!$payment)
+         return response()->json(['error' => 'Payment not found'], 404);
 
-    public function refund(Request $request, $job_id){
-        $job = Job::find($job_id);
-        if (!$job)
-            return response()->json(['error' => 'Job not found'], 404);
+      $this->authorize('payment-remove', $payment);
 
-        $this->authorize('refund', $job);
+      $payment->delete();
 
-        $request->validate([
-            'amount' => 'required|numeric',
-        ]);
+      return response()->json(['message' => 'Payment deleted'], 200);
+   }
 
-        $paymentType = 0;
-        foreach (Payment::TYPE as $key => $type) {
-            if (Str::lower($type) == Str::lower($request->payment_type)) {
-                $paymentType = $key + 1;
-                break;
-            }
-        }
+   public function refund(Request $request, $job_id)
+   {
+      $job = Job::find($job_id);
+      if (!$job)
+         return response()->json(['error' => 'Job not found'], 404);
 
-        $payment = $job->payments()->create([
-            'amount' => $request->amount * -1,
-            'payment_type' => $paymentType,
-            'company_id' => $request->user()->company_id,
-            'tech_id' => $request->user()->id,
-        ]);
+      $this->authorize('refund', $job);
 
-        return response()->json(['payment' => $payment], 200);
-    }
+      $request->validate([
+         'amount' => 'required|numeric',
+      ]);
+
+      $paymentType = 0;
+      foreach (Payment::TYPE as $key => $type) {
+         if (Str::lower($type) == Str::lower($request->payment_type)) {
+            $paymentType = $key + 1;
+            break;
+         }
+      }
+
+      $payment = $job->payments()->create([
+         'amount' => $request->amount * -1,
+         'payment_type' => $paymentType,
+         'company_id' => $request->user()->company_id,
+         'tech_id' => $request->user()->id,
+      ]);
+
+      return response()->json(['payment' => $payment], 200);
+   }
 }

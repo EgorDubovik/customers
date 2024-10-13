@@ -130,7 +130,7 @@ Route::prefix('v1')->group(function () {
             Route::get('invoice/{appointment_id}', [InvoiceController::class, 'create']);
             Route::post('{appointment_id}/invoice-send', [InvoiceController::class, 'send']);
 
-            // Appointment images
+            // Job images
             Route::post('images/{appointment_id}', [JobImagesController::class, 'store']);
             Route::get('images/{appointment_id}', [JobImagesController::class, 'index']);
 
