@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\InvoiceService;
 
 class InvoiceController extends Controller
 {
@@ -49,51 +50,21 @@ class InvoiceController extends Controller
     }
 
     public function send(Request $request, $appointment_id){
+
         $appointment = Appointment::find($appointment_id);
-        if(!$appointment)
+        if (!$appointment) {
             return response()->json(['error' => 'Appointment not found'], 404);
-
-        Gate::authorize('create-invoice',['appointment' => $appointment]);
-
-        try{
-            DB::beginTransaction();
-            
-            // $invoice = $this->getInvoiceInfo($appointment);
-            $invoice = new Invoice();
-            $invoice->company_id = $appointment->company_id;
-            $invoice->creator_id = Auth::user()->id;
-            $invoice->job_id = $appointment->job_id; 
-            $invoice->email = $appointment->job->customer->email;
-            $pdfname = $this->createPDF($invoice);
-            $invoice->pdf_path = $pdfname;
-            $key = Str::random(50);
-            $invoice->key = $key;
-            
-            $invoice->save();
-    
-            $this->sendEmail($invoice);
-            DB::commit();
-            return response()->json(['saccsess'=>'saccsess'], 200);    
         }
-        catch(\Exception $e){
-            DB::rollBack();
+
+        Gate::authorize('create-invoice', ['appointment' => $appointment]);
+        $invoiceService = new InvoiceService();
+        try {
+            $invoiceService->sendInvoice($appointment);
+            return response()->json(['success' => 'success'], 200);
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
         
-    }
-
-    private function createPDF(Invoice $invoice){
-        
-        $pdf = PDF::loadView('invoice.PDF',['invoice' => $invoice]);
-        $content = $pdf->download()->getOriginalContent();
-        $filename = (env('APP_DEBUG') ? 'debug-' : "").'Invoice_'.date('m-d-Y').'-'.time().Str::random(50).'.pdf';
-        Storage::disk('s3')->put('invoices/'.$filename, $content);
-        return $filename;
-    }
-
-    private function sendEmail(Invoice $invoice){
-        $file = $invoice->pdf_url;
-        Mail::to($invoice->email)->send(new InvoiceMail($invoice,$file));
     }
 
     function download(Request $request, $appointment_id){

@@ -114,6 +114,9 @@ class Job extends Model
 
     public function remainingBalance()
     {
-        return round($this->totalAmount() - $this->totalPaid(),2);
+        $remaining = $this->totalAmount() - $this->totalPaid();
+        if($remaining < 0)
+            return 0;
+        return round($remaining,2);
     }
 }

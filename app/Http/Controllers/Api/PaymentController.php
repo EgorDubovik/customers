@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\CarbonPeriod;
 use App\Models\Job\Job;
 use App\Models\Role;
+use App\Services\InvoiceService;
 
 class PaymentController extends Controller
 {
@@ -88,7 +89,12 @@ class PaymentController extends Controller
       ]);
 
       if ($request->send_invoice) {
-         // Send invoice
+         $invoiceService = new InvoiceService();
+         try {
+            $invoiceService->sendInvoice($job->appointments->first());
+         } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+         }
       }
 
       return response()->json(['payment' => $payment], 200);
